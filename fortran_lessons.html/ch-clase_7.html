@@ -1,0 +1,905 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+
+<html>
+
+<head>
+
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+
+<title>Fortran 90 Lessons for Computational Chemistry - Control Structures</title>
+
+<link href="index.html" rel="start">
+<link href="ch-clase_4.html" rel="prev">
+<link href="ch-clase_5.html" rel="next">
+<link href="index.html#contents" rel="contents">
+<link href="index.html#copyright" rel="copyright">
+<link href="ch-clase_1.html" rel="chapter" title="1 Introduction">
+<link href="ch-clase_2.html" rel="chapter" title="2 Basic Operations">
+<link href="ch-clase_3.html" rel="chapter" title="3 Introduction to Fortran Arrays">
+<link href="ch-clase_4.html" rel="chapter" title="4 More on Arrays">
+<link href="ch-clase_7.html" rel="chapter" title="5 Control Structures">
+<link href="ch-clase_5.html" rel="chapter" title="6 INPUT/OUTPUT) (I)">
+<link href="ch-clase_6.html" rel="chapter" title="7 Operaciones I/O (II)">
+<link href="ch-clase_8.html" rel="chapter" title="8 Subprogramas (I): funciones">
+<link href="ch-clase_9.html" rel="chapter" title="9 Subprogramas (II): subrutinas">
+<link href="ch-clase_10.html" rel="chapter" title="10 Subprogramas (III): módulos">
+<link href="ch-clase_11.html" rel="chapter" title="11 Subprogramas (IV)">
+<link href="ch-clase_blaslap.html" rel="chapter" title="12 Instalación y uso de las bibliotecas BLAS y LAPACK">
+<link href="ch-cap_ref.html" rel="chapter" title="13 Referencias">
+<link href="ch-clase_1.html#s-sec_11" rel="section" title="1.1 Objectives">
+<link href="ch-clase_1.html#s-sec_12" rel="section" title="1.2 Main items.">
+<link href="ch-clase_1.html#s-sec_13" rel="section" title="1.3 Example Codes.">
+<link href="ch-clase_2.html#s-sec_21" rel="section" title="2.1 Objectives">
+<link href="ch-clase_2.html#s-sec_22" rel="section" title="2.2 Main items.">
+<link href="ch-clase_2.html#s-sec_23" rel="section" title="2.3 Example Codes.">
+<link href="ch-clase_3.html#s-sec_31" rel="section" title="3.1 Objectivos">
+<link href="ch-clase_3.html#s-sec_32" rel="section" title="3.2 Main items.">
+<link href="ch-clase_3.html#s-sec_33" rel="section" title="3.3 Example Codes.">
+<link href="ch-clase_4.html#s-sec_41" rel="section" title="4.1 Objectives">
+<link href="ch-clase_4.html#s-sec_42" rel="section" title="4.2 Main items.">
+<link href="ch-clase_4.html#s-sec_43" rel="section" title="4.3 Example Codes.">
+<link href="ch-clase_7.html#s-sec_71" rel="section" title="5.1 Objectivos">
+<link href="ch-clase_7.html#s-sec_72" rel="section" title="5.2 Main items.">
+<link href="ch-clase_7.html#s-sec_73" rel="section" title="5.3 Example codes.">
+<link href="ch-clase_5.html#s-sec_51" rel="section" title="6.1 Objectivos">
+<link href="ch-clase_5.html#s-sec_52" rel="section" title="6.2 Main Items.">
+<link href="ch-clase_5.html#s-sec_53" rel="section" title="6.3 Programas usados como ejemplo.">
+<link href="ch-clase_6.html#s-sec_61" rel="section" title="7.1 Objetivos">
+<link href="ch-clase_6.html#s-sec_62" rel="section" title="7.2 Puntos destacables.">
+<link href="ch-clase_6.html#s-sec_63" rel="section" title="7.3 Programas usados como ejemplo.">
+<link href="ch-clase_8.html#s-sec_81" rel="section" title="8.1 Objetivos">
+<link href="ch-clase_8.html#s-sec_82" rel="section" title="8.2 Puntos destacables.">
+<link href="ch-clase_8.html#s-sec_83" rel="section" title="8.3 Programas usados como ejemplo.">
+<link href="ch-clase_9.html#s-sec_91" rel="section" title="9.1 Objetivos">
+<link href="ch-clase_9.html#s-sec_92" rel="section" title="9.2 Puntos destacables.">
+<link href="ch-clase_9.html#s-sec_93" rel="section" title="9.3 Programas usados como ejemplo.">
+<link href="ch-clase_10.html#s-sec_101" rel="section" title="10.1 Objetivos">
+<link href="ch-clase_10.html#s-sec_102" rel="section" title="10.2 Puntos destacables.">
+<link href="ch-clase_10.html#s-sec_103" rel="section" title="10.3 Programas usados como ejemplo.">
+<link href="ch-clase_11.html#s-sec_111" rel="section" title="11.1 Objetivos">
+<link href="ch-clase_11.html#s-sec_112" rel="section" title="11.2 Puntos destacables.">
+<link href="ch-clase_11.html#s-sec_113" rel="section" title="11.3 Programas usados como ejemplo.">
+<link href="ch-clase_blaslap.html#s-sec_bl1" rel="section" title="12.1 Objetivos">
+<link href="ch-clase_blaslap.html#s-sec_bl2" rel="section" title="12.2 Puntos destacables.">
+<link href="ch-clase_blaslap.html#s-sec_bl3" rel="section" title="12.3 Programas usados como ejemplo.">
+<link href="ch-clase_1.html#s-sec_p_1_1" rel="subsection" title="1.3.1 excode_1_1.f90">
+<link href="ch-clase_1.html#s-sec_p_1_2" rel="subsection" title="1.3.2 excode_1_2.f90">
+<link href="ch-clase_2.html#s-sec_p_2_1" rel="subsection" title="2.3.1 excode_2_1.f90">
+<link href="ch-clase_2.html#s-sec_p_2_2" rel="subsection" title="2.3.2 excode_2_2.f90">
+<link href="ch-clase_2.html#s-sec_p_2_3" rel="subsection" title="2.3.3 excode_2_3.f90">
+<link href="ch-clase_2.html#s-sec_p_2_4" rel="subsection" title="2.3.4 excode_2_4.f90">
+<link href="ch-clase_2.html#s-sec_p_2_5" rel="subsection" title="2.3.5 excode_2_5.f90">
+<link href="ch-clase_2.html#s-sec_p_2_6" rel="subsection" title="2.3.6 excode_2_6.f90">
+<link href="ch-clase_3.html#s-sec_p_3_1" rel="subsection" title="3.3.1 excode_3_1.f90">
+<link href="ch-clase_3.html#s-sec_p_3_2" rel="subsection" title="3.3.2 excode_3_2.f90">
+<link href="ch-clase_3.html#s-sec_p_3_3" rel="subsection" title="3.3.3 excode_3_3.f90">
+<link href="ch-clase_3.html#s-sec_p_3_4" rel="subsection" title="3.3.4 excode_3_4.f90">
+<link href="ch-clase_4.html#s-sec_p_4_1" rel="subsection" title="4.3.1 excode_4_1.f90">
+<link href="ch-clase_4.html#s-sec_p_4_2" rel="subsection" title="4.3.2 excode_4_2.f90">
+<link href="ch-clase_4.html#s-sec_p_4_3" rel="subsection" title="4.3.3 excode_4_3.f90">
+<link href="ch-clase_4.html#s-sec_p_4_4" rel="subsection" title="4.3.4 excode_4_4.f90">
+<link href="ch-clase_4.html#s-sec_p_4_5" rel="subsection" title="4.3.5 excode_4_5.f90">
+<link href="ch-clase_4.html#s-sec_p_4_6" rel="subsection" title="4.3.6 excode_4_6.f90">
+<link href="ch-clase_7.html#s-sec_p_7_1" rel="subsection" title="5.3.1 excode_5_1.f90">
+<link href="ch-clase_7.html#s-sec_p_7_2" rel="subsection" title="5.3.2 excode_5_2.f90">
+<link href="ch-clase_7.html#s-sec_p_7_3" rel="subsection" title="5.3.3 excode_5_3.f90">
+<link href="ch-clase_7.html#s-sec_p_7_4" rel="subsection" title="5.3.4 Programa ejemplo_5_4.f90">
+<link href="ch-clase_5.html#s-sec_p_5_1" rel="subsection" title="6.3.1 excode_6_1.f90">
+<link href="ch-clase_5.html#s-sec_p_5_2" rel="subsection" title="6.3.2 excode_6_2.f90">
+<link href="ch-clase_5.html#s-sec_p_5_3" rel="subsection" title="6.3.3 excode_6_3.f90">
+<link href="ch-clase_5.html#s-sec_p_5_4" rel="subsection" title="6.3.4 excode_6_4.f90">
+<link href="ch-clase_5.html#s-sec_p_5_5" rel="subsection" title="6.3.5 excode_6_5.f90">
+<link href="ch-clase_5.html#s-sec_p_5_6" rel="subsection" title="6.3.6 excode_6_6.f90">
+<link href="ch-clase_5.html#s-sec_p_5_7" rel="subsection" title="6.3.7 excode_6_7.f90">
+<link href="ch-clase_6.html#s-sec_p_6_1" rel="subsection" title="7.3.1 Programa ejemplo_7_1.f90">
+<link href="ch-clase_6.html#s-sec_p_6_2" rel="subsection" title="7.3.2 Programa ejemplo_7_2.f90">
+<link href="ch-clase_6.html#s-sec_p_6_22" rel="subsection" title="7.3.3 Script ej_here_file">
+<link href="ch-clase_6.html#s-sec_p_6_3" rel="subsection" title="7.3.4 Programa ejemplo_7_3.f90">
+<link href="ch-clase_6.html#s-sec_p_6_32" rel="subsection" title="7.3.5 namelist input file">
+<link href="ch-clase_6.html#s-sec_p_6_4" rel="subsection" title="7.3.6 Programa ejemplo_7_4.f90">
+<link href="ch-clase_8.html#s-sec_p_8_1" rel="subsection" title="8.3.1 Programa ejemplo_8_1.f90">
+<link href="ch-clase_8.html#s-sec_p_8_2" rel="subsection" title="8.3.2 Programa ejemplo_8_2.f90">
+<link href="ch-clase_8.html#s-sec_p_8_3" rel="subsection" title="8.3.3 Programa ejemplo_8_3.f90">
+<link href="ch-clase_8.html#s-sec_p_8_4" rel="subsection" title="8.3.4 Programa ejemplo_8_4.f90">
+<link href="ch-clase_8.html#s-sec_p_8_5" rel="subsection" title="8.3.5 Programa ejemplo_8_5.f90">
+<link href="ch-clase_8.html#s-sec_p_8_6" rel="subsection" title="8.3.6 Programa ejemplo_8_6.f90">
+<link href="ch-clase_9.html#s-sec_p_9_1" rel="subsection" title="9.3.1 Programa ejemplo_9_1.f90">
+<link href="ch-clase_9.html#s-sec_p_9_2" rel="subsection" title="9.3.2 Programa ejemplo_9_2.f90">
+<link href="ch-clase_9.html#s-sec_p_9_3" rel="subsection" title="9.3.3 Programa ejemplo_9_3.f90">
+<link href="ch-clase_9.html#s-sec_p_9_4" rel="subsection" title="9.3.4 Programa ejemplo_9_4.f90">
+<link href="ch-clase_9.html#s-sec_p_9_5" rel="subsection" title="9.3.5 Programa ejemplo_9_5.f90">
+<link href="ch-clase_9.html#s-sec_p_9_6" rel="subsection" title="9.3.6 Programa ejemplo_9_6.f90">
+<link href="ch-clase_9.html#s-sec_p_9_7" rel="subsection" title="9.3.7 Programa ejemplo_9_7.f90">
+<link href="ch-clase_10.html#s-sec_p_10_1" rel="subsection" title="10.3.1 Programa ejemplo_10_1.f90">
+<link href="ch-clase_10.html#s-sec_p_10_2" rel="subsection" title="10.3.2 Programa ejemplo_10_2.f90">
+<link href="ch-clase_10.html#s-sec_p_10_3" rel="subsection" title="10.3.3 Programa ejemplo_10_3.f90">
+<link href="ch-clase_10.html#s-sec_p_10_4" rel="subsection" title="10.3.4 Programa ejemplo_10_4.f90">
+<link href="ch-clase_11.html#s-sec_p_11_1" rel="subsection" title="11.3.1 Programa ejemplo_11_1.f90">
+<link href="ch-clase_11.html#s-sec_p_11_2" rel="subsection" title="11.3.2 Programa ejemplo_11_2.f90">
+<link href="ch-clase_11.html#s-sec_p_11_3" rel="subsection" title="11.3.3 Programa ejemplo_11_3.f90">
+<link href="ch-clase_11.html#s-sec_p_11_4" rel="subsection" title="11.3.4 Programa ejemplo_11_4.f90">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_1" rel="subsection" title="12.3.1 Ejemplo de fichero make.inc para LAPACK">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_2" rel="subsection" title="12.3.2 Ejemplo de fichero make.inc para LAPACK95">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_3" rel="subsection" title="12.3.3 Ejemplo de programa que invoca LAPACK95">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_4" rel="subsection" title="12.3.4 Ejemplo de makefile para compilar programas que invocan LAPACK95">
+
+</head>
+
+<body>
+
+<p><a name="ch-clase_7"></a></p>
+<hr>
+
+<p>
+[ <a href="ch-clase_4.html">previous</a> ]
+[ <a href="index.html#contents">Contents</a> ]
+[ <a href="ch-clase_1.html">1</a> ]
+[ <a href="ch-clase_2.html">2</a> ]
+[ <a href="ch-clase_3.html">3</a> ]
+[ <a href="ch-clase_4.html">4</a> ]
+[ 5 ]
+[ <a href="ch-clase_5.html">6</a> ]
+[ <a href="ch-clase_6.html">7</a> ]
+[ <a href="ch-clase_8.html">8</a> ]
+[ <a href="ch-clase_9.html">9</a> ]
+[ <a href="ch-clase_10.html">10</a> ]
+[ <a href="ch-clase_11.html">11</a> ]
+[ <a href="ch-clase_blaslap.html">12</a> ]
+[ <a href="ch-cap_ref.html">13</a> ]
+[ <a href="ch-clase_5.html">next</a> ]
+</p>
+
+<hr>
+
+<h1>
+<code>Fortran 90</code> Lessons for Computational Chemistry
+<br>Chapter 5 - Control Structures
+</h1>
+
+<hr>
+
+<h2 id="s-sec_71">5.1 Objectivos</h2>
+
+<p>
+The main aims of this session consist of:
+</p>
+<ol type="1" start="1" >
+<li>
+<p>
+presenting the different conditional control structures in <code>Fortran</code>
+(<em>branching</em>).
+</p>
+</li>
+</ol>
+<ol type="1" start="2" >
+<li>
+<p>
+presenting the different way of building loops in <code>Fortran</code> code.
+</p>
+</li>
+</ol>
+
+<p>
+These structures allows the programmer to control the program flow, allowing
+the conditional execution of statements according to the user input values or
+the values acquired by variables during the program execution.
+</p>
+
+<p>
+It is extremely important to take into account before starting to write code in
+any programming language that a previous step should be accomplished.  In
+encompasses having a clear idea of the problem, the inputs and outputs, the
+program structure, breaking complex tasks into simpler subtasks, and the
+optimal algorithm.  A flow diagram can be of great help at this stage.
+</p>
+
+<p>
+The division of the problem into simpler and simpler tasks is called
+<em>top-down design</em>.  Each subtasks should be coded and checked in an
+independent manner.
+</p>
+
+<hr>
+
+<h2 id="s-sec_72">5.2 Main items.</h2>
+
+<p>
+We provide a scheme of the main control structures, strting with conditionals
+and later of loops.
+</p>
+<ul>
+<li>
+<p>
+Conditionals.
+</p>
+
+<p>
+Depend on the evaluation of boolean expressions for which the following
+operators are defined:
+</p>
+<ul>
+<li>
+<p>
+<samp>==</samp> To be equal to.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+<samp>/=</samp> Not to be equal to.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+<samp>&gt;</samp> Greater than.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+<samp>&lt;</samp> Lesser than.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+<samp>&gt;=</samp> Greater or equal than.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+<samp>&lt;=</samp> Lesser or equal than.
+</p>
+</li>
+</ul>
+
+<p>
+There exist also logical operators to combine several logical expressions:
+</p>
+<ul>
+<li>
+<p>
+<samp>.AND.</samp>
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+<samp>.OR.</samp>
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+<samp>.NOT.</samp>
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+<samp>.EQV.</samp> (Boolean '==' operator)
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+<samp>.NEQV.</samp> (Boolean '/=' operator)
+</p>
+</li>
+</ul>
+
+<p>
+The <samp>==</samp> and <samp>/=</samp> shouldn't be used to compare real type
+variables, due to their nonexact nature.  If e.g.  <samp>A</samp> and
+<samp>B</samp> are real variables, the following code is discouraged
+</p>
+
+<pre>
+     ...
+     IF (A==B) same = .TRUE.
+     ...
+</pre>
+
+<p>
+The alternative would be to define a tolerance and compare the variables as
+follows
+</p>
+
+<pre>
+     REAL :: TOL = 0.00001
+     ... 
+     IF (ABS(A-B) &lt; TOL) same = .TRUE. 
+     ...
+</pre>
+
+<p>
+The possible conditional statements are
+</p>
+<ol type="1" start="1" >
+<li>
+<p>
+<samp>IF THEN ENDIF</samp>
+</p>
+
+<p>
+The syntax of this conditional statement is
+</p>
+
+<pre>
+     . 
+     . code
+     . 
+     IF (<var>Boolean Expression</var>) THEN
+              .
+              . code_1
+              .
+     ENDIF
+     .
+     . code
+     .
+</pre>
+
+<p>
+Only if the <var>Boolean Expression</var> is true the <samp>code_1</samp> block
+instructions are executed.
+</p>
+
+<p>
+If there is only one statement in the <samp>code_1</samp> block the command can
+be simplified to a one liner removing the <samp>THEN</samp> and
+<samp>ENDIF</samp> keywords as follows
+</p>
+
+<pre>
+     . 
+     . code
+     . 
+     IF (<var>Boolean Expression</var>) statement
+     .
+     . code
+     .
+</pre>
+</li>
+</ol>
+<ol type="1" start="2" >
+<li>
+<p>
+<samp>IF THEN ELSE ENDIF</samp>
+</p>
+
+<p>
+The syntax of this conditional statement is
+</p>
+
+<pre>
+     . 
+     . code
+     . 
+     IF (<var>Boolean Expression</var>) THEN
+              .
+              . code_1
+              .
+     ELSE
+              .
+              . code_2
+              .
+     ENDIF
+     .
+     . code
+     .
+</pre>
+
+<p>
+If the <var>Boolean Expression</var> is true the <samp>code_1</samp> block
+instructions are executed, if it is false then <samp>code_2</samp> block is
+run.
+</p>
+</li>
+</ol>
+<ol type="1" start="3" >
+<li>
+<p>
+<samp>IF THEN ELSE IF ENDIF</samp>
+</p>
+
+<p>
+The syntax of this conditional statement is
+</p>
+
+<pre>
+     . 
+     . code
+     . 
+     IF (<var>Boolean Expression_1</var>) THEN
+              .
+              . code_1
+              .
+     ELSE IF (<var>Boolean Expression_2</var>) THEN
+              .
+              . code_2
+              .
+     ENDIF
+     .
+     . code
+     .
+</pre>
+
+<p>
+In case that the <var>Boolean Expression_1</var> is true the
+<samp>code_1</samp> block instructions are executed, if it is false but
+<var>Boolean Expression_2</var> is true then <samp>code_2</samp> block is run.
+</p>
+</li>
+</ol>
+<ol type="1" start="4" >
+<li>
+<p>
+<samp>IF THEN ELSE IF ELSE ENDIF</samp>
+</p>
+
+<p>
+The syntax of this conditional statement is
+</p>
+
+<pre>
+     . 
+     . code
+     . 
+     IF (<var>Boolean Expression_1</var>) THEN
+              .
+              . code_1
+              .
+     ELSE IF (<var>Boolean Expression_2</var>) THEN
+              .
+              . code_2
+              .
+     ELSE 
+              .
+              . code_3
+              .
+     ENDIF
+     .
+     . code
+     .
+</pre>
+
+<p>
+In case that the <var>Boolean Expression_1</var> is true the
+<samp>code_1</samp> block instructions are executed, if it is false but
+<var>Boolean Expression_2</var> is true then <samp>code_2</samp> block is run.
+If both are false then the <samp>code_3</samp> block is run.
+</p>
+</li>
+</ol>
+<ol type="1" start="5" >
+<li>
+<p>
+<samp>SELECT CASE</samp>
+</p>
+
+<p>
+The <samp>CASE</samp> statement allows to choose among different options in a
+clear and efficient way, though it has some limitations.
+</p>
+
+<p>
+The syntax of this conditional statement is
+</p>
+
+<pre>
+     SELECT CASE (selector)
+        CASE (label-1)
+           block-1
+        CASE (label-2)
+           block-2
+        CASE (label-3)
+           block-3
+          .............
+        CASE (label-n)
+           block-n
+        CASE DEFAULT
+           block-default
+     END SELECT
+</pre>
+
+<p>
+The <samp>selector</samp> is either a variable or an expression of the
+<em>integer</em>, <em>logical</em>, or <em>character</em> type.  It cannot be a
+real or complex number.
+</p>
+
+<p>
+The <samp>label-1</samp> ...  <samp>label-n</samp> labels have the following
+syntax
+</p>
+
+<pre>
+     value
+     value_1 : value_2
+     value_1 :
+      : value_1
+</pre>
+
+<p>
+The first one is positive if the selector is equal to <samp>value</samp> and
+the second if the selector takes a value in the range <samp>value_1</samp> to
+<samp>value_2</samp>.  The third(fourth) is true if the selector has a value
+larger(less) than <samp>value_1</samp>.  The <samp>valor</samp>,
+<samp>value_1</samp>, and <samp>value_2</samp> should be constants or variables
+defined with the <samp>PARAMETER</samp> declaration.
+</p>
+
+<p>
+The <samp>selector</samp> expression is evaluated first.  The result is
+compared with the values in each one of the labels, running the block of
+instructions of the first successful comparison.  If none of the labels is true
+the <samp>block-default</samp> is run if it exists.
+</p>
+
+<p>
+A simple example:
+</p>
+
+<pre>
+     SELECT CASE (I)
+          CASE (1)
+            PRINT*, &quot;I = 1&quot;
+          CASE (2:9) 
+            PRINT*, &quot;I in [2,9]&quot;
+          CASE (10:)
+            PRINT*, &quot;I in [10,INF]&quot;
+          CASE DEFAULT
+            PRINT*, &quot;I is negative&quot;
+     END SELECT CASE
+</pre>
+
+<p>
+The <samp>SELECT CASE</samp> statement is more elegant than a series of
+<samp>IF</samp>'s as only one expression controls the access to the different
+alternatives.
+</p>
+</li>
+</ol>
+
+<p>
+Conditional control structures can be nested in several levels.  For the sake
+of clarity in this case the different levels should be labeled as follows
+</p>
+
+<pre>
+     firstif: IF (a == 0) THEN
+                 PRINT*,  &quot;a is zero&quot;
+                 secondif: IF (c /= 0) THEN 
+                   PRINT*,  &quot;a is zero and c is not zero&quot;
+                 ELSE secondif
+                   PRINT*,  &quot;a and c are zero&quot;
+                 ENDIF secondif
+               ELSEIF (a &gt; 0) THEN firstif
+                 PRINT*,  &quot;a is positive&quot;
+               ELSE firstif
+                 PRINT*,  &quot;a is negative&quot;
+               ENDIF firstif
+</pre>
+
+<p>
+The role of the lables <samp>firstif</samp> and <samp>secondif</samp> is to
+clarify the source code for the reader.  Once a label is included in the
+<samp>IF</samp> statement, then it has to be present also in the
+<samp>ENDIF</samp>, while it is optional in the <samp>ELSE</samp> and
+<samp>ELSEIF</samp>.  The number of nested conditionals is unlimited.
+</p>
+
+<p>
+The example code <a href="#s-sec_p_7_1"><samp>excode_5_1.f90</samp>, Section
+5.3.1</a> contains the <samp>IF THEN ELSE IF ELSE ENDIF</samp> structure and,
+apparently, the same task is coped with in example <a
+href="#s-sec_p_7_2"><samp>excode_5_2.f90</samp>, Section 5.3.2</a> with the
+<samp>CASE</samp> structure.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+Loops
+</p>
+<ol type="1" start="1" >
+<li>
+<p>
+Basic loop: The <samp>DO</samp> statement
+</p>
+
+<p>
+We have been already introduced to the basic <samp>DO</samp> loop:
+</p>
+
+<pre>
+     DO Var = initial_value, final_value, increment
+            Block of Code
+     END DO
+</pre>
+
+<p>
+The variable <samp>Var</samp> changes from <samp>initial_value</samp> to
+<samp>final_value</samp> adding <samp>increment</samp> each iteration.
+</p>
+</li>
+</ol>
+<ol type="1" start="2" >
+<li>
+<p>
+The <samp>DO WHILE</samp> loop
+</p>
+
+<p>
+This loop has this structure:
+</p>
+
+<pre>
+     DO WHILE (conditional)
+           Block of code
+     ENDDO
+</pre>
+
+<p>
+In this case the block of code is run until the <samp>conditional</samp> in the
+head of the block is false.  E.g.  see example <a href="#s-sec_p_7_4">Programa
+ejemplo_5_4.f90, Section 5.3.4</a>.
+</p>
+</li>
+</ol>
+<ol type="1" start="3" >
+<li>
+<p>
+The <samp>REPEAT UNTIL</samp> loop
+</p>
+
+<p>
+This type of loop has the following structure:
+</p>
+
+<pre>
+           DO
+              Block of code
+              #
+              IF (conditional) EXIT
+           END DO
+</pre>
+
+<p>
+The loop is executed until the conditional is evaluated <samp>True</samp>.
+This case differs from the previous two in that the code block is run at least
+once.
+</p>
+
+<p>
+In this case we make use of the <samp>EXIT</samp> statement.  When this
+statement is run into a loop the program leaves inmediately the loop and keeps
+running from the order following the corresponding <samp>ENDDO</samp>.  Another
+interesting statement when working with loops is <samp>CYCLE</samp>.  The
+execution of the <samp>CYCLE</samp> statement makes the program to return to
+the beginning of the loop, without running the statements in the loop block
+between the <samp>CYCLE</samp> statement and the end of the loop.
+</p>
+
+<p>
+As in the conditionals case, nested loops can be labeled.  This greatly
+clarifies the source code and, in particular, allows to indicate to which loop
+level refers the statements <samp>EXIT</samp> and <samp>CYCLE</samp>.  By
+default, they address the inner loop.
+</p>
+
+<p>
+There is a last statement, worth to mention, the <samp>GOTO</samp> command,
+though its use is highly discouraged in the moder programming standards.
+</p>
+</li>
+</ol>
+</li>
+</ul>
+
+<hr>
+
+<h2 id="s-sec_73">5.3 Example codes.</h2>
+
+<hr>
+
+<h3 id="s-sec_p_7_1">5.3.1 <samp>excode_5_1.f90</samp></h3>
+
+<pre>
+     PROGRAM ex_5_1
+       !
+       IMPLICIT NONE
+       !
+       REAL :: Grade
+       CHARACTER(LEN = 2), DIMENSION(1:5) :: List_Grades=(/'D ','C ','B ','A ','A+'/)
+       INTEGER :: IN
+       ! READ NOTE
+       PRINT *, &quot;Student mark??&quot;
+       READ *, Grade
+       !
+       IF (Grade&gt;=0.0.AND.Grade&lt;5.0) THEN 
+          IN=1
+       ELSE IF (Grade&gt;=5.0.AND.Grade&lt;7.0) THEN 
+          IN=2
+       ELSE IF (Grade&gt;=7.0.AND.Grade&lt;9.0) THEN 
+          IN=3
+       ELSE IF (Grade&gt;=9.0.AND.Grade&lt;10.0) THEN 
+          IN=4
+       ELSE IF (Grade==10.0) THEN 
+          IN=5
+       ELSE
+          IN=0
+       ENDIF
+     !
+       IF (IN==0) THEN
+          PRINT *, &quot;The input : &quot;, Grade,&quot; has a wrong value. Only [0,10]&quot;
+       ELSE
+          PRINT *,  &quot;The student grade is &quot;, LISTNT(IN)
+       ENDIF
+     !
+     END PROGRAM EX_5_1
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_7_2">5.3.2 <samp>excode_5_2.f90</samp></h3>
+
+<pre>
+     PROGRAM ex_5_2
+       !
+       IMPLICIT NONE
+       !
+       REAL :: Grade
+       INTEGER :: Index, Integer_Grade
+       CHARACTER(LEN=2), DIMENSION(1:5) ::  List_Grades=(/'D ','C ','B ','A ','A+'/)
+       ! READ Grade
+       PRINT *, &quot;Nota del estudiante?&quot;
+       READ *, Grade
+       !
+       Integer_Grade = NINT(Grade)
+       !
+       SELECT CASE (Integer_Grade)
+       CASE (0:4) 
+          Index = 1
+       CASE (5,6) 
+          Index = 2
+       CASE (7,8) 
+          Index = 3
+       CASE (9) 
+          Index = 4   
+       CASE (10) 
+          Index = 5
+       CASE DEFAULT 
+          Index = 0
+       END SELECT
+       !
+       IF (Index==0) THEN
+          PRINT *, &quot;The input grade : &quot;, Grade,&quot; is out of bounds. Only  [0,10].&quot;
+       ELSE
+          PRINT*, &quot;The student grade is &quot;, List_Grades(Index)
+       ENDIF
+       !
+     100 FORMAT(1X,'LA Grade DEL ALUMNO ES ',F4.1,' (',A3,')')
+       !
+     END PROGRAM EX_5_2
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_7_3">5.3.3 <samp>excode_5_3.f90</samp></h3>
+
+<pre>
+     PROGRAM ex_5_3
+       !
+       IMPLICIT NONE
+       !
+       REAL :: PIover2 = ASIN(1.0)
+       REAL :: ANGLE1 = 0.0, ANGLE2 = 0.0
+       INTEGER :: I
+       !
+       DO I = 0, 16, 2
+          ANGLE1 = I*PIO2/4.0
+          !
+          WRITE(*,*)
+          WRITE(*,*) 'Cos(',I/2,'PI/4) = ',COS(ANGLE1),'; Cos(',I/2,'PI/4) = ',COS(ANGLE2)
+          WRITE(*,*) 'Sin(',I/2,'PI/4) = ',SIN(ANGLE1),'; Sin(',I/2,'PI/4) = ',SIN(ANGLE2)
+          WRITE(*,*) 
+          !
+          ANGLE2 = ANGLE2 + PIO2/2.0
+          !
+       ENDDO
+     END PROGRAM ex_5_3
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_7_4">5.3.4 Programa ejemplo_5_4.f90</h3>
+
+<pre>
+     PROGRAM excode_5_4
+       !
+       IMPLICIT NONE
+       !
+       REAL :: X_val = 0.0 
+       REAL :: X_app = 0.0, X_sum = 0.0
+       INTEGER :: I_flag = 1, I_count = 0
+       !
+       ! Taylor Series:  SIN(X) = X - X^3/3! + X^5/5! - X^7/7! + ... 
+       WRITE(*,*) &quot;Introduce the angle X (RAD) :&quot;
+       READ(*,*) X_val
+       !
+       I_count = 1
+       X_app = X_val
+       X_sum = X_val
+       !
+       PRINT*, '         Order     Approx.    SIN(X)       Approx. - SIN(X)'
+       !
+       DO WHILE (I_flag == 1) 
+          !
+          PRINT*, I_count, X_app, SIN(X_val), X_app - SIN(X_val)
+          !
+          X_sum = X_sum*(-1)*X_val*X_val/((I_count*2+1)*(I_count*2))
+          X_app = X_app + X_sum
+          !
+          I_count = I_count + 1
+          !
+          WRITE(*,*) &quot;STOP? (0 yes, 1 no)&quot;
+          READ(*,*) I_flag
+          IF (I_flag /= 1 .AND. I_flag /= 0) I_flag = 1
+          !
+       ENDDO
+       !
+     END PROGRAM excode_5_4
+</pre>
+
+<hr>
+
+<p>
+[ <a href="ch-clase_4.html">previous</a> ]
+[ <a href="index.html#contents">Contents</a> ]
+[ <a href="ch-clase_1.html">1</a> ]
+[ <a href="ch-clase_2.html">2</a> ]
+[ <a href="ch-clase_3.html">3</a> ]
+[ <a href="ch-clase_4.html">4</a> ]
+[ 5 ]
+[ <a href="ch-clase_5.html">6</a> ]
+[ <a href="ch-clase_6.html">7</a> ]
+[ <a href="ch-clase_8.html">8</a> ]
+[ <a href="ch-clase_9.html">9</a> ]
+[ <a href="ch-clase_10.html">10</a> ]
+[ <a href="ch-clase_11.html">11</a> ]
+[ <a href="ch-clase_blaslap.html">12</a> ]
+[ <a href="ch-cap_ref.html">13</a> ]
+[ <a href="ch-clase_5.html">next</a> ]
+</p>
+
+<hr>
+
+<p>
+<code>Fortran 90</code> Lessons for Computational Chemistry
+</p>
+
+<address>
+0.0<br>
+<br>
+Curro Pérez-Bernal <code><a href="mailto:francisco.perez@dfaie.uhu.es">mailto:francisco.perez@dfaie.uhu.es</a></code><br>
+<br>
+</address>
+<hr>
+
+</body>
+
+</html>
+

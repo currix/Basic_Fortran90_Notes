@@ -1,0 +1,5544 @@
+<!doctype debiandoc public "-//DebianDoc//DTD DebianDoc//EN">
+<!--<!doctype debiandoc system>-->
+<!-- $Id: clases_fortran.sgml,v 1.24 2013/07/02 09:38:58 curro Exp curro $    -->
+
+<book>
+
+<title><prgn>Fortran 90</prgn> Lessons for Computational Chemistry</title>
+
+<author>Curro Pérez-Bernal
+<email>francisco.perez@dfaie.uhu.es</email>
+</author>
+
+<version>0.0</version>
+
+<abstract>The present document is a basic introduction to
+  the  <prgn>Fortran</prgn> programming language based in several textbooks and
+  references (see <ref id="cap_ref">). It contains the basic scheme
+  of <prgn>Fortran</prgn> programming taught in
+  the  <em>Computational Chemistry</em> module (fourth year, second
+  semester) of the University of Huelva Chemistry Degree.
+</abstract>
+
+<toc>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!--                         Clase 1                         -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+
+<chapt id="clase_1"><heading>Introduction</heading> 
+<sect id="sec_11"> Objectives
+
+<p>
+The main aims of this session consist of:
+
+<enumlist>  
+<item> giving a short introduction on programming and programming languages.
+<item> emphasize the importance of a clear understanding of the
+  problem under study and the use of flow diagrams for achieving
+  structured and clear source code.
+<item> a brief presentation of the main features of
+  the <prgn>Fortran</prgn> programming language.
+<item> installation of the <tt>GNU Fortran</tt> compiler, <prgn>gfortran</prgn>.
+<item> Studying two simple codes.
+<item> Presenting possible sources of information for the interested  student.
+</enumlist>  
+
+</sect>
+
+<sect id="sec_12"> Main items.
+
+<p>
+By default we will use the <prgn>emacs</prgn> text editor. The first
+examples are the simple programs  <ref id="sec_p_1_1"> y <ref id="sec_p_1_2">.
+
+<p>
+Using the examples the student should be aware of the main sections
+included in a program::
+
+<enumlist>  
+<item> Head of the code with the statement <tt>PROGRAM</tt> <var>program_name</var>.
+<item> Variable definition.
+<item> Main program body, including <tt>I/O</tt> operations.
+<item> End of the program: <tt>END PROGRAM</tt> <var>program_name</var>.
+</enumlist>  
+
+Things to take into account:
+<list>  
+<item>  Importance of remarks and comments. Include many comments in
+  your code, trying to be as clear as possible. <prgn>Fortran</prgn>
+  remarks are introduced with the character <tt>!</tt>. A correct
+  indentation also improves the code
+  readability. The <prgn>emacs</prgn> text editor greatly helps in this task. 
+<item> The importance of the <tt>IMPLICIT NONE</tt> statement. Declare
+  and initialize properly all variables as in example <ref id="sec_p_1_2">.
+<item> Distinguish the  <tt>I/O</tt> operations.
+</list>  
+
+
+</sect>
+<sect id="sec_13">  Example Codes.
+
+  <sect1 id="sec_p_1_1">  <tt>excode_1_1.f90</tt>
+<p>
+<example>
+PROGRAM ex_1_1
+  !
+  ! This program reads and displays a string.
+  !
+  IMPLICIT NONE
+  CHARACTER(LEN=50) :: Name
+  !
+  PRINT *,' Write your name. Do not forget quoting it:'
+  PRINT *,' (max 50 characters)'
+  READ(*,*), Name
+  PRINT *, Name
+  !
+END PROGRAM ex_1_1
+</example>
+</sect1>
+  <sect1 id="sec_p_1_2">  <tt>excode_1_2.f90</tt>
+<p>
+<example>
+PROGRAM ex_1_2
+  !
+  ! This program reads three numbers and compute their sum and mean value 
+  !
+  IMPLICIT NONE
+  REAL :: N1, N2, N3, Average = 0.0, Total = 0.0
+  INTEGER :: N = 3
+  PRINT *,' Input three numbers (return, coma, or space separated).'
+  PRINT *,' '
+  READ *,N1,N2,N3
+  Total =  N1 + N2 + N3
+  Average = Total/N
+  PRINT *,'Sum: ',Total
+  PRINT *,'Mean value: ',Average
+END PROGRAM ex_1_2
+</example>
+</sect1>
+</sect>
+</chapt>
+
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!--                         Clase 2                         -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+<chapt id="clase_2"><heading>Basic Operations</heading> 
+<sect id="sec_21"> Objectives
+
+
+<p>
+The main aims of this session are:
+
+<enumlist>  
+<item> introducing basic <prgn>Fortran</prgn> syntax rules and the
+  characters allowed in source files.
+<item> Basic arithmetic operations and operator precedence rules. 
+<item> The  <tt>PARAMETER</tt> declaration.
+<item> Explain the different kinds of numerical variables and its use.
+</enumlist>  
+
+</sect>
+
+<sect id="sec_22"> Main items.
+<p>
+Basic syntax rules:
+<p>
+<list>
+<item> Maximum number of characters per line of code: 132.
+<item> Maximum length of a variable name string: 31.
+<item> '&amp;' denotes that the statement continues in the next
+  line. It is added at the end of the broken line<footnote>Except if a
+  string is broken in two lines. In this particular case it is added
+  at the end of the broken line and the beginning of the next line.</footnote>
+<item> '!' is the character that marks the rest of the line as a
+  comment. 
+<item> ';' is the character that separates several statements in the
+  same line.
+</list>
+
+<p>
+Variable names can include the low hyphen ('<tt>_</tt>') and mix
+alphanumeric characters and digits, though variable names first
+character cannot be a number.
+<p>
+<prgn>Fortran</prgn> character set:
+<p>
+<example>
+A-Z  Letters              0-9  Digits
+_    Underscore                Blank
+=    Equal                +    Plus
+-    Minus                *    Asterisk
+/    Slash or oblique     '    Apostrophe
+(    Left parenthesis     )    Right parenthesis
+,    Comma                .    Period or decimal point
+:    Colon                ;    Semicolon
+!    Exclamation mark     ""    Quotation mark
+%    Percent              &amp;   Ampersand
+&lt;    Less than         &gt;   Greater than
+</example>
+<p>
+Precedence of arithmetic operators:
+<p>
+<list>
+<item> Operators: {<tt>+</tt>,<tt>-</tt>,<tt>*</tt>,<tt>/</tt>,<tt>**</tt>}.
+<item> Precedence: (1) <tt>**</tt> (right to left);
+  (2) <tt>*</tt>,<tt>/</tt> (compiler dependent);
+  (3) <tt>+</tt>,<tt>-</tt>  (compiler dependent).
+<item> Beware of floating point operations rounding, in particular
+  when mixing different numeric variable types. Minimizing rounding
+  errors is at times a complex and subtle task.
+
+<p>
+The compiler transform different type variables to a common type when
+performing a calculation. The priority ordering, from lower to higher
+is: <tt>INTEGER</tt>, <tt>REAL</tt>, <tt>DOUBLE PRECISION</tt>,
+and <tt>COMPLEX</tt>. Therefore, an operation involving an integer and
+a double precision float is performed transforming the integer value
+to double precision and the result is given in double precision
+too. The final result is the transformed to the type of the variable
+to which is assigned.
+
+<item> Integer types:
+  <enumlist>
+    <item>   32 bits ::<tt> (2**31)-1 =  2,147,483,647</tt> (~ 10**9)
+    <item>   64 bits :: <tt>(2**63)-1 =  9,223,372,036,854,774,807</tt> (~ 10**19)
+  </enumlist>
+<item> Floats types and precision:
+  <enumlist>
+    <item>   Real 32 bits :: precision = 6-9 <tt>~ 0.3E­38 - 1.7E38</tt> 
+    <item>   Real 64 bits :: precision = 15-18 <tt>~ 0.5E­308 - 0.8E308</tt> 
+  </enumlist>
+<item> Making use of the <tt>PARAMETER</tt> modifier in a variable
+  definition we can define constant values in a program. See <ref id="sec_p_2_4">.
+
+<item> (*) Different kinds of floats and integers
+  in <prgn>Fortran</prgn> and the intrinsic
+  functions<footnote>See <ref id="sec_p_2_4">.</footnote> <tt>KIND</tt>, <tt>EPSILON</tt>, <tt>PRECISION</tt>,
+  and  <tt>HUGE</tt> and how to define a variable in each of the
+  existing types.
+
+  <p> <tt>INTEGER</tt> VARIABLES: if we would like to define an
+    integer variable <tt>i0</tt> that could take values between
+    -999999 y 999999 we should define a variable, called
+    e.g. <tt>ki</tt>, making use of the intrinsic
+    function <tt>SELECTED_INT_KIND()</tt> and make use of it in the
+    variable definition.
+
+<example>
+INTEGER, PARAMETER :: ki =  SELECTED_INT_KIND(6)
+INTEGER(KIND=ki) :: i0
+</example>
+
+<p>
+The intrinsic function<footnote>More info on intrinsic functions and
+    function definition in <prgn>Fortran</prgn> can be found in 
+ <ref id="sec_81">.</footnote> <tt>SELECTED_INT_KIND(X)</tt> output is
+an integer that indicates the type (<em>kind</em>) of an integer
+variable capable of storing any integer in the range 
+<tt>(-10E+X, 10E+X)</tt> where <tt>X</tt> is also an integer. If we
+want that any integer constant in our program to be treated with a
+particular type of integer this can be done as follows:
+<p>
+<example>
+-1234_ki
+2354_ki
+2_ki
+</example>
+
+<p>
+The error output of the  <tt>SELECTED_INT_KIND(X)</tt>
+function is  <tt>-1</tt>. 
+
+<p>
+Real numbers are more involved. We make use a <em>floating point
+    representation</em>, and all the following are valid real numbers in <prgn>Fortran</prgn>:
+
+<p>
+<example>
+-10.66E-20
+0.66E10
+1.
+-0.4
+1.32D-44
+2E-12
+3.141592653
+</example>
+
+<p>
+In this case the statement to control the type of float
+is  <tt>SELECTED_REAL_KIND(p=X,r=Y)</tt>, with two input
+parameters. The output is an integer associated with a float that
+complies with the following rules:
+
+<list>
+<item> it has a precision at least equal to <tt>X</tt> and a range of
+  decimal exponents given at least by <tt>Y</tt>. The argument labels
+  are optional. 
+<item> Among various possible results, the one with the minimum
+  decimal precision will be chosen.
+<item> At least one of the two input parameter should be
+  specified. Both <tt>X</tt> and <tt>Y</tt> are integers. If there is
+  no variable type that fulfills the requested condiotions the output
+  of the function will be  <tt>-1</tt> if the  precision does not
+  reach the requested level, <tt>-2</tt> if the problem is in the
+  exponent, and <tt>-3</tt> if both requirements cannot be satisfied. 
+</list>
+
+<p>
+  As an example, if we want to define a real variable
+  called  <tt>a0</tt> with 15 digit precision and exponents in the range -306 to 307:
+<p>
+<example>
+INTEGER, PARAMETER :: kr =  SELECTED_REAL_KIND(15,307)
+REAL(KIND=kr) :: a0
+</example>
+
+<p> 
+Scalar floats can be addressed defining its particular kind as follows
+<p>
+<example>
+-10.66E-20_kr
+0.66E10_kr
+142857._kr
+-0.4_kr
+2E-12_kr
+3.141592653_kr
+</example>
+
+<p>
+Program <ref id="sec_p_2_5"> contains several examples of the use of
+    the <tt>KIND</tt> statement and the default value of <tt>KIND</tt>
+    for several variable types. 
+
+<p>
+Program <ref id="sec_p_2_6"> contains examples of the different types
+    of viariales, how to define them, and how to test them using the intrinsics <tt>KIND</tt>, <tt>DIGITS</tt>, <tt>EPSILON</tt>, <tt>TINY</tt>, <tt>HUGE</tt>, <tt>EXPONENT</tt>, <tt>MAXEXPONENT</tt>, <tt>MINEXPONENT</tt>, <tt>PRECISION</tt> , <tt>RADIX</tt>
+    y  <tt>RANGE</tt>.
+
+<p>
+In this program variables are defined using the functions <tt>SELECTED_INT_KIND</tt> and <tt>SELECTED_REAL_KIND</tt>
+This is correct though it is more appropriate to define the variables
+according to the process in the notes.
+
+<p>
+The used functions are
+<enumlist>
+<item> <tt>KIND(x)</tt>: integer output, type of the variable <tt>x</tt>.
+<item> <tt>DIGITS(x)</tt>: integer output, number of significant
+  digits of <tt>x</tt>.
+<item> <tt>EPSILON(x)</tt>: if the input <tt>x</tt> is a float the
+  output is another float, of the same type (<em>kind</em>) than
+  <tt>x</tt>. It is the smallest number of this type such that 
+  <tt>1.0 + EPSILON(X) > 1</tt>.
+<item> <tt>TINY(x)</tt>: for float <tt>x</tt> input the output is of
+  the same kind than <tt>x</tt>, and it is the minimum positive value
+  that can be defined for such variables.
+<item> <tt>HUGE(x)</tt>: for float <tt>x</tt> input the output is of
+  the same kind than <tt>x</tt>, and it is the maximum positive value
+  that can be defined for such variables.
+<item> <tt>EXPONENT(x)</tt>:  <tt>x</tt> variable exponent. If <tt>x
+    = 0</tt> then <tt>EXPONENT(x)=0</tt> too.
+<item> <tt>MAXEXPONENT(x)</tt>: maximum exponent possible
+  for <tt>x</tt> type variables. 
+<item> <tt>MINEXPONENT(x)</tt>: minimum exponent possible
+  for <tt>x</tt> type variables.
+<item> <tt>PRECISION(x)</tt>: if  <tt>x</tt> is real or complex the
+  output is an integer equal to the number of digits of precision of
+  the variable <tt>x</tt>.
+<item> <tt>RADIX(x)</tt>: integer result equal to the radix basis of  <tt>x</tt>.
+<item> <tt>RANGE(x)</tt>: integer result equal to the range of
+  exponent for the variable <tt>x</tt>.
+</enumlist>
+
+
+<item> (*) Present how float arithmetic involves precision loss and
+  how an appropriate use of the diferent data types can help to
+  minimize this problem.
+
+</list>
+
+
+<sect id="sec_23">   Example Codes.
+
+  <sect1 id="sec_p_2_1">  <tt>excode_2_1.f90</tt>
+<p>
+  <example>
+    PROGRAM ex_2_1
+  IMPLICIT NONE
+  !
+  ! Program computing the energy of a vibrational normal mode
+  ! 
+  !  Ge(v) = we (v+1/2) - wexe (v+1/2)^2
+  ! 
+  !
+  ! Definicion de variables
+  REAL            :: energ_0, energ, delta_e ! deltae = energ-energ0
+  REAL            :: we = 250.0, wexe = 0.25 ! Units: cm-1
+  INTEGER         :: v = 0
+  CHARACTER*60    :: for_mol
+  ! I/O
+  PRINT *,'Formula de la molecula : '
+  READ *, for_mol
+  PRINT *,'Num. de quanta de excitacion : '
+  READ *, v
+  ! Calculations
+  energ = we*(v+0.5) - wexe*(v+0.5)**2
+  energ_0 = we*(0.5) - wexe*(0.5)**2
+  delta_e = energ - energ_0
+  ! I/O
+  PRINT *
+  PRINT *,'Especie molecular: ', for_mol
+  PRINT *,'num. de quanta: ', v
+  PRINT *,'energ = ',energ,'cm-1'
+  PRINT *,'energ_0 = ',energ_0,'cm-1'
+  PRINT *,'energ - energ_0 = ',delta_e,'cm-1'
+END PROGRAM ex_2_1
+  </example>
+  </sect1>
+  <sect1 id="sec_p_2_2">  <tt>excode_2_2.f90</tt>
+
+    <p>
+      <example>
+PROGRAM ex_2_2
+  IMPLICIT NONE
+  REAL :: A,B,C
+  INTEGER :: I
+  A = 1.5
+  B = 2.0
+  C = A / B
+  I = A / B
+  PRINT *
+  PRINT *, 'Case (1), Float variable'
+  PRINT *,A,'/',B,' = ',C
+  PRINT *, 'Case (2), Integer variable'
+  PRINT *,A,'/',B,' = ',I
+END PROGRAM ex_2_2
+      </example>
+</sect1>
+  <sect1 id="sec_p_2_3">  <tt>excode_2_3.f90</tt>
+
+<p>
+  <example>
+PROGRAM ex_2_3
+  IMPLICIT NONE
+  INTEGER :: I,J,K
+  REAL :: Answer
+  I = 5
+  J = 2
+  K = 4
+  Answer = I / J * K
+  PRINT *,'I = ',I
+  PRINT *,'J = ',J
+  PRINT *,'K = ',K
+  PRINT *,'I / J * K = ',Answer
+END PROGRAM ex_2_3
+    </example>
+</sect1>
+  <sect1 id="sec_p_2_4">  <tt>excode_2_4.f90</tt>
+
+<p>
+  <example>
+PROGRAM ex_2_4
+  ! Program to compute the time that takes to light to travel 
+  ! a given distance in AU.
+  ! 1 AU = 1,50E11 m
+  !
+  !Definicion de variables
+  IMPLICIT NONE
+  ! a_u : astronomic unit in km
+  REAL , PARAMETER :: a_u=1.50*10.0**8
+  ! y_l : year light --> distance travelled by light during a year
+  REAL , PARAMETER :: y_l=9.46*10.0**12
+  ! m_l : minute light --> distance travelled by light during a minute
+  REAL :: m_l
+  ! dist : distance travelled in AUs (INPUT)
+  REAL :: dist
+  ! t_min : time in minutes needed to travel the distance dist
+  REAL :: t_min
+  !
+  ! min : integer part of t_min
+  ! seg : seconds from the decimal digits of t_min
+  INTEGER :: min, seg
+  !
+  m_l = y_l/(365.25 * 24.0 * 60.0) ! m_l Calculation
+  !
+  PRINT *
+  PRINT *,'Distance in AUs'
+  READ *, dist
+  PRINT *
+  !
+  t_min = (dist*a_u)/m_l
+  min = t_min; seg = (t_min - min) * 60
+  !
+  PRINT *,' It takes light ' , min,' minutes and ', seg,' seconds'
+  Print *,' to travel a distance of ',dist,' AU.'
+END PROGRAM ex_2_4
+
+</example>
+</sect1>
+  <sect1 id="sec_p_2_5">  <tt>excode_2_5.f90</tt>
+<p>
+<example>
+PROGRAM ex_2_5
+  INTEGER :: i
+  REAL :: r
+  CHARACTER(LEN=1) :: c
+  LOGICAL :: l
+  COMPLEX :: cp
+  PRINT *,' Integer ',KIND(i)
+  PRINT *,' Real    ',KIND(r)
+  PRINT *,' Char    ',KIND(c)
+  PRINT *,' Logical ',KIND(l)
+  PRINT *,' Complex ',KIND(cp)
+END PROGRAM ex_2_5
+</example>
+</sect1>
+  <sect1 id="sec_p_2_6">  <tt>excode_2_6.f90</tt>
+<p>
+<example>
+PROGRAM ex_2_6
+  ! From Program ch0806 of Chivers & Sleightholme
+  !
+  ! Examples of the use of the kind
+  ! function and the numeric inquiry functions
+  !
+  ! Integer arithmetic
+  !
+  ! 32 bits is a common word size,
+  ! and this leads quite cleanly
+  ! to the following
+  ! 8 bit integers
+  ! -128 to 127 10**2
+  ! 16 bit integers
+  ! -32768 to 32767 10**4
+  ! 32 bit integers
+  ! -2147483648 to 2147483647 10**9
+  !
+  ! 64 bit integers are increasingly available.
+  ! This leads to
+  ! -9223372036854775808 to
+  !  9223372036854775807 10**19
+  !
+  ! You may need to comment out some of the following
+  ! depending on the hardware platform and compiler
+  ! that you use.
+  INTEGER                         :: I
+  INTEGER ( SELECTED_INT_KIND( 2)) :: I1
+  INTEGER ( SELECTED_INT_KIND( 4)) :: I2
+  INTEGER ( SELECTED_INT_KIND( 8)) :: I3
+  INTEGER ( SELECTED_INT_KIND(16)) :: I4
+  ! Real arithmetic
+  !
+  ! 32 and 64 bit reals are normally available.
+  !
+  ! 32 bit reals 8 bit exponent, 24 bit mantissa
+  !
+  ! 64 bit reals 11 bit exponent 53 bit mantissa
+  !
+  REAL :: R = 1.0
+  REAL ( SELECTED_REAL_KIND( 6, 37)) :: R1 = 1.0
+  REAL ( SELECTED_REAL_KIND(15,307)) :: R2 = 1.0 
+  REAL ( SELECTED_REAL_KIND(18,310)) :: R3 = 1.0
+  PRINT *,' '
+  PRINT *,' Integer values'
+  PRINT *,'         Kind       Huge'
+  PRINT *,' '
+  PRINT *,KIND(I ),' ',HUGE(I    )
+  PRINT *,' '
+  PRINT *,KIND(I1 ),' ',HUGE(I1  )
+  PRINT *,KIND(I2 ),' ',HUGE(I2  )
+  PRINT *,KIND(I3 ),' ',HUGE(I3  )
+  PRINT *,KIND(I4 ),' ',HUGE(I4  )
+  PRINT *,' '
+  PRINT *,' ----------------------------------- '
+  PRINT *,' '
+  PRINT *,' Real values'
+  !
+  PRINT *,'         Kind     ', KIND(R ), '    Digits     ', DIGITS(R )
+  PRINT *,'  Huge    = ',HUGE(R ), ' Tiny =', TINY(R)
+  PRINT *,'  Epsilon = ',EPSILON(R),' Precision = ', PRECISION(R)
+  PRINT *,'  Exponent = ',EXPONENT(R), 'MAXExponent = ', MAXEXPONENT(R), '  MINExponent = ',MINEXPONENT(R)
+  PRINT *,'  Radix    = ', RADIX(R ), ' Range =', RANGE(R)
+  PRINT *,' ' 
+  !
+  !
+  PRINT *,'         Kind     ', KIND(R1 ), '    Digits     ', DIGITS(R1 )
+  PRINT *,'  Huge    = ',HUGE(R1 ), ' Tiny =', TINY(R1)
+  PRINT *,'  Epsilon = ',EPSILON(R1),' Precision = ', PRECISION(R1)
+  PRINT *,'  Exponent = ',EXPONENT(R1), 'MAXExponent = ', MAXEXPONENT(R1), '  MINExponent = ',MINEXPONENT(R1)
+  PRINT *,'  Radix    = ', RADIX(R1 ), ' Range =', RANGE(R1)
+  PRINT *,' ' 
+  !
+  !
+  PRINT *,'         Kind     ', KIND(R2 ), '    Digits     ', DIGITS(R2 )
+  PRINT *,'  Huge    = ',HUGE(R2 ), ' Tiny =', TINY(R2)
+  PRINT *,'  Epsilon = ',EPSILON(R2),' Precision = ', PRECISION(R2)
+  PRINT *,'  Exponent = ',EXPONENT(R2), 'MAXExponent = ', MAXEXPONENT(R2), '  MINExponent = ',MINEXPONENT(R2)
+  PRINT *,'  Radix    = ', RADIX(R2 ), ' Range =', RANGE(R2)
+  PRINT *,' ' 
+  !
+  !
+  PRINT *,'         Kind     ', KIND(R3 ), '    Digits     ', DIGITS(R3 )
+  PRINT *,'  Huge    = ',HUGE(R3 ), ' Tiny =', TINY(R3)
+  PRINT *,'  Epsilon = ',EPSILON(R3),' Precision = ', PRECISION(R3)
+  PRINT *,'  Exponent = ',EXPONENT(R3), 'MAXExponent = ', MAXEXPONENT(R3), '  MINExponent = ',MINEXPONENT(R3)
+  PRINT *,'  Radix    = ', RADIX(R3 ), ' Range =', RANGE(R3)
+  PRINT *,' ' 
+  !
+END PROGRAM ex_2_6
+</example>
+</sect1>
+</sect>
+</chapt>
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!--                         Clase 3                         -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+<chapt id="clase_3"><heading>Introduction to <prgn>Fortran</prgn> Arrays</heading> 
+<sect id="sec_31"> Objectivos
+
+<p>
+The main aims of this session are the following
+
+<enumlist>  
+  <item> present one dimension arrays as <prgn>Fortran</prgn> data structures. 
+    <item> present the different ways of defining an array.
+      <item> present the <tt>DO</tt> loop syntax and the implicit <tt>DO</tt> and their use with 
+matrices.
+	<item> explore dynamic arrays in <prgn>Fortran 90</prgn>
+	  <item> present multidimensional arrays as <prgn>Fortran</prgn> data structures. 
+</enumlist>  
+
+</sect>
+
+<sect id="sec_32"> Main items.
+
+<p>
+Basic Definitions:
+
+<enumlist>  
+  <item> <em>rank</em>: number of indices necessary to indicate unambiguously an array element.
+    <item> <em>bounds</em>: max and min values of the indices labelling array elements in each dimension. 
+      <item> <em>extent</em>: number of elements in an array dimension.
+	<item> <em>size</em>: total number of a matrix.
+	  <item> <em>conformal</em>: two arrays are conformal if both have the same rank and extent.
+</enumlist>  
+
+<p>
+ The following points should be emphasized:
+ <list>  
+   <item> one dimensional array (vector) definition making use of the <tt>DO</tt> control structure (see <ref id="sec_p_3_1"> and exercise 2_1)
+       <item> use of the <tt>PARAMETER</tt> declaration for the definition of array bounds in static array declaration.
+	 <item> initialize before use. Beware of surprises. The initialization to a common constant value is extremely simple: <tt>vec = <var>valor</var></tt>. A possible alternative is the use of <em>array
+constructors</em>. In the following example, in order to define an integer array with six elements called <tt>vec_int</tt> three possible and equivalent options are given
+<p>
+<example>
+do i = 0, 5
+   vec_int(i) = 2*i
+enddo
+
+vec_int = (/(2*i, i = 0, 5)/)
+
+vec_int = (/0,2,4,6,8,10/)
+</example>
+<p>
+Last two options involve <em>array constructors</em> and can be carried out when the array is declared<footnote>Beware of this feature in functions and subroutines.</footnote>
+<item> use of the <tt>ALLOCATABLE</tt> declaration and the use of the <tt>ALLOCATE</tt> function, as it is shown in example <ref id="sec_p_3_2">. The <tt>ALLOCATE</tt> option <tt>STAT = <var>var</var></tt> allows to chek if the array has been properly defined. See example in program <ref id="sec_p_9_3">.
+<item> implicit <tt>DO</tt> and multidimensional arrays. See example <ref id="sec_p_3_3">.
+<item> most general form of the <tt>DO</tt> control structure and possibility of introducing zero or negative array indeces. See example
+<ref id="sec_p_3_4">.
+<item> combination of <prgn>bash</prgn> redirectioning with <prgn>Fortran</prgn> programs. Necessary for exercise 2, it is explained in  <ref id="clase_4">.
+</list>  
+
+
+</sect>
+<sect id="sec_33"> Example Codes.
+
+  <sect1 id="sec_p_3_1">  <tt>excode_3_1.f90</tt>
+<p>
+<example>
+PROGRAM ex_3_1
+!
+! VARIABLES DEFINITION 
+  IMPLICIT NONE
+  REAL :: Total=0.0, Average=0.0
+  INTEGER, PARAMETER :: Week=7
+  REAL , DIMENSION(1:semana) :: Lab_Hours
+  INTEGER :: Day
+!
+  PRINT *,' Labor Time (hours per day during a week):'
+  DO Day= 1, Week
+     READ *, Lab_Hours(Day)
+  ENDDO
+!
+  DO Day = 1, Week
+     Total = Total + Lab_Hours(Day)
+  ENDDO
+  Average = Total / Week
+!
+  PRINT *,' Average Weekly Workload: '
+  PRINT *, Average, ' hours'
+END PROGRAM ex_3_1
+</example>
+</sect1>
+  <sect1 id="sec_p_3_2">  <tt>excode_3_2.f90</tt>
+
+<p>
+<example>
+PROGRAM ex_3_2
+  !
+  ! VARIABLE DEFINITION
+  IMPLICIT NONE
+  REAL :: Total=0.0, Average=0.0
+  REAL , DIMENSION(:), ALLOCATABLE :: Lab_Hours
+  INTEGER :: Day, Number_Days
+  !
+  PRINT *,' Number of workdays:'
+  READ *, Number_Days
+  !
+  ALLOCATE(Lab_Hours(1:Number_Days))
+  !
+  PRINT *,' Daily hours of work in ', Number_Days, ' days.'
+  DO Day = 1, Number_Days
+     READ *, Lab_Hours(Day)
+  ENDDO
+  !
+  DO Day=1, Number_Days
+     Total = Total + Lab_Hours(Day)
+  ENDDO
+  Average = Total / Number_Days
+!
+  PRINT *,' Average daily workhours in ',Number_Days, ' days : '
+  PRINT *, Average, ' hours'
+!
+END PROGRAM ex_3_2
+</example>
+</sect1>
+  <sect1 id="sec_p_3_3">  <tt>excode_3_3.f90</tt>
+
+<p>
+<example>
+PROGRAM ATTEND_CONTROL
+  IMPLICIT NONE
+  INTEGER , PARAMETER :: N_students = 3
+  INTEGER , PARAMETER :: N_courses = 3
+  INTEGER , PARAMETER :: N_lab = 3
+  INTEGER :: student, course, lab
+  CHARACTER*2 , DIMENSION(1:N_lab,1:N_courses,1:N_lab) :: attend = 'NO'
+  DO student = 1, N_students
+     DO course = 1,N_courses
+        READ *,(attend(lab,course,student),lab = 1, N_lab)
+     ENDDO
+  ENDDO
+  PRINT *,' Lab attendance : '
+  DO student=1, N_students
+     PRINT *,' Student = ', student
+     DO course = 1,N_courses
+        PRINT *,'   Course = ', course, ' : ', (attend(lab,course,student),lab=1,N_lab)
+     ENDDO
+  ENDDO
+END PROGRAM ATTEND_CONTROL
+</example>
+</sect1>
+  <sect1 id="sec_p_3_4">  <tt>excode_3_4.f90</tt>
+
+<p>
+<example>
+PROGRAM ex_3_4
+  IMPLICIT NONE
+  REAL , DIMENSION(-180:180) :: Time=0
+  INTEGER :: Degree, Strip
+  REAL :: Value
+!
+  DO Degree=-165,165,15
+     Value=Degree/15
+     DO Strip=-7,7
+        Time(Degree+Strip)=Value
+     ENDDO
+  ENDDO
+!
+  DO Strip=0,7
+     Time(-180 + Strip) = -180/15
+     Time( 180 - Strip) = 180/15
+  ENDDO
+!
+  DO Degree=-180,180
+     PRINT *,Degree,' ',Time(Degree), 12 + Time(Degree)
+  END DO
+END PROGRAM ex_3_4
+</example>
+</sect1>
+</sect>
+</chapt>
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!--                         Clase 4                         -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+<chapt id="clase_4"><heading>More on Arrays</heading> 
+<sect id="sec_41"> Objectives
+
+<p>
+The main aims of this lesson are the following:
+
+<enumlist>  
+<item> present storage ordering of multidimensional arrays.
+<item> present how to manipulate whole matrices or arrays  sections in <prgn>Fortran</prgn>.
+<item> matrix definition using the <tt>WHERE</tt> statement.
+</enumlist>  
+
+</sect>
+
+<sect id="sec_42"> Main items.
+
+<p>
+
+<list>  
+<item> Storage ordering
+<p>
+  Multidimensional arrays are stored in memory by <prgn>Fortran</prgn> in such a way that the first subindex varies faster than the second, that varies faster than the third and so on and so forth. This is known as <em>column major order</em>.
+<p> 
+  For example, if we define a <tt>4 x 2</tt> matrix as
+<p>
+<tt>REAL , DIMENSION(1:4,1:2) :: A</tt>, 
+
+<p> the <tt>A</tt> array has eight elements stored into memory as follows
+
+<p>
+<example>
+A(1,1), A(2,1), A(3,1), A(4,1), A(1,2), A(2,2), A(3,2), A(4,2)
+</example>
+
+<p>
+The <tt>A</tt> matrix initialization can be carried out in several ways. Assuming that each element should be initialized with a number equal to the index of the corresponding row, we could use two loops<footnote>The <em>column major order</em> storage makes optimal to run over columns in the inner loop, specially when running with large matrices.</footnote>
+<p>
+<example>
+DO I_col = 1, 2
+     DO I_row = 1, 4
+        A(I_row, I_col) = I_row
+     ENDDO
+ENDDO
+</example>
+<p>
+An <em>array constructor</em> can also be of help, though the seemingly simple solution
+<p>
+<example>
+A = (/ 1, 2, 3, 4, 1, 2, 3, 4 /)
+</example>
+<p>
+does not work. The  <em>array constructors</em> produce vectors and not matrices. The vector defined above is of dimension 8, but not a matrix 4x2. The vector and the array <tt>A</tt> have identical sizes, but are not conformal. The statement <tt>RESHAPE</tt> gives a possible solution. The sytax of this statement is
+<p>
+<example>
+<var>output_array</var> = RESHAPE(<var>array_1</var>, <var>array_2</var>)
+</example>
+<p>
+Where <var>array_1</var> is a matrix that would be reshaped and <var>array_2</var> is a vector with the dimensions of the new matrix <var>output_array</var>. The total number of elements of <var>array_1</var> and <var>output_array</var> needs to be identical. In the previous example a correct <em>array constructor</em> is
+<p>
+<example>
+A = RESHAPE( (/ 1, 2, 3, 4, 1, 2, 3, 4 /), (/ 4, 2 /) )
+</example> 
+
+<p>
+Another example can be found in code <ref id="sec_p_4_3">. The <tt>RESHAPE</tt> command can be used in the array declaration
+<p>
+<example>
+INTEGER, DIMENSION(1:4,1:2) :: A = &
+       RESHAPE( (/ 1, 2, 3, 4, 1, 2, 3, 4 /), (/ 4, 2 /) )
+</example> 
+
+<p>
+The data ordering in storage is specially important in I/O operations. The command
+<p>
+<example>
+PRINT*, A
+</example>
+<p>
+will give as a result
+<p>
+<example>
+A(1,1), A(2,1), A(3,1), A(4,1), A(1,2), A(2,2), A(3,2), A(4,2)
+</example>
+
+<p> It is necessary to take this into account also when making use of the  <tt>READ</tt> statement to fill with values the elements of a multidimensional array: <tt>READ(<var>unit</var>,*) A</tt>. The <em>implicit</em> <tt>DO</tt> statement allow to change the standard reading sequence
+<p>
+<example>
+READ(unit,*) ( ( A(row,col), col = 1, 2 ), row = 1, 4 )
+</example>
+
+<item> <prgn>FORTRAN</prgn> allows to define multidimensional arrays, being seven is the max number of indices.
+The code <ref id="sec_p_4_2"> an array is fully characterized making use of several <em>inquiry</em> type functions (see <ref id="sec_p_8_2">).
+<item> The usage of whole matrices is a great advantage. Definig floating point vectors
+<tt>V1</tt>, <tt>V2</tt>, <tt>V3</tt> y <tt>V4</tt> as
+<p>
+<example>
+REAL , DIMENSION(1:21) :: V1, V2
+REAL , DIMENSION(-10:10) :: V3
+REAL , DIMENSION(0:10) :: V4
+</example>
+<p> 
+The following tasks are simply performed using this <prgn>Fortran 90</prgn> feature.
+<enumlist>
+<item> Assigning a particular value to the full array:
+<p>
+<example>
+V1 = 0.5
+</example>
+<item> Equating matrices:
+<p>
+<example>
+V1 = V2
+</example>
+<p> 
+Making each <tt>V1</tt> element equal to the corresponding element of <tt>V2</tt>. This is only valid when both matrices are <em>conformal</em>. It is also valid 
+<p>
+<example>
+V3 = V2
+</example>
+<p> but it is <em>not</em> valid
+<p>
+<example>
+V1 = V4
+</example>
+<item> All arithmetic operation for scalars can be also applied to conformal matrices, though they may not be the expected mathematical operations.
+<p>
+<example>
+V1 = V2 + V3
+V1 = V2*V3
+</example>
+In the first case <tt>V1</tt> is the sum of two vectors, but in the second case each <tt>V1</tt> element is the product of the corresponding  <tt>V2</tt> and <tt>V3</tt> elements, which is not the scalar product. In the two-dimensional matrices case, if we define
+<p>
+<example>
+REAL , DIMENSION(1:4,1:4) :: A, B, C
+</example>
+<p>
+The following are valid statements in <prgn>Fortran 90</prgn>
+<example>
+A = A**0.5
+C = A + B
+C = A * B
+</example>
+<p> 
+  The last case is not the matrix product but a matrix having each element as the result of the product of the corresponding <tt>A</tt> annd <tt>B</tt> elements.
+
+<item> A matrix can also be read without a <tt>DO</tt> loop, as in example <ref id="sec_p_4_1">, where also the intrinsic function <tt>SUM</tt> is presented.
+
+</enumlist>
+
+<item> The definition of array slices is possible using the index syntax <tt><var>liminf</var>:<var>limsup</var>:<var>step</var></tt>
+<p>
+<example>
+V1(1:10) = 0.5
+B(1,1:4) = 100.0
+</example>
+<p>
+  In the first case the first ten elements of the  <tt>V1</tt> array take the value <tt>0.5</tt>, while in the second elements in the first row of <tt>B</tt> take the value <tt>100.0</tt>. See example  <ref id="sec_p_4_1">.
+
+<p>
+  The most general syntax to define a slice is  <tt><var>lowlimit</var>:<var>upplimit</var>:<var>step</var></tt>, the first slice element has index <var>lowlimit</var>, the last one is less than or equal to <var>upplimit</var> and  <var>step</var> is the index variable increment. The default value of  <var>step</var> is <tt><var>step</var>=1</tt>.
+Examples:
+<p>
+<example>
+V1(:)       ! the whole vector
+V1(3:10)    ! elements V1(3), V1(4), ... ,   V1(10) 
+V1(3:10:1)  !   ""      ""     ""             ""
+V1(3:10:2)  !   ""     V1(3), V1(5), ... , V1(9)
+V1(m:n)     ! elements V1(m), V1(m+1), ... , V1(n) 
+V1(9:4:-2)  !   ""     V1(9), V1(7), V1(5)
+V1(m:n:-k)  ! elements V1(m), V1(m-k), ... , V1(n) 
+V1(::2)     !   ""     V1(1), V1(3), ... , V1(21)
+V1(m:m)     ! 1 x 1 array
+V1(m)       ! Scalar
+</example>
+
+<item> The assignment of values to an array can be done making use of a <em>logic mask</em>, with the <tt>WHERE</tt> statement. The use of the mask allows to select those array elements that should undergo the initialization. If, e.g., we need to compute the square root of the elements of a floating point array called  <tt>data_mat</tt> and store them in the array  <tt>sq_data_mat</tt>, we can skip the use of loops and conditionals as in the following code
+<p>
+<example>
+DO j_col = 1, dim_2
+   DO i_row = 1, dim_1
+         IF ( data_mat(i_row, j_col) >= 0.0 ) THEN
+              sq_data_mat(i_row, j_col) = SQRT( data_mat(i_row, j_col) )
+         ELSE
+              sq_data_mat(i_row, j_col) = -99999.0
+         ENDIF
+   ENDDO
+ENDDO
+</example> 
+<p> The <tt>WHERE</tt> statement greatly simplifies this task. The statement syntax is 
+<p>
+<example>
+[<var>name</var>:] WHERE (<var>mask_expr_1</var>) 
+   ....
+   Array assignment block 1
+   ....
+ELSEWHERE (<var>mask_expr_2</var>) [<var>name</var>]
+   ....
+   Array assignment block 2
+   ....
+ELSEWHERE
+   ....
+   Array assignment block 3
+   ....
+ENDWHERE [<var>name</var>]
+</example> 
+<p> where <var>mask_expr_1</var> and <var>mask_expr_2</var> are boolean arrays conformal with the array being assigned. The previous example is therefore simplified to 
+<p>
+<example>
+WHERE ( data_mat >= 0.0 ) 
+            sq_data_mat = SQRT( data_mat )
+ELSEWHERE
+            sq_data_mat = -99999.0
+ENDWHERE
+</example> 
+
+<item> These aspects are treated in the different given examples. Example  <ref id="sec_p_4_3"> shows how to initialize vectoras and matrices, in the last case making use of the <tt>RESHAPE</tt> statement. The example also introduces the <prgn>Fortran</prgn> intrinsics <tt>DOT_PRODUCT</tt> (scalar product) and <tt>MATMUL</tt> (matrices product).
+<p>
+ Example  <ref id="sec_p_4_4"> exemplifies the use <tt>WHERE</tt> in combination with a logical mask.
+    <p> Example <ref id="sec_p_4_5"> stress the fact the the elimination of <tt>DO</tt> loops can sometimes bring surprising results about.
+<p> Example   <ref id="sec_p_4_6"> shows how to use the  <tt>RESHAPE</tt> statement in the definition of a  matrix and how to use slicing in the defined array.
+</list>  
+
+
+</sect>
+<sect id="sec_43">  Example Codes.
+
+  <sect1 id="sec_p_4_1">  <tt>excode_4_1.f90</tt>
+<p>
+<example>
+PROGRAM ex_4_1
+  !
+  ! VARIABLE DEFINITION
+  IMPLICIT NONE
+  REAL :: Total=0.0, Average=0.0
+  REAL , DIMENSION(:), ALLOCATABLE :: t_worked
+  ! Correction Factor
+  REAL :: correction =1.05 
+  INTEGER :: day, num_days
+  !
+  PRINT *,' Number of workdays: '
+  READ *, num_days
+  ! Dynamic storage definition
+  ALLOCATE(t_worked(1:num_days))
+  !
+  PRINT *,' Worked hours per day in ', num_days, ' days.'
+  ! I/O
+  READ *, t_worked
+  !
+  t_worked(num_days-1:num_days) = correction*t_worked(num_days-1:num_days)
+  !
+  DO day=1,num_days
+     Total = Total + t_worked(day)
+  ENDDO
+  Average = Total / num_days
+  !
+  PRINT *,' Average daily hours of work in ',num_days, ' days : '
+  PRINT *, Average
+  !
+END PROGRAM ex_4_1
+</example>
+</sect1>
+  <sect1 id="sec_p_4_2">  <tt>excode_4_2.f90</tt>
+<p>
+<example>
+PROGRAM ex_4_2
+  !
+  ! Program to characterize an array making use of inquiry functions
+  !
+  IMPLICIT NONE
+  !
+  REAL, DIMENSION(:,:), ALLOCATABLE :: X_grid
+  INTEGER :: Ierr
+  !
+  ! 
+  ALLOCATE(X_grid(-20:20,0:50), STAT = Ierr)
+  IF (Ierr /= 0) THEN
+     STOP 'X_grid allocation failed'
+  ENDIF
+  !
+  WRITE(*, 100) SHAPE(X_grid)
+100 FORMAT(1X, "Shape :        ", 7I7)
+  !
+  WRITE(*, 110) SIZE(X_grid)
+110 FORMAT(1X, "Size :         ", I7)
+  !
+  WRITE(*, 120) LBOUND(X_grid)
+120 FORMAT(1X, "Lower bounds : ", 7I6)
+  !
+  WRITE(*, 130) UBOUND(X_grid)
+130 FORMAT(1X, "Upper bounds : ", 7I6)
+  !
+  DEALLOCATE(X_grid, STAT = Ierr)
+  IF (Ierr /= 0) THEN
+     STOP 'X_grid deallocation failed'
+  ENDIF
+  !
+END PROGRAM EX_4_2
+</example>
+</sect1>
+<sect1 id="sec_p_4_3">  <tt>excode_4_3.f90</tt>
+
+<p>
+<example>
+PROGRAM ex_4_3
+  !
+  ! VARIABLES DEFINITION
+  IMPLICIT NONE
+  REAL, DIMENSION(1:5) :: VA = (/1.0,1.0,1.0,1.0,1.0/), PMAT
+  INTEGER I
+  INTEGER, DIMENSION(1:5) :: VB = (/(2*I,I=1,5)/) 
+  REAL :: PE
+  REAL , DIMENSION(1:5,1:5) :: MC
+  REAL , DIMENSION(25) :: VC = &
+       (/ 0.0,0.0,0.0,0.0,1.0,0.5,2.0,3.2,0.0,0.0, & 
+          0.0,0.0,0.0,0.0,11.0,0.5,2.3,3.2,0.0,0.0, & 
+          1.0,3.0,-2.0,-2.0,-0.6 /)
+  ! Scalar Product
+  PE = DOT_PRODUCT(VA,VB)
+  !
+  PRINT *, 'Scalar Product (VA,VB) = ', PE
+  !
+  ! Product of matrices VAxMC
+  ! RESHAPE VC to make it a  5 x 5 matrix
+  MC = RESHAPE(VC,(/5,5/))
+  PMAT = MATMUL(VA,MC)
+  !
+  PRINT *, ' VA x MC = ', PMAT(1:5)
+  !
+END PROGRAM ex_4_3
+</example>
+</sect1>
+<sect1 id="sec_p_4_4">  <tt>excode_4_4.f90</tt>
+
+<p>
+<example>
+PROGRAM ex_4_4
+  IMPLICIT NONE
+  REAL , DIMENSION(-180:180) :: Time=0
+  INTEGER :: Degree, Strip
+  REAL :: Value
+  CHARACTER (LEN=1), DIMENSION(-180:180) :: LEW=' '
+!
+  DO Degree=-165,165,15
+     Value=Degree/15
+     DO Strip=-7,7
+        Time(Degree+Strip)=Value
+     ENDDO
+  ENDDO
+!
+  DO Strip=0,7
+     Time(-180 + Strip) = -180/15
+     Time( 180 - Strip) = 180/15
+  ENDDO
+!
+  DO Degree=-180,180
+     PRINT *,Degree,' ',Time(Degree), 12 + Time(Degree)
+  END DO
+!
+  WHERE (Time > 0) 
+     LEW='E'
+  ELSEWHERE (Time < 0)
+     LEW='W'
+  ENDWHERE
+!
+  PRINT*, LEW
+!
+END PROGRAM ex_4_4
+</example>
+</sect1>
+
+<sect1 id="sec_p_4_5">  <tt>excode_4_5.f90</tt>
+
+<p>
+<example>
+PROGRAM ex_4_5
+  !
+  ! VARIABLE DEFINITION 
+  IMPLICIT NONE
+  REAL, DIMENSION(1:7) :: VA = (/1.2,2.3,3.4,4.5,5.6,6.7,7.8/)
+  REAL, DIMENSION(1:7) :: VA1 = 0.0, VA2 = 0.0
+  INTEGER I
+  !
+  VA1 = VA
+  VA2 = VA
+  !
+  DO I = 2, 7
+     VA1(I) = VA1(I) + VA1(I-1)
+  ENDDO
+  !
+  VA2(2:7) = VA2(2:7) + VA2(1:6)
+  !
+  ! Previous two operations with VA1 and VA2 seem that
+  ! should provide the same result. Which is not the case.
+  PRINT*, VA1
+  PRINT*, VA2
+  !
+  ! To obtain the same effect without an explicit DO loop we can do 
+  ! the following
+  VA2 = VA
+  VA2(2:7) = (/ (SUM(VA2(1:I)), I = 2,7) /)
+  !
+  PRINT*, VA1
+  PRINT*, VA2
+END PROGRAM ex_4_5
+</example>
+
+</sect1>
+
+<sect1 id="sec_p_4_6">   <tt>excode_4_6.f90</tt>
+
+<p>
+<example>
+PROGRAM ex_4_6
+  !
+  ! DEFINITION OF VARIABLES
+  IMPLICIT NONE
+  INTEGER, DIMENSION(1:3,1:3) :: A = RESHAPE( (/ 1,2,3,4,5,6,7,8,9 /), (/ 3,3 /) )
+  !
+  !
+  !      1  4  7     
+  !  A = 2  5  8
+  !      3  6  9
+  !
+  PRINT*, "Matrix Element", A(2,3)
+  PRINT*, "Submatrix", A(1:2,2:3)
+  PRINT*, "Submatrix", A(::2,::2)
+  PRINT*, "Matrix Column", A(:,3)
+  PRINT*, "Matrix Row", A(2,:)
+  PRINT*, "Full Matrix", A
+  PRINT*, "Transposed Matrix", TRANSPOSE(A)
+END PROGRAM ex_4_6
+</example>
+</sect1>
+
+
+</sect>
+
+</chapt>
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!--                         Clase 5                         -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+<chapt id="clase_7"><heading>Control Structures</heading> 
+<sect id="sec_71"> Objectivos
+
+<p>
+The main aims of this session consist of:
+
+<enumlist>  
+<item> presenting the different conditional control structures in <prgn>Fortran</prgn> (<em>branching</em>).
+<item> presenting the different way of building loops
+  in <prgn>Fortran</prgn> code.
+</enumlist>  
+<p>
+  These structures allows the programmer to control the program flow,
+  allowing the conditional execution of statements according to the
+  user input values or the values acquired by variables during the
+  program execution.
+
+
+<p>
+It is extremely important to take into account before starting to
+write code in any programming language that a previous step should be
+accomplished. In encompasses having a clear idea of the problem, the
+inputs and outputs, the program structure, breaking complex tasks into
+simpler subtasks, and the optimal algorithm. A flow diagram can be of
+great help at this stage.
+
+<p>
+The division of the problem into simpler and simpler tasks is
+called <em>top-down design</em>. Each subtasks should be coded and
+checked in an independent manner.
+</sect>
+
+<sect id="sec_72"> Main items.
+
+<p>
+We provide a scheme of the main control structures, strting with
+conditionals and later of loops.
+<p>
+<list>  
+<item> Conditionals.
+<p>
+Depend on the evaluation of boolean expressions for which the
+following operators are defined:
+<list>
+<item> <tt>==</tt> To be equal to.
+<item> <tt>/=</tt> Not to be equal to.
+<item> <tt>&gt;</tt> Greater than.
+<item> <tt>&lt;</tt> Lesser than.
+<item> <tt>&gt;=</tt> Greater or equal than.
+<item> <tt>&lt;=</tt> Lesser or equal than.
+</list>
+<p> There exist also logical operators to combine several logical expressions:
+<list>
+<item> <tt>.AND.</tt> 
+<item> <tt>.OR.</tt> 
+<item> <tt>.NOT.</tt>
+  <item> <tt>.EQV.</tt> (Boolean '==' operator)
+<item> <tt>.NEQV.</tt> (Boolean '/=' operator)
+</list>
+
+
+<p>
+The <tt>==</tt> and <tt>/=</tt> shouldn't be used to compare real type
+variables, due to their nonexact nature. If e.g.  <tt>A</tt>
+and <tt>B</tt> are real variables, the following code is discouraged
+<example>
+...
+IF (A==B) same = .TRUE.
+...
+</example>
+<p>
+The alternative would be to define a tolerance and compare the
+variables as follows
+<p>
+<example>
+REAL :: TOL = 0.00001
+... 
+IF (ABS(A-B) < TOL) same = .TRUE. 
+...
+</example>
+
+
+<p>
+The possible conditional statements are
+<enumlist>  
+<item> <tt>IF THEN ENDIF</tt>
+<p> 
+The syntax of this conditional statement is
+<p>
+<example>
+. 
+. code
+. 
+IF (<var>Boolean Expression</var>) THEN
+         .
+         . code_1
+         .
+ENDIF
+.
+. code
+. 
+</example>
+<p>
+  Only if the <var>Boolean Expression</var> is true
+  the <tt>code_1</tt> block instructions are executed. 
+
+<p> If there is only one statement in the <tt>code_1</tt> block the
+  command can be simplified to a one liner removing the  <tt>THEN</tt>
+  and <tt>ENDIF</tt> keywords as follows
+<p>
+<example>
+. 
+. code
+. 
+IF (<var>Boolean Expression</var>) statement
+.
+. code
+. 
+</example>
+ 
+<item> <tt>IF THEN ELSE ENDIF</tt>
+<p> 
+The syntax of this conditional statement is
+<p>
+<example>
+. 
+. code
+. 
+IF (<var>Boolean Expression</var>) THEN
+         .
+         . code_1
+         .
+ELSE
+         .
+         . code_2
+         .
+ENDIF
+.
+. code
+. 
+</example>
+<p>
+If the <var>Boolean Expression</var> is true
+  the <tt>code_1</tt> block instructions are executed, if it is false
+then <tt>code_2</tt> block is run.
+
+<item> <tt>IF THEN ELSE IF ENDIF</tt>
+<p> 
+The syntax of this conditional statement is
+<p>
+<example>
+. 
+. code
+. 
+IF (<var>Boolean Expression_1</var>) THEN
+         .
+         . code_1
+         .
+ELSE IF (<var>Boolean Expression_2</var>) THEN
+         .
+         . code_2
+         .
+ENDIF
+.
+. code
+. 
+</example>
+<p>
+In case that the <var>Boolean Expression_1</var> is true
+  the <tt>code_1</tt> block instructions are executed, if it is false
+but <var>Boolean Expression_2</var> is true then <tt>code_2</tt> block is run.
+
+<item> <tt>IF THEN ELSE IF ELSE ENDIF</tt>
+<p> 
+The syntax of this conditional statement is
+<p>
+<example>
+. 
+. code
+. 
+IF (<var>Boolean Expression_1</var>) THEN
+         .
+         . code_1
+         .
+ELSE IF (<var>Boolean Expression_2</var>) THEN
+         .
+         . code_2
+         .
+ELSE 
+         .
+         . code_3
+         .
+ENDIF
+.
+. code
+. 
+</example>
+<p>
+In case that the <var>Boolean Expression_1</var> is true
+  the <tt>code_1</tt> block instructions are executed, if it is false
+but <var>Boolean Expression_2</var> is true then <tt>code_2</tt> block
+  is run. If both are false then the <tt>code_3</tt> block is run.
+
+
+
+<item> <tt>SELECT CASE</tt>
+<p>
+The <tt>CASE</tt> statement allows to choose among different options
+in a clear and efficient way, though it has some limitations.
+<p> 
+The syntax of this conditional statement is
+<p>
+<example>
+SELECT CASE (selector)
+   CASE (label-1)
+      block-1
+   CASE (label-2)
+      block-2
+   CASE (label-3)
+      block-3
+     .............
+   CASE (label-n)
+      block-n
+   CASE DEFAULT
+      block-default
+END SELECT
+</example>
+<p>
+The <tt>selector</tt> is either a variable or an expression of the <em>integer</em>, <em>logical</em>,
+or <em>character</em> type. It cannot be a real or complex number. 
+
+<p>
+The  <tt>label-1</tt> ... <tt>label-n</tt> labels have the following syntax
+<p>
+<example>
+value
+value_1 : value_2
+value_1 :
+ : value_1
+</example>
+<p>
+The first one is positive if the selector is equal to <tt>value</tt> and
+the second if the selector takes a value in the range <tt>value_1</tt>
+to <tt>value_2</tt>. The third(fourth) is true if the selector has a value
+larger(less)
+than <tt>value_1</tt>. The <tt>valor</tt>, <tt>value_1</tt>, and 
+<tt>value_2</tt> should be constants or variables defined with
+the  <tt>PARAMETER</tt> declaration.
+
+
+<p>
+The  <tt>selector</tt> expression is evaluated first. The result is
+compared with the values in each one of the labels, running the block
+of instructions of the first successful comparison. If none of the
+labels is true the <tt>block-default</tt> is run if it exists. 
+
+<p>
+A simple example:
+
+<p>
+<example>
+SELECT CASE (I)
+     CASE (1)
+       PRINT*, "I = 1"
+     CASE (2:9) 
+       PRINT*, "I in [2,9]"
+     CASE (10:)
+       PRINT*, "I in [10,INF]"
+     CASE DEFAULT
+       PRINT*, "I is negative"
+END SELECT CASE
+</example>
+
+
+<p>
+The <tt>SELECT CASE</tt> statement is more elegant than a series
+of  <tt>IF</tt>'s as only one expression controls the access to the
+different alternatives. 
+</enumlist>
+
+
+
+<p> 
+Conditional control structures can be nested in several levels. For
+the sake of clarity in this case the different levels should be labeled as follows
+<p>
+<example>
+firstif: IF (a == 0) THEN
+            PRINT*,  "a is zero"
+            secondif: IF (c /= 0) THEN 
+              PRINT*,  "a is zero and c is not zero"
+            ELSE secondif
+              PRINT*,  "a and c are zero"
+            ENDIF secondif
+          ELSEIF (a &gt; 0) THEN firstif
+            PRINT*,  "a is positive"
+          ELSE firstif
+            PRINT*,  "a is negative"
+          ENDIF firstif
+</example>
+
+<p>
+The role of the lables <tt>firstif</tt> and <tt>secondif</tt> is to
+clarify the source code for the reader. Once a label is included in
+the <tt>IF</tt> statement, then it has to be present also in the <tt>ENDIF</tt>,
+while it is optional in the <tt>ELSE</tt> and <tt>ELSEIF</tt>. The
+number of nested conditionals is unlimited. 
+
+<p>
+The example code <ref id="sec_p_7_1"> contains the  
+<tt>IF THEN ELSE IF ELSE ENDIF</tt> structure
+and, apparently, the same task is coped with in
+example <ref id="sec_p_7_2"> with the <tt>CASE</tt> structure.
+
+
+
+<item> Loops 
+<enumlist>
+<item> Basic loop: The  <tt>DO</tt> statement
+<p> 
+We have been already introduced to the basic <tt>DO</tt> loop:
+<p>
+<example>
+DO Var = initial_value, final_value, increment
+       Block of Code
+END DO
+</example>
+<p>
+  The variable <tt>Var</tt> changes from  <tt>initial_value</tt> to <tt>final_value</tt> adding <tt>increment</tt> each iteration. 
+<item> The <tt>DO WHILE</tt> loop
+<p> 
+This loop has this structure:
+<p>
+<example>
+DO WHILE (conditional)
+      Block of code
+ENDDO
+</example>
+<p> In this case the block of code is run until the <tt>conditional</tt> in the head of the block is false. E.g. see example <ref id="sec_p_7_4">.
+    <item> The <tt>REPEAT UNTIL</tt> loop
+<p> 
+  This type of loop has the following structure:
+  <p>
+    <example>
+      DO
+         Block of code
+         #
+         IF (conditional) EXIT
+      END DO
+</example>
+<p>
+  The loop is executed until the conditional is
+  evaluated <tt>True</tt>. This case differs from the previous two in
+  that the code block is run at least once.
+
+<p>
+  In this case we make use of the  <tt>EXIT</tt> statement. When this statement is run into a loop the program leaves inmediately the loop and keeps running from the order following the corresponding <tt>ENDDO</tt>. Another interesting statement when working with loops is <tt>CYCLE</tt>. The execution of the  <tt>CYCLE</tt> statement makes the program to return to the beginning of the loop, without running the statements in the loop block between the <tt>CYCLE</tt> statement and the end of the loop.
+
+  <p> As in the conditionals case, nested loops can be labeled. This greatly clarifies the source code and, in particular, allows to indicate to which loop level refers the statements  <tt>EXIT</tt> and <tt>CYCLE</tt>. By default, they address the inner loop.
+
+<p>
+There is a last statement, worth to mention, the  <tt>GOTO</tt> command, though its use is highly discouraged in the moder programming standards.
+</enumlist>
+</list>  
+</sect>
+<sect id="sec_73">  Example codes.
+
+  <sect1 id="sec_p_7_1"> <tt>excode_5_1.f90</tt>
+<p>
+<example>
+PROGRAM ex_5_1
+  !
+  IMPLICIT NONE
+  !
+  REAL :: Grade
+  CHARACTER(LEN = 2), DIMENSION(1:5) :: List_Grades=(/'D ','C ','B ','A ','A+'/)
+  INTEGER :: IN
+  ! READ NOTE
+  PRINT *, "Student mark??"
+  READ *, Grade
+  !
+  IF (Grade>=0.0.AND.Grade<5.0) THEN 
+     IN=1
+  ELSE IF (Grade>=5.0.AND.Grade<7.0) THEN 
+     IN=2
+  ELSE IF (Grade>=7.0.AND.Grade<9.0) THEN 
+     IN=3
+  ELSE IF (Grade>=9.0.AND.Grade<10.0) THEN 
+     IN=4
+  ELSE IF (Grade==10.0) THEN 
+     IN=5
+  ELSE
+     IN=0
+  ENDIF
+!
+  IF (IN==0) THEN
+     PRINT *, "The input : ", Grade," has a wrong value. Only [0,10]"
+  ELSE
+     PRINT *,  "The student grade is ", LISTNT(IN)
+  ENDIF
+!
+END PROGRAM EX_5_1
+</example>
+</sect1>
+<sect1 id="sec_p_7_2">  <tt>excode_5_2.f90</tt>
+<p>
+<example>
+PROGRAM ex_5_2
+  !
+  IMPLICIT NONE
+  !
+  REAL :: Grade
+  INTEGER :: Index, Integer_Grade
+  CHARACTER(LEN=2), DIMENSION(1:5) ::  List_Grades=(/'D ','C ','B ','A ','A+'/)
+  ! READ Grade
+  PRINT *, "Nota del estudiante?"
+  READ *, Grade
+  !
+  Integer_Grade = NINT(Grade)
+  !
+  SELECT CASE (Integer_Grade)
+  CASE (0:4) 
+     Index = 1
+  CASE (5,6) 
+     Index = 2
+  CASE (7,8) 
+     Index = 3
+  CASE (9) 
+     Index = 4   
+  CASE (10) 
+     Index = 5
+  CASE DEFAULT 
+     Index = 0
+  END SELECT
+  !
+  IF (Index==0) THEN
+     PRINT *, "The input grade : ", Grade," is out of bounds. Only  [0,10]."
+  ELSE
+     PRINT*, "The student grade is ", List_Grades(Index)
+  ENDIF
+  !
+100 FORMAT(1X,'LA Grade DEL ALUMNO ES ',F4.1,' (',A3,')')
+  !
+END PROGRAM EX_5_2
+</example>
+</sect1>
+<sect1 id="sec_p_7_3">  <tt>excode_5_3.f90</tt>
+<p>
+<example>
+PROGRAM ex_5_3
+  !
+  IMPLICIT NONE
+  !
+  REAL :: PIover2 = ASIN(1.0)
+  REAL :: ANGLE1 = 0.0, ANGLE2 = 0.0
+  INTEGER :: I
+  !
+  DO I = 0, 16, 2
+     ANGLE1 = I*PIO2/4.0
+     !
+     WRITE(*,*)
+     WRITE(*,*) 'Cos(',I/2,'PI/4) = ',COS(ANGLE1),'; Cos(',I/2,'PI/4) = ',COS(ANGLE2)
+     WRITE(*,*) 'Sin(',I/2,'PI/4) = ',SIN(ANGLE1),'; Sin(',I/2,'PI/4) = ',SIN(ANGLE2)
+     WRITE(*,*) 
+     !
+     ANGLE2 = ANGLE2 + PIO2/2.0
+     !
+  ENDDO
+END PROGRAM ex_5_3
+</example>
+</sect1>
+<sect1 id="sec_p_7_4">  Programa ejemplo_5_4.f90
+<p>
+<example>
+PROGRAM excode_5_4
+  !
+  IMPLICIT NONE
+  !
+  REAL :: X_val = 0.0 
+  REAL :: X_app = 0.0, X_sum = 0.0
+  INTEGER :: I_flag = 1, I_count = 0
+  !
+  ! Taylor Series:  SIN(X) = X - X^3/3! + X^5/5! - X^7/7! + ... 
+  WRITE(*,*) "Introduce the angle X (RAD) :"
+  READ(*,*) X_val
+  !
+  I_count = 1
+  X_app = X_val
+  X_sum = X_val
+  !
+  PRINT*, '         Order     Approx.    SIN(X)       Approx. - SIN(X)'
+  !
+  DO WHILE (I_flag == 1) 
+     !
+     PRINT*, I_count, X_app, SIN(X_val), X_app - SIN(X_val)
+     !
+     X_sum = X_sum*(-1)*X_val*X_val/((I_count*2+1)*(I_count*2))
+     X_app = X_app + X_sum
+     !
+     I_count = I_count + 1
+     !
+     WRITE(*,*) "STOP? (0 yes, 1 no)"
+     READ(*,*) I_flag
+     IF (I_flag /= 1 .AND. I_flag /= 0) I_flag = 1
+     !
+  ENDDO
+  !
+END PROGRAM excode_5_4
+</example>
+</sect1>
+
+</sect>
+
+</chapt>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!--                         Clase 5 -> 6                    -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+<chapt id="clase_5"><heading><tt>INPUT/OUTPUT</tt>) (I)</heading> 
+<sect id="sec_51"> Objectivos
+
+<p>
+The main aims of this lesson are the following:
+
+
+<enumlist>  
+  <item> present how to make use of the standard <prgn>bash</prgn> redirection for reading and writing data in <prgn>Fortran</prgn>.
+
+<item> present the <tt>FORMAT</tt> statement, as well as its differents descriptors and its use with the commands  <tt>PRINT</tt>
+and <tt>WRITE</tt>.
+
+<item> get a basic knowledge about file handling in <prgn>Fortran</prgn> with the commands <tt>OPEN</tt>, <tt>CLOSE</tt>, and <tt>WRITE</tt>.
+</enumlist>  
+</sect>
+
+<sect id="sec_52"> Main Items.
+
+<p>
+
+<list>  
+<item> <prgn>bash</prgn> shell redirection
+<p>
+The standard input and output (<tt>STDIN/STDOUT</tt>) redirection in 
+<tt>bash</tt> with <tt>&lt;</tt> and <tt>&gt;</tt> allows
+a <prgn>Fortran</prgn> program in a simple and direct way to read from
+and write to a file.
+
+
+<p>
+  As an example, the following commands run from a terminal execute a program called <tt>a.out</tt>. Its output is sent to a file called <tt>output.dat</tt> in the first case. In the second case, the program reads its input from a file called <tt>input.dat</tt>, instead of the standard option, the keyboard. In the third case bot options are combined. 
+<p>
+<example>
+a.out &gt; output.dat
+a.out &lt; input.dat
+a.out &lt;input.dat &gt; output.dat
+</example>
+
+<p> The assignment number 4 can be quite done quite easily making use of standard redirection.
+
+<p> The error output (<tt>STDERR</tt>) can be redirected too as follows
+<p>
+<example>
+a.out 2&gt; output.dat
+a.out 2&gt;&amp;1 ouput.dat
+</example>
+<p>
+  In the second case <tt>STDERR</tt> and <tt>STDOUT</tt> are merged together in file <tt>output.dat</tt>.
+
+  <item>In order to gain a finer control of the format of input and output statementes the so called <em>format descriptors</em> are introduced.  We have make use of the default options or free format up to now, indicated with the symbol <tt>*</tt> as in <tt>READ(*,*)</tt>, <tt>READ*</tt>, and <tt>PRINT*</tt>.
+
+    <p>To specify a particular format for the input and output in the above mentioned commands the syntax used is <tt>PRINT</tt> <var>nlin</var>, <var>output_list</var>, or <tt>READ</tt> <var>nlin</var>, <var>output_list</var>; where  <var>nlin</var> is a label driving to a <tt>FORMAT</tt> statement with the necessary descriptors and <var>output_list</var> are the constant and variables that will be read or written. It is possible to include directly the descriptors in the statement.
+
+<p> The format descriptors in <prgn>FORTRAN</prgn>, due to historical reasons (line printers), treated the first character as a control character. If the first character is
+<p>
+<enumlist>
+<item> <tt>0</tt> : double spacing.
+<item> <tt>1</tt> : new page.
+<item> <tt>+</tt> : no spacing. Print over the previous line.
+<item> <tt>blank</tt> : simple spacing. 
+</enumlist>
+<p>
+  But this is not anymore true unless you are using a line printer (quite bizarre situation in the XXI century).
+
+  <p>The format descriptors can fix the vertical position in a line of text, alter the horizontal position of characters in a line, control the display of integers (<tt>I</tt>), floats (<tt>F</tt>
+and <tt>E</tt>), strings <tt>A</tt> and logical variables (<tt>L</tt>).
+<p>
+The following symbols are used
+<p>
+<enumlist>
+<item> <var>c</var> : column number
+<item> <var>d</var> : number of digits after decimal point (real values)
+<item> <var>m</var> : minimum number of digits displayed
+<item> <var>n</var> : number of spaces
+<item> <var>r</var> : times a descriptor is repeated
+<item> <var>w</var> : number of characters affected by  a descriptor
+</enumlist>
+
+<p>
+Descriptors in I/O operations
+<enumlist>
+<item> Integers: <tt>I</tt>: General form <var>r</var><tt>I</tt><var>w</var>
+  or <var>r</var><tt>I</tt><var>w</var>.
+
+  <p>
+    This descriptor indicates that <var>r</var> integer values will be read or written, and they occupy <var>w</var> characters or columns. The number is right justified and if the number of digits is less than the number of spacings the rest of the space is filled with space characters. The example
+<p>
+<example>
+PRINT 100, I, I*I
+100 FORMAT(' ',I3, ' squared is ', I6)
+</example>
+<p> outputs a space, a three-digit integer, the string '<tt> squared is </tt>' and finish with the square of the variable <tt>I</tt>, with a maximum number of six digits. More examples can be found in  <ref id="sec_p_5_1">, where the reader can see the effect of having a number with more digits than the allocated space in the format. In this example we also include the <tt>X</tt> descriptor, such that <var>n</var><tt>X</tt> includes <var>n</var> space characters in the output, or skip <var>n</var> characters from the input.
+
+<p>
+Format descriptors can be also included directly in the  <tt>PRINT</tt> statement, though the resulting code is generally less readable.
+<p>
+<example>
+PRINT "(' ',I3, ' squared is ', I6)", I, I*I
+</example>
+
+
+<p> As can be seen in code example <ref id="sec_p_5_1"> we can have an arithmetic overflow in a variable and the solution is shown in example <ref id="sec_p_5_2">.  
+
+      <item> Real values descriptor <tt>F</tt>: General form  <var>r</var><tt>F</tt><var>w.d</var>
+	<p>
+	  Where <var>w</var> is the total number of columns used to fit the number, <var>d</var> the number of figures after the decimal point, and <var>r</var> the number of times this descriptor is applied.
+
+<p>
+For example if the descriptor is <tt>F7.3</tt> the number will be
+displayed with three figures after the decimal point and occupies
+seven spaces. This implies that this format descriptor is valid for
+numbers between <tt>-99.999</tt> and <tt>999.999</tt>. The truncated
+decimal part of the number is properly rounded. It may happens that as
+a result of the truncation the number has more digits than
+expected. The output will be changed for <var>w</var> asterisk
+characters (<tt>*</tt>). In source code <ref id="sec_p_5_3"> we face such kind of problems.
+	      
+<item>  Real descriptor <tt>E</tt>: General form <var>r</var><tt>E</tt><var>w.d</var>
+      
+<p> Introduces scientific notation.  The number that multiplies the
+  power of ten takes values between 0.1 to 1.0. This case differs from
+  the previous one that some space should be devoted to the
+  exponent. In fact, apart from the multiplier, it is needed one
+  character for the sign of the number if it is negative, another
+  character for the decimal point, another one for the <tt>E</tt>
+  symbol (stands for Exponent), and the magnitude and sign of the
+  exponent.  Therefore the minimum size in this case is <var>w =
+  d+7</var>. Example code <ref id="sec_p_5_4"> is identical to
+  example <ref id="sec_p_5_3"> changing the <tt>F</tt> descriptors
+  to <tt>E</tt>. This change facilitates to work with numbers whose
+      value vary into a big range.
+      
+<item>  Descriptor de reales <tt>ES</tt>:
+<p> Permite el uso de la notación científica estándar. Su forma
+general es <var>r</var><tt>ES</tt><var>w.d</var>. El número que
+multiplica a la potencia de 10 toma valores entre 1.0 y 10.0. Aparte
+de esto, este caso es muy similar al anterior
+
+<item>  Descriptor de datos lógicos <tt>L</tt>:
+<p> 
+Este descriptor aparece en la
+forma <var>r</var><tt>L</tt><var>w</var>. Estos datos solo pueden
+tomar los valores <tt>TRUE</tt> y <tt>FALSE</tt> y la salida de este
+descriptor será <tt>T</tt> o <tt>F</tt> justificado a la derecha.
+
+<item>  Descriptor de caracteres <tt>A</tt>:
+<p> Este descriptor aparece en la forma <var>r</var><tt>A</tt>
+o <var>r</var><tt>A</tt><var>w</var>. En el primer lugar se indica que
+se repiten <var>r</var> veces formatos de carácteres con una anchura
+igual al número de caracteres de los que consta la variable. En el
+segundo caso la salida tiene una anchura fija dada por <var>w</var>.
+El ejemplo <ref id="sec_p_5_5"> muestra el uso de este descriptor.
+
+<item>  Descriptor <tt>X</tt>:
+<p>
+El descriptor <var>n</var><tt>X</tt> controla el desplazamiento
+horizontal e indica que se
+escriban <var>n</var> espacios en la salida.  El
+ejemplo <ref id="sec_p_5_5"> muestra el uso de este descriptor
+combinado con los anteriores.
+
+<item>  Descriptor <tt>T</tt>:
+<p>
+El descriptor <tt>T</tt><var>c</var> controla el desplazamiento
+horizontal e indica que se salte directamente a la
+columna  <var>c</var>.
+
+<item>  Descriptor <tt>/</tt>:
+<p>
+El descriptor <tt>/</tt><var>c</var> envía la salida acumulada hasta
+el momento a <tt>STDOUT</tt> y comienza un nuevo registro con un
+retorno de carro. Este descriptor no necesita ser separado del resto
+mediante comas. Tras cada retorno de carro puede ubicarse un carácter
+de control.
+
+<item> Repetición:
+<p>
+En todos los casos descritos se puede indicar la repetición de formato usando un número a la derecha del símbolo que indica el formato. Por ejemplo,
+<p>
+<example>
+100 FORMAT(1X, 2I6, 3F9.3)
+</example> 
+es equivalente a 
+<p>
+<example>
+100 FORMAT(1X, I6, I6, F9.3, F9.3, F9.3)
+</example>
+y se puede simplificar a 
+<p>
+<example>
+100 FORMAT(1X, 3(I6, F9.3))
+</example>
+Es también necesario citar el significado especial que tiene un formato entre paréntesis en una orden <tt>FORMAT</tt> y lo que sucede si el número de datos proporcionado en la lista de variables de la orden <tt>WRITE</tt> es mayor o menor que el número de descriptores asociados en la correspondiente orden <tt>FORMAT</tt>.
+</enumlist>
+
+<item> <prgn>Fortran</prgn> permite la manipulación de ficheros. En
+  este caso vamos a concentrarnos en como se crean y se escriben
+  ficheros. Para ello se utilizan las órdenes
+  básicas <tt>OPEN</tt>, <tt>WRITE</tt> y <tt>CLOSE</tt>. Otras
+  órdenes de interés son  <tt>REWIND</tt> y <tt>BACKSPACE</tt>.
+
+<p>
+La orden <tt>OPEN</tt> permite que se abra un fichero, en su forma más simple sería
+<p>
+<example>
+OPEN(UNIT=<var>int_unit</var>,FILE='<var>nombre_fichero</var>')
+</example> 
+<p>
+donde se indica el nombre del fichero creado y el número de
+unidad asociada a dicho fichero (número entero). Para operaciones de
+lectura y escritura el fichero queda asociado a este número. Un
+ejemplo de esto sería
+escribir algo en este fichero usaremos una orden como
+<p>
+<example>
+OPEN(UNIT=33, FILE='output_program.dat')
+WRITE(UNIT=33,FMT=100) <var>lista_de_variables</var>
+</example> 
+
+lo que indica que envíe los datos en <var>lista_de_variables</var> al
+fichero asociado a la unidad 33, llamado <file>output_program.dat</file>, según el formato especificado en la
+línea etiquetada como <tt>100</tt>. Es posible usar la forma
+abreviada <tt>WRITE(33,100)</tt> e incluso <tt>WRITE(33,*)</tt> si
+queremos escribir en el fichero con el formato estándar dependiente de
+la lista de variables. Para escribir en la salida estándar <tt>STDOUT</tt>, en
+principio la pantalla, se puede
+usar <tt>WRITE(6,<var>formato</var>)</tt>, ya que esta salida está
+asociada a la unidad <tt>6</tt>. Por tanto <tt>WRITE(6,*)</tt> es
+equivalente a <tt>PRINT*</tt>, mientras que <tt>STDIN</tt> se asocia a
+la unidad <tt>5</tt><footnote><tt>STDERR</tt> se asocia a la
+  unidad <tt>0</tt>.</footnote>. Para referirnos a <tt>STDOUT</tt>
+y <tt>STDIN</tt> es más conveniente usar el carácter <tt>*</tt> ya que los
+  números anteriores pueden depender del procesador.
+
+<p>
+Una vez que el proceso de escritura ha terminado el fichero se cierra con la orden <tt>CLOSE(UNIT=<var>numero_unidad</var>)</tt>. En nuestro caso 
+<p>
+<example>
+CLOSE(UNIT=33)
+</example> 
+<p>
+El ejemplo <ref id="sec_p_5_6"> muestra como se escribe a un fichero e
+introduce la función intrínseca
+de <prgn>Fortran</prgn> <tt>CPU_TIME</tt> que nos permite estimar el
+tiempo de cpu dedicado a cada parte del programa.
+<p>
+La orden <tt>OPEN</tt> puede específicarse de forma más detallada con los argumentos siguientes:
+<p>
+<example>
+OPEN(UNIT=<var>int_unit</var>,FILE=<var>char_nombre_fichero</var>,STATUS=<var>char_sta</var>, ACTION=<var>char_act</var>, IOSTAT=<var>int_stat</var>)
+</example> 
+<p> Las nuevas opciones fijan los siguientes aspectos al abrir el fichero:
+<p>
+<enumlist>
+<item> <tt>STATUS=<var>char_sta</var></tt>
+<p>
+La constante o variable <var>char_sta</var> es de tipo carácter y puede tomar los siguientes valores estándar:
+<list>
+<item>  'OLD'
+<item>  'NEW'
+<item>  'REPLACE'
+<item>  'SCRATCH'
+<item>  'UNKNOWN'
+</list>
+<item> <tt>ACTION=<var>char_act</var></tt>
+<p>
+La constante o variable <var>char_act</var> es de tipo carácter y puede tomar los siguientes valores estándar:
+<list>
+<item>  'READ'
+<item>  'WRITE'
+<item>  'READWRITE'
+</list>
+<p>Por defecto, si no se da otra opción, desde <prgn>Fortran</prgn>, los archivos se abren con los permisos activados tanto de lectura como de escritura.
+<item> <tt>IOSTAT=<var>int_var</var></tt>
+<p>
+La constante o variable <var>int_stat</var> es de tipo entero y permite estimar si la apertura y el acceso al fichero ha sido exitosa. Si el valor que devuelve es <tt>0</tt> quiere decir que la apertura se ha resuelto sin problemas. Si ha habido problemas al abrir el fichero devuelve un valor diferente de cero. 
+</enumlist>
+<p>
+Un ejemplo más completo que el anterior, creando un fichero de entrada (INPUT) sería
+<p>
+<example>
+INTEGER ierror
+OPEN(UNIT=33, FILE='input_program.dat', STATUS='OLD', ACTION='READ', IOSTAT=ierror)
+</example> 
+<p>
+Para crear un fichero de salida se hace
+<p>
+<example>
+INTEGER ierror
+OPEN(UNIT=33, FILE='output_program.dat', STATUS='NEW', ACTION='WRITE', IOSTAT=ierror)
+</example> 
+<item> Es posible controlar de forma rudimentaria el acceso a los elementos almacenados en el fichero secuencial creado con la orden  <tt>OPEN</tt>. Para ello existen dos comandos de interés.
+<p>
+<example>
+BACKSPACE(UNIT = <var>int_unit</var>)
+REWIND(UNIT = <var>int_unit</var>)
+</example> 
+
+<p> Con <tt>BACKSPACE</tt> se retrocede un registro (una línea) en el fichero asociado a la unidad <var>int_unit</var>. Con <tt>REWIND</tt> se vuelve al primer registro del fichero.
+
+<item> Hasta ahora hemos empleado la orden <tt>OPEN</tt> con ficheros
+con formato, siendo este el comportamiento por defecto al abrir un
+fichero. Por tanto, las órdenes
+<p>
+<example>
+OPEN(UNIT=33,FILE='<var>nombre_fichero</var>')
+OPEN(UNIT=33,FILE='<var>nombre_fichero</var>',FORM='FORMATTED')
+</example> 
+<p>
+son equivalentes. Los ficheros con formato tienen la ventaja de ser
+editables por el usuario, pero precisan de un mayor tiempo para su
+lectura y escritura que cuando se tratan los datos sin formato. Para
+ello se abren los ficheros con la opción <tt>FORM='UNFORMATTED'</tt>
+como en el ejemplo siguiente
+<p>
+<example>
+OPEN(UNIT=33,FILE='<var>nombre_fichero</var>',FORM='UNFORMATTED')
+</example> 
+<p>
+Además, que los fichero no tengan formato permite almacenar números
+reales sin la pérdida de información que implica el cambio a un
+formato dado. En el Ejercicio 5 se pide que transforméis el
+ejemplo <ref id="sec_p_5_6"> para comprobar el tiempo que se tarda en
+la escritura y lectura sin formato. Al escribir en un fichero sin formato 
+no se indica ningún formato en la orden, de manera que para escribir en el 
+fichero sin formato que hemos abierto asociado con <tt>UNIT=33</tt> haremos
+<p>
+<example>
+WRITE(UNIT=33) <var>lista-de-variables</var>
+</example> 
+
+</list>
+
+<p>
+  The combination of fortran descriptors and different kinds of loop in a code can be found in the example <ref id="sec_p_5_7">. This program reads a data file (a template of this fila can be found under the program, and can be saved removing the trailing <tt>!</tt> symbols). When the program opens the datafile with <tt>OPEN</tt> it uses the <tt>STATUS =
+    'OLD'</tt> and <tt>ACTION='READ'</tt> options. It reads the file, skipping some files making use of a   <tt>REPEAT UNTIL</tt> loop, until it arrives to a line that provides the number of data pairs in the file<footnote>This is achieved making use of the <tt>IERR = </tt> <var>label</var> option in the <tt>READ</tt> command. opción indica que si se ha producido un
+    error de lectura el programa debe saltar a la línea marcada
+    por <var>label</var>.</footnote>. Knowing the number of data pairs the appropriate matrices are allocated and the points are read and saved into vectors <tt>data_X</tt> and <tt>data_Y</tt>, and computes the maximum (minimum) value of <tt>data_X</tt> (<tt>data_Y</tt>) making use of the intrinsic functions <tt>MAXVAL</tt> and <tt>MINVAL</tt> (see <ref id="sec_81">).
+
+</sect>
+<sect id="sec_53">  Programas usados como ejemplo.
+
+  <sect1 id="sec_p_5_1"> <tt>excode_6_1.f90</tt>
+<p>
+<example>
+PROGRAM ex_6_1
+  !
+  IMPLICIT NONE
+  !
+  ! Variables
+  INTEGER :: i, big=10
+  !
+  DO i=1,20
+     PRINT 100, i, big
+     big=big*10
+  END DO
+  !
+  ! Format Statements
+100 FORMAT(1X, '10 to the ',I3,2X,'=',2X,I12)
+  !
+END PROGRAM ex_6_1
+</example>
+</sect1>
+  <sect1 id="sec_p_5_2">  <tt>excode_6_2.f90</tt>
+
+<p>
+<example>
+PROGRAM ex_6_2
+  !
+  IMPLICIT NONE
+  !
+  INTEGER, PARAMETER :: Long=SELECTED_INT_KIND(16) ! 64 bits integer
+  INTEGER :: i
+  INTEGER (KIND=Long) :: big=10 
+  !
+  DO i=1,18
+     !
+     PRINT 100, i, big
+100  FORMAT(1X, '10 to the ', I3, 2X, '=', 2X, I16)
+     !
+     big=big*10
+     !
+  END DO
+  !
+END PROGRAM ex_6_2
+</example>
+  </sect1>
+  <sect1 id="sec_p_5_3">  <tt>excode_6_3.f90</tt>
+    
+    <p>
+      <example>
+PROGRAM ex_6_3
+  ! Program to produce numeric overflow and underflow
+  IMPLICIT NONE
+  INTEGER :: I
+  REAL     :: small = 1.0
+  REAL     :: big   = 1.0
+!
+  DO i=1,45
+     PRINT 100, I, small, big
+100  FORMAT(' ',I3,' ',F9.4,' ',F9.4)
+     !
+     small = small/10.0
+     big = big*10.0
+     !
+  END DO
+END PROGRAM ex_6_3
+</example>
+</sect1>
+  <sect1 id="sec_p_5_4">  <tt>excode_6_4.f90</tt>
+
+<p>
+<example>
+PROGRAM ex_6_4
+  ! Program to produce numeric overflow and underflow
+   IMPLICIT NONE
+  INTEGER :: I
+  REAL     :: small = 1.0
+  REAL     :: big   = 1.0
+!
+  DO i=1,45
+     PRINT 100, I, small, big
+100  FORMAT(' ',I3,' ',E10.4,' ',E10.4)
+     !
+     small = small/10.0
+     big = big*10.0
+     !
+  END DO
+END PROGRAM ex_6_4
+</example>
+</sect1>
+  <sect1 id="sec_p_5_5">  <tt>excode_6_5.f90</tt>
+
+<p>
+<example>
+PROGRAM ex_6_5
+  ! Program to compute the Body Mass Index (Quetelet Index) according to the formula:
+  !    BMI = (weight (kg))/(height^2 (m^2)) 
+  !
+  IMPLICIT NONE
+  CHARACTER (LEN=25) :: Name
+  INTEGER :: height_cm = 0, weight_kg = 0 ! height in cm and weight in kg
+  REAL     :: height_m = 0.0 ! height in m units
+  REAL     :: BMI ! Body Mass Index
+  !
+  PRINT*,  'Full Name:'; READ*, Name
+  !
+  PRINT*, 'Weight (kg)?:'; READ*, weight_kg
+  !
+  PRINT*, 'Height (cm)?:'; READ*, height_cm
+  !
+  height_m = height_cm/100.0
+  BMI = weight_kg/(height_m**2)
+  !
+  PRINT 100, Name, BMI, BMI 
+100  FORMAT(1X,A ' BMI  is ', F10.4,' or ', E10.4)
+!
+END PROGRAM ex_6_5
+</example>
+</sect1>
+  <sect1 id="sec_p_5_6">  <tt>excode_6_6.f90</tt>
+<p>
+<example>
+PROGRAM ex_6_6
+!
+  IMPLICIT NONE
+  INTEGER , PARAMETER :: N=1000000
+  INTEGER , DIMENSION(1:N) :: X
+  REAL    , DIMENSION(1:N) :: Y
+  INTEGER :: I
+  REAL :: T
+  REAL    , DIMENSION(1:5) :: TP
+  CHARACTER*10 :: COMMENT
+!
+  OPEN(UNIT=10,FILE='/tmp/ex_6_6.txt')
+!
+  CALL CPU_TIME(T)
+!
+  TP(1)=T
+  COMMENT=' Initial Time : '
+  PRINT 100, COMMENT, TP(1)
+  !
+  DO I=1,N
+     X(I)=I
+  END DO
+  !
+  CALL CPU_TIME(T)
+  !
+  TP(2)=T-TP(1)
+  COMMENT = ' Integer vector. Time :  '
+  PRINT 100,COMMENT,TP(2)
+  !
+  Y=REAL(X)
+  !
+  CALL CPU_TIME(T)
+  !
+  TP(3)=T-TP(1)-TP(2)
+  COMMENT = ' Real vector. Time :  '
+  !
+  PRINT 100,COMMENT,TP(3)
+  !
+  DO I=1,N
+     WRITE(10,200) X(I)
+200  FORMAT(1X,I10)
+  END DO
+  !
+  CALL CPU_TIME(T)
+  TP(4)=T-TP(1)-TP(2)-TP(3)
+  !
+  COMMENT = ' Write Integer vector. Time :  '
+  PRINT 100,COMMENT,TP(4)
+  !
+  DO I=1,N
+     WRITE(10,300) Y(I)
+300  FORMAT(1X,f10.0)
+  END DO
+  !
+  CALL CPU_TIME(T)
+  TP(5)=T-TP(1)-TP(2)-TP(3)-TP(4)
+  !
+  COMMENT = ' Write Real vector. Time :  '
+  PRINT 100,COMMENT,TP(5)
+  !
+100 FORMAT(1X,A,2X,F7.3)
+END PROGRAM ex_6_6
+</example>
+</sect1>
+  <sect1 id="sec_p_5_7">  <tt>excode_6_7.f90</tt>
+<p>
+<example>
+PROGRAM ex_6_7
+  !
+  IMPLICIT NONE
+  !
+  REAL , DIMENSION(:), ALLOCATABLE :: X_vec, Y_vec ! Data Vectors
+  INTEGER :: Index, Ierr, Numpoints = 0
+  REAL :: Max_x, Min_y
+  CHARACTER(LEN=64) :: Filename
+  !
+  ! READ FILENAME
+  READ(5,*) Filename
+  ! OPEN FILE (READONLY)
+  OPEN( UNIT=10, FILE=Filename, STATUS='OLD', ACTION='READ' )
+  !
+  DO
+     READ(UNIT=10, FMT=100, ERR=10) Numpoints
+     IF (Numpoints /= 0) EXIT
+10   READ (UNIT=10, FMT=*) ! JUMP ONE LINE
+     CYCLE
+  ENDDO
+  !
+  PRINT*, 'NUMPOINTS = ', Numpoints
+  !
+  ! ALLOCATE X, Y VECTORS
+  ALLOCATE(X_vec(1:NUMPOINTS), STAT = IERR)
+  IF (Ierr /= 0) STOP 'X_vec MEM ALLOCATION FAILED'
+  ALLOCATE(Y_vec(1:NUMPOINTS), STAT = IERR)
+  IF (Ierr /= 0) STOP 'Y_vec MEM ALLOCATION FAILED'
+  !
+  DO I = 1, Numpoints
+     !
+     READ(UNIT=10, FMT=110) X_vec(I), Y_vec(I)
+     !
+  ENDDO
+  !
+  Max_x = MAXVAL(X_vec)
+  Min_y = MINVAL(Y_vec)
+  !
+  PRINT*, "MAXIMUM X VALUE = ", Max_x
+  PRINT*, "MINIMUM Y VALUE = ", Min_y
+  ! DEALLOCATE AND CLOSE FILE
+  DEALLOCATE(X_vec, STAT = IERR)
+  IF (Ierr /= 0) STOP 'X_vec MEM DEALLOCATION FAILED'
+  DEALLOCATE(Y_vec, STAT = IERR)
+  IF (Ierr /= 0) STOP 'Y_vec MEM DEALLOCATION FAILED'
+  !
+  CLOSE(10)
+  ! FORMAT STATEMENTS
+100 FORMAT(19X,I3)
+110 FORMAT(F6.3,1X,F6.3)
+  !
+END PROGRAM ex_6_7
+!# Remark 1
+!# Remark 2
+!Useless line 1
+!Useless line 2
+!Number of points = 4
+!+1.300;-2.443
+!+1.265;-1.453
+!+1.345;-8.437
+!+1.566;+4.455
+!+1.566;+4.455
+!+3.566;+7.755
+!+1.566;+4.457
+!+2.366;+2.454
+!+1.566;+4.405
+!+0.566;+9.450
+!+1.545;+4.465
+!+9.566;+6.455
+!+1.466;+8.405
+!+0.566;+7.055
+
+
+</example>
+</sect1>
+
+</sect>
+
+</chapt>
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!--                         Clase 6 -> 7                    -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+<chapt id="clase_6"><heading>Operaciones <tt>I/O</tt> (II)</heading> 
+<sect id="sec_61"> Objetivos
+
+<p>
+Los objetivos de esta clase son los siguientes:
+
+<enumlist>  
+<item> presentar como se emplea la orden <tt>FORMAT</tt>, y sus diferentes descriptores con la orden <tt>READ</tt>.
+<item> adquirir conocimientos básicos acerca de la lectura de ficheros en <prgn>Fortran</prgn>.
+<item> dar como alternativas útiles para las operaciones de <tt>I/O</tt> los <em>here documents</em> y el formato de <tt>NAMELIST</tt>.
+<item> dar un ejemplo de como se puede trabajar con ficheros
+  internos (<em>internal files</em>).
+</enumlist>  
+<p>
+Son similares a los de la clase anterior, aunque en este caso nos
+centramos en la lectura de datos en Fortran. En general la lectura con
+formato se emplea al leer datos en ficheros y no al introducir datos
+con el teclado como entrada estándar.
+</sect>
+
+<sect id="sec_62"> Puntos destacables.
+
+<p>
+
+<list>  
+<item> La orden <tt>FORMAT</tt> se emplea de igual modo que en las
+  operaciones de escritura tratadas en <ref id="clase_5">, teniendo
+  los descriptores idéntico significado.
+
+<item> Una opción útil cuando se emplea el comando <tt>READ</tt> es <tt>IOSTAT</tt>, que permite detectar si se ha llegado al final del archivo que se esté leyendo o hay un error en la lectura del dato. De este modo el comando quedaría como 
+<p>
+<example>
+READ(UNIT=<var>int_unit</var>, FMT=<var>int_fmt</var>, IOSTAT=<var>int_var</var>) <var>input_list</var>
+</example>
+
+<p> De este modo, si leemos un conjunto de datos (por ejemplo coordenadas de puntos <tt>(var_X,var_Y,var_Z)</tt>  de un archivo y no sabemos el número total de los mismos podemos hacer algo como
+<p>
+<example>
+num_data = 0
+readloop: DO
+   READ(UNIT=33, FMT=100, IOSTAT=io_status) var_X, var_Y, var_Z
+   !
+   ! Check reading
+   IF (io_status /= 0) THEN
+     ! Error in the input or EOF
+     EXIT
+   ENDIF
+   num_data = num_dat + 1
+   !   work with the coordinates
+   !
+      ......
+   !
+   ! Format statement
+100 FORMAT(1X, 3F25.10)
+   ! 
+ENDDO readloop
+</example>
+
+<p> En este fragmento de código la variable entera <tt>num_data</tt>
+es un contador que almacena el número de datos (puntos) leídos y la
+variable entera <tt>io_status</tt> controla que los datos se hayan
+leído de forma correcta.
+
+
+<item> En el ejemplo <ref id="sec_p_6_1"> se presenta como se lee un
+    fichero de datos adjunto (<tt>notas.dat</tt>) usando secciones de
+    matrices en el proceso de lectura. En dicho fichero se ordenan las
+    notas obtenidas por una serie de alumnos en filas y columnas. Cada
+    fila está asociada a un alumno y cada columna a una asignatura. Es
+    conveniente que comprendais cómo se lleva a cabo la lectura de los
+    datos en este caso. 
+
+<p>
+Se plantea como ejercicio modificar <ref id="sec_p_6_1"> para que
+    lleve a cabo la misma tarea con el
+    fichero <tt>notas_ej_6.dat</tt>, donde no se han llevado a cabo
+    los promedios por alumno ni por asignatura.  Partiendo del
+    programa ejemplo debeis realizar los cambios necesarios para leer
+    los datos, comprobar si hay errores de lectura, calcular los
+    promedios necesarios, obtener la salida correcta y grabar un
+    fichero donde aparezcan, como en <tt>notas.dat</tt>, los promedios
+    calculados.
+
+<item> Una forma bastante cómoda de leer datos en un
+  programa <prgn>Fortran</prgn> es usando los llamados <em>here
+
+  documents</em>  de la <prgn>shell</prgn>. Esto consiste en hacer un
+  breve <em>script</em><footnote>From The Free On-line Dictionary of Computing (8 July 2008) [foldoc]:
+  <em>script</em>: A program written in a scripting
+  language.</footnote>, en el que además de ejecutar el programa -compilándolo
+  previamente si el programa no es demasiado extenso- se proporciona
+  la entrada del programa, pudiendo comentarse dichas entradas. El
+  ejemplo <ref id="sec_p_6_2"> es un programa que calcula las raíces
+  de una ecuación de segundo grado <tt>y = A*x**2 + B*x + C</tt> y en
+  el ejemplo  <ref id="sec_p_6_22">, fichero <tt>ej_here_file</tt>
+  encontrais una forma de aplicar los <em>here 
+  documents</em>. Para ejecutarlo tendréis que salvar el fichero y
+  escribir
+
+<p>
+<example>
+. ej_here_file
+</example>
+<item> Una tercera posibilidad es hacer uso del
+  llamado <tt>namelist</tt> que consiste en una lista de valores asignados a variables etiquetadas con sus nombres. La forma de un comando <tt>NAMELIST</tt> es la siguiente
+<p>
+<example>
+NAMELIST/<var>var_group_name</var>/ <var>var1 [var2 var3 ... ]</var>
+</example>
+<p>
+Este comando define las variables asociadas al grupo llamado <var>var_group_name</var>  y debe aparecer en el programa antes de cualquier comando ejecutable. Para leer las variables en un <tt>NAMELIST</tt> se utiliza un comando <tt>READ</tt> donde en vez de especificar el formato de entrada con la opción <tt>FMT</tt> se utiliza la opción <tt>NML</tt> como sigue<footnote>El formato <tt>NAMELIST</tt> también se puede utilizar con el comando <tt>WRITE</tt> para guardar variables etiquetadas en operaciones de salida.</footnote>
+<p>
+<example>
+READ(UNIT=<var>unit_number</var>, NML=<var>var_group_name</var>, [...])
+</example>
+<p>
+El fichero <tt>NAMELIST</tt> con la información de entrada comienza con un carácter "&amp;" seguido del nombre del grupo, <var>var_group_name</var>, y termina con el carácter "/". Los valores en el fichero pueden estar en líneas diferentes siempre que se hayen entre estos dos caracteres.
+<p>
+El programa <ref id="sec_p_6_3"> es
+  casi idéntico al programa <ref id="sec_p_6_2">. Se ha modificado para hacer uso
+  de un fichero de entrada en formato <tt>namelist</tt>, que
+  llamamos <tt>sec_order.inp</tt> e incluimos como <ref id="sec_p_6_32">.
+
+<item> En  <ref id="sec_p_6_4"> se puede ver como se trabaja con un
+    fichero interno (<em>internal file</em>) donde la operación de I/O
+    tiene lugar en un buffer interno en lugar de en un archivo. Esto
+    tiene utilidad en dos casos. En primer lugar para tratar con datos cuya estructura
+    o formato no es bien conocida, por lo que se pueden leer en una
+    variable de tipo <tt>CHARACTER</tt> y posteriormente ser tratados
+    como un fichero interno. En segundo lugar, también permiten
+    preparar datos que sean mezcla de datos de tipo carácter y de tipo
+    numérico. Este segundo caso es el que se trata
+    en  <ref id="sec_p_6_4"> donde se muestra como definir una serie
+    de unidades de escritura asociadas a archivos que se van numerando
+    sucesivamente.
+
+<p> En este ejemplo se puede ver como se usa la función
+  intrínseca <tt>TRIM</tt> para eliminar los espacios sobrantes de la
+  variable <tt>pref</tt> al preparar el nombre del fichero.
+</list>  
+</sect>
+<sect id="sec_63">  Programas usados como ejemplo.
+
+<sect1 id="sec_p_6_1">  Programa ejemplo_7_1.f90
+<p>
+<example>
+PROGRAM EJEMPLO_7_1
+  IMPLICIT NONE
+  !Definicion de variables
+  INTEGER , PARAMETER :: NROW=5
+  INTEGER , PARAMETER :: NCOL=6
+  REAL , DIMENSION(1:NROW,1:NCOL)   :: RESULT_EXAMS = 0.0
+  REAL , DIMENSION(1:NROW)          :: MEDIA_ESTUD = 0.0
+  REAL , DIMENSION(1:NCOL)          :: MEDIA_ASIGN = 0.0
+  INTEGER :: R,C
+  !
+  ! Abrir fichero para lectura
+  OPEN(UNIT=20,FILE='notas.dat',STATUS='OLD') 
+  !
+  DO R=1,NROW
+     READ(UNIT=20,FMT=100) RESULT_EXAMS(R,1:NCOL),MEDIA_ESTUD(R) ! Lectura de notas y luego de promedio
+     100 FORMAT(6(2X,F4.1),2X,F5.2) ! Se leen 6 numeros seguidos y luego un septimo 
+  ENDDO
+  READ (20,*) ! Saltamos una linea con esta orden
+  READ (20,110) MEDIA_ASIGN(1:NCOL) ! 
+110 FORMAT(6(2X,F4.1))
+!
+! IMPRESION DE LAS NOTAS EN LA SALIDA ESTANDAR
+  DO R=1,NROW
+     PRINT 200, RESULT_EXAMS(R,1:NCOL), MEDIA_ESTUD(R)
+200  FORMAT(1X,6(1X,F5.1),' = ',F6.2)
+  END DO
+  PRINT *,'  ====  ====  ====  ====  ====  ==== '
+  PRINT 210, MEDIA_ASIGN(1:NCOL)
+210 FORMAT(1X,6(1X,F5.1))
+END PROGRAM EJEMPLO_7_1
+</example>
+</sect1>
+<sect1 id="sec_p_6_2">  Programa ejemplo_7_2.f90
+<p>
+<example>
+PROGRAM EJEMPLO_7_2
+! PROGRAMA QUE CALCULA LAS SOLUCIONES DE UNA EC DE SEGUNDO GRADO
+! y = A*x**2 + B*x + C
+  IMPLICIT NONE
+  !Definicion de variables
+  REAL :: A = 0.0
+  REAL :: B = 0.0
+  REAL :: C = 0.0
+  REAL, DIMENSION(2) :: SOL
+  REAL :: TEMP
+  INTEGER :: I
+  !
+  ! Lectura de coeficientes
+  READ*, A 
+  READ*, B
+  READ*, C 
+  ! print*, a,b,c
+  !
+  ! CALCULOS
+  TEMP = SQRT(B*B-4.0*A*C)
+  !
+  SOL(1) = (-B+TEMP)/(2.0*A)
+  SOL(2) = (-B-TEMP)/(2.0*A)
+  !
+  !
+  ! IMPRESION DE LAS SOLUCIONES
+  DO I=1, 2
+     PRINT 200, I, SOL(I)
+200  FORMAT(1X,'SOLUCION ', I2,' = ',F18.6)
+  END DO
+!
+END PROGRAM EJEMPLO_7_2
+</example>
+</sect1>
+<sect1 id="sec_p_6_22">  Script <tt>ej_here_file</tt>
+<p>
+<example>
+# Compilar
+gfortran -o second_order  ejemplo_7_2.f90
+# Ejecutar
+./second_order &lt;&lt;eof
+2.0     # A
+1.0     # B
+-4.0    # C
+eof
+</example>
+</sect1>
+<sect1 id="sec_p_6_3">  Programa ejemplo_7_3.f90
+<p>
+<example>
+PROGRAM EJEMPLO_7_3
+! PROGRAMA QUE CALCULA LAS SOLUCIONES DE UNA EC DE SEGUNDO GRADO
+! y = A*x**2 + B*x + C
+  IMPLICIT NONE
+  !Definicion de variables
+  REAL :: A = 0.0
+  REAL :: B = 0.0
+  REAL :: C = 0.0
+  REAL, DIMENSION(2) :: SOL
+  REAL :: TEMP
+  INTEGER :: I
+  !
+  !     NAMELIST DEFINITIONS
+  NAMELIST/INP0/ A, B, C
+  !     NAMELIST FILE
+  OPEN(UNIT=10,FILE='sec_order.inp',STATUS='OLD')
+  ! Lectura de coeficientes
+  READ(10,INP0)
+  !
+  ! CALCULOS
+  TEMP = SQRT(B*B-4.0*A*C)
+  !
+  SOL(1) = (-B+TEMP)/(2.0*A)
+  SOL(2) = (-B-TEMP)/(2.0*A)
+  !
+  !
+  ! IMPRESION DE LAS SOLUCIONES
+  DO I=1, 2
+     PRINT 200, I, SOL(I)
+200  FORMAT(1X,'SOLUCION ', I2,' = ',F18.6)
+  END DO
+!
+END PROGRAM EJEMPLO_7_3
+</example>
+</sect1>
+<sect1 id="sec_p_6_32">   <tt>namelist</tt> input file
+<p>
+<example>
+#
+#       INPUT FILE FOR EJEMPLO_7_3
+#
+ &amp;INP0 A=2.0, B=1.0, C=-4.0 /
+
+</example>
+</sect1>
+<sect1 id="sec_p_6_4">  Programa ejemplo_7_4.f90
+<p>
+<example>
+PROGRAM EJEMPLO_7_4
+  !
+  ! Internal file example
+  !
+  IMPLICIT NONE
+  !Definicion de variables
+  REAL :: x_var
+  INTEGER :: unit_n, index_X
+  CHARACTER(LEN=65) :: filename
+  CHARACTER(LEN=56) :: pref
+  !
+  PRINT*, "Introduce file name preffix: "
+  READ(*,*) pref
+  !
+  DO unit_n = 10, 20
+     !
+     WRITE(filename, '(A, "_", i2,".dat")') TRIM(pref), unit_n
+     OPEN(UNIT = unit_n, FILE = filename, STATUS = "UNKNOWN", ACTION = "WRITE")
+     !
+     DO index_X = 0, 100
+        x_var = REAL(index_X)*0.01
+        WRITE(unit_n, '(1X,2ES14.6)') x_var, SIN(REAL(unit_n)*x_var)
+     ENDDO
+     !
+     CLOSE(UNIT = unit_n)
+     !
+  ENDDO
+!
+END PROGRAM EJEMPLO_7_4
+</example>
+</sect1>
+
+</sect>
+</chapt>
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!--                         Clase 8                         -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+<chapt id="clase_8"><heading>Subprogramas (I): funciones</heading> 
+<sect id="sec_81"> Objetivos
+
+<p>
+Los objetivos de esta clase son los siguientes:
+
+<enumlist>  
+<item> presentar las ventajas que ofrece el uso de funciones, subrutinas y módulos.
+<item> presentar el concepto de función en <prgn>Fortran</prgn>.
+<item> mostrar los diferentes tipos de funciones que pueden usarse:
+  intrínsecas, genéricas, elementales, transformacionales e internas.
+<item> hacer posible la definición de funciones por el usuario.
+<item> mostrar la diferencia entre funciones externas y funciones
+contenidas en el programa principal.
+</enumlist>  
+<p>
+El uso de estas estructuras permite desarrollar una programación más estructurada y eficaz ya que permiten
+<p>
+<list>  
+<item> el desarrollo y comprobación de diferentes subtareas de forma independiente.
+<item> reciclar unidades en diferentes programas, disminuyendo el tiempo necesario para generar el código.
+<item> aislar el código de efectos inesperados ya que están perfectamente diferenciadas las variables generales y las variables a las que tiene acceso cada subrutina o función.
+</list>  
+</sect>
+
+<sect id="sec_82"> Puntos destacables.
+
+<p>
+En primer lugar nos centramos en las funciones y, en la siguiente unidad, tratamos las subrutinas.
+<p>
+<list>  
+<item> Características generales de las funciones.
+<p>
+Las principales características de una función son
+<list>
+<item> Requieren el uso de uno o varios parámetros o argumentos al
+  invocar la función.
+<item> Dichos  argumentos pueden ser una expresión.
+<item> Generalmente una función da como resultado un valor, y dicho
+  valor es función de los parámetros o argumentos con los que se ha
+  invocado la función. El resultado de la evaluación de la función
+  puede ser un escalar o una matriz de cualquier tipo.
+<item> Los argumentos pueden ser de diferente tipo.
+</list>
+<p> En <prgn>Fortran</prgn> existen aproximadamente más de cien
+  funciones predefinidas que pueden usarse de
+  modo muy simple y directo. Por ejemplo, si necesitamos funciones
+  trigonométricas podemos usar, siendo <tt>X</tt>, <tt>Y</tt>
+  variables reales<footnote>Hay que tener en cuenta que
+  en <prgn>Fortran</prgn> se supone que los ángulos en las funciones
+  trigonométricas vienen expresados en radianes y no en
+  grados.</footnote>:
+<list>
+<item> <tt>Y = SIN(X)</tt>
+<item> <tt>Y = COS(X)</tt>
+<item> <tt>Y = TAN(X)</tt>
+</list>
+
+<p> Este tipo de funciones son llamadas <em>funciones
+    intrínsecas</em>. En esta <url id="http://gcc.gnu.org/onlinedocs/gfortran/Intrinsic-Procedures.html#Intrinsic-Procedures"
+name="URL">
+puede encontrarse una lista completa de las
+    funciones intrínsecas de que se dispone al usar el
+    compilador <prgn>gfortran</prgn>. En general las funciones
+    intrínsecas son <em>genéricas</em>, lo que quiere decir que
+    admiten distintos tipos de argumentos (mejor dicho argumentos con
+    diferente precisión). La excepción son las cuatro
+    funciones no genéricas, <tt>LGE</tt>, <tt>LGT</tt>, <tt>LLE</tt>
+    y <tt>LLT</tt>.
+
+<item> Las funciones llamadas <em>elementales</em> admiten como argumento
+tanto escalares como matrices. Un ejemplo de esto se puede ver en los
+ejemplos <ref id="sec_p_8_1"> y <ref id="sec_p_8_2">, donde se muestra
+el carácter elemental y genérico de algunas funciones. En el
+ejemplo <ref id="sec_p_8_1"> se muestra también la diferencia entre
+variables reales con diferente precisión. Estas funciones elementales
+pueden aplicarse tanto a variables escalares como a arreglos. En el
+último caso la función se aplica a cada elemento del arreglo.
+
+<item> Existen también otro tipo de funciones. Entre ellas destacan
+  las del tipo <em>inquiry</em> que dan información acerca de las
+  características de un arreglo. Por ejemplo las
+  funciones <tt>SIZE</tt> y <tt>ALLOCATED</tt>. Un ejemplo del uso de
+  esta última función puede verse en el <ref id="sec_p_5_7"> y en
+  el <ref id="sec_p_9_3">. 
+
+<p>
+Otro tipo de funciones son las llamadas "transformacionales",
+  p.e. <tt>REAL</tt> y <tt>TRANSPOSE</tt>, que transforman entre
+  diferentes tipos de datos, y funciones que implican medidas de
+  tiempo como <tt>SYSTEM_CLOCK</tt> y <tt>DATE_AND_TIME</tt>.
+
+<item> Conversión entre diferentes tipos de datos.
+<list>
+<item> <tt>REAL(i)</tt>: convierte un entero <tt>i</tt> en un real. El
+  argumento <tt>i</tt> puede ser un entero, un real de doble precisión
+  o un número complejo.
+<item> <tt>INT(x)</tt>: convierte el real <tt>x</tt> en el entero
+  equivalente, truncando la parte decimal, pudiendo ser <tt>x</tt> una
+  variable real, real de doble precisión o compleja.
+<item> Las siguientes funciones son de interés para definir enteros a
+  partir de reales.
+  <list>
+    <item> <tt>CEILING(x)</tt>: convierte un real <tt>x</tt> en el
+    entero más pequeño mayor o igual a  <tt>x</tt>.
+    <item> <tt>FLOOR(x)</tt>: convierte un real <tt>x</tt> en el
+    mayor entero que sea menor o igual a  <tt>x</tt>.
+    <item> <tt>NINT(x)</tt>: convierte un real <tt>x</tt> en el
+    entero más próximo a  <tt>x</tt>.
+  </list>
+<item> <tt>DBLE(a)</tt>: convierte <tt>a</tt> a doble precisión. El
+  argumento puede ser entero, real o complejo.
+<item > <tt>CMPLX(x)</tt> ó <tt>CMPLX(x,y)</tt>: convierte en valores
+  complejos (el segundo argumento es la parte imaginaria).
+</list>
+
+<item> Además de las funciones intrínsecas, pueden definirse
+  funciones. La definición de una función implica por una parte la
+  propia definición y la posterior llamada a la función desde un
+  programa. La definición de una función sigue el siguiente esquema:
+<p>
+<example>
+FUNCTION <var>fun_name</var>(<var>argument_list</var>)
+  IMPLICIT NONE
+  Declaration section (including arguments and fun_name)
+  ....
+  Local variables declaration
+  ....
+  <var>fun_name</var> = expr
+  RETURN ! Optional
+END FUNCTION <var>fun_name</var>
+</example>
+
+<p>
+En el
+ejemplo <ref id="sec_p_8_3"> se muestra como se define e invoca una
+  función que calcula el máximo común divisor de dos números enteros.
+Es importante tener en cuenta lo siguiente:
+<list>
+<item> En este ejemplo podemos distinguir dos bloques. Un primer
+  bloque con el programa principal y un segundo bloque donde se define
+  la función. De hecho la función puede definirse en un fichero
+  diferente al programa principal, y dar ambos ficheros al compilador
+  para que prepare el programa ejecutable.
+<item> Es importante tener en cuenta que las variables definidas en la
+  función tienen carácter local respecto a las variables que se
+  definen en el programa.
+<item> La función en este caso tiene como nombre <tt>MCD</tt> y su
+  tipo es <tt>INTEGER</tt>. Por tanto, el programa espera que el valor
+  que dé la función como resultado sea un entero.
+<item> El atributo <tt>INTENT(IN)</tt> en la definición de las
+  variables <tt>A</tt> y <tt>B</tt> de la función:
+<p>
+<example>
+INTEGER , INTENT(IN) :: A,B 
+</example>
+<p>
+indica que  dichas variables son variables de entrada y sus valores no
+pueden ser modificados por la función.
+</list>
+<p> Todos los argumentos de una función deben tener este atributo para evitar que inadvertidamente sus valores se modifiquen al evaluar la función.
+<item> Es posible definir funciones que sean <em>internas</em>, esto
+es, que se restrinjan a un determinado segmento de código, y no puedan
+ser llamadas desde otro punto del programa. Para ello se utiliza la
+orden <tt>CONTAINS</tt> como en los ejemplos <ref id="sec_p_8_4"> y  <ref id="sec_p_8_5">. El primero de estos dos programas define una función con la que calcular la energía de un nivel vibracional teniendo en cuenta la frecuencia <em>we</em> y la anarmonicidad <em>wexe</em>. El segundo, dado un número entero, calcula los factores primos de dicho número. En este ejemplo <ref id="sec_p_8_5"> podemos ver también el uso de un bucle del tipo <em>REPEAT UNTIL</em>.
+</list>
+</sect>
+<sect id="sec_83">  Programas usados como ejemplo.
+<sect1 id="sec_p_8_1">  Programa ejemplo_8_1.f90
+<p>
+<example>
+PROGRAM EJEMPLO_8_1
+  IMPLICIT NONE
+  !Definicion de variables
+  INTEGER, PARAMETER :: Long=SELECTED_REAL_KIND(18,310)
+  !
+  REAL (KIND=Long), PARAMETER :: DPI = ACOS(-1.0_Long) ! Definimos el número Pi
+  REAL (KIND=Long) :: DANGLE, DANGLERAD
+  !
+  REAL, PARAMETER :: PI = ACOS(-1.0) ! Definimos el número Pi
+  REAL :: ANGLERAD
+  !
+  PRINT*, 'INTRODUZCA UN ANGULO (EN GRADOS)'
+  READ*, DANGLE
+  PRINT*
+  ! PASO A RADIANES
+  DANGLERAD = DPI*DANGLE/180.0_Long
+  ANGLERAD = PI*DANGLE/180.0
+  !
+  PRINT 20, DANGLE, DANGLERAD
+  PRINT 21, DANGLE, ANGLERAD
+  PRINT*
+  PRINT*
+  !
+  PRINT 22, DANGLERAD, SIN(DANGLERAD), COS(DANGLERAD), SIN(DANGLERAD)**2+COS(DANGLERAD)**2,&
+       1.0_Long-(SIN(DANGLERAD)**2+COS(DANGLERAD)**2) 
+  PRINT*
+  PRINT 22, ANGLERAD, SIN(ANGLERAD), COS(ANGLERAD), SIN(ANGLERAD)**2+COS(ANGLERAD)**2,1.0 - (SIN(ANGLERAD)**2+COS(ANGLERAD)**2) 
+  !
+20 FORMAT (1X, 'UN ANGULO DE ',F14.8,' GRADOS = ', F14.8, ' RADIANES. (dp)')
+21 FORMAT (1X, 'UN ANGULO DE ',F14.8,' GRADOS = ', F14.8, ' RADIANES. (sp)')
+22 FORMAT (1X, 'ANGULO ',F14.8,', SIN = ', F13.9, ', COS =',F13.9,/'SIN**2+COS**2 = ', F16.12, ', 1 - SIN**2+COS**2 = ', F16.12)
+END PROGRAM EJEMPLO_8_1
+</example>
+</sect1>
+<sect1 id="sec_p_8_2">  Programa ejemplo_8_2.f90
+<p>
+<example>
+PROGRAM EJEMPLO_8_2
+  IMPLICIT NONE
+  !Definicion de variables
+  INTEGER , PARAMETER :: NEL=5
+  REAL, PARAMETER :: PI = ACOS(-1.0) ! Definimos el número Pi
+  REAL , DIMENSION(1:NEL)   :: XR = (/ 0.0, PI/2.0, PI, 3.0*PI/2.0, 2.0*PI/)
+  INTEGER , DIMENSION(1:NEL):: XI = (/ 0, 1, 2, 3, 4/)
+  !
+  PRINT*, 'SENO DE ', XR, ' = ', SIN(XR)
+  PRINT*, 'LOG10 DE ', XR, ' = ', LOG10(XR)
+  PRINT*, 'REAL ', XI, ' = ', REAL(XI)
+END PROGRAM EJEMPLO_8_2
+</example>
+</sect1>
+<sect1 id="sec_p_8_3">  Programa ejemplo_8_3.f90
+<p>
+<example>
+PROGRAM EJEMPLO_8_3
+  IMPLICIT NONE
+  INTEGER :: I,J,Result
+  INTEGER :: MCD
+  EXTERNAL MCD
+  PRINT *,' INTRODUCE DOS NUMEROS ENTEROS:'
+  READ(*,*),I,J
+  RESULT = MCD(I,J)
+  PRINT *,' EL MAX COMUN DIV DE ',I,' Y ',J,' ES ',RESULT
+END PROGRAM EJEMPLO_8_3
+!
+INTEGER FUNCTION MCD(A,B)
+IMPLICIT NONE
+INTEGER , INTENT(IN) :: A,B
+INTEGER :: Temp
+  IF (A < B) THEN
+     Temp=A
+  ELSE
+     Temp=B
+  ENDIF
+  DO WHILE ((MOD(A,Temp) /= 0) .OR. (MOD(B,Temp) /=0))
+     Temp=Temp-1
+  END DO
+  MCD=Temp
+END FUNCTION MCD
+</example>
+</sect1>
+<sect1 id="sec_p_8_4">  Programa ejemplo_8_4.f90
+<p>
+<example>
+PROGRAM EJEMPLO_8_4
+  IMPLICIT NONE
+  ! Uso de una función interna en el cálculo de la fórmula
+  ! E(v) = we (v+1/2) - wexe (v+1/2)**2.
+  INTEGER :: V, VMAX
+  REAL :: we, wexe, Energy
+  PRINT *,' INTRODUCE EL VALOR DE Vmax:'
+  READ(*,*), VMAX
+  PRINT *,' INTRODUCE EL VALOR DE we Y DE wexe:'
+  READ(*,*),we, wexe
+  DO V = 0, VMAX
+     Energy = FEN(V)
+     PRINT 100, V, Energy
+  ENDDO
+100 FORMAT(1X,'E(',I3,') = ',F14.6)
+CONTAINS 
+!
+  REAL FUNCTION FEN(V)
+    IMPLICIT NONE
+    INTEGER , INTENT(IN) :: V
+    FEN = we*(V+0.5)-wexe*(V+0.5)**2
+  END FUNCTION FEN
+!
+END PROGRAM EJEMPLO_8_4
+</example>
+</sect1>
+<sect1 id="sec_p_8_5">  Programa ejemplo_8_5.f90
+<p>
+<example>
+PROGRAM EJEMPLO_8_5
+  !
+  ! Simple program to compute the prime divisors of a given integer number.
+  !
+  IMPLICIT NONE
+  INTEGER :: NUMVAL
+  INTEGER :: NUM
+  !
+  READ(*,*), NUMVAL ! input
+  !
+  DO
+     NUM = QUOT(NUMVAL)
+     IF (NUM == NUMVAL) THEN
+        PRINT*, NUM
+        EXIT
+     ELSE
+        PRINT*, NUMVAL/NUM, NUM
+        NUMVAL = NUM
+     ENDIF
+  ENDDO
+  !
+CONTAINS
+  ! 
+  INTEGER FUNCTION QUOT(NUM1)
+    !
+    INTEGER, INTENT(IN) :: NUM1
+    INTEGER :: I
+    !
+    QUOT = NUM1
+    !
+    DO I = 2, NUM1-1
+       IF (MOD(NUM1,I) == 0) THEN
+          QUOT = NUM1/I
+          EXIT
+       ENDIF
+    ENDDO
+    !
+  END FUNCTION QUOT
+  !
+END PROGRAM EJEMPLO_8_5
+</example>
+</sect1>
+<sect1 id="sec_p_8_6">  Programa ejemplo_8_6.f90
+<p>
+<example>
+PROGRAM EJEMPLO_8_6
+  !
+  ! Program to evaluate a 1D potential function on grid points
+  !
+  IMPLICIT NONE
+  !
+  REAL, DIMENSION(:), ALLOCATABLE :: X_grid, Pot_grid
+  !
+  REAL :: X_min, X_max, Delta_X
+  REAL :: V_0 = 10.0, a_val = 1.0
+  INTEGER :: Index, X_dim
+  INTEGER :: Ierr
+  !
+  !
+  INTERFACE Potf
+     ELEMENTAL FUNCTION Potf(Depth, Inv_length, X)
+       !
+       IMPLICIT NONE
+       !
+       REAL, INTENT(IN) :: Depth, Inv_length, X
+       REAL :: Potf
+       !
+     END FUNCTION Potf
+  END INTERFACE Potf
+  !
+  !
+  READ(*,*), X_min, X_max, X_dim ! input minimum and maximum values of X and number of points
+  !
+  ALLOCATE(X_grid(1:X_dim), STAT = Ierr)
+  IF (Ierr /= 0) THEN
+     STOP 'X_grid allocation failed'
+  ENDIF
+  !
+  ALLOCATE(Pot_grid(1:X_dim), STAT = Ierr)
+  IF (Ierr /= 0) THEN
+     STOP 'Pot_grid allocation failed'
+  ENDIF
+  !
+  !
+  Delta_X = (X_max - X_min)/REAL(X_dim - 1)
+  !
+  X_grid = (/ (Index, Index = 0 , X_dim - 1 ) /)
+  X_grid = X_min + Delta_X*X_grid
+  !
+  Pot_grid = Potf(V_0, a_val, X_grid)
+  !
+  DO Index = 1, X_dim
+     PRINT*, X_grid, Pot_grid
+  ENDDO
+  !
+  DEALLOCATE(X_grid, STAT = Ierr)
+  IF (Ierr /= 0) THEN
+     STOP 'X_grid deallocation failed'
+  ENDIF
+  !
+  DEALLOCATE(Pot_grid, STAT = Ierr)
+  IF (Ierr /= 0) THEN
+     STOP 'Pot_grid deallocation failed'
+  ENDIF
+  !
+  !
+END PROGRAM EJEMPLO_8_6
+!
+ELEMENTAL FUNCTION Potf(Depth, Inv_length, X)
+  !
+  IMPLICIT NONE
+  !
+  REAL, INTENT(IN) :: Depth, Inv_length, X
+  !
+  REAL :: Potf
+  !
+  Potf = -Depth/(COSH(Inv_length*X)**2)
+  !
+END FUNCTION Potf
+</example>
+</sect1>
+</sect>
+
+</chapt>
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!--                         Clase 9                         -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+<chapt id="clase_9"><heading>Subprogramas (II): subrutinas</heading> 
+<sect id="sec_91"> Objetivos
+
+<p>
+Los objetivos de esta clase son los siguientes:
+
+<enumlist> 
+<item> Considerar la diferencia entre funciones y subrutinas y por qué son precisas estas últimas.
+<item> Introducir los conceptos e ideas más útiles en la definición de subrutinas.
+<item> Argumentos de una subrutina.
+<item> Los comandos <tt>CALL</tt> e <tt>INTERFACE</tt>.
+<item> Alcance (<em>scope</em>) de las variables.
+<item> Variables locales y el atributo <tt>SAVE</tt>
+<item> Diferentes formas de transmitir matrices como argumentos a una
+subrutina. 
+<item> Definición de matrices automáticas.
+</enumlist>
+</sect>
+
+<sect id="sec_92"> Puntos destacables.
+<p>
+<enumlist> 
+<item> El uso de subrutinas favorece una programación estructurada,
+mediante la definición de subtareas y su realización en las
+correspondientes subrutinas y evitando con su uso la duplicación
+innecesaria de código. Además hacen posible el uso de una extensa
+colección de librerías o bibliotecas de subrutinas programadas y
+extensamente probadas para una enorme cantidad de posibles
+aplicaciones.
+<item> Para explicar este punto vamos a usar un ejemplo práctico, como es el de la solución de una ecuación de segundo grado. Una posible forma de dividir este programa en subtareas es la siguiente:
+<enumlist>
+  <item> Programa principal.
+  <item> Input de los coeficientes de la ecuación por el usuario.
+  <item> Solución de la ecuación.
+  <item> Impresión de las soluciones.
+</enumlist>
+El programa  <ref id="sec_p_9_1"> se ajusta a este esquema usando dos subrutinas, llamadas <tt>Interact</tt> y <tt>Solve</tt>.
+<item> La definición de una subrutina tiene la siguiente estructura:
+<p>
+<example>
+SUBROUTINE nombre_subrutina(lista de argumentos [opcional])
+         IMPLICIT NONE
+         Arguments (dummy variables) definition (INTENT)
+         ...
+         Local variables definition
+         ...
+         Execution Section
+         ...
+         [RETURN]
+ END SUBROUTINE nombre_subrutina
+</example>
+<p>
+Los argumentos se denominan <em>dummy arguments</em> porque su definición no implica la asignación de memoria alguna. Esta asignación se llevará a cabo de acuerdo con los valores que tomen los argumentos cuando se llame a la subrutina.
+<p>
+Cuando el compilador genera el ejecutable cada subrutina se compila de forma separada lo que permite el uso de <em>variables locales</em> con el mismo nombre en diferentes subrutinas, ya que cada subrutina tiene su particular alcance (<em>scope</em>). 
+<p>
+En el programa <ref id="sec_p_9_1"> se ve como este esquema se repite para las dos subrutinas empleadas.
+<item> Para invocar una subrutina se emplea el comando <tt>CALL</tt> de acuerdo con el esquema 
+<p>
+<example>
+CALL nombre_subroutina(argumentos [opcional])
+</example>
+<p> Tras la ejecución de la subrutina invocada con la
+orden <tt>CALL</tt>, el flujo del programa retorna a la unidad de
+programa en la que se ha invocado a la subrutina y continúa en la
+orden siguiente al comando en el que se ha llamado la subrutina
+con <tt>CALL</tt>. Desde la subrutina se devuelve la ejecución con el
+comando <tt>RETURN</tt>. Si la subrutina llega a su fin también se
+devuelve el control al programa que la ha invocado, por lo que
+generalmente no se incluye el comando <tt>RETURN</tt> justo antes
+de <tt>END SUBROUTINE</tt>. Si es posible, las subrutinas deberían
+tener un solo punto de salida.
+
+<item> La subrutina y el programa principal se comunican a través de
+los argumentos (también llamados parámetros) de la subrutina. En la
+definición de la subrutina dichos argumentos son <em>dummies</em>,
+encerrados entre paréntesis y separados con comas tras el nombre de la
+subrutina. Dichos argumentos tienen un tipo asociado, pero <em>NO</em>
+se reserva ningún espacio para ellos en memoria. Por ejemplo, los
+argumentos <tt>E</tt>, <tt>F</tt> y <tt>G</tt> de la
+subrutina <tt>Solve</tt> en el ejemplo <ref id="sec_p_9_1"> son del
+tipo <tt>REAL</tt>, pero no se reserva para ellos ningún espacio en
+memoria. Cuando la subrutina es invocada con el comando <tt>CALL
+Solve(P,Q,R,Root1,Root2,IFail)</tt> entonces los
+argumentos <tt>E</tt>, <tt>F</tt> y <tt>G</tt> pasan a ser
+reemplazados por unos punteros a las variables <tt>P</tt>, <tt>Q</tt>
+y <tt>R</tt>. Por tanto es muy importante que el tipo de los
+argumentos y el de las variables por las que se ven reemplazados
+coincidan, ya que cuando esto no sucede se producen frecuentes errores.
+<item> Alguno de los argumentos proporcionan una información de entrada (input) a la subrutina, mientras que otros proporcionan la salida de la subrutina (output). Por último, también es posible que los argumentos sean simultáneamente de entrada y salida. 
+
+<p> Aquellos parámetros que solo sean de entrada es conveniente
+definirlos con el atributo <tt>INTENT(IN)</tt>. Este atributo ya lo
+vimos en <ref id="clase_8"> aplicándolo a funciones. Cuando un
+argumento posee este atributo el valor de entrada del parámetro se
+mantiene constante y no puede variar en la ejecución de la subrutina.
+<p> Si los parámetros solo son de salida es conveniente definirlos con
+el atributo <tt>INTENT(OUT)</tt>, para que se ignore el valor de
+entrada del parámetro y debe dársele uno durante la ejecución de la
+subrutina.
+<p> Si el parámetro tiene el atributo <tt>INTENT(INOUT)</tt>, entonces
+se considera el valor inicial del parámetro así como su posible
+modificación en la subrutina.
+<p> Hay ejemplos de los tres casos arriba citados en la
+subrutina <tt>Solve</tt> del ejemplo <ref id="sec_p_9_1">. Es muy conveniente etiquetar con el atributo <tt>INTENT</tt> todos los argumentos.
+
+<item> De acuerdo con lo anterior es de vital importancia que no
+exista contradicción entre la declaración de variables en el programa
+que invoca a la subrutina y en la propia subrutina. Para facilitar
+este acuerdo entre ambas declaraciones existen los
+llamados <em>interface blocks</em>. En el
+programa <ref id="sec_p_9_2"> podemos ver el
+programa <ref id="sec_p_9_1"> al que se han añadido en el programa
+principal los <em>interface blocks</em> correspondientes a las
+subrutinas <tt>Interact</tt> y <tt>Solve</tt>.
+
+<item> Al igual que en el caso de las funciones, las variables
+declaradas en una subrutina que no sean parámetros o argumentos de la
+misma se consideran locales. Por ejemplo, en la
+subrutina <tt>Interact</tt> del <ref id="sec_p_9_1"> la
+variable <tt>IO_Status</tt> es una variable local de la subrutina.
+
+<p> 
+Generalmente las variables locales se crean al invocarse la
+subrutina y el valor que adquieren se pierde una vez que la subrutina
+se ha ejecutado. Sin embargo, usando el atributo <tt>SAVE</tt> es
+posible salvar el valor que adquiera la variable de una llamada a la
+subrutina hasta la siguiente llamada. Por ejemplo
+
+<p>
+<example>
+INTEGER, SAVE:: It = 0
+</example>
+<p>
+El valor que tome en este caso la variable <tt>It</tt> entre
+llamadas al subprograma en el que se haya declarado se conserva.
+
+<p> Como en el caso de las funciones, es posible hacer que el programa
+principal "conozca" las variables de las subrutinas que invoque
+mediante la orden <tt>CONTAINS</tt> y haciendo que de hecho las
+subrutinas formen parte del programa principal. Esta solución resulta
+difícil de escalar cuando crece la longitud del problema y no es
+recomendable.
+
+
+<item> Cuando el argumento de una subrutina no es una variable escalar
+(del tipo que fuera) sino una matriz (<em>array</em>) es necesario dar
+una información extra acerca de la matriz. El subprograma al que se
+pasa la matriz ha de conocer el tamaño de la matriz para no acceder a
+posiciones de memoria erróneas. Para conseguir esto hay tres posibles formas de especificar las dimensiones de una matriz que se halle en la lista de argumentos de una subrutina:
+
+<enumlist>
+<item> <em>explicit-shape approach</em>:
+
+<p>
+En este caso se incluyen como argumentos en la llamada a la subrutina
+las dimensiones de las matrices implicadas, declarando posteriormente
+las matrices haciendo uso de dichas dimensiones. Por ejemplo, si en
+una subrutina llamada <tt>test_pass</tt> se incluye un vector de
+entrada llamado <tt>space_vec_in</tt> y uno de
+salida<tt>space_vec_out</tt> con la misma dimensión, si hacemos uso
+del <em>explicit-shape approach</em> la subrutina comenzaría como
+
+<p>
+<example>
+SUBROUTINE test_pass(space_vec_in, space_vec_out, dim_vec)
+         IMPLICIT NONE
+         INTEGER, INTENT(IN) :: dim_vec
+         REAL, INTENT(IN), DIMENSION(1:dim_vec) :: space_vec_in
+         REAL, INTENT(OUT), DIMENSION(1:dim_vec) :: space_vec_out
+         ......
+ END SUBROUTINE test_pass 
+</example>
+
+<item> <em>assumed-shape approach</em>:
+
+<p> En este caso es necesario incluir el correspondiente bloque <tt>INTERFACE</tt> en el subprograma que invoca la subrutina. Como veremos en el  <ref id="clase_10"> esto se puede evitar incluyendo la subrutina en un módulo.
+
+
+
+<p>
+En el <ref id="sec_p_9_3">
+puede verse un programa en el que se calcula la media, la
+mediana<footnote>Se define la <em>mediana</em> de un conjunto de
+números como aquel valor de la lista tal que la mitad de los valores
+sean inferiores a él y la otra mitad sean superiores. Coincide con el
+valor medio en distribuciones simétricas. Para su cálculo es preciso
+ordenar previamente la lista de números.</footnote>, la varianza y la
+desviación estándar de un conjunto de números generados aleatoriamente.
+En el programa hemos marcado algunos de los puntos de interés que queremos explicar con detalle.
+<list>
+<item> <em>(1-3)</em> Hemos definido la matriz con dimensión variable,
+de forma que se dimensione mediante una orden <tt>ALLOCATE</tt>. En la
+orden que dimensiona a la matriz se indica que es un vector
+(<tt>DIMENSION(:)</tt>) y del mismo modo se hace en el <em>interface
+block</em>. El uso del <em>interface block</em> es recomendable, y en
+casos como este, con matrices definidas de este modo, resulta
+obligatorio. La orden <em>(3)</em>, <tt>ALLOCATE(X(1:N), STAT =
+IERR)</tt> hace que <tt>X</tt> pase a ser un vector
+N-dimensional. Usamos también el campo opcional <tt>STAT</tt> que nos
+permita saber si se ha podido dimensionar el arreglo solicitado. Solo
+si la salida (<tt>IERR</tt>) es cero la matriz se ha creado sin
+problemas. El uso de esta opción debe generalizarse.
+<p>
+<example>
+  REAL , ALLOCATABLE , DIMENSION(:) :: X  !! (1)
+
+  ...
+
+  INTERFACE
+     SUBROUTINE STATS(X,N,MEAN,STD_DEV,MEDIAN)
+       IMPLICIT NONE
+
+       ...
+
+       REAL      , INTENT(IN) , DIMENSION(:)   ::    X  !!  (1)
+
+       ...
+
+     END SUBROUTINE STATS
+  END INTERFACE
+</example>
+<p>
+Es importante tener en cuenta que se puede definir
+como <tt>ALLOCATABLE</tt> el argumento con el que se llama a una
+subrutina, así como a variables internas o locales de la subrutina,
+pero una variable <em>dummy</em> no puede tener este atributo.
+
+<p> A diferencia de en <prgn>FORTRAN77</prgn>, la forma recomendada de
+transmitir arreglos de datos entre un programa y una subrutina es como
+en el ejemplo, usando <em>assumed shape arguments</em>  en los que no
+se da ninguna información acerca del tamaño del arreglo. Sí deben
+  coincidir ambas variables en tipo, rango y clase (<tt>KIND</tt>).
+
+<item> <em>(4)</em> y <em>(6)</em>: En estas órdenes se aprovecha la capacidad
+de <prgn>Fortran90</prgn> para trabajar con arreglos de variables, ya
+sean estos vectores o matrices. Por ejemplo, el
+comando <tt>X=X*1000</tt> multiplica todas las componentes del
+vector <tt>X</tt> por un escalar y el comando <tt>SUMXI=SUM(X)</tt>
+aprovecha la función <tt>SUM</tt> para sumar las componentes del
+vector. En estilo <prgn>Fortran 77</prgn> estas operaciones
+conllevarían un bucle <tt>DO</tt>, por ejemplo
+<p>
+<example>
+SUMXI = 0.0
+DO I = 1, N
+   SUMXI = SUMXI + X(I)
+ENDDO
+</example>
+
+<item> <em>(5)</em> En esta parte del programa se libera la memoria
+reservada para el vector <tt>X</tt> usando el
+comando <tt>DEALLOCATE</tt>. Este paso no es obligatorio en este
+programa, pero sí cuando la matriz del tipo <tt>ALLOCATE</tt> se ha
+definido en una función o subrutina y no tiene el
+atributo <tt>SAVE</tt>.
+
+<item> <em>(7)</em> Aquí se aprovecha el comando <tt>CONTAINS</tt>
+para hacer que la subrutina de ordenamiento <tt>SELECTION</tt>, que
+como puede verse no posee argumentos, <em>conozca</em> las misma
+variables que la subrutina <tt>STATS</tt>, en la que está
+contenida. Por ello, en la subrutina <tt>SELECTION</tt> solo es
+preciso definir las variables locales. Esta subrutina se encarga de
+ordenar la lista de números según un algoritmo que consiste en buscar
+el número más pequeño de la lista y hacerlo el primer miembro. Se
+busca a continuación el más pequeño de los restantes que pasa a ser
+segundo, y así prosigue hasta tener ordenada la lista de números.
+</list>
+
+<p>
+La definición de bloques <tt>INTERFACE</tt> se facilita con el uso de módulos, que describimos en la siguiente unidad.
+
+<item> <em>assumed-size approach</em>
+<p>En este caso no se da información a la subrutina acerca de las dimensiones de la matriz, es fácil caer en errores de difícil diagnóstico y se desaconseja su uso.
+
+</enumlist>
+
+
+<item> Arreglos multidimensionales. El <ref id="sec_p_9_5"> es un
+ejemplo de como pasar como argumentos arreglos multidimensionales
+como <em>assumed shape arrays</em>. En él, tras que el usuario defina
+dos matrices, <tt>A</tt> y <tt>B</tt>, el programa calcula la
+matriz <tt>C</tt> solución del producto <tt>AB</tt> y tras ello
+calcula la matriz traspuesta de <tt>A</tt>. Se hace uso de las
+funciones de <prgn>Fortran 90</prgn> <tt>MATMUL</tt>
+y <tt>TRANSPOSE</tt>.
+
+<item> En las subrutinas pueden dimensionarse <em>automatic
+arrays</em>, que pueden depender de los argumentos de la
+subrutina. Estos arreglos son locales a la subrutina, no pueden tener
+el argumento <tt>SAVE</tt> y se crean cada vez que se invoca la
+subrutina, siendo destruidos al salir de ella. Esto hace que si no hay
+memoria suficiente para dimensionar el arreglo el programa no
+funcione. Para evitar esto deben definirse arreglos no automáticos,
+del tipo <tt>ALLOCATABLE</tt>. 
+
+
+<item> Al pasar como argumento una variable de tipo <tt>CHARACTER</tt> dicho argumento se declar con una longitud <tt>LEN = *</tt> y cuando se llame a la subrutina la longitud de la variable pasa a ser la longitud de la variable en la llamada.
+<p>
+El <ref id="sec_p_9_4">
+muestra un programa en el que, al darle el nombre de un fichero y el
+número de datos almacenados en dicho fichero; el programa abre el
+fichero y lee dos columnas de valores que almacena en los
+vectores <tt>X</tt> e <tt>Y</tt>. En estos casos, dado que el tamaño
+de la variable <tt>CHARACTER</tt> es variable, es preciso usar
+un <em>interface block</em>.
+
+
+<p> El <ref id="sec_p_9_6"> es un ejemplo donde se construyen dos
+vectores de números aleatorios de dimensión definida por el usuario
+usando el método <em>Box-Mueller</em>. Para ello se definen dos
+matrices de tipo <tt>ALLOCATABLE</tt>, <tt>X</tt> e <tt>Y</tt>, y en la
+subrutina interna <tt>BOX_MULLER</tt> se definen dos vectores de tipo
+automático: <tt>RANDOM_u</tt> y <tt>RANDOM_v</tt>.
+
+<p> Para calcular el valor medio, la desviación estándar y la mediana de los vectores <tt>X</tt> e <tt>Y</tt> se hace uso de la subrutina <tt>STATS</tt> del  <ref id="sec_p_9_3">. Se incluye el necesario <tt>INTERFACE</tt> en el programa principal y la subrutina se debe compilar en un fichero por separado.
+ <ref id="sec_p_9_6">
+<item> Sí es importante tener en cuenta que en el caso que se transfiera
+  un <em>array</em> usando  <em>assumed shape arguments</em> como en los
+  ejemplos, el primer índice de la variable en la subrutina <em>se supone
+  que comienza con el valor <tt>1</tt>, a menos que explícitamente se
+  indique lo contrario</em>. En el ejemplo   <ref id="sec_p_9_7"> se
+  muestra un caso simple donde es necesario indicar el índice inicial
+  del vector cuando este no es cero. En este programa se calcula el
+  factorial de los enteros entre <tt>IMIN</tt> e <tt>IMAX</tt> y se
+  almacenan en un vector real. Se puede compilar y correr el
+  programa haciendo <tt>IMIN = 1</tt> e <tt>IMIN = 0</tt> con y sin la
+  definición del índice inicial en la subrutina, para ver la
+  diferencia en las salidas.
+</enumlist>
+</sect>
+
+<sect id="sec_93">  Programas usados como ejemplo.
+<sect1 id="sec_p_9_1">  Programa ejemplo_9_1.f90
+<p>
+<example>
+PROGRAM ejemplo_9_1
+!
+IMPLICIT NONE
+! Ejemplo simple de un programa con dos subrutinas.
+! subrutina (1):: Interact :: Obtiente los coeficientes de la ec. de seg. grado.
+! subrutina (2):: Solve :: Resuelve la ec. de seg. grado.
+!
+! Definicion de variables
+REAL :: P, Q, R, Root1, Root2
+INTEGER :: IFail=0
+LOGICAL :: OK=.TRUE.
+!
+   CALL Interact(P,Q,R,OK) ! Subrutina (1)
+!
+   IF (OK) THEN
+!
+      CALL Solve(P,Q,R,Root1,Root2,IFail) ! Subrutina (2)
+!
+      IF (IFail == 1) THEN
+         PRINT *,' Complex roots'
+         PRINT *,' calculation aborted'
+      ELSE
+         PRINT *,' Roots are ',Root1,' ',Root2
+      ENDIF
+!
+   ELSE
+!
+      PRINT*,' Error in data input program ends'
+!
+   ENDIF
+!
+END PROGRAM ejemplo_9_1
+!
+!
+SUBROUTINE Interact(A,B,C,OK)
+   IMPLICIT NONE
+   REAL , INTENT(OUT) :: A
+   REAL , INTENT(OUT) :: B
+   REAL , INTENT(OUT) :: C
+   LOGICAL , INTENT(OUT) :: OK
+   INTEGER :: IO_Status=0
+   PRINT*,' Type in the coefficients A, B AND C'
+   READ(UNIT=*,FMT=*,IOSTAT=IO_Status)A,B,C
+   IF (IO_Status == 0) THEN
+      OK=.TRUE.
+   ELSE
+      OK=.FALSE.
+   ENDIF
+END SUBROUTINE Interact
+!
+!
+SUBROUTINE Solve(E,F,G,Root1,Root2,IFail)
+   IMPLICIT NONE
+   REAL , INTENT(IN) :: E
+   REAL , INTENT(IN) :: F
+   REAL , INTENT(IN) :: G
+   REAL , INTENT(OUT) :: Root1
+   REAL , INTENT(OUT) :: Root2
+   INTEGER , INTENT(INOUT) :: IFail
+! Local variables
+   REAL :: Term
+   REAL :: A2
+   Term = F*F - 4.*E*G
+   A2 = E*2.0
+! if term < 0, roots are complex
+   IF(Term < 0.0)THEN
+      IFail=1
+   ELSE
+      Term = SQRT(Term)
+      Root1 = (-F+Term)/A2
+      Root2 = (-F-Term)/A2
+   ENDIF
+END SUBROUTINE Solve
+</example>
+</sect1>
+<sect1 id="sec_p_9_2">  Programa ejemplo_9_2.f90
+<p>
+<example>
+PROGRAM ejemplo_9_2
+  !
+  IMPLICIT NONE
+  ! Ejemplo simple de un programa con dos subrutinas.
+  ! subrutina (1):: Interact :: Obtiente los coeficientes de la ec. de seg. grado.
+  ! subrutina (2):: Solve :: Resuelve la ec. de seg. grado.
+  !
+  ! Interface blocks
+  INTERFACE
+     SUBROUTINE Interact(A,B,C,OK)
+       IMPLICIT NONE
+       REAL , INTENT(OUT) ::  A
+       REAL , INTENT(OUT) ::  B
+       REAL , INTENT(OUT) ::  C
+       LOGICAL , INTENT(OUT) :: OK
+     END SUBROUTINE Interact
+     SUBROUTINE Solve(E,F,G,Root1,Root2,IFail)
+       IMPLICIT NONE
+       REAL , INTENT(IN) :: E
+       REAL , INTENT(IN) :: F
+       REAL , INTENT(IN) :: G
+       REAL , INTENT(OUT) :: Root1
+       REAL , INTENT(OUT) :: Root2
+       INTEGER , INTENT(INOUT) :: IFail
+     END SUBROUTINE Solve
+  END INTERFACE
+  ! Fin interface blocks
+  !
+  ! Definicion de variables
+  REAL :: P, Q, R, Root1, Root2
+  INTEGER :: IFail=0
+  LOGICAL :: OK=.TRUE.
+  !
+  CALL Interact(P,Q,R,OK) ! Subrutina (1)
+  !
+  IF (OK) THEN
+     !
+     CALL Solve(P,Q,R,Root1,Root2,IFail) ! Subrutina (2)
+     !
+     IF (IFail == 1) THEN
+        PRINT *,' Complex roots'
+        PRINT *,' calculation aborted'
+     ELSE
+        PRINT *,' Roots are ',Root1,' ',Root2
+     ENDIF
+     !
+  ELSE
+     !
+     PRINT*,' Error in data input program ends'
+     !
+  ENDIF
+  !
+END PROGRAM ejemplo_9_2
+!
+!
+SUBROUTINE Interact(A,B,C,OK)
+  IMPLICIT NONE
+  REAL , INTENT(OUT) :: A
+  REAL , INTENT(OUT) :: B
+  REAL , INTENT(OUT) :: C
+  LOGICAL , INTENT(OUT) :: OK
+  INTEGER :: IO_Status=0
+  PRINT*,' Type in the coefficients A, B AND C'
+  READ(UNIT=*,FMT=*,IOSTAT=IO_Status)A,B,C
+  IF (IO_Status == 0) THEN
+     OK=.TRUE.
+  ELSE
+     OK=.FALSE.
+  ENDIF
+END SUBROUTINE Interact
+!
+!
+SUBROUTINE Solve(E,F,G,Root1,Root2,IFail)
+  IMPLICIT NONE
+  REAL , INTENT(IN) :: E
+  REAL , INTENT(IN) :: F
+  REAL , INTENT(IN) :: G
+  REAL , INTENT(OUT) :: Root1
+  REAL , INTENT(OUT) :: Root2
+  INTEGER , INTENT(INOUT) :: IFail
+  ! Local variables
+  REAL :: Term
+  REAL :: A2
+  Term = F*F - 4.*E*G
+  A2 = E*2.0
+  ! if term < 0, roots are complex
+  IF(Term < 0.0)THEN
+     IFail=1
+  ELSE
+     Term = SQRT(Term)
+     Root1 = (-F+Term)/A2
+     Root2 = (-F-Term)/A2
+  ENDIF
+END SUBROUTINE Solve
+</example>
+</sect1>
+<sect1 id="sec_p_9_3">  Programa ejemplo_9_3.f90
+<p>
+<example>
+PROGRAM ejemplo_9_3
+  !
+  IMPLICIT NONE
+  !
+  ! Definicion de variables
+  INTEGER :: N
+  REAL , ALLOCATABLE , DIMENSION(:) :: X  !! (1)
+  REAL :: M,SD,MEDIAN
+  INTEGER :: IERR
+  !
+  ! interface block   !! (2)
+  INTERFACE
+     SUBROUTINE STATS(VECTOR,N,MEAN,STD_DEV,MEDIAN)
+       IMPLICIT NONE
+       INTEGER , INTENT(IN)                    ::  N
+       REAL      , INTENT(IN) , DIMENSION(:)   :: VECTOR  !!  (1)
+       REAL      , INTENT(OUT)                 :: MEAN
+       REAL      , INTENT(OUT)                 :: STD_DEV
+       REAL      , INTENT(OUT)                 :: MEDIAN
+     END SUBROUTINE STATS
+  END INTERFACE
+  PRINT *,' Cuántos valores vas a generar aleatoriamente ?'
+  READ(*,*),N
+  ALLOCATE(X(1:N), STAT = IERR)     !!  (3)
+  IF (IERR /= 0) THEN
+     PRINT*, "X allocation request denied."
+     STOP
+  ENDIF
+  CALL RANDOM_NUMBER(X)
+  X=X*1000             !!  (4)
+  CALL STATS(X,N,M,SD,MEDIAN)
+!
+  PRINT *,' MEAN = ',M
+  PRINT *,' STANDARD DEVIATION = ',SD
+  PRINT *,' MEDIAN IS = ',MEDIAN
+!
+  IF (ALLOCATED(X)) DEALLOCATE(X, STAT = IERR)   !! (5)
+  IF (IERR /= 0) THEN
+     PRINT*, "X NON DEALLOCATED!"
+     STOP
+  ENDIF
+END PROGRAM ejemplo_9_3
+!
+SUBROUTINE STATS(VECTOR,N,MEAN,STD_DEV,MEDIAN)
+  IMPLICIT NONE
+  ! Defincion de variables
+  INTEGER , INTENT(IN)                    ::  N
+  REAL      , INTENT(IN) , DIMENSION(:)    ::  VECTOR    !! (1)
+  REAL      , INTENT(OUT)                  ::  MEAN
+  REAL      , INTENT(OUT)                  ::  STD_DEV
+  REAL      , INTENT(OUT)                  ::  MEDIAN
+  REAL      , DIMENSION(1:N)              ::  Y
+  REAL :: VARIANCE = 0.0
+  REAL      :: SUMXI = 0.0, SUMXI2 = 0.0
+  !
+  SUMXI=SUM(VECTOR)       !! (6)
+  SUMXI2=SUM(VECTOR*VECTOR)    !! (6)
+  MEAN=SUMXI/N       
+  VARIANCE=(SUMXI2-SUMXI*SUMXI/N)/(N-1)
+  STD_DEV = SQRT(VARIANCE)
+  Y=VECTOR
+  ! Ordena valores por proceso de seleccion
+  CALL SELECTION
+  IF (MOD(N,2) == 0) THEN
+     MEDIAN=(Y(N/2)+Y((N/2)+1))/2
+  ELSE
+     MEDIAN=Y((N/2)+1)
+  ENDIF
+CONTAINS     !! (7)
+  SUBROUTINE SELECTION
+    IMPLICIT NONE
+    INTEGER :: I,J,K
+    REAL :: MINIMUM
+    DO I=1,N-1
+       K=I
+       MINIMUM=Y(I)
+       DO J=I+1,N
+          IF (Y(J) < MINIMUM) THEN
+             K=J
+             MINIMUM=Y(K)
+          END IF
+       END DO
+       Y(K)=Y(I)
+       Y(I)=MINIMUM
+    END DO
+  END SUBROUTINE SELECTION
+END SUBROUTINE STATS
+</example>
+</sect1>
+<sect1 id="sec_p_9_4">  Programa ejemplo_9_4.f90
+<p>
+<example>
+PROGRAM ejemplo_9_4
+  IMPLICIT NONE
+  REAL,DIMENSION(1:100)::A,B
+  INTEGER :: Nos,I
+  CHARACTER(LEN=32)::Filename
+  INTERFACE
+     SUBROUTINE Readin(Name,X,Y,N)
+       IMPLICIT NONE
+       INTEGER , INTENT(IN) :: N
+       REAL,DIMENSION(1:N),INTENT(OUT)::X,Y
+       CHARACTER (LEN=*),INTENT(IN)::Name
+     END SUBROUTINE Readin
+  END INTERFACE
+  PRINT *,' Type in the name of the data file'
+  READ '(A)' , Filename
+  PRINT *,' Input the number of items in the file'
+  READ(*,*) , Nos
+  CALL Readin(Filename,A,B,Nos)
+  PRINT * , ' Data read in was'
+  DO I=1,Nos
+     PRINT *,' ',A(I),' ',B(I)
+  ENDDO
+END PROGRAM ejemplo_9_4
+SUBROUTINE Readin(Name,X,Y,N)
+  IMPLICIT NONE
+  INTEGER , INTENT(IN) :: N
+  REAL,DIMENSION(1:N),INTENT(OUT)::X,Y
+  CHARACTER (LEN=*),INTENT(IN)::Name
+  INTEGER::I
+  OPEN(UNIT=10,STATUS='OLD',FILE=Name)
+  DO I=1,N
+     READ(10,*)X(I),Y(I)
+  END DO
+  CLOSE(UNIT=10)
+END SUBROUTINE Readin
+</example>
+</sect1>
+<sect1 id="sec_p_9_5">  Programa ejemplo_9_5.f90
+<p>
+<example>
+PROGRAM ejemplo_9_5
+  IMPLICIT NONE
+  REAL , ALLOCATABLE , DIMENSION &
+       (:,:)::One,Two,Three,One_T
+  INTEGER :: I,N
+  INTERFACE
+     SUBROUTINE Matrix_bits(A,B,C,A_T)
+       IMPLICIT NONE
+       REAL, DIMENSION (:,:), INTENT(IN) :: A,B
+       REAL, DIMENSION (:,:), INTENT(OUT) :: C,A_T
+     END SUBROUTINE Matrix_bits
+  END INTERFACE
+  PRINT *,'Dimensión de las matrices'
+  READ*,N
+  ALLOCATE(One(1:N,1:N))
+  ALLOCATE(Two(1:N,1:N))
+  ALLOCATE(Three(1:N,1:N))
+  ALLOCATE(One_T(1:N,1:N))
+  DO I=1,N
+     PRINT*, 'Fila ', I,' de la primer matriz?'
+     READ*,One(I,1:N)
+  END DO
+  DO I=1,N
+     PRINT*, 'Fila ', I,' de la segunda matriz?'
+     READ*,Two(I,1:N)
+  END DO
+  CALL Matrix_bits(One,Two,Three,One_T)
+  PRINT*,' Resultado: Matriz Producto:'
+  DO I=1,N
+     PRINT *,Three(I,1:N)
+  END DO
+  PRINT *,' Matriz traspuesta A^T:'! Calcula la matriz transpuesta.
+  DO I=1,N
+     PRINT *,One_T(I,1:N)
+  END DO
+END PROGRAM ejemplo_9_5
+!
+SUBROUTINE Matrix_bits(A,B,C,A_T)
+  IMPLICIT NONE
+  REAL, DIMENSION (:,:), INTENT(IN) :: A,B
+  REAL, DIMENSION (:,:), INTENT(OUT) :: C,A_T
+  C=MATMUL(A,B)
+  A_T=TRANSPOSE(A)
+END SUBROUTINE Matrix_bits
+</example>
+</sect1>
+<sect1 id="sec_p_9_6">  Programa ejemplo_9_6.f90
+<p>
+<example>
+PROGRAM ejemplo_9_6
+  !
+  IMPLICIT NONE
+  !
+  INTEGER :: I, IERR
+  REAL, DIMENSION(:), ALLOCATABLE :: X, Y
+  REAL :: M, SD, MEDIAN
+  ! interface block   
+  INTERFACE
+     SUBROUTINE STATS(VECTOR,N,MEAN,STD_DEV,MEDIAN)
+       IMPLICIT NONE
+       INTEGER , INTENT(IN)                    ::  N
+       REAL      , INTENT(IN) , DIMENSION(:)   :: VECTOR  
+       REAL      , INTENT(OUT)                 :: MEAN
+       REAL      , INTENT(OUT)                 :: STD_DEV
+       REAL      , INTENT(OUT)                 :: MEDIAN
+     END SUBROUTINE STATS
+  END INTERFACE
+  !
+  READ*, I  
+  !
+  ALLOCATE(X(1:I), STAT = IERR)    
+  IF (IERR /= 0) THEN
+     PRINT*, "X allocation request denied."
+     STOP
+  ENDIF
+  !
+  ALLOCATE(Y(1:I), STAT = IERR)    
+  IF (IERR /= 0) THEN
+     PRINT*, "Y allocation request denied."
+     STOP
+  ENDIF
+  !
+  CALL BOX_MULLER(I)
+  !
+  PRINT*, X
+  CALL STATS(X,I,M,SD,MEDIAN)
+  !
+  PRINT *,' MEAN = ',M
+  PRINT *,' STANDARD DEVIATION = ',SD
+  PRINT *,' MEDIAN IS = ',MEDIAN
+  !
+  IF (ALLOCATED(X)) DEALLOCATE(X, STAT = IERR) 
+  IF (IERR /= 0) THEN
+     PRINT*, "X NON DEALLOCATED!"
+     STOP
+  ENDIF
+  PRINT*, Y
+  CALL STATS(Y,I,M,SD,MEDIAN)
+  !
+  PRINT *,' MEAN = ',M
+  PRINT *,' STANDARD DEVIATION = ',SD
+  PRINT *,' MEDIAN IS = ',MEDIAN
+  !
+  IF (ALLOCATED(Y)) DEALLOCATE(Y, STAT = IERR)   
+  IF (IERR /= 0) THEN
+     PRINT*, "Y NON DEALLOCATED!"
+     STOP
+  ENDIF
+  !
+CONTAINS
+  !
+  SUBROUTINE BOX_MULLER(dim)
+    ! 
+    ! Uses the Box-Muller method to create two normally distributed vectors
+    !
+    INTEGER, INTENT(IN) :: dim
+    !
+    REAL, PARAMETER :: PI = ACOS(-1.0)
+    REAL, DIMENSION(dim) :: RANDOM_u, RANDOM_v ! Automatic arrays
+    !
+    CALL RANDOM_NUMBER(RANDOM_u)
+    CALL RANDOM_NUMBER(RANDOM_v)
+    !
+    X = SQRT(-2.0*LOG(RANDOM_u))
+    Y = X*SIN(2*PI*RANDOM_v)
+    X = X*COS(2*PI*RANDOM_v)
+    !
+  END SUBROUTINE BOX_MULLER
+  !
+END PROGRAM ejemplo_9_6
+</example>
+</sect1>
+<sect1 id="sec_p_9_7">  Programa ejemplo_9_7.f90
+<p>
+<example>
+PROGRAM EJEMPLO_9_7
+  !
+  IMPLICIT NONE
+  !
+  INTERFACE
+     SUBROUTINE SUBEXAMPLE(IMIN, IMAX, FACT_MAT)
+       INTEGER, INTENT(IN) :: IMIN, IMAX
+       REAL, DIMENSION(IMIN:), INTENT(OUT) :: FACT_MAT
+     END SUBROUTINE SUBEXAMPLE
+  END INTERFACE
+  !
+  REAL, DIMENSION(:), ALLOCATABLE :: FACT_MAT
+  INTEGER :: IMIN, IMAX, I
+  !
+  IMIN = 0
+  IMAX = 5
+  !
+  ALLOCATE(FACT_MAT(IMIN:IMAX))
+  !
+  PRINT*, "MAIN", SIZE(FACT_MAT)
+  !
+  CALL SUBEXAMPLE(IMIN, IMAX, FACT_MAT)
+  !
+  DO I = IMIN, IMAX
+     PRINT*, I, FACT_MAT(I)
+  ENDDO
+  !
+END PROGRAM EJEMPLO_9_7
+!!!!!!!!!!
+SUBROUTINE SUBEXAMPLE(IMIN, IMAX, FACT_MAT)
+  !
+  IMPLICIT NONE
+  INTEGER, intent(in) :: IMIN, IMAX
+  REAL, DIMENSION(IMIN:), intent(out) :: FACT_MAT
+! The subroutine with the next line only would work for IMIN = 1
+!  REAL, DIMENSION(:), intent(out) :: FACT_MAT
+  !
+  INTEGER :: j,k
+  !
+  PRINT*, "SUB", SIZE(FACT_MAT)
+  !
+  DO j = imin, imax
+     fact_mat(j) = 1.0
+     do k = 2, j
+        fact_mat(j) = k*fact_mat(j)
+     enddo
+  ENDDO
+  !
+  !
+END SUBROUTINE SUBEXAMPLE
+</example>
+</sect1>
+</sect>
+</chapt>
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!--                         Clase 10                        -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+<chapt id="clase_10"><heading>Subprogramas (III): módulos</heading> 
+<sect id="sec_101"> Objetivos
+
+<p>
+Los objetivos de esta clase son los siguientes:
+
+<enumlist> 
+<item> Presentar los módulos y las ventajas que aportan.
+<item> Uso de módulos para la definición de variables. Reemplazo de bloques <tt>COMMON</tt>.
+<item> Uso de módulos para la definición de funciones y subrutinas.
+<item> Definición de variables públicas y privadas en módulos. Visibilidad en el módulo. 
+</enumlist>
+</sect>
+
+<sect id="sec_102"> Puntos destacables.
+<p>
+<enumlist> 
+<item> La definición de módulos permite escribir código de forma más clara y flexible. En un módulo podemos encontrar
+
+<enumlist>
+<item> Declaración global de variables.
+
+<p>
+Reemplazan a las órdenes <tt>COMMON</tt> e <tt>INCLUDE</tt> de <prgn>FORTRAN 77</prgn>.
+
+<item>  Declaración de bloques <tt>INTERFACE</tt>.
+
+<item> Declaración de funciones y subrutinas. La declaración de funciones y subrutinas en un módulo es conveniente para evitar la inclusión de los correspondientes <tt>INTERFACE</tt>, ya que estos están ya implícitos en el
+módulo.
+
+<item> Control del acceso a los objetos, lo que permite que ciertos
+objetos tengan carácter público y otros privado.
+
+<item> Los módulos permiten empaquetar tipos derivados, funciones, subrutinas para proveer de capacidades de programación orientada a objetos. Pueden también usarse para definir extensiones semánticas al lenguaje <prgn>FORTRAN</prgn>.
+</enumlist>
+
+<p>
+La sintaxis para la declaración de un módulo es la siguiente:
+<p>
+<example>
+MODULE <var>module name</var>
+   IMPLICIT NONE
+   SAVE
+     <var>declaraciones y especificaciones</var>
+   [ CONTAINS
+     <var>definición de subrutinas y funciones</var> ]
+END MODULE  <var>module name</var>
+</example>
+<p> La carga del módulo se hace mediante la orden <tt>USE
+MODULE <var>module name</var></tt> que debe preceder al resto de
+órdenes de la unidad de programa en el que se incluya.  Desde un
+módulo puede llamarse a otro módulo.  A continuación desarrollamos
+brevemente estas ideas.
+
+<item> Una de las funciones de los módulos es permitir el intercambio
+de variables entre diferentes programas y subrutinas sin recurrir a
+los argumentos. La otra función principal es, haciendo uso
+de <tt>CONTAINS</tt>, definir funciones, subrutines y
+bloques <tt>INTERFACE</tt>.
+
+<p>
+La inclusión de estas unidades en un módulo hace que todos los
+detalles acerca de las subrutinas y funciones implicadas sean
+conocidas para el compilador lo que permite una más rápida detección
+de errores. Cuando una subrutina o una función se compila en un módulo
+y se hace accesible mediante <tt>USE MODULE</tt> se dice que tiene una
+interfaz explícita (<em>explicit interface</em>), mientras que en caso contrario se dice que tiene una interfaz implícita  (<em>implicit interface</em>).
+
+<item> La definición de módulos favorece la
+llamada <em>encapsulación</em>, que consiste en definir secciones de
+código que resultan fácilmente aplicables en diferentes
+situaciones. En esto consiste la base de la llamada programación
+orientada a objetos. En el <ref id="sec_p_10_1"> presentamos como se
+define un módulo (usando la orden <tt>MODULE</tt> en vez
+de <tt>PROGRAM</tt> para la definición de un <em>stack</em> de
+enteros. Es importante tener en cuenta como se definen en el módulo
+las variables <tt>STACK_POS</tt> y <tt>STORE</tt> con el
+atributo <tt>SAVE</tt>, para que su valor se conserve entre
+llamadas. Esto es especialmente importante cuando el módulo se llama
+desde una subrutina o función en vez de desde el programa principal.
+
+<item> Este módulo puede ser accedido por otra unidad de programa que
+lo cargue usando la orden <tt>USE</tt>. Debe compilarse previamente a
+la unidad de programa que lo cargue.
+
+<p> 
+<example>
+PROGRAM Uso_Stack
+!
+USE Stack     ! CARGA EL MODULO 
+!
+IMPLICIT NONE
+....
+....
+CALL POP(23); CAL PUSH(20)
+....
+....
+END PROGRAM Uso_Stack
+</example>
+
+<item> Como vemos en el <ref id="sec_p_10_1"> las variables dentro de
+un módulo pueden definirse como variables privadas, con el
+atributo <tt>PRIVATE</tt>. Esto permite que no se pueda acceder a
+estas variables desde el código que usa el módulo. El programa que carga el módulo solo puede acceder a las subrutinas <tt>POP</tt> y <tt>PUSH</tt>. La visibilidad por defecto al definir una variable o procedimiento en un módulo es <tt>PUBLIC</tt>. Es posible añadir el atributo a la definición de las variables
+
+<p>
+<example>
+  INTEGER, PRIVATE, PARAMETER :: STACK_SIZE = 500
+  INTEGER, PRIVATE, SAVE :: STORE(STACK_SIZE) = 0, STACK_POS = 0
+</example>
+
+<item> En ocasiones es posible que variables o procedimientos definidos en un módulo entren en conflicto con variables del programa que usa el módulo. Para evitar esto existe la posibilidad de renombrar las variables que carga el módulo, aunque esto solo debe hacerse cuando sea estrictamente necesario. 
+
+<p>
+Si, por ejemplo, llamamos al módulo <tt>Stack</tt> desde un programa que ya tiene una variable llamada <tt>PUSH</tt> podemos renombrar el objeto <tt>PUSH</tt> del módulo a <tt>STACK_PUSH</tt> al invocar el módulo
+
+<p>
+<example>
+USE Stack, STACK_PUSH => PUSH
+</example>
+
+<p> 
+Se pueden renombrar varios objetos, separándolos por comas.
+
+<item> Es posible hacer que solo algunos elementos del módulo sean accesibles desde el programa que lo invoca con la cláusula <tt>ONLY</tt>, donde también es posible renombrar los objetos si es necesario. Por ejemplo,  con la llamada
+
+<p>
+<example>
+USE Stack, ONLY: POP, STACK_PUSH => PUSH
+</example>
+
+Solamente se accede a <tt>POP</tt> y <tt>PUSH</tt>, y este último se renombra a <tt>STACK_PUSH</tt>.
+
+<item> Para definir variables comunes a diferentes partes de un
+programa se debe evitar el uso de variables en <tt>COMMON</tt> y, en
+vez de ello, se siguen los pasos siguientes.
+
+<enumlist>
+<item> Declarar las variables necesarias en un <tt>MODULE</tt>.
+<item> Otorgar a estas variables el atributo <tt>SAVE</tt>.
+<item> Cargar este módulo (<tt>USE</tt> <var>module_name</var>) desde
+aquellas unidades que necesiten acceso a estos datos globales.
+</enumlist>
+
+<p>
+Por ejemplo, si existen una serie de constantes físicas que utilizaremos en varios programas podemos definirlas en un módulo:
+<p>
+<example>
+MODULE PHYS_CONST
+  !
+  IMPLICIT NONE
+  !
+  SAVE
+  !
+  REAL, PARAMETER :: Light_Speed = 2.99792458E08  ! m/s
+  REAL, PARAMETER :: Newton_Ctnt = 6.67428E-11    ! m3 kg-1 s-2
+  REAL, PARAMETER :: Planck_Ctnt = 4.13566733E-15 ! eV s
+  !
+  REAL :: Otra_variable
+  !
+END MODULE PHYS_CONST
+</example>
+
+
+<p>
+En este módulo se definen tres constantes físicas (con el
+atributo <tt>PARAMETER</tt>, ya que son constantes) y una cuarta
+variable a la que se desea acceder que no permanece constante. En cualquier programa, función o subrutina que quieran usarse estas variables basta con cargar el módulo
+
+<p>
+<example>
+PROGRAM CALCULUS
+  !
+  USE PHYS_CONST 
+  !
+  IMPLICIT NONE
+  !
+  REAL DISTANCE, TIME
+  !
+  ...
+  DISTANCE = Light_Speed*TIME
+  ...
+  !
+END PROGRAM CALCULUS
+</example>
+
+
+
+<item> El <ref id="sec_p_10_2"> es un programa simple donde se utiliza
+el módulo para el manejo de un stack presentado para realizar
+operaciones (adición y substracción) con enteros en notación polaca
+inversa (RPN, reverse Polish notation). 
+
+<p> Esta notación permite no usar paréntesis en las operaciones
+algebraicas y resulta más rápida que la notación usual. Si, por
+ejemplo, en el stack existen los números <tt>(23, 10, 33)</tt> y
+tenemos en cuenta que un stack se rige por el principio <em>last in,
+first out</em>, tendremos que si introducimos un número más
+(p.e. <tt>5</tt>) y realizamos las operaciones de suma (<tt>plus</tt>)
+y substracción (<tt>minus</tt>) tendremos lo siguiente
+
+<p>
+<example>
+-       -         -              -
+-       23        -              -
+23      10        23             -
+10      33        10             23
+33   ->  5   ->   38 (=33+5) -> -28 (=10-38)
+
+5      plus      minus
+</example>
+
+<p>
+Para llevar a cabo esta tarea se carga el módulo <tt>Stack</tt>
+en <em>(1)</em>. Una vez cargado el módulo podemos acceder a las
+subrutinas <tt>POP</tt> y <tt>PUSH</tt> que nos permiten manejar el
+stack. En <em>(2)</em> comienza el bucle principal, con la
+etiqueta <tt>inloop</tt>, que termina cuando el usuario da como
+input <tt>Q</tt>, <tt>q</tt> o <tt>quit</tt>.
+
+<p>
+Para controlar este bucle se utiliza una estructura <tt>SELECT CASE</tt>
+que comienza en <em>(3)</em>. Esta estructura analiza cuatro casos posibles:
+<list>
+<item> <em>(4)</em>: salir del programa
+<item> <em>(5)</em>: suma
+<item> <em>(6)</em>: resta
+<item> <em>(7)</em>: introduce número en el stack (<tt>DEFAULT</tt>)
+</list>
+
+<p>
+En el último caso se transforma la variable de carácter leída en una
+variable entera para almacenarla en el stack. 
+
+<p>
+Para compilar y correr este programa podemos hacerlo compilando previamente el módulo, si lo hemos salvado en el fichero <file>ejemplo_10_1_Stack.f90</file>
+<p>
+<example>
+$ gfortran -c ejemplo_10_1_Stack.f90
+$ gfortran -o ejemplo_10_2 ejemplo_10_2.f90 ejemplo_10_1_Stack.o
+</example>
+
+
+<item> El uso de módulos también permite, de forma flexible, segura y
+fácil de modificar, controlar la precisión de los números reales (o
+enteros) en los cálculos que se lleven a cabo. Una posible forma de
+definir de forma portable la doble precisión es mediante un sencillo módulo, llamado <tt>dble_prec</tt>. Como vimos en el programa  <ref id="sec_p_2_6"> los números reales de doble precisión tienen un <tt>KIND = 8</tt>. Para hacer el código independiente de la plataforma donde compilemos podemos hacer 
+<p>
+<example>
+MODULE dble_prec
+  IMPLICIT NONE
+  INTEGER, PARAMETER :: dbl = KIND(1.0D0)
+END MODULE dble_prec
+</example>
+<p>
+Por tanto podemos definir esa precisión cargando este módulo, p.e.
+<example>
+PROGRAM TEST_MINUIT
+  !
+  USE dble_prec
+  !
+  IMPLICIT NONE
+  !
+  ! Variable Definition     
+  REAL(KIND=dbl), PARAMETER :: PI = 4.0_dbl*ATAN(1.0_dbl)
+  REAL(KIND=dbl) :: ENERF
+   ....
+   .... 
+</example>
+
+<p>
+Esto favorece la portabilidad y reduce el riesgo de errores ya que
+para cambiar la precisión con la que se trabaja solamente es necesario
+editar el módulo. En el <ref id="sec_p_10_3"> introducimos esta mejora
+en el programa <ref id="sec_p_9_6">. Se almacena el módulo simple
+anteriormente descrito en un fichero llamado,
+p.e., <file>dble_prec.f90</file> y se compila previamente:
+<p>
+<example>
+$ gfortran -c dble_prec.f90
+$ gfortran -o ejemplo_10_3 ejemplo_10_3.f90 dble_prec.o
+</example>
+</enumlist>
+<p>
+Un módulo más completo, donde se definen diferentes tipos de enteros y de reales es el dado en el programa <ref id="sec_p_10_4">.
+<p>
+En un ejercicio se plantean al alumnos diferentes maneras de mejorar
+el programa simple  <ref id="sec_p_10_2">.
+
+</sect>
+
+<sect id="sec_103">  Programas usados como ejemplo.
+<sect1 id="sec_p_10_1">  Programa ejemplo_10_1.f90
+<p>
+<example>
+MODULE Stack
+  ! 
+  ! MODULE THAT DEFINES A BASIC STACK
+  !
+  IMPLICIT NONE
+  !
+  SAVE
+  !
+  INTEGER, PARAMETER :: STACK_SIZE = 500
+  INTEGER :: STORE(STACK_SIZE) = 0, STACK_POS = 0
+  !
+  PRIVATE :: STORE, STACK_POS, STACK_SIZE
+  PUBLIC :: POP, PUSH
+  !
+  CONTAINS
+    !
+    SUBROUTINE PUSH(I)
+      !
+      INTEGER, INTENT(IN) :: I
+      !
+      IF (STACK_POS < STACK_SIZE) THEN
+         !
+         STACK_POS = STACK_POS + 1; STORE(STACK_POS) = I
+         !
+      ELSE
+         !
+         STOP "FULL STACK ERROR"
+         !
+      ENDIF
+      !
+    END SUBROUTINE PUSH
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    SUBROUTINE POP(I)
+      !
+      INTEGER, INTENT(OUT) :: I
+      !
+      IF (STACK_POS > 0) THEN
+         !
+         I = STORE(STACK_POS); STACK_POS = STACK_POS - 1
+         !
+      ELSE
+         !
+         STOP "EMPTY STACK ERROR"
+         !
+      ENDIF
+      !
+    END SUBROUTINE POP
+    !
+END MODULE Stack
+</example>
+</sect1>
+<sect1 id="sec_p_10_2">  Programa ejemplo_10_2.f90
+<p>
+<example>
+PROGRAM RPN_CALC
+  !
+  ! SIMPLE INTEGER RPN CALCULATOR (ONLY SUM AND SUBSTRACT)
+  !
+  USE Stack                 !!        (1)
+  !
+  IMPLICIT NONE
+  !
+  INTEGER :: KEYB_DATA
+  CHARACTER(LEN=10) :: INPDAT
+  !
+  INTEGER :: I, J, K, DATL, NUM, RES
+  !
+  !
+  inloop: DO      !! MAIN LOOP        (2)
+     !
+     READ 100, INPDAT
+     !
+     SELECT CASE (INPDAT)   !!        (3)
+        !
+     CASE ('Q','q')  !! EXIT          (4)
+        PRINT*, "End of program"
+        EXIT inloop
+     CASE ('plus','Plus','PLUS','+')   !! SUM              (5)        
+        CALL POP(J)
+        CALL POP(K)
+        RES = K + J
+        PRINT 120, K, J, RES
+        CALL PUSH(RES)
+     CASE ('minus','Minus','MINUS','-')   !! SUBSTRACT        (6)
+        CALL POP(J)
+        CALL POP(K)
+        RES = K - J
+        PRINT 130, K, J, RES
+        CALL PUSH(RES)
+     CASE DEFAULT !! NUMBER TO STACK  (7)
+        !
+        DATL = LEN_TRIM(INPDAT)
+        !
+        RES = 0
+        DO I = DATL, 1, -1
+           NUM = IACHAR(INPDAT(I:I)) - 48
+           RES = RES + NUM*10**(DATL-I)
+        ENDDO
+        !
+        PRINT 110, RES
+        CALL PUSH(RES)
+     END SELECT
+     !
+  ENDDO inloop
+  !
+100 FORMAT(A10)
+110 FORMAT(1X, I10)
+120 FORMAT(1X, I10,' + ', I10,' = ', I20)
+130 FORMAT(1X, I10,' - ', I10,' = ', I20)
+END PROGRAM RPN_CALC
+</example>
+</sect1>
+<sect1 id="sec_p_10_3">  Programa ejemplo_10_3.f90
+<p>
+<example>
+PROGRAM ejemplo_10_3
+  !
+  USE dble_prec
+  !
+  IMPLICIT NONE
+  !
+  INTEGER :: I, IERR
+  REAL(KIND=dbl), DIMENSION(:), ALLOCATABLE :: X, Y
+  REAL(KIND=dbl) :: M, SD, MEDIAN
+  ! interface block   
+  INTERFACE
+     SUBROUTINE STATS(VECTOR,N,MEAN,STD_DEV,MEDIAN)
+       !
+       USE dble_prec
+       !
+       IMPLICIT NONE
+       INTEGER , INTENT(IN)                    ::  N
+       REAL(KIND=dbl)      , INTENT(IN) , DIMENSION(:)   :: VECTOR  
+       REAL(KIND=dbl)      , INTENT(OUT)                 :: MEAN
+       REAL(KIND=dbl)      , INTENT(OUT)                 :: STD_DEV
+       REAL(KIND=dbl)      , INTENT(OUT)                 :: MEDIAN
+     END SUBROUTINE STATS
+  END INTERFACE
+  !
+  READ*, I  
+  !
+  ALLOCATE(X(1:I), STAT = IERR)    
+  IF (IERR /= 0) THEN
+     PRINT*, "X allocation request denied."
+     STOP
+  ENDIF
+  !
+  ALLOCATE(Y(1:I), STAT = IERR)    
+  IF (IERR /= 0) THEN
+     PRINT*, "Y allocation request denied."
+     STOP
+  ENDIF
+  !
+  CALL BOX_MULLER(I)
+  !
+  PRINT*, X
+  CALL STATS(X,I,M,SD,MEDIAN)
+  !
+  PRINT *,' MEAN = ',M
+  PRINT *,' STANDARD DEVIATION = ',SD
+  PRINT *,' MEDIAN IS = ',MEDIAN
+  !
+  IF (ALLOCATED(X)) DEALLOCATE(X, STAT = IERR) 
+  IF (IERR /= 0) THEN
+     PRINT*, "X NON DEALLOCATED!"
+     STOP
+  ENDIF
+  PRINT*, Y
+  CALL STATS(Y,I,M,SD,MEDIAN)
+  !
+  PRINT *,' MEAN = ',M
+  PRINT *,' STANDARD DEVIATION = ',SD
+  PRINT *,' MEDIAN IS = ',MEDIAN
+  !
+  IF (ALLOCATED(Y)) DEALLOCATE(Y, STAT = IERR)   
+  IF (IERR /= 0) THEN
+     PRINT*, "Y NON DEALLOCATED!"
+     STOP
+  ENDIF
+  !
+CONTAINS
+  !
+  SUBROUTINE BOX_MULLER(dim)
+    ! 
+    ! Uses the Box-Muller method to create two normally distributed vectors
+    !
+    INTEGER, INTENT(IN) :: dim
+    !
+    REAL(KIND=dbl), PARAMETER :: PI = ACOS(-1.0_dbl)
+    REAL(KIND=dbl), DIMENSION(dim) :: RANDOM_u, RANDOM_v ! Automatic arrays
+    !
+    CALL RANDOM_NUMBER(RANDOM_u)
+    CALL RANDOM_NUMBER(RANDOM_v)
+    !
+    X = SQRT(-2.0_dbl*LOG(RANDOM_u))
+    Y = X*SIN(2.0_dbl*PI*RANDOM_v)
+    X = X*COS(2.0_dbl*PI*RANDOM_v)
+    !
+  END SUBROUTINE BOX_MULLER
+  !
+END PROGRAM ejemplo_10_3
+SUBROUTINE STATS(VECTOR,N,MEAN,STD_DEV,MEDIAN)
+  USE dble_prec
+  IMPLICIT NONE
+  ! Defincion de variables
+  INTEGER , INTENT(IN)                    ::  N
+  REAL(KIND=dbl)      , INTENT(IN) , DIMENSION(:)    ::  VECTOR    !! (1)
+  REAL(KIND=dbl)      , INTENT(OUT)                  ::  MEAN
+  REAL(KIND=dbl)      , INTENT(OUT)                  ::  STD_DEV
+  REAL(KIND=dbl)      , INTENT(OUT)                  ::  MEDIAN
+  REAL(KIND=dbl)      , DIMENSION(1:N)              ::  Y
+  REAL(KIND=dbl)      :: VARIANCE = 0.0_dbl
+  REAL(KIND=dbl)      :: SUMXI = 0.0_dbl, SUMXI2 = 0.0_dbl
+  !
+  SUMXI=SUM(VECTOR)       !! (6)
+  SUMXI2=SUM(VECTOR*VECTOR)    !! (6)
+  MEAN=SUMXI/N       
+  VARIANCE=(SUMXI2-SUMXI*SUMXI/N)/(N-1)
+  STD_DEV = SQRT(VARIANCE)
+  Y=VECTOR
+  ! Ordena valores por proceso de seleccion
+  CALL SELECTION
+  IF (MOD(N,2) == 0) THEN
+     MEDIAN=(Y(N/2)+Y((N/2)+1))/2
+  ELSE
+     MEDIAN=Y((N/2)+1)
+  ENDIF
+CONTAINS     !! (7)
+  SUBROUTINE SELECTION
+    IMPLICIT NONE
+    INTEGER :: I,J,K
+    REAL :: MINIMUM
+    DO I=1,N-1
+       K=I
+       MINIMUM=Y(I)
+       DO J=I+1,N
+          IF (Y(J) < MINIMUM) THEN
+             K=J
+             MINIMUM=Y(K)
+          END IF
+       END DO
+       Y(K)=Y(I)
+       Y(I)=MINIMUM
+    END DO
+  END SUBROUTINE SELECTION
+END SUBROUTINE STATS
+</example>
+</sect1>
+<sect1 id="sec_p_10_4">  Programa ejemplo_10_4.f90
+<p>
+<example>
+MODULE NUMERIC_KINDS
+  ! 4, 2, AND 1 BYTE INTEGERS
+  INTEGER, PARAMETER :: &
+       i4b = SELECTED_INT_KIND(9), &
+       i2b = SELECTED_INT_KIND(4), &
+       i1b = SELECTED_INT_KIND(2)
+  ! SINGLE, DOUBLE, AND QUADRUPLE PRECISION
+  INTEGER, PARAMETER :: &
+       sp = KIND(1.0), &
+       dp = SELECTED_REAL_KIND(2*PRECISION(1.0_sp)), &
+       qp = SELECTED_REAL_KIND(2*PRECISION(1.0_dp))
+END MODULE NUMERIC_KINDS
+</example>
+</sect1>
+</sect>
+</chapt>
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!--                         Clase 11                        -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+<chapt id="clase_11"><heading>Subprogramas (IV)</heading> 
+<sect id="sec_111"> Objetivos
+
+<p>
+Los objetivos de esta clase son los siguientes:
+
+<enumlist> 
+<item> Explicar como se deben gestionar los errores en la invocación de funciones y subrutinas.
+<item> Explicar como se pasa el nombre de una función o subrutina como argumento declarando las funciones o subrutinas implicadas con el atributo <tt>EXTERNAL</tt>.
+<item> Explicar como se pasa el nombre de una función o subrutina como argumento declarando las funciones o subrutinas en un módulo.
+</enumlist>
+</sect>
+<sect id="sec_112"> Puntos destacables.
+<p>
+<enumlist> 
+<item> Se debe evitar que un programa termine sin que una subprograma
+(función o subrutina) devuelva el control al programa que lo ha
+invocado. Por ello se debe no usar la orden <tt>STOP</tt> en el
+interior de subprogramas. La mejor forma de gestionar errores en una
+subrutina, sobre todo aquellos debidos a una incorrecta definición de
+los argumentos de entrada de la subrutina, es mediante el uso de
+varibles <em>flag</em> (bandera) que marquen que ha tenido lugar un
+error. En el siguiente ejemplo se calcula la raíz cuadrada de la
+diferencia entre dos números, y la variable <tt>sta_flag</tt> es cero
+si la subrutina se ejecuta sin problemas o uno si se trata de calcular
+la raíz cuadrada de un número negativo.
+
+<p>
+<example>
+SUBROUTINE calc(a_1, a_2, result, sta_flag)
+   IMPLICIT NONE
+   REAL, INTENT(IN) :: a_1, a_2
+   REAL, INTENT(OUT) :: result
+   INTEGER, INTENT(OUT) :: sta_flag
+   !
+   REAL :: temp
+   !
+   temp = a_1 - a_2
+   IF (temp >= 0) THEN
+      result = SQRT(temp)
+      sta_flag = 0
+   ELSE
+      result = 0.0
+      sta_flag = 1
+   ENDIF
+END SUBROUTINE calc
+</example>
+<p>
+Una vez ejecutada la subrutina se debe comprobar el valor de la variable <tt>sta_flag</tt> para informar si ha existido algún problema.
+
+<item> Al invocar una subrutina los argumentos pasan como una serie de punteros a ciertas posiciones de memoria. Eso permite que como argumento figure una función o subrutina.
+
+<item> En el caso de funciones, cuando se incluye el nombre de una
+función en la lista de argumentos se transforma en un puntero a dicha
+función. Para ello las funciones han de ser declaradas con el
+atributo <tt>EXTERNAL</tt>. Si, por ejemplo, desde un programa
+llamamos a una subrutina llamada <tt>evaluate_func</tt> para evaluar
+las funciones <tt>fun_1</tt> y <tt>fun_2</tt> podemos hacer algo como
+<p>
+<example>
+PROGRAM test
+  IMPLICIT NONE
+  REAL :: fun_1, fun_2
+  EXTERNAL fun_1, fun_2
+  REAL :: x, y, output
+
+  ......
+
+  CALL evaluate_func(fun_1, x, y, output)
+  CALL evaluate_func(fun_2, x, y, output)
+
+  ......
+
+END PROGRAM test
+
+SUBROUTINE evaluate_func(fun, a, b, out)
+   REAL, EXTERNAL :: fun
+   REAL, INTENT(IN) :: a, b
+   REAL, INTENT(OUT) :: out
+   !
+   out = fun(a,b)
+END SUBROUTINE evaluate_func
+</example>
+<p>
+En el <ref id="sec_p_11_1"> se muestra un ejemplo en el que se evalua,
+dependiendo de la elección del usuario, el producto o el cociente
+entre dos números. Dependiendo de la elección se utiliza la
+subrutina <tt>Eval_Func</tt>, que acepta como uno de sus argumentos el
+nombre de la función que se va a evaluar, <tt>prod_func</tt>
+o <tt>quot_func</tt>. Debe indicarse el tipo de variable asociado a la función, pero no se puede especificar el atributo <tt>INTENT</tt>.
+
+<item> También pueden usarse nombres de subrutinas como
+argumentos. Para pasar el nombre de una subrutina como argumento dicha
+subrutina debe ser declarada con el atributo EXTERNAL. En el siguiente
+ejemplo una subrutina llamada <tt>launch_sub</tt> acepta como
+argumentos de entrada las variables <tt>x_1</tt> y <tt>x_2</tt> y el
+nombre de una subrutina a la que invoca con las variables anteriores
+como argumentos y tiene como argumento de salida la
+variable <tt>result</tt>.
+<p>
+<example>
+SUBROUTINE launch_sub(x_1, x_2, sub_name, result)
+  IMPLICIT NONE
+  REAL, INTENT(IN) :: x_1, x_2
+  EXTERNAL sub_name
+  REAL, INTENT(OUT) :: result
+
+
+  ......
+
+  CALL sub_name(x_1, x_2, result)
+
+  ......
+
+END SUBROUTINE launch_sub
+</example>
+<p>
+Como puede verse en este ejemplo, el argumento que indica la subrutina
+(<tt>sub_name</tt>) no lleva asociado el atributo <tt>INTENT</tt>.  En
+el <ref id="sec_p_11_2"> se muestra un ejemplo similar al anterior, en
+el que se evalua dependiendo de la elección del usuario el producto o
+el cociente entre dos números. Dependiendo de la elección se utiliza
+la subrutina <tt>Eval_Sub</tt>, que acepta como uno de sus argumentos
+el nombre de la subrutina que se va a evaluar, <tt>prod_sub</tt>
+o <tt>quot_sub</tt>.
+
+<item> En el <ref id="sec_p_11_3"> se muestra un ejemplo algo más
+complejo en el que se evalua, dependiendo de la elección del usuario,
+una función entre tres posibles para un intervalo de la variable
+independiente. En este caso las funciones se declaran
+como <tt>EXTERNAL</tt> y se utiliza una subrutina interna para la
+definición del vector de la variable independiente, de acuerdo con la
+dimensión que proporciona el usuario, y la
+subrutina <tt>Eval_Func</tt> que acepta como uno de sus argumentos el
+nombre de la función que se evalue mostrando los resultados en
+pantalla.
+
+<item> Es posible también comunicar a un subprograma el nombre de una función o una subrutina mediante el uso de módulos. En el  <ref id="sec_p_11_4"> se muestra un programa similar al  <ref id="sec_p_11_3"> utilizando módulos. El módulo <tt>Functions_11_4</tt> debe compilarse en un fichero separado al del programa principal. Si, por ejemplo el módulo se llama <file>ejemplo_11_4_mod.f90</file> y el programa principal <file>ejemplo_11_4.f90</file> el procedimiento sería el siguiente
+<p>
+<example>
+$ gfortran -c ejemplo_11_4_mod.f90 
+$ gfortran ejemplo_11_4.f90 ejemplo_11_4_mod.o
+</example>
+<p>
+Como ocurría en el caso anterior, el o los argumentos que indican funciones o subrutinas no llevan el atributo <tt>INTENT</tt>.
+</enumlist> 
+</sect>
+<sect id="sec_113">  Programas usados como ejemplo.
+<sect1 id="sec_p_11_1">  Programa ejemplo_11_1.f90
+<p>
+<example>
+PROGRAM func_option
+  !
+  ! Select between funs to compute the product of the quotient of two quantities
+  !
+  IMPLICIT NONE
+  !
+  !
+  REAL :: X_1, X_2
+  INTEGER :: I_fun
+  INTEGER :: I_exit
+  !
+  REAL, EXTERNAL :: prod_fun, quot_fun
+  !
+  I_exit = 1
+  !
+  DO WHILE (I_exit /= 0)
+     !
+     PRINT*, "X_1, X_2?" 
+     READ(UNIT = *, FMT = *) X_1, X_2
+     !
+     PRINT*, "function 1 = X_1 * X_2, 2 = X_1/X_2 ? (0 = exit)" 
+     READ(UNIT = *, FMT = *) I_fun
+     !
+     SELECT CASE (I_fun)
+        !
+     CASE (0)
+        I_exit = 1
+     CASE (1) 
+        CALL Eval_func(prod_fun, X_1, X_2)
+     CASE (2) 
+        CALL Eval_func(quot_fun, X_1, X_2)
+     CASE DEFAULT
+        PRINT*, "Valid options : 0, 1, 2"
+        !
+     END SELECT
+     !
+     PRINT*, "Continue? (0 = exit)" 
+     READ(UNIT=*, FMT = *) I_exit
+     !
+     !
+  ENDDO
+  !
+END PROGRAM func_option
+!
+SUBROUTINE Eval_Func(fun, X_1, X_2)
+  !
+  IMPLICIT NONE
+  !
+  REAL, INTENT(IN) :: X_1, X_2
+  REAL, EXTERNAL :: fun
+  !
+  PRINT 10, fun(X_1, X_2)
+  !
+  10 FORMAT(1X, ES16.8)
+  !
+END SUBROUTINE Eval_Func
+!
+!
+FUNCTION prod_fun(x1, x2)
+  !
+  IMPLICIT  NONE
+  !
+  REAL, INTENT(IN) :: x1, x2
+  ! 
+  REAL prod_fun
+  !
+  prod_fun = x1*x2
+  !
+END FUNCTION prod_fun
+!
+FUNCTION quot_fun(x1, x2)
+  !
+  IMPLICIT  NONE
+  !
+  REAL, INTENT(IN) :: x1, x2
+  ! 
+  REAL quot_fun
+  !
+  quot_fun = x1/x2
+  !
+END FUNCTION quot_fun
+</example>
+</sect1>
+<sect1 id="sec_p_11_2">  Programa ejemplo_11_2.f90
+<p>
+<example>
+PROGRAM sub_option
+  !
+  ! Select between subs to compute the product or the quotient of two quantities
+  !
+  IMPLICIT NONE
+  !
+  !
+  REAL :: X_1, X_2
+  INTEGER :: I_sub
+  INTEGER :: I_exit
+  !
+  EXTERNAL :: prod_sub, quot_sub
+  !
+  I_exit = 1
+  !
+  DO WHILE (I_exit /= 0)
+     !
+     PRINT*, "X_1, X_2?" 
+     READ(UNIT = *, FMT = *) X_1, X_2
+     !
+     PRINT*, "function 1 = X_1 * X_2, 2 = X_1/X_2 ? (0 = exit)" 
+     READ(UNIT = *, FMT = *) I_sub
+     !
+     SELECT CASE (I_sub)
+        !
+     CASE (0)
+        I_exit = 0
+     CASE (1) 
+        CALL Eval_Sub(prod_sub, X_1, X_2)
+     CASE (2) 
+        CALL Eval_Sub(quot_sub, X_1, X_2)
+     CASE DEFAULT
+        PRINT*, "Valid options : 0, 1, 2"
+        !
+     END SELECT
+     !
+     PRINT*, "Continue? (0 = exit)" 
+     READ(UNIT=*, FMT = *) I_exit
+     !
+  ENDDO
+  !
+END PROGRAM sub_option
+!
+SUBROUTINE Eval_Sub(sub, X_1, X_2)
+  !
+  IMPLICIT NONE
+  !
+  EXTERNAL :: sub
+  REAL, INTENT(IN) :: X_1, X_2
+  !
+  REAL :: res_sub
+  !
+  CALL sub(X_1, X_2, res_sub)
+  PRINT 10, res_sub
+  !
+10 FORMAT(1X, ES16.8)
+  !
+END SUBROUTINE Eval_Sub
+!
+!
+SUBROUTINE prod_sub(x1, x2, y)
+  !
+  IMPLICIT  NONE
+  !
+  REAL, INTENT(IN) :: x1, x2
+  REAL, INTENT(OUT) :: y
+  ! 
+  y = x1*x2
+  !
+END SUBROUTINE prod_sub
+!
+!
+SUBROUTINE quot_sub(x1, x2, y)
+  !
+  IMPLICIT  NONE
+  !
+  REAL, INTENT(IN) :: x1, x2
+  REAL, INTENT(OUT) :: y
+  ! 
+  y = x1/x2
+  !
+END SUBROUTINE quot_sub
+</example>
+</sect1>
+<sect1 id="sec_p_11_3">  Programa ejemplo_11_3.f90
+<p>
+<example>
+PROGRAM call_func
+  !
+  ! Select which curve is computed and saved in a given interval e.g. (-2 Pi, 2 Pi)
+  ! 
+  ! 1 ---> 10 x^2 cos(2x) exp(-x)
+  ! 2 ---> 10 (-x^2 + x^4)exp(-x^2)
+  ! 3 ---> 10 (-x^2 + cos(x)*x^4)exp(-x^2)
+  !
+  IMPLICIT NONE
+  !
+  !
+  REAL, DIMENSION(:), ALLOCATABLE :: X_grid
+  !
+  REAL, PARAMETER :: pi = ACOS(-1.0)
+  !
+  REAL :: X_min, X_max, Delta_X
+  INTEGER :: X_dim, I_fun
+  INTEGER :: I_exit, Ierr
+  !
+  REAL, EXTERNAL :: fun1, fun2, fun3
+  !
+  X_min = -2*pi
+  X_max = 2*pi
+  !
+  I_exit = 0
+  !
+  DO WHILE (I_exit /= 1)
+     !
+     PRINT*, "number of points? (0 = exit)" 
+     READ(UNIT=*, FMT = *) X_dim
+     !
+     IF (X_dim == 0) THEN
+        !
+        I_exit = 1
+        !
+     ELSE
+        ALLOCATE(X_grid(1:X_dim), STAT = Ierr)
+        IF (Ierr /= 0) THEN
+           STOP 'X_grid allocation failed'
+        ENDIF
+        !
+        CALL make_Grid(X_min, X_max, X_dim)
+        !
+        PRINT*, "function 1, 2, or 3? (0 = exit)" 
+        READ(UNIT = *, FMT = *) I_fun
+        !
+        SELECT CASE (I_fun)
+           !
+        CASE (0)
+           I_exit = 1
+        CASE (1) 
+           CALL Eval_func(fun1, X_dim, X_grid)
+        CASE (2) 
+           CALL Eval_func(fun2, X_dim, X_grid)
+        CASE (3) 
+           CALL Eval_func(fun3, X_dim, X_grid)
+        CASE DEFAULT
+           PRINT*, "Valid options : 0, 1, 2, 3"
+           !
+        END SELECT
+        !
+        DEALLOCATE(X_grid, STAT = Ierr)
+        IF (Ierr /= 0) THEN
+           STOP 'X_grid deallocation failed'
+        ENDIF
+        !
+     ENDIF
+     !
+  ENDDO
+  ! 
+CONTAINS
+  !
+  SUBROUTINE make_Grid(X_min, X_max, X_dim)
+    !
+    REAL, INTENT(IN) :: X_min, X_max
+    INTEGER, INTENT(IN) :: X_dim
+    !
+    INTEGER :: Index
+    REAL :: Delta_X
+    !
+    !
+    Delta_X = (X_max - X_min)/REAL(X_dim - 1)
+    !
+    X_grid = (/ (Index, Index = 0 , X_dim - 1 ) /)
+    X_grid = X_min + Delta_X*X_grid
+    !
+  END SUBROUTINE make_Grid
+  !
+END PROGRAM call_func
+!
+SUBROUTINE Eval_Func(fun, dim, X_grid)
+  !
+  IMPLICIT NONE
+  !
+  INTEGER, INTENT(IN) :: dim
+  REAL, DIMENSION(dim), INTENT(IN) :: X_grid
+  REAL, EXTERNAL :: fun
+  !
+  INTEGER :: Index
+  !
+  DO Index = 1, dim
+     PRINT 10, X_grid(Index), fun(X_grid(Index))
+  ENDDO
+  !
+  10 FORMAT(1X, ES16.8,2X, ES16.8)
+  !
+END SUBROUTINE Eval_Func
+!
+!
+FUNCTION fun1(x)
+  !
+  IMPLICIT  NONE
+  !
+  REAL, INTENT(IN) :: x
+  ! 
+  REAL fun1
+  !
+  fun1 = 10.0*x**2*cos(2.0*x)*exp(-x)
+  !
+END FUNCTION fun1
+!
+FUNCTION fun2(x)
+  !
+  IMPLICIT  NONE
+  !
+  REAL, INTENT(IN) :: x
+  ! 
+  REAL fun2
+  !
+  fun2 = 10.0*(-x**2 + x**4)*exp(-x**2)
+  !
+END FUNCTION fun2
+!
+FUNCTION fun3(x)
+  !
+  IMPLICIT  NONE
+  !
+  REAL, INTENT(IN) :: x
+  ! 
+  REAL fun3
+  !
+  fun3 = 10.0*(-x**2 + cos(x)*x**4)*exp(-x**2)
+  !
+END FUNCTION fun3
+</example>
+</sect1>
+<sect1 id="sec_p_11_4">  Programa ejemplo_11_4.f90
+<p>
+<example>
+PROGRAM call_func
+  !
+  ! Select which curve is computed and saved in a given interval e.g. (-2 Pi, 2 Pi)
+  ! 
+  ! 1 ---> 10 x^2 cos(2x) exp(-x)
+  ! 2 ---> 10 (-x^2 + x^4)exp(-x^2)
+  ! 3 ---> 10 (-x^2 + cos(x)*x^4)exp(-x^2)
+  !
+  USE Functions_11_4
+  !
+  IMPLICIT NONE
+  !
+  !
+  REAL, DIMENSION(:), ALLOCATABLE :: X_grid
+  !
+  REAL, PARAMETER :: pi = ACOS(-1.0)
+  !
+  REAL :: X_min, X_max, Delta_X
+  INTEGER :: X_dim, I_fun
+  INTEGER :: I_exit, Ierr
+  !
+  X_min = -2*pi
+  X_max = 2*pi
+  !
+  I_exit = 0
+  !
+  DO WHILE (I_exit /= 1)
+     !
+     PRINT*, "number of points? (0 = exit)" 
+     READ(UNIT=*, FMT = *) X_dim
+     !
+     IF (X_dim == 0) THEN
+        !
+        I_exit = 1
+        !
+     ELSE
+        ALLOCATE(X_grid(1:X_dim), STAT = Ierr)
+        IF (Ierr /= 0) THEN
+           STOP 'X_grid allocation failed'
+        ENDIF
+        !
+        CALL make_Grid(X_min, X_max, X_dim)
+        !
+        PRINT*, "function 1, 2, or 3? (0 = exit)" 
+        READ(UNIT = *, FMT = *) I_fun
+        !
+        SELECT CASE (I_fun)
+           !
+        CASE (0)
+           I_exit = 1
+        CASE (1) 
+           CALL Eval_func(fun1, X_dim, X_grid)
+        CASE (2) 
+           CALL Eval_func(fun2, X_dim, X_grid)
+        CASE (3) 
+           CALL Eval_func(fun3, X_dim, X_grid)
+        CASE DEFAULT
+           PRINT*, "Valid options : 0, 1, 2, 3"
+           !
+        END SELECT
+        !
+        DEALLOCATE(X_grid, STAT = Ierr)
+        IF (Ierr /= 0) THEN
+           STOP 'X_grid deallocation failed'
+        ENDIF
+        !
+     ENDIF
+     !
+  ENDDO
+  ! 
+CONTAINS
+  !
+  SUBROUTINE make_Grid(X_min, X_max, X_dim)
+    !
+    REAL, INTENT(IN) :: X_min, X_max
+    INTEGER, INTENT(IN) :: X_dim
+    !
+    INTEGER :: Index
+    REAL :: Delta_X
+    !
+    !
+    Delta_X = (X_max - X_min)/REAL(X_dim - 1)
+    !
+    X_grid = (/ (Index, Index = 0 , X_dim - 1 ) /)
+    X_grid = X_min + Delta_X*X_grid
+    !
+  END SUBROUTINE make_Grid
+  !
+END PROGRAM call_func
+!
+SUBROUTINE Eval_Func(fun, dim, X_grid)
+  !
+  USE Functions_11_4
+  !
+  IMPLICIT NONE
+  !
+  REAL :: fun
+  INTEGER, INTENT(IN) :: dim
+  REAL, DIMENSION(dim), INTENT(IN) :: X_grid
+  !
+  INTEGER :: Index
+  !
+  DO Index = 1, dim
+     PRINT 10, X_grid(Index), fun(X_grid(Index))
+  ENDDO
+  !
+  10 FORMAT(1X, ES16.8,2X, ES16.8)
+  !
+END SUBROUTINE Eval_Func
+!
+MODULE Functions_11_4
+  IMPLICIT NONE
+  !
+CONTAINS
+  !
+  !
+  FUNCTION fun1(x)
+    !
+    IMPLICIT  NONE
+    !
+    REAL, INTENT(IN) :: x
+    ! 
+    REAL fun1
+    !
+    fun1 = 10.0*x**2*cos(2.0*x)*exp(-x)
+    !
+  END FUNCTION fun1
+  !
+  FUNCTION fun2(x)
+    !
+    IMPLICIT  NONE
+    !
+    REAL, INTENT(IN) :: x
+    ! 
+    REAL fun2
+    !
+    fun2 = 10.0*(-x**2 + x**4)*exp(-x**2)
+    !
+  END FUNCTION fun2
+  !
+  FUNCTION fun3(x)
+    !
+    IMPLICIT  NONE
+    !
+    REAL, INTENT(IN) :: x
+    ! 
+    REAL fun3
+    !
+    fun3 = 10.0*(-x**2 + cos(x)*x**4)*exp(-x**2)
+    !
+  END FUNCTION fun3
+END MODULE Functions_11_4
+
+</example>
+</sect1>
+</sect>
+</chapt>
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!--                         Clase BLAS - LAPACK             -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+<chapt id="clase_blaslap"><heading>Instalación y uso de las
+    bibliotecas <prgn>BLAS</prgn> y <prgn>LAPACK</prgn></heading> 
+<sect id="sec_bl1"> Objetivos
+
+<p>
+Los objetivos de esta clase son los siguientes:
+
+<enumlist>  
+<item> familiarizar el alumno con la compilación de programas y la
+  instalación de librerias o biliotecas usando el compilador <prgn>gfortran</prgn>.
+<item> Instalar las bibliotecas de interés
+  científico  <prgn>BLAS</prgn> y <prgn>LAPACK</prgn>.
+<item> Aprender a hacer uso de dichas bibliotecas.
+</enumlist>  
+<p>
+Existe una gran cantidad de código <prgn>Fortran</prgn> accesible de
+forma abierta, ya sea como código fuente o en forma de biblioteca. En
+la presente clase el alumno se familiariza con la obtención,
+compilación, instalación y uso de dos bibliotecas de subrutinas de
+interés algebraico, <prgn>BLAS</prgn> y <prgn>LAPACK</prgn>.
+</sect>
+
+<sect id="sec_bl2"> Puntos destacables.
+
+<p>
+Indicaremos de forma escalonada los diferentes pasos que hay que
+seguir para la instalación de estas bibliotecas.
+<p>
+El código fuente de las bibliotecas <prgn>BLAS</prgn>
+y <prgn>LAPACK</prgn> puede descargarse de diferentes lugares, o
+instalarse a partir de paquetes de la distribución <prgn>Debian</prgn>
+o <prgn>Ubuntu</prgn> que se esté utilizando. En vez de ello las
+instalaremos compilándolas en nuestro ordenador.
+<p>
+<list>  
+<item> Descarga de código fuente de la biblioteca <prgn>BLAS</prgn>.
+<p>
+Se puede descargar de la web de <tt>NETLIB</tt><footnote>El
+    repositorio de <tt>Netlib</tt> contiene software gratuito,
+    documentación y bases de datos de interés para la comunidad
+    científica en general y para aquellos interesados en la
+    computación científica en particular. El repositorio es mantenido
+    por los Laboratorios AT&amp;T-Bell, la Universidad de Tennessee y
+    el laboratorio nacional de Oak Ridge, con la ayuda de un gran
+    número de colaboradores en todo el mundo. La web
+    de  <tt>Netlib</tt> es <url id="http://www.netlib.org"
+name="http://www.netlib.org">.</footnote>,
+usando este enlace <url id="http://www.netlib.org/blas/blas.tgz"
+name="BLAS tgz (Netlib)">.
+<item> Una vez descargado el código fuente, se descomprime, se compila
+  y se crea finalmente la libreria.
+<p>
+<example>
+tar xzf blas.tgz
+cd BLAS
+gfortran -O2 -c *.f
+ar cr libblas.a *.o
+</example>
+<p>
+Con lo que se debe haber creado la librería
+estática <tt>libblas.a</tt>.
+<item> A continuación se sitúa dicha libreria en un lugar apropiado,
+  por ejemplo con
+<p>
+<example>
+sudo cp libblas.a /usr/local/lib
+</example>
+<p> y se comprueba que tiene los permisos adecuados.
+<item> Descarga del código fuente de la biblioteca <prgn>LAPACK</prgn>.
+<p>
+Se puede descargar también de la web de <tt>NETLIB</tt>
+usando este enlace <url id="http://www.netlib.org/lapack/lapack.tgz"
+name="LAPACK tgz (Netlib)">. Tras su descarga se desempaquetan los
+    ficheros.
+<p>
+<example>
+tar xzf lapack.tgz
+cd lapack-3.2.1
+</example>
+<item> Esta biblioteca si tiene una serie de
+  ficheros <tt>makefile</tt> para su compilación. Hemos de preparar un
+  fichero <tt>make.inc</tt> adecuado, como el que hemos incluido
+  en <ref id="sec_p_bl_1"> y que está disponible
+  en <prgn>Moodle</prgn> en un fichero llamado <url id="http://moodle.uhu.es/contenidos/file.php/245/src_fortran_clase/make.inc.lapack.ubuntu"
+name="make.inc.lapack.ubuntu">.
+
+<p>
+Usando este fichero compilamos la librería haciendo
+<p>
+<example>
+make
+</example>
+<item> Por último, instalamos la librería copiando los ficheros
+  creados al lugar que creamos más adecuado para su ubicación.
+<p>
+<example>
+sudo cp lapack_LINUX.a /usr/local/lib
+sudo cp tmglib_LINUX.a /usr/local/lib
+</example>
+<item> Para terminar descargamos el código fuente de la biblioteca <prgn>LAPACK95</prgn>.
+<p>
+Se puede descargar también de la web de <tt>NETLIB</tt>
+usando el enlace <url id="http://www.netlib.org/lapack95/lapack95.tgz"
+name="LAPACK95 tgz (Netlib)">. Tras su descarga se desempaquetan los
+    ficheros.
+<p>
+<example>
+tar xzf lapack95.tgz
+cd LAPACK95
+</example>
+<item> Esta biblioteca también tiene una serie de
+  ficheros <tt>makefile</tt> para su compilación. Hemos de preparar de
+  nuevo un fichero <tt>make.inc</tt> adecuado, como el que hemos
+  incluido en <ref id="sec_p_bl_2"> y que está disponible
+  en <prgn>Moodle</prgn> en un fichero
+  llamado <url id="http://moodle.uhu.es/contenidos/file.php/245/src_fortran_clase/make.inc.lapack95.ubuntu"
+  name="make.inc.lapack95.ubuntu">.
+
+<p>
+Usando este fichero compilamos la librería haciendo
+<p>
+<example>
+cd SRC
+make single_double_complex_dcomplex
+</example>
+<p>
+La opción escogida es la más general, pues general la librería para
+precisión simple, doble, compleja simple y compleja doble.
+<item> Por último, instalamos la librería copiando los ficheros
+  creados al lugar que creamos más adecuado para su ubicación.
+<p>
+<example>
+sudo cp lapack95.a /usr/local/lib
+sudo cp -r lapack95_modules /usr/local/lib
+</example>
+<item> En los directorios de ejemplos (<tt>LAPACK95/EXAMPLES1</tt>
+  y <tt>LAPACK95/EXAMPLES2</tt>) encontramos un gran número de
+  ejemplos que podemos correr y comprobar las salidas obtenidas con
+  las que se encuentran en  <url id="http://www.netlib.org/lapack95/lug95/node1.html"
+  name="Lapack95 User's guide">. Las instrucciones para compilar y
+  correr los ejemplos proporcionados pueden verse en el
+  fichero <tt>README</tt> del directorio donde se encuentra el código
+  fuente de los ejemplos.
+<item> En el ejemplo <ref id="sec_p_bl_3"> se encuentra el código de
+un programa donde se recurre a la subrutina <tt>la_spsv</tt> para
+hallar la solución de un sistema lineal de ecuaciones, <em>Ax =
+B</em>, donde la matriz del sistema, <em>A</em>, es simétrica y se
+almacena de forma compacta y <em>x</em>, <em>B</em> son vectores. Es
+importante que comprenda como funciona este programa, así como que se
+sepa extraer de la documentación de <prgn>LAPACK95</prgn> el
+significado de los argumentos de entrada y salida de la subrutina.
+<item> Para correr este programa es necesario descargar el
+código <tt>ejemplo_la_spsv.f90</tt> y los ficheros de
+datos <tt>spsv.ma</tt> y <tt>spsv.mb</tt> de la web del curso. Para compilar el programa se ejecuta la orden
+<p>
+<example>
+gfortran -o ejemplo_la_spsv -I/usr/local/lib/lapack95_modules ejemplo_la_spsv.f90  /usr/local/lib/lapack95.a /usr/local/lib/tmglib_LINUX.a /usr/local/lib/lapack_LINUX.a /usr/local/lib/libblas.a
+</example>
+<p>
+En esta orden de compilación se incluyen todas las librerías y módulos necesarios para que pueda crearse el ejecutable, haciendo uso de las librerías <prgn>BLAS</prgn>, <prgn>LAPACK</prgn> y <prgn>LAPACK95</prgn> que hemos instalado.
+<item> Para proyectos más complejos y evitar tener que escribir comandos de compilación tan complejos como el anterior es posible usar un fichero <tt>makefile</tt> como el que se proporciona en el ejemplo <ref id="sec_p_bl_4">. Para usar este fichero en la compilación del ejemplo  <ref id="sec_p_bl_3"> es preciso copiar el fichero proporcionado o descargar el fichero <tt>makefile_lapack95</tt> y ejecutar la orden 
+<p>
+<example>
+ make -f makefile_lapack95 ejemplo_la_spsv
+</example>
+</list>  
+</sect>
+<sect id="sec_bl3">  Programas usados como ejemplo.
+
+<sect1 id="sec_p_bl_1">  Ejemplo de fichero <tt>make.inc</tt> para <prgn>LAPACK</prgn>
+<p>
+<example>
+####################################################################
+#  LAPACK make include file.                                       #
+#  LAPACK, Version 3.2.1                                           #
+#  MAY 2009                                                        #
+#  Modified by Currix                                              #
+####################################################################
+#
+SHELL = /bin/sh
+#
+#  The machine (platform) identifier to append to the library names
+#
+PLAT = _LINUX
+#  
+#  Modify the FORTRAN and OPTS definitions to refer to the
+#  compiler and desired compiler options for your machine.  NOOPT
+#  refers to the compiler options desired when NO OPTIMIZATION is
+#  selected.  Define LOADER and LOADOPTS to refer to the loader and 
+#  desired load options for your machine.
+#
+FORTRAN  = gfortran 
+OPTS     = -O2
+DRVOPTS  = $(OPTS)
+NOOPT    = -O0
+LOADER   = gfortran
+LOADOPTS =
+#
+# Timer for the SECOND and DSECND routines
+#
+# Default : SECOND and DSECND will use a call to the EXTERNAL FUNCTION ETIME
+#TIMER    = EXT_ETIME
+# For RS6K : SECOND and DSECND will use a call to the EXTERNAL FUNCTION ETIME_
+# TIMER    = EXT_ETIME_
+# For gfortran compiler: SECOND and DSECND will use a call to the INTERNAL FUNCTION ETIME
+TIMER    = INT_ETIME
+# If your Fortran compiler does not provide etime (like Nag Fortran Compiler, etc...)
+# SECOND and DSECND will use a call to the INTERNAL FUNCTION CPU_TIME
+# TIMER    = INT_CPU_TIME
+# If neither of this works...you can use the NONE value... In that case, SECOND and DSECND will always return 0
+# TIMER     = NONE
+#
+#  The archiver and the flag(s) to use when building archive (library)
+#  If you system has no ranlib, set RANLIB = echo.
+#
+ARCH     = ar
+ARCHFLAGS= cr
+RANLIB   = ranlib
+#
+#  Location of the extended-precision BLAS (XBLAS) Fortran library
+#  used for building and testing extended-precision routines.  The
+#  relevant routines will be compiled and XBLAS will be linked only if
+#  USEXBLAS is defined.
+#
+# USEXBLAS    = Yes
+XBLASLIB     =
+# XBLASLIB    = -lxblas
+#
+#  The location of the libraries to which you will link.  (The 
+#  machine-specific, optimized BLAS library should be used whenever
+#  possible.)
+#
+#BLASLIB      = ../../blas$(PLAT).a
+BLASLIB      = /usr/local/lib/libblas.a
+LAPACKLIB    = lapack$(PLAT).a
+TMGLIB       = tmglib$(PLAT).a
+EIGSRCLIB    = eigsrc$(PLAT).a
+LINSRCLIB    = linsrc$(PLAT).a
+</example>
+</sect1>
+<sect1 id="sec_p_bl_2">  Ejemplo de fichero <tt>make.inc</tt> para <prgn>LAPACK95</prgn>
+<p>
+<example>
+#
+#  -- LAPACK95 interface driver routine (version 2.0) --
+#     UNI-C, Denmark; Univ. of Tennessee, USA; NAG Ltd., UK
+#     August 5, 2000
+#
+FC	 = gfortran
+FC1      = gfortran
+# -dcfuns  Enable recognition of non-standard double
+#          precision  complex intrinsic functions
+# -dusty   Allows the compilation and execution of "legacy"
+#          software by downgrading the category  of  common
+#          errors  found  in  such software from "Error" to
+# -ieee=full enables all IEEE arithmetic facilities
+#          including non-stop arithmetic.
+
+OPTS0    = -u -V -dcfuns -dusty -ieee=full
+MODLIB   = -I./../lapack95_modules
+OPTS1    = -c $(OPTS0)
+OPTS3    = $(OPTS1) $(MODLIB)
+OPTL     = -o 
+OPTLIB   =
+
+LAPACK_PATH = /usr/local/lib/
+
+LAPACK95 = ../lapack95.a
+LAPACK77 = $(LAPACK_PATH)/lapack_LINUX.a
+TMG77    = $(LAPACK_PATH)/tmglib_LINUX.a
+BLAS     = $(LAPACK_PATH)/libblas.a
+
+LIBS     = $(LAPACK95) $(TMG77) $(LAPACK77) $(BLAS)
+SUF      = f90
+
+XX = 'rm' -f $@; \
+        'rm' -f $@.res; \
+	$(FC) $(OPTS0) -o $@ $(MODLIB) $@.$(SUF) $(OPTLIB) $(LIBS); \
+        $@ < $@.dat > $@.res; \
+        'rm' -f $@
+
+YY = $(FC) $(OPTS0) -o $@ $(MODLIB) $@.$(SUF) $(OPTLIB) $(LIBS)
+
+.SUFFIXES: .f90 .f .o
+
+.$(SUF).o: 
+	$(FC) $(OPTS3) $<
+
+.f.o:
+	$(FC1) $(OPTS3) $<
+</example>
+</sect1>
+<sect1 id="sec_p_bl_3">  Ejemplo de programa que invoca <prgn>LAPACK95</prgn>
+<p>
+<example>
+PROGRAM LA_SSPSV_EXAMPLE
+  
+  !  -- LAPACK95 EXAMPLE DRIVER ROUTINE (VERSION 1.0) --
+  !     UNI-C, DENMARK
+  !     DECEMBER, 1999
+  !
+  !  .. "Use Statements"
+  USE LA_PRECISION, ONLY: WP => SP
+  USE F95_LAPACK, ONLY: LA_SPSV
+  !  .. "Implicit Statement" ..
+  IMPLICIT NONE
+  !  .. "Local Scalars" ..
+  INTEGER :: I, N, NN, NRHS
+  !  .. "Local Arrays" ..
+  INTEGER, ALLOCATABLE :: IPIV(:)
+  REAL(WP), ALLOCATABLE :: B(:,:), AP(:)
+  !  .. "Executable Statements" ..
+  WRITE (*,*) 'SSPSV Example Program Results.'
+  N = 5; NRHS = 1
+  WRITE(*,'(5H N = , I4, 9H; NRHS = , I4)') N, NRHS
+  NN = N*(N+1)/2
+  ALLOCATE ( AP(NN), B(N,NRHS), IPIV(N) )
+  !
+  OPEN(UNIT=21,FILE='spsv.ma',STATUS='UNKNOWN')
+  DO I=1,NN 
+     READ(21,'(F3.0)') AP(I)
+  ENDDO
+  CLOSE(21)
+  !
+  WRITE(*,*)'Matrix AP :'
+  DO I=1,NN; WRITE(*,"(15(I3,1X,1X),I3,1X))") INT(AP(I));
+  ENDDO
+  !
+  OPEN(UNIT=21,FILE='spsv.mb',STATUS='UNKNOWN')
+  DO I=1,N 
+     READ(21,'(F3.0)') B(I,1)
+  ENDDO
+  CLOSE(21)
+  !
+  WRITE(*,*)'Matrix B :'
+  DO I=1,N; WRITE(*,"(10(I3,1X,1X),I3,1X)')") INT(B(I,1));
+  ENDDO
+  !
+  WRITE(*,*)" CALL LA_SPSV( AP, B, 'L', IPIV )"
+  !
+  CALL LA_SPSV( AP, B, 'L', IPIV )
+  !
+  WRITE(*,*)'AP on exit: '
+  DO I=1,NN; WRITE(*,"(15(E13.5))") AP(I); 
+  ENDDO
+  !
+  WRITE(*,*)'Matrix B on exit :'
+  DO I=1,N; WRITE(*,"(F9.5)") B(I,1);
+  ENDDO
+  WRITE(*,*)'IPIV = ', IPIV
+  !
+END PROGRAM LA_SSPSV_EXAMPLE
+
+
+</example>
+</sect1>
+<sect1 id="sec_p_bl_4">  Ejemplo de <tt>makefile</tt> para compilar programas que invocan <prgn>LAPACK95</prgn>
+<p>
+<example>
+#
+#  -- LAPACK95 makefile (version 1.0) --
+#
+FC	 = gfortran
+#
+MODLIB   = -I/usr/local/lib/lapack95_modules
+OPTS1    = -c
+OPTS3    = $(OPTS1) $(MODLIB)
+OPTL     = -o 
+OPTLIB   =
+
+LAPACK_PATH = /usr/local/lib
+LAPACK95_PATH = /usr/local/lib
+
+LAPACK95 = $(LAPACK95_PATH)/lapack95.a
+LAPACK77 = $(LAPACK_PATH)/lapack_LINUX.a
+TMG77    = $(LAPACK_PATH)/tmglib_LINUX.a
+BLAS     = $(LAPACK_PATH)/libblas.a
+
+LIBS     = $(LAPACK95) $(TMG77) $(LAPACK77) $(BLAS)
+SUF      = f90
+
+YY = $(FC) -o $@ $(MODLIB) $@.$(SUF) $(OPTLIB) $(LIBS)
+
+.SUFFIXES: .f90 .f .o
+
+.$(SUF).o: 
+	$(FC) $(OPTS3) $<
+
+ejemplo_la_spsv: 
+	$(YY)
+
+clean:
+	'rm' -f *.o *.mod core 
+</example>
+</sect1>
+</sect>
+
+</chapt>
+
+<chapt id="cap_ref"><heading>Referencias</heading> 
+
+<p>
+<enumlist>
+<item> Stephen J. Chapman; <em>Fortran 95/2003 for Scientists and Engineers</em>, 3a Ed. Mc Graw Hill 2008.
+<item> Michael Metcalf, John Reid, and Malcolm Cohen; <em>Modern Fortran Explained</em>, Oxford University Press 2011.
+<item> Jeanne C. Adams <em>et al.</em>; <em>Fortran 95 Handbook</em>,
+  MIT Press 1997.
+<item> Ian D. Chivers and Jane Sleightholme; <em>Introduction to
+Programming with Fortran</em>, Springer 2006.
+<item><url id="http://www.liv.ac.uk/HPC/HTMLFrontPageF90.html"
+name="An Interactive Fortran 90 Programming Course">
+<item><url id="http://gcc.gnu.org/onlinedocs/gfortran"
+name="gfortran: The GNU Fortran compiler ">
+<item><url id="http://gcc.gnu.org/wiki/GFortran"
+name="Gfortran - GCC Wiki">
+<item><url id="http://sunsite.informatik.rwth-aachen.de/fortran/"
+name="USER NOTES ON FORTRAN PROGRAMMING (UNFP) ">
+<item><url id="http://wwwasdoc.web.cern.ch/wwwasdoc/WWW/f90/f90.html"
+name="Fortran 90 Tutoria by Michael Metcalf"
+</enumlist>
+</book>

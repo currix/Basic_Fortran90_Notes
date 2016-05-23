@@ -1,0 +1,875 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+
+<html>
+
+<head>
+
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+
+<title>Fortran 90 Lessons for Computational Chemistry - Basic Operations</title>
+
+<link href="index.html" rel="start">
+<link href="ch-clase_1.html" rel="prev">
+<link href="ch-clase_3.html" rel="next">
+<link href="index.html#contents" rel="contents">
+<link href="index.html#copyright" rel="copyright">
+<link href="ch-clase_1.html" rel="chapter" title="1 Introduction">
+<link href="ch-clase_2.html" rel="chapter" title="2 Basic Operations">
+<link href="ch-clase_3.html" rel="chapter" title="3 Introduction to Fortran Arrays">
+<link href="ch-clase_4.html" rel="chapter" title="4 More on Arrays">
+<link href="ch-clase_7.html" rel="chapter" title="5 Control Structures">
+<link href="ch-clase_5.html" rel="chapter" title="6 INPUT/OUTPUT) (I)">
+<link href="ch-clase_6.html" rel="chapter" title="7 Operaciones I/O (II)">
+<link href="ch-clase_8.html" rel="chapter" title="8 Subprogramas (I): funciones">
+<link href="ch-clase_9.html" rel="chapter" title="9 Subprogramas (II): subrutinas">
+<link href="ch-clase_10.html" rel="chapter" title="10 Subprogramas (III): módulos">
+<link href="ch-clase_11.html" rel="chapter" title="11 Subprogramas (IV)">
+<link href="ch-clase_blaslap.html" rel="chapter" title="12 Instalación y uso de las bibliotecas BLAS y LAPACK">
+<link href="ch-cap_ref.html" rel="chapter" title="13 Referencias">
+<link href="ch-clase_1.html#s-sec_11" rel="section" title="1.1 Objectives">
+<link href="ch-clase_1.html#s-sec_12" rel="section" title="1.2 Main items.">
+<link href="ch-clase_1.html#s-sec_13" rel="section" title="1.3 Example Codes.">
+<link href="ch-clase_2.html#s-sec_21" rel="section" title="2.1 Objectives">
+<link href="ch-clase_2.html#s-sec_22" rel="section" title="2.2 Main items.">
+<link href="ch-clase_2.html#s-sec_23" rel="section" title="2.3 Example Codes.">
+<link href="ch-clase_3.html#s-sec_31" rel="section" title="3.1 Objectivos">
+<link href="ch-clase_3.html#s-sec_32" rel="section" title="3.2 Main items.">
+<link href="ch-clase_3.html#s-sec_33" rel="section" title="3.3 Example Codes.">
+<link href="ch-clase_4.html#s-sec_41" rel="section" title="4.1 Objectives">
+<link href="ch-clase_4.html#s-sec_42" rel="section" title="4.2 Main items.">
+<link href="ch-clase_4.html#s-sec_43" rel="section" title="4.3 Example Codes.">
+<link href="ch-clase_7.html#s-sec_71" rel="section" title="5.1 Objectivos">
+<link href="ch-clase_7.html#s-sec_72" rel="section" title="5.2 Main items.">
+<link href="ch-clase_7.html#s-sec_73" rel="section" title="5.3 Example codes.">
+<link href="ch-clase_5.html#s-sec_51" rel="section" title="6.1 Objectivos">
+<link href="ch-clase_5.html#s-sec_52" rel="section" title="6.2 Main Items.">
+<link href="ch-clase_5.html#s-sec_53" rel="section" title="6.3 Programas usados como ejemplo.">
+<link href="ch-clase_6.html#s-sec_61" rel="section" title="7.1 Objetivos">
+<link href="ch-clase_6.html#s-sec_62" rel="section" title="7.2 Puntos destacables.">
+<link href="ch-clase_6.html#s-sec_63" rel="section" title="7.3 Programas usados como ejemplo.">
+<link href="ch-clase_8.html#s-sec_81" rel="section" title="8.1 Objetivos">
+<link href="ch-clase_8.html#s-sec_82" rel="section" title="8.2 Puntos destacables.">
+<link href="ch-clase_8.html#s-sec_83" rel="section" title="8.3 Programas usados como ejemplo.">
+<link href="ch-clase_9.html#s-sec_91" rel="section" title="9.1 Objetivos">
+<link href="ch-clase_9.html#s-sec_92" rel="section" title="9.2 Puntos destacables.">
+<link href="ch-clase_9.html#s-sec_93" rel="section" title="9.3 Programas usados como ejemplo.">
+<link href="ch-clase_10.html#s-sec_101" rel="section" title="10.1 Objetivos">
+<link href="ch-clase_10.html#s-sec_102" rel="section" title="10.2 Puntos destacables.">
+<link href="ch-clase_10.html#s-sec_103" rel="section" title="10.3 Programas usados como ejemplo.">
+<link href="ch-clase_11.html#s-sec_111" rel="section" title="11.1 Objetivos">
+<link href="ch-clase_11.html#s-sec_112" rel="section" title="11.2 Puntos destacables.">
+<link href="ch-clase_11.html#s-sec_113" rel="section" title="11.3 Programas usados como ejemplo.">
+<link href="ch-clase_blaslap.html#s-sec_bl1" rel="section" title="12.1 Objetivos">
+<link href="ch-clase_blaslap.html#s-sec_bl2" rel="section" title="12.2 Puntos destacables.">
+<link href="ch-clase_blaslap.html#s-sec_bl3" rel="section" title="12.3 Programas usados como ejemplo.">
+<link href="ch-clase_1.html#s-sec_p_1_1" rel="subsection" title="1.3.1 excode_1_1.f90">
+<link href="ch-clase_1.html#s-sec_p_1_2" rel="subsection" title="1.3.2 excode_1_2.f90">
+<link href="ch-clase_2.html#s-sec_p_2_1" rel="subsection" title="2.3.1 excode_2_1.f90">
+<link href="ch-clase_2.html#s-sec_p_2_2" rel="subsection" title="2.3.2 excode_2_2.f90">
+<link href="ch-clase_2.html#s-sec_p_2_3" rel="subsection" title="2.3.3 excode_2_3.f90">
+<link href="ch-clase_2.html#s-sec_p_2_4" rel="subsection" title="2.3.4 excode_2_4.f90">
+<link href="ch-clase_2.html#s-sec_p_2_5" rel="subsection" title="2.3.5 excode_2_5.f90">
+<link href="ch-clase_2.html#s-sec_p_2_6" rel="subsection" title="2.3.6 excode_2_6.f90">
+<link href="ch-clase_3.html#s-sec_p_3_1" rel="subsection" title="3.3.1 excode_3_1.f90">
+<link href="ch-clase_3.html#s-sec_p_3_2" rel="subsection" title="3.3.2 excode_3_2.f90">
+<link href="ch-clase_3.html#s-sec_p_3_3" rel="subsection" title="3.3.3 excode_3_3.f90">
+<link href="ch-clase_3.html#s-sec_p_3_4" rel="subsection" title="3.3.4 excode_3_4.f90">
+<link href="ch-clase_4.html#s-sec_p_4_1" rel="subsection" title="4.3.1 excode_4_1.f90">
+<link href="ch-clase_4.html#s-sec_p_4_2" rel="subsection" title="4.3.2 excode_4_2.f90">
+<link href="ch-clase_4.html#s-sec_p_4_3" rel="subsection" title="4.3.3 excode_4_3.f90">
+<link href="ch-clase_4.html#s-sec_p_4_4" rel="subsection" title="4.3.4 excode_4_4.f90">
+<link href="ch-clase_4.html#s-sec_p_4_5" rel="subsection" title="4.3.5 excode_4_5.f90">
+<link href="ch-clase_4.html#s-sec_p_4_6" rel="subsection" title="4.3.6 excode_4_6.f90">
+<link href="ch-clase_7.html#s-sec_p_7_1" rel="subsection" title="5.3.1 excode_5_1.f90">
+<link href="ch-clase_7.html#s-sec_p_7_2" rel="subsection" title="5.3.2 excode_5_2.f90">
+<link href="ch-clase_7.html#s-sec_p_7_3" rel="subsection" title="5.3.3 excode_5_3.f90">
+<link href="ch-clase_7.html#s-sec_p_7_4" rel="subsection" title="5.3.4 Programa ejemplo_5_4.f90">
+<link href="ch-clase_5.html#s-sec_p_5_1" rel="subsection" title="6.3.1 excode_6_1.f90">
+<link href="ch-clase_5.html#s-sec_p_5_2" rel="subsection" title="6.3.2 excode_6_2.f90">
+<link href="ch-clase_5.html#s-sec_p_5_3" rel="subsection" title="6.3.3 excode_6_3.f90">
+<link href="ch-clase_5.html#s-sec_p_5_4" rel="subsection" title="6.3.4 excode_6_4.f90">
+<link href="ch-clase_5.html#s-sec_p_5_5" rel="subsection" title="6.3.5 excode_6_5.f90">
+<link href="ch-clase_5.html#s-sec_p_5_6" rel="subsection" title="6.3.6 excode_6_6.f90">
+<link href="ch-clase_5.html#s-sec_p_5_7" rel="subsection" title="6.3.7 excode_6_7.f90">
+<link href="ch-clase_6.html#s-sec_p_6_1" rel="subsection" title="7.3.1 Programa ejemplo_7_1.f90">
+<link href="ch-clase_6.html#s-sec_p_6_2" rel="subsection" title="7.3.2 Programa ejemplo_7_2.f90">
+<link href="ch-clase_6.html#s-sec_p_6_22" rel="subsection" title="7.3.3 Script ej_here_file">
+<link href="ch-clase_6.html#s-sec_p_6_3" rel="subsection" title="7.3.4 Programa ejemplo_7_3.f90">
+<link href="ch-clase_6.html#s-sec_p_6_32" rel="subsection" title="7.3.5 namelist input file">
+<link href="ch-clase_6.html#s-sec_p_6_4" rel="subsection" title="7.3.6 Programa ejemplo_7_4.f90">
+<link href="ch-clase_8.html#s-sec_p_8_1" rel="subsection" title="8.3.1 Programa ejemplo_8_1.f90">
+<link href="ch-clase_8.html#s-sec_p_8_2" rel="subsection" title="8.3.2 Programa ejemplo_8_2.f90">
+<link href="ch-clase_8.html#s-sec_p_8_3" rel="subsection" title="8.3.3 Programa ejemplo_8_3.f90">
+<link href="ch-clase_8.html#s-sec_p_8_4" rel="subsection" title="8.3.4 Programa ejemplo_8_4.f90">
+<link href="ch-clase_8.html#s-sec_p_8_5" rel="subsection" title="8.3.5 Programa ejemplo_8_5.f90">
+<link href="ch-clase_8.html#s-sec_p_8_6" rel="subsection" title="8.3.6 Programa ejemplo_8_6.f90">
+<link href="ch-clase_9.html#s-sec_p_9_1" rel="subsection" title="9.3.1 Programa ejemplo_9_1.f90">
+<link href="ch-clase_9.html#s-sec_p_9_2" rel="subsection" title="9.3.2 Programa ejemplo_9_2.f90">
+<link href="ch-clase_9.html#s-sec_p_9_3" rel="subsection" title="9.3.3 Programa ejemplo_9_3.f90">
+<link href="ch-clase_9.html#s-sec_p_9_4" rel="subsection" title="9.3.4 Programa ejemplo_9_4.f90">
+<link href="ch-clase_9.html#s-sec_p_9_5" rel="subsection" title="9.3.5 Programa ejemplo_9_5.f90">
+<link href="ch-clase_9.html#s-sec_p_9_6" rel="subsection" title="9.3.6 Programa ejemplo_9_6.f90">
+<link href="ch-clase_9.html#s-sec_p_9_7" rel="subsection" title="9.3.7 Programa ejemplo_9_7.f90">
+<link href="ch-clase_10.html#s-sec_p_10_1" rel="subsection" title="10.3.1 Programa ejemplo_10_1.f90">
+<link href="ch-clase_10.html#s-sec_p_10_2" rel="subsection" title="10.3.2 Programa ejemplo_10_2.f90">
+<link href="ch-clase_10.html#s-sec_p_10_3" rel="subsection" title="10.3.3 Programa ejemplo_10_3.f90">
+<link href="ch-clase_10.html#s-sec_p_10_4" rel="subsection" title="10.3.4 Programa ejemplo_10_4.f90">
+<link href="ch-clase_11.html#s-sec_p_11_1" rel="subsection" title="11.3.1 Programa ejemplo_11_1.f90">
+<link href="ch-clase_11.html#s-sec_p_11_2" rel="subsection" title="11.3.2 Programa ejemplo_11_2.f90">
+<link href="ch-clase_11.html#s-sec_p_11_3" rel="subsection" title="11.3.3 Programa ejemplo_11_3.f90">
+<link href="ch-clase_11.html#s-sec_p_11_4" rel="subsection" title="11.3.4 Programa ejemplo_11_4.f90">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_1" rel="subsection" title="12.3.1 Ejemplo de fichero make.inc para LAPACK">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_2" rel="subsection" title="12.3.2 Ejemplo de fichero make.inc para LAPACK95">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_3" rel="subsection" title="12.3.3 Ejemplo de programa que invoca LAPACK95">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_4" rel="subsection" title="12.3.4 Ejemplo de makefile para compilar programas que invocan LAPACK95">
+
+</head>
+
+<body>
+
+<p><a name="ch-clase_2"></a></p>
+<hr>
+
+<p>
+[ <a href="ch-clase_1.html">previous</a> ]
+[ <a href="index.html#contents">Contents</a> ]
+[ <a href="ch-clase_1.html">1</a> ]
+[ 2 ]
+[ <a href="ch-clase_3.html">3</a> ]
+[ <a href="ch-clase_4.html">4</a> ]
+[ <a href="ch-clase_7.html">5</a> ]
+[ <a href="ch-clase_5.html">6</a> ]
+[ <a href="ch-clase_6.html">7</a> ]
+[ <a href="ch-clase_8.html">8</a> ]
+[ <a href="ch-clase_9.html">9</a> ]
+[ <a href="ch-clase_10.html">10</a> ]
+[ <a href="ch-clase_11.html">11</a> ]
+[ <a href="ch-clase_blaslap.html">12</a> ]
+[ <a href="ch-cap_ref.html">13</a> ]
+[ <a href="ch-clase_3.html">next</a> ]
+</p>
+
+<hr>
+
+<h1>
+<code>Fortran 90</code> Lessons for Computational Chemistry
+<br>Chapter 2 - Basic Operations
+</h1>
+
+<hr>
+
+<h2 id="s-sec_21">2.1 Objectives</h2>
+
+<p>
+The main aims of this session are:
+</p>
+<ol type="1" start="1" >
+<li>
+<p>
+introducing basic <code>Fortran</code> syntax rules and the characters allowed
+in source files.
+</p>
+</li>
+</ol>
+<ol type="1" start="2" >
+<li>
+<p>
+Basic arithmetic operations and operator precedence rules.
+</p>
+</li>
+</ol>
+<ol type="1" start="3" >
+<li>
+<p>
+The <samp>PARAMETER</samp> declaration.
+</p>
+</li>
+</ol>
+<ol type="1" start="4" >
+<li>
+<p>
+Explain the different kinds of numerical variables and its use.
+</p>
+</li>
+</ol>
+
+<hr>
+
+<h2 id="s-sec_22">2.2 Main items.</h2>
+
+<p>
+Basic syntax rules:
+</p>
+<ul>
+<li>
+<p>
+Maximum number of characters per line of code: 132.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+Maximum length of a variable name string: 31.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+'&amp;' denotes that the statement continues in the next line.  It is added at
+the end of the broken line[<a href="footnotes.html#f1" name="fr1">1</a>]
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+'!'  is the character that marks the rest of the line as a comment.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+';' is the character that separates several statements in the same line.
+</p>
+</li>
+</ul>
+
+<p>
+Variable names can include the low hyphen ('<samp>_</samp>') and mix
+alphanumeric characters and digits, though variable names first character
+cannot be a number.
+</p>
+
+<p>
+<code>Fortran</code> character set:
+</p>
+
+<pre>
+     A-Z  Letters              0-9  Digits
+     _    Underscore                Blank
+     =    Equal                +    Plus
+     -    Minus                *    Asterisk
+     /    Slash or oblique     '    Apostrophe
+     (    Left parenthesis     )    Right parenthesis
+     ,    Comma                .    Period or decimal point
+     :    Colon                ;    Semicolon
+     !    Exclamation mark     &quot;&quot;    Quotation mark
+     %    Percent              &amp;   Ampersand
+     &lt;    Less than         &gt;   Greater than
+</pre>
+
+<p>
+Precedence of arithmetic operators:
+</p>
+<ul>
+<li>
+<p>
+Operators:
+{<samp>+</samp>,<samp>-</samp>,<samp>*</samp>,<samp>/</samp>,<samp>**</samp>}.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+Precedence: (1) <samp>**</samp> (right to left); (2)
+<samp>*</samp>,<samp>/</samp> (compiler dependent); (3)
+<samp>+</samp>,<samp>-</samp> (compiler dependent).
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+Beware of floating point operations rounding, in particular when mixing
+different numeric variable types.  Minimizing rounding errors is at times a
+complex and subtle task.
+</p>
+
+<p>
+The compiler transform different type variables to a common type when
+performing a calculation.  The priority ordering, from lower to higher is:
+<samp>INTEGER</samp>, <samp>REAL</samp>, <samp>DOUBLE PRECISION</samp>, and
+<samp>COMPLEX</samp>.  Therefore, an operation involving an integer and a
+double precision float is performed transforming the integer value to double
+precision and the result is given in double precision too.  The final result is
+the transformed to the type of the variable to which is assigned.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+Integer types:
+</p>
+<ol type="1" start="1" >
+<li>
+<p>
+32 bits ::<samp>(2**31)-1 = 2,147,483,647</samp> (~ 10**9)
+</p>
+</li>
+</ol>
+<ol type="1" start="2" >
+<li>
+<p>
+64 bits :: <samp>(2**63)-1 = 9,223,372,036,854,774,807</samp> (~ 10**19)
+</p>
+</li>
+</ol>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+Floats types and precision:
+</p>
+<ol type="1" start="1" >
+<li>
+<p>
+Real 32 bits :: precision = 6-9 <samp>~ 0.3E­38 - 1.7E38</samp>
+</p>
+</li>
+</ol>
+<ol type="1" start="2" >
+<li>
+<p>
+Real 64 bits :: precision = 15-18 <samp>~ 0.5E­308 - 0.8E308</samp>
+</p>
+</li>
+</ol>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+Making use of the <samp>PARAMETER</samp> modifier in a variable definition we
+can define constant values in a program.  See <a
+href="#s-sec_p_2_4"><samp>excode_2_4.f90</samp>, Section 2.3.4</a>.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+(*) Different kinds of floats and integers in <code>Fortran</code> and the
+intrinsic functions[<a href="footnotes.html#f2" name="fr2">2</a>]
+<samp>KIND</samp>, <samp>EPSILON</samp>, <samp>PRECISION</samp>, and
+<samp>HUGE</samp> and how to define a variable in each of the existing types.
+</p>
+
+<p>
+<samp>INTEGER</samp> VARIABLES: if we would like to define an integer variable
+<samp>i0</samp> that could take values between -999999 y 999999 we should
+define a variable, called e.g.  <samp>ki</samp>, making use of the intrinsic
+function <samp>SELECTED_INT_KIND()</samp> and make use of it in the variable
+definition.
+</p>
+
+<pre>
+     INTEGER, PARAMETER :: ki =  SELECTED_INT_KIND(6)
+     INTEGER(KIND=ki) :: i0
+</pre>
+
+<p>
+The intrinsic function[<a href="footnotes.html#f3" name="fr3">3</a>]
+<samp>SELECTED_INT_KIND(X)</samp> output is an integer that indicates the type
+(<em>kind</em>) of an integer variable capable of storing any integer in the
+range <samp>(-10E+X, 10E+X)</samp> where <samp>X</samp> is also an integer.  If
+we want that any integer constant in our program to be treated with a
+particular type of integer this can be done as follows:
+</p>
+
+<pre>
+     -1234_ki
+     2354_ki
+     2_ki
+</pre>
+
+<p>
+The error output of the <samp>SELECTED_INT_KIND(X)</samp> function is
+<samp>-1</samp>.
+</p>
+
+<p>
+Real numbers are more involved.  We make use a <em>floating point
+representation</em>, and all the following are valid real numbers in
+<code>Fortran</code>:
+</p>
+
+<pre>
+     -10.66E-20
+     0.66E10
+     1.
+     -0.4
+     1.32D-44
+     2E-12
+     3.141592653
+</pre>
+
+<p>
+In this case the statement to control the type of float is
+<samp>SELECTED_REAL_KIND(p=X,r=Y)</samp>, with two input parameters.  The
+output is an integer associated with a float that complies with the following
+rules:
+</p>
+<ul>
+<li>
+<p>
+it has a precision at least equal to <samp>X</samp> and a range of decimal
+exponents given at least by <samp>Y</samp>.  The argument labels are optional.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+Among various possible results, the one with the minimum decimal precision will
+be chosen.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+At least one of the two input parameter should be specified.  Both
+<samp>X</samp> and <samp>Y</samp> are integers.  If there is no variable type
+that fulfills the requested condiotions the output of the function will be
+<samp>-1</samp> if the precision does not reach the requested level,
+<samp>-2</samp> if the problem is in the exponent, and <samp>-3</samp> if both
+requirements cannot be satisfied.
+</p>
+</li>
+</ul>
+
+<p>
+As an example, if we want to define a real variable called <samp>a0</samp> with
+15 digit precision and exponents in the range -306 to 307:
+</p>
+
+<pre>
+     INTEGER, PARAMETER :: kr =  SELECTED_REAL_KIND(15,307)
+     REAL(KIND=kr) :: a0
+</pre>
+
+<p>
+Scalar floats can be addressed defining its particular kind as follows
+</p>
+
+<pre>
+     -10.66E-20_kr
+     0.66E10_kr
+     142857._kr
+     -0.4_kr
+     2E-12_kr
+     3.141592653_kr
+</pre>
+
+<p>
+Program <a href="#s-sec_p_2_5"><samp>excode_2_5.f90</samp>, Section 2.3.5</a>
+contains several examples of the use of the <samp>KIND</samp> statement and the
+default value of <samp>KIND</samp> for several variable types.
+</p>
+
+<p>
+Program <a href="#s-sec_p_2_6"><samp>excode_2_6.f90</samp>, Section 2.3.6</a>
+contains examples of the different types of viariales, how to define them, and
+how to test them using the intrinsics <samp>KIND</samp>, <samp>DIGITS</samp>,
+<samp>EPSILON</samp>, <samp>TINY</samp>, <samp>HUGE</samp>,
+<samp>EXPONENT</samp>, <samp>MAXEXPONENT</samp>, <samp>MINEXPONENT</samp>,
+<samp>PRECISION</samp> , <samp>RADIX</samp> y <samp>RANGE</samp>.
+</p>
+
+<p>
+In this program variables are defined using the functions
+<samp>SELECTED_INT_KIND</samp> and <samp>SELECTED_REAL_KIND</samp> This is
+correct though it is more appropriate to define the variables according to the
+process in the notes.
+</p>
+
+<p>
+The used functions are
+</p>
+<ol type="1" start="1" >
+<li>
+<p>
+<samp>KIND(x)</samp>: integer output, type of the variable <samp>x</samp>.
+</p>
+</li>
+</ol>
+<ol type="1" start="2" >
+<li>
+<p>
+<samp>DIGITS(x)</samp>: integer output, number of significant digits of
+<samp>x</samp>.
+</p>
+</li>
+</ol>
+<ol type="1" start="3" >
+<li>
+<p>
+<samp>EPSILON(x)</samp>: if the input <samp>x</samp> is a float the output is
+another float, of the same type (<em>kind</em>) than <samp>x</samp>.  It is the
+smallest number of this type such that <samp>1.0 + EPSILON(X) &gt; 1</samp>.
+</p>
+</li>
+</ol>
+<ol type="1" start="4" >
+<li>
+<p>
+<samp>TINY(x)</samp>: for float <samp>x</samp> input the output is of the same
+kind than <samp>x</samp>, and it is the minimum positive value that can be
+defined for such variables.
+</p>
+</li>
+</ol>
+<ol type="1" start="5" >
+<li>
+<p>
+<samp>HUGE(x)</samp>: for float <samp>x</samp> input the output is of the same
+kind than <samp>x</samp>, and it is the maximum positive value that can be
+defined for such variables.
+</p>
+</li>
+</ol>
+<ol type="1" start="6" >
+<li>
+<p>
+<samp>EXPONENT(x)</samp>: <samp>x</samp> variable exponent.  If <samp>x =
+0</samp> then <samp>EXPONENT(x)=0</samp> too.
+</p>
+</li>
+</ol>
+<ol type="1" start="7" >
+<li>
+<p>
+<samp>MAXEXPONENT(x)</samp>: maximum exponent possible for <samp>x</samp> type
+variables.
+</p>
+</li>
+</ol>
+<ol type="1" start="8" >
+<li>
+<p>
+<samp>MINEXPONENT(x)</samp>: minimum exponent possible for <samp>x</samp> type
+variables.
+</p>
+</li>
+</ol>
+<ol type="1" start="9" >
+<li>
+<p>
+<samp>PRECISION(x)</samp>: if <samp>x</samp> is real or complex the output is
+an integer equal to the number of digits of precision of the variable
+<samp>x</samp>.
+</p>
+</li>
+</ol>
+<ol type="1" start="10" >
+<li>
+<p>
+<samp>RADIX(x)</samp>: integer result equal to the radix basis of
+<samp>x</samp>.
+</p>
+</li>
+</ol>
+<ol type="1" start="11" >
+<li>
+<p>
+<samp>RANGE(x)</samp>: integer result equal to the range of exponent for the
+variable <samp>x</samp>.
+</p>
+</li>
+</ol>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+(*) Present how float arithmetic involves precision loss and how an appropriate
+use of the diferent data types can help to minimize this problem.
+</p>
+</li>
+</ul>
+
+<hr>
+
+<h2 id="s-sec_23">2.3 Example Codes.</h2>
+
+<hr>
+
+<h3 id="s-sec_p_2_1">2.3.1 <samp>excode_2_1.f90</samp></h3>
+
+<pre>
+         PROGRAM ex_2_1
+       IMPLICIT NONE
+       !
+       ! Program computing the energy of a vibrational normal mode
+       ! 
+       !  Ge(v) = we (v+1/2) - wexe (v+1/2)^2
+       ! 
+       !
+       ! Definicion de variables
+       REAL            :: energ_0, energ, delta_e ! deltae = energ-energ0
+       REAL            :: we = 250.0, wexe = 0.25 ! Units: cm-1
+       INTEGER         :: v = 0
+       CHARACTER*60    :: for_mol
+       ! I/O
+       PRINT *,'Formula de la molecula : '
+       READ *, for_mol
+       PRINT *,'Num. de quanta de excitacion : '
+       READ *, v
+       ! Calculations
+       energ = we*(v+0.5) - wexe*(v+0.5)**2
+       energ_0 = we*(0.5) - wexe*(0.5)**2
+       delta_e = energ - energ_0
+       ! I/O
+       PRINT *
+       PRINT *,'Especie molecular: ', for_mol
+       PRINT *,'num. de quanta: ', v
+       PRINT *,'energ = ',energ,'cm-1'
+       PRINT *,'energ_0 = ',energ_0,'cm-1'
+       PRINT *,'energ - energ_0 = ',delta_e,'cm-1'
+     END PROGRAM ex_2_1
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_2_2">2.3.2 <samp>excode_2_2.f90</samp></h3>
+
+<pre>
+     PROGRAM ex_2_2
+       IMPLICIT NONE
+       REAL :: A,B,C
+       INTEGER :: I
+       A = 1.5
+       B = 2.0
+       C = A / B
+       I = A / B
+       PRINT *
+       PRINT *, 'Case (1), Float variable'
+       PRINT *,A,'/',B,' = ',C
+       PRINT *, 'Case (2), Integer variable'
+       PRINT *,A,'/',B,' = ',I
+     END PROGRAM ex_2_2
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_2_3">2.3.3 <samp>excode_2_3.f90</samp></h3>
+
+<pre>
+     PROGRAM ex_2_3
+       IMPLICIT NONE
+       INTEGER :: I,J,K
+       REAL :: Answer
+       I = 5
+       J = 2
+       K = 4
+       Answer = I / J * K
+       PRINT *,'I = ',I
+       PRINT *,'J = ',J
+       PRINT *,'K = ',K
+       PRINT *,'I / J * K = ',Answer
+     END PROGRAM ex_2_3
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_2_4">2.3.4 <samp>excode_2_4.f90</samp></h3>
+
+<pre>
+     PROGRAM ex_2_4
+       ! Program to compute the time that takes to light to travel 
+       ! a given distance in AU.
+       ! 1 AU = 1,50E11 m
+       !
+       !Definicion de variables
+       IMPLICIT NONE
+       ! a_u : astronomic unit in km
+       REAL , PARAMETER :: a_u=1.50*10.0**8
+       ! y_l : year light --&gt; distance travelled by light during a year
+       REAL , PARAMETER :: y_l=9.46*10.0**12
+       ! m_l : minute light --&gt; distance travelled by light during a minute
+       REAL :: m_l
+       ! dist : distance travelled in AUs (INPUT)
+       REAL :: dist
+       ! t_min : time in minutes needed to travel the distance dist
+       REAL :: t_min
+       !
+       ! min : integer part of t_min
+       ! seg : seconds from the decimal digits of t_min
+       INTEGER :: min, seg
+       !
+       m_l = y_l/(365.25 * 24.0 * 60.0) ! m_l Calculation
+       !
+       PRINT *
+       PRINT *,'Distance in AUs'
+       READ *, dist
+       PRINT *
+       !
+       t_min = (dist*a_u)/m_l
+       min = t_min; seg = (t_min - min) * 60
+       !
+       PRINT *,' It takes light ' , min,' minutes and ', seg,' seconds'
+       Print *,' to travel a distance of ',dist,' AU.'
+     END PROGRAM ex_2_4
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_2_5">2.3.5 <samp>excode_2_5.f90</samp></h3>
+
+<pre>
+     PROGRAM ex_2_5
+       INTEGER :: i
+       REAL :: r
+       CHARACTER(LEN=1) :: c
+       LOGICAL :: l
+       COMPLEX :: cp
+       PRINT *,' Integer ',KIND(i)
+       PRINT *,' Real    ',KIND(r)
+       PRINT *,' Char    ',KIND(c)
+       PRINT *,' Logical ',KIND(l)
+       PRINT *,' Complex ',KIND(cp)
+     END PROGRAM ex_2_5
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_2_6">2.3.6 <samp>excode_2_6.f90</samp></h3>
+
+<pre>
+     PROGRAM ex_2_6
+       ! From Program ch0806 of Chivers &amp; Sleightholme
+       !
+       ! Examples of the use of the kind
+       ! function and the numeric inquiry functions
+       !
+       ! Integer arithmetic
+       !
+       ! 32 bits is a common word size,
+       ! and this leads quite cleanly
+       ! to the following
+       ! 8 bit integers
+       ! -128 to 127 10**2
+       ! 16 bit integers
+       ! -32768 to 32767 10**4
+       ! 32 bit integers
+       ! -2147483648 to 2147483647 10**9
+       !
+       ! 64 bit integers are increasingly available.
+       ! This leads to
+       ! -9223372036854775808 to
+       !  9223372036854775807 10**19
+       !
+       ! You may need to comment out some of the following
+       ! depending on the hardware platform and compiler
+       ! that you use.
+       INTEGER                         :: I
+       INTEGER ( SELECTED_INT_KIND( 2)) :: I1
+       INTEGER ( SELECTED_INT_KIND( 4)) :: I2
+       INTEGER ( SELECTED_INT_KIND( 8)) :: I3
+       INTEGER ( SELECTED_INT_KIND(16)) :: I4
+       ! Real arithmetic
+       !
+       ! 32 and 64 bit reals are normally available.
+       !
+       ! 32 bit reals 8 bit exponent, 24 bit mantissa
+       !
+       ! 64 bit reals 11 bit exponent 53 bit mantissa
+       !
+       REAL :: R = 1.0
+       REAL ( SELECTED_REAL_KIND( 6, 37)) :: R1 = 1.0
+       REAL ( SELECTED_REAL_KIND(15,307)) :: R2 = 1.0 
+       REAL ( SELECTED_REAL_KIND(18,310)) :: R3 = 1.0
+       PRINT *,' '
+       PRINT *,' Integer values'
+       PRINT *,'         Kind       Huge'
+       PRINT *,' '
+       PRINT *,KIND(I ),' ',HUGE(I    )
+       PRINT *,' '
+       PRINT *,KIND(I1 ),' ',HUGE(I1  )
+       PRINT *,KIND(I2 ),' ',HUGE(I2  )
+       PRINT *,KIND(I3 ),' ',HUGE(I3  )
+       PRINT *,KIND(I4 ),' ',HUGE(I4  )
+       PRINT *,' '
+       PRINT *,' ----------------------------------- '
+       PRINT *,' '
+       PRINT *,' Real values'
+       !
+       PRINT *,'         Kind     ', KIND(R ), '    Digits     ', DIGITS(R )
+       PRINT *,'  Huge    = ',HUGE(R ), ' Tiny =', TINY(R)
+       PRINT *,'  Epsilon = ',EPSILON(R),' Precision = ', PRECISION(R)
+       PRINT *,'  Exponent = ',EXPONENT(R), 'MAXExponent = ', MAXEXPONENT(R), '  MINExponent = ',MINEXPONENT(R)
+       PRINT *,'  Radix    = ', RADIX(R ), ' Range =', RANGE(R)
+       PRINT *,' ' 
+       !
+       !
+       PRINT *,'         Kind     ', KIND(R1 ), '    Digits     ', DIGITS(R1 )
+       PRINT *,'  Huge    = ',HUGE(R1 ), ' Tiny =', TINY(R1)
+       PRINT *,'  Epsilon = ',EPSILON(R1),' Precision = ', PRECISION(R1)
+       PRINT *,'  Exponent = ',EXPONENT(R1), 'MAXExponent = ', MAXEXPONENT(R1), '  MINExponent = ',MINEXPONENT(R1)
+       PRINT *,'  Radix    = ', RADIX(R1 ), ' Range =', RANGE(R1)
+       PRINT *,' ' 
+       !
+       !
+       PRINT *,'         Kind     ', KIND(R2 ), '    Digits     ', DIGITS(R2 )
+       PRINT *,'  Huge    = ',HUGE(R2 ), ' Tiny =', TINY(R2)
+       PRINT *,'  Epsilon = ',EPSILON(R2),' Precision = ', PRECISION(R2)
+       PRINT *,'  Exponent = ',EXPONENT(R2), 'MAXExponent = ', MAXEXPONENT(R2), '  MINExponent = ',MINEXPONENT(R2)
+       PRINT *,'  Radix    = ', RADIX(R2 ), ' Range =', RANGE(R2)
+       PRINT *,' ' 
+       !
+       !
+       PRINT *,'         Kind     ', KIND(R3 ), '    Digits     ', DIGITS(R3 )
+       PRINT *,'  Huge    = ',HUGE(R3 ), ' Tiny =', TINY(R3)
+       PRINT *,'  Epsilon = ',EPSILON(R3),' Precision = ', PRECISION(R3)
+       PRINT *,'  Exponent = ',EXPONENT(R3), 'MAXExponent = ', MAXEXPONENT(R3), '  MINExponent = ',MINEXPONENT(R3)
+       PRINT *,'  Radix    = ', RADIX(R3 ), ' Range =', RANGE(R3)
+       PRINT *,' ' 
+       !
+     END PROGRAM ex_2_6
+</pre>
+
+<hr>
+
+<p>
+[ <a href="ch-clase_1.html">previous</a> ]
+[ <a href="index.html#contents">Contents</a> ]
+[ <a href="ch-clase_1.html">1</a> ]
+[ 2 ]
+[ <a href="ch-clase_3.html">3</a> ]
+[ <a href="ch-clase_4.html">4</a> ]
+[ <a href="ch-clase_7.html">5</a> ]
+[ <a href="ch-clase_5.html">6</a> ]
+[ <a href="ch-clase_6.html">7</a> ]
+[ <a href="ch-clase_8.html">8</a> ]
+[ <a href="ch-clase_9.html">9</a> ]
+[ <a href="ch-clase_10.html">10</a> ]
+[ <a href="ch-clase_11.html">11</a> ]
+[ <a href="ch-clase_blaslap.html">12</a> ]
+[ <a href="ch-cap_ref.html">13</a> ]
+[ <a href="ch-clase_3.html">next</a> ]
+</p>
+
+<hr>
+
+<p>
+<code>Fortran 90</code> Lessons for Computational Chemistry
+</p>
+
+<address>
+0.0<br>
+<br>
+Curro Pérez-Bernal <code><a href="mailto:francisco.perez@dfaie.uhu.es">mailto:francisco.perez@dfaie.uhu.es</a></code><br>
+<br>
+</address>
+<hr>
+
+</body>
+
+</html>
+

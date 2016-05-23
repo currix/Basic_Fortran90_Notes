@@ -1,0 +1,816 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+
+<html>
+
+<head>
+
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+
+<title>Fortran 90 Lessons for Computational Chemistry - More on Arrays</title>
+
+<link href="index.html" rel="start">
+<link href="ch-clase_3.html" rel="prev">
+<link href="ch-clase_7.html" rel="next">
+<link href="index.html#contents" rel="contents">
+<link href="index.html#copyright" rel="copyright">
+<link href="ch-clase_1.html" rel="chapter" title="1 Introduction">
+<link href="ch-clase_2.html" rel="chapter" title="2 Basic Operations">
+<link href="ch-clase_3.html" rel="chapter" title="3 Introduction to Fortran Arrays">
+<link href="ch-clase_4.html" rel="chapter" title="4 More on Arrays">
+<link href="ch-clase_7.html" rel="chapter" title="5 Control Structures">
+<link href="ch-clase_5.html" rel="chapter" title="6 INPUT/OUTPUT) (I)">
+<link href="ch-clase_6.html" rel="chapter" title="7 Operaciones I/O (II)">
+<link href="ch-clase_8.html" rel="chapter" title="8 Subprogramas (I): funciones">
+<link href="ch-clase_9.html" rel="chapter" title="9 Subprogramas (II): subrutinas">
+<link href="ch-clase_10.html" rel="chapter" title="10 Subprogramas (III): módulos">
+<link href="ch-clase_11.html" rel="chapter" title="11 Subprogramas (IV)">
+<link href="ch-clase_blaslap.html" rel="chapter" title="12 Instalación y uso de las bibliotecas BLAS y LAPACK">
+<link href="ch-cap_ref.html" rel="chapter" title="13 Referencias">
+<link href="ch-clase_1.html#s-sec_11" rel="section" title="1.1 Objectives">
+<link href="ch-clase_1.html#s-sec_12" rel="section" title="1.2 Main items.">
+<link href="ch-clase_1.html#s-sec_13" rel="section" title="1.3 Example Codes.">
+<link href="ch-clase_2.html#s-sec_21" rel="section" title="2.1 Objectives">
+<link href="ch-clase_2.html#s-sec_22" rel="section" title="2.2 Main items.">
+<link href="ch-clase_2.html#s-sec_23" rel="section" title="2.3 Example Codes.">
+<link href="ch-clase_3.html#s-sec_31" rel="section" title="3.1 Objectivos">
+<link href="ch-clase_3.html#s-sec_32" rel="section" title="3.2 Main items.">
+<link href="ch-clase_3.html#s-sec_33" rel="section" title="3.3 Example Codes.">
+<link href="ch-clase_4.html#s-sec_41" rel="section" title="4.1 Objectives">
+<link href="ch-clase_4.html#s-sec_42" rel="section" title="4.2 Main items.">
+<link href="ch-clase_4.html#s-sec_43" rel="section" title="4.3 Example Codes.">
+<link href="ch-clase_7.html#s-sec_71" rel="section" title="5.1 Objectivos">
+<link href="ch-clase_7.html#s-sec_72" rel="section" title="5.2 Main items.">
+<link href="ch-clase_7.html#s-sec_73" rel="section" title="5.3 Example codes.">
+<link href="ch-clase_5.html#s-sec_51" rel="section" title="6.1 Objectivos">
+<link href="ch-clase_5.html#s-sec_52" rel="section" title="6.2 Main Items.">
+<link href="ch-clase_5.html#s-sec_53" rel="section" title="6.3 Programas usados como ejemplo.">
+<link href="ch-clase_6.html#s-sec_61" rel="section" title="7.1 Objetivos">
+<link href="ch-clase_6.html#s-sec_62" rel="section" title="7.2 Puntos destacables.">
+<link href="ch-clase_6.html#s-sec_63" rel="section" title="7.3 Programas usados como ejemplo.">
+<link href="ch-clase_8.html#s-sec_81" rel="section" title="8.1 Objetivos">
+<link href="ch-clase_8.html#s-sec_82" rel="section" title="8.2 Puntos destacables.">
+<link href="ch-clase_8.html#s-sec_83" rel="section" title="8.3 Programas usados como ejemplo.">
+<link href="ch-clase_9.html#s-sec_91" rel="section" title="9.1 Objetivos">
+<link href="ch-clase_9.html#s-sec_92" rel="section" title="9.2 Puntos destacables.">
+<link href="ch-clase_9.html#s-sec_93" rel="section" title="9.3 Programas usados como ejemplo.">
+<link href="ch-clase_10.html#s-sec_101" rel="section" title="10.1 Objetivos">
+<link href="ch-clase_10.html#s-sec_102" rel="section" title="10.2 Puntos destacables.">
+<link href="ch-clase_10.html#s-sec_103" rel="section" title="10.3 Programas usados como ejemplo.">
+<link href="ch-clase_11.html#s-sec_111" rel="section" title="11.1 Objetivos">
+<link href="ch-clase_11.html#s-sec_112" rel="section" title="11.2 Puntos destacables.">
+<link href="ch-clase_11.html#s-sec_113" rel="section" title="11.3 Programas usados como ejemplo.">
+<link href="ch-clase_blaslap.html#s-sec_bl1" rel="section" title="12.1 Objetivos">
+<link href="ch-clase_blaslap.html#s-sec_bl2" rel="section" title="12.2 Puntos destacables.">
+<link href="ch-clase_blaslap.html#s-sec_bl3" rel="section" title="12.3 Programas usados como ejemplo.">
+<link href="ch-clase_1.html#s-sec_p_1_1" rel="subsection" title="1.3.1 excode_1_1.f90">
+<link href="ch-clase_1.html#s-sec_p_1_2" rel="subsection" title="1.3.2 excode_1_2.f90">
+<link href="ch-clase_2.html#s-sec_p_2_1" rel="subsection" title="2.3.1 excode_2_1.f90">
+<link href="ch-clase_2.html#s-sec_p_2_2" rel="subsection" title="2.3.2 excode_2_2.f90">
+<link href="ch-clase_2.html#s-sec_p_2_3" rel="subsection" title="2.3.3 excode_2_3.f90">
+<link href="ch-clase_2.html#s-sec_p_2_4" rel="subsection" title="2.3.4 excode_2_4.f90">
+<link href="ch-clase_2.html#s-sec_p_2_5" rel="subsection" title="2.3.5 excode_2_5.f90">
+<link href="ch-clase_2.html#s-sec_p_2_6" rel="subsection" title="2.3.6 excode_2_6.f90">
+<link href="ch-clase_3.html#s-sec_p_3_1" rel="subsection" title="3.3.1 excode_3_1.f90">
+<link href="ch-clase_3.html#s-sec_p_3_2" rel="subsection" title="3.3.2 excode_3_2.f90">
+<link href="ch-clase_3.html#s-sec_p_3_3" rel="subsection" title="3.3.3 excode_3_3.f90">
+<link href="ch-clase_3.html#s-sec_p_3_4" rel="subsection" title="3.3.4 excode_3_4.f90">
+<link href="ch-clase_4.html#s-sec_p_4_1" rel="subsection" title="4.3.1 excode_4_1.f90">
+<link href="ch-clase_4.html#s-sec_p_4_2" rel="subsection" title="4.3.2 excode_4_2.f90">
+<link href="ch-clase_4.html#s-sec_p_4_3" rel="subsection" title="4.3.3 excode_4_3.f90">
+<link href="ch-clase_4.html#s-sec_p_4_4" rel="subsection" title="4.3.4 excode_4_4.f90">
+<link href="ch-clase_4.html#s-sec_p_4_5" rel="subsection" title="4.3.5 excode_4_5.f90">
+<link href="ch-clase_4.html#s-sec_p_4_6" rel="subsection" title="4.3.6 excode_4_6.f90">
+<link href="ch-clase_7.html#s-sec_p_7_1" rel="subsection" title="5.3.1 excode_5_1.f90">
+<link href="ch-clase_7.html#s-sec_p_7_2" rel="subsection" title="5.3.2 excode_5_2.f90">
+<link href="ch-clase_7.html#s-sec_p_7_3" rel="subsection" title="5.3.3 excode_5_3.f90">
+<link href="ch-clase_7.html#s-sec_p_7_4" rel="subsection" title="5.3.4 Programa ejemplo_5_4.f90">
+<link href="ch-clase_5.html#s-sec_p_5_1" rel="subsection" title="6.3.1 excode_6_1.f90">
+<link href="ch-clase_5.html#s-sec_p_5_2" rel="subsection" title="6.3.2 excode_6_2.f90">
+<link href="ch-clase_5.html#s-sec_p_5_3" rel="subsection" title="6.3.3 excode_6_3.f90">
+<link href="ch-clase_5.html#s-sec_p_5_4" rel="subsection" title="6.3.4 excode_6_4.f90">
+<link href="ch-clase_5.html#s-sec_p_5_5" rel="subsection" title="6.3.5 excode_6_5.f90">
+<link href="ch-clase_5.html#s-sec_p_5_6" rel="subsection" title="6.3.6 excode_6_6.f90">
+<link href="ch-clase_5.html#s-sec_p_5_7" rel="subsection" title="6.3.7 excode_6_7.f90">
+<link href="ch-clase_6.html#s-sec_p_6_1" rel="subsection" title="7.3.1 Programa ejemplo_7_1.f90">
+<link href="ch-clase_6.html#s-sec_p_6_2" rel="subsection" title="7.3.2 Programa ejemplo_7_2.f90">
+<link href="ch-clase_6.html#s-sec_p_6_22" rel="subsection" title="7.3.3 Script ej_here_file">
+<link href="ch-clase_6.html#s-sec_p_6_3" rel="subsection" title="7.3.4 Programa ejemplo_7_3.f90">
+<link href="ch-clase_6.html#s-sec_p_6_32" rel="subsection" title="7.3.5 namelist input file">
+<link href="ch-clase_6.html#s-sec_p_6_4" rel="subsection" title="7.3.6 Programa ejemplo_7_4.f90">
+<link href="ch-clase_8.html#s-sec_p_8_1" rel="subsection" title="8.3.1 Programa ejemplo_8_1.f90">
+<link href="ch-clase_8.html#s-sec_p_8_2" rel="subsection" title="8.3.2 Programa ejemplo_8_2.f90">
+<link href="ch-clase_8.html#s-sec_p_8_3" rel="subsection" title="8.3.3 Programa ejemplo_8_3.f90">
+<link href="ch-clase_8.html#s-sec_p_8_4" rel="subsection" title="8.3.4 Programa ejemplo_8_4.f90">
+<link href="ch-clase_8.html#s-sec_p_8_5" rel="subsection" title="8.3.5 Programa ejemplo_8_5.f90">
+<link href="ch-clase_8.html#s-sec_p_8_6" rel="subsection" title="8.3.6 Programa ejemplo_8_6.f90">
+<link href="ch-clase_9.html#s-sec_p_9_1" rel="subsection" title="9.3.1 Programa ejemplo_9_1.f90">
+<link href="ch-clase_9.html#s-sec_p_9_2" rel="subsection" title="9.3.2 Programa ejemplo_9_2.f90">
+<link href="ch-clase_9.html#s-sec_p_9_3" rel="subsection" title="9.3.3 Programa ejemplo_9_3.f90">
+<link href="ch-clase_9.html#s-sec_p_9_4" rel="subsection" title="9.3.4 Programa ejemplo_9_4.f90">
+<link href="ch-clase_9.html#s-sec_p_9_5" rel="subsection" title="9.3.5 Programa ejemplo_9_5.f90">
+<link href="ch-clase_9.html#s-sec_p_9_6" rel="subsection" title="9.3.6 Programa ejemplo_9_6.f90">
+<link href="ch-clase_9.html#s-sec_p_9_7" rel="subsection" title="9.3.7 Programa ejemplo_9_7.f90">
+<link href="ch-clase_10.html#s-sec_p_10_1" rel="subsection" title="10.3.1 Programa ejemplo_10_1.f90">
+<link href="ch-clase_10.html#s-sec_p_10_2" rel="subsection" title="10.3.2 Programa ejemplo_10_2.f90">
+<link href="ch-clase_10.html#s-sec_p_10_3" rel="subsection" title="10.3.3 Programa ejemplo_10_3.f90">
+<link href="ch-clase_10.html#s-sec_p_10_4" rel="subsection" title="10.3.4 Programa ejemplo_10_4.f90">
+<link href="ch-clase_11.html#s-sec_p_11_1" rel="subsection" title="11.3.1 Programa ejemplo_11_1.f90">
+<link href="ch-clase_11.html#s-sec_p_11_2" rel="subsection" title="11.3.2 Programa ejemplo_11_2.f90">
+<link href="ch-clase_11.html#s-sec_p_11_3" rel="subsection" title="11.3.3 Programa ejemplo_11_3.f90">
+<link href="ch-clase_11.html#s-sec_p_11_4" rel="subsection" title="11.3.4 Programa ejemplo_11_4.f90">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_1" rel="subsection" title="12.3.1 Ejemplo de fichero make.inc para LAPACK">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_2" rel="subsection" title="12.3.2 Ejemplo de fichero make.inc para LAPACK95">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_3" rel="subsection" title="12.3.3 Ejemplo de programa que invoca LAPACK95">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_4" rel="subsection" title="12.3.4 Ejemplo de makefile para compilar programas que invocan LAPACK95">
+
+</head>
+
+<body>
+
+<p><a name="ch-clase_4"></a></p>
+<hr>
+
+<p>
+[ <a href="ch-clase_3.html">previous</a> ]
+[ <a href="index.html#contents">Contents</a> ]
+[ <a href="ch-clase_1.html">1</a> ]
+[ <a href="ch-clase_2.html">2</a> ]
+[ <a href="ch-clase_3.html">3</a> ]
+[ 4 ]
+[ <a href="ch-clase_7.html">5</a> ]
+[ <a href="ch-clase_5.html">6</a> ]
+[ <a href="ch-clase_6.html">7</a> ]
+[ <a href="ch-clase_8.html">8</a> ]
+[ <a href="ch-clase_9.html">9</a> ]
+[ <a href="ch-clase_10.html">10</a> ]
+[ <a href="ch-clase_11.html">11</a> ]
+[ <a href="ch-clase_blaslap.html">12</a> ]
+[ <a href="ch-cap_ref.html">13</a> ]
+[ <a href="ch-clase_7.html">next</a> ]
+</p>
+
+<hr>
+
+<h1>
+<code>Fortran 90</code> Lessons for Computational Chemistry
+<br>Chapter 4 - More on Arrays
+</h1>
+
+<hr>
+
+<h2 id="s-sec_41">4.1 Objectives</h2>
+
+<p>
+The main aims of this lesson are the following:
+</p>
+<ol type="1" start="1" >
+<li>
+<p>
+present storage ordering of multidimensional arrays.
+</p>
+</li>
+</ol>
+<ol type="1" start="2" >
+<li>
+<p>
+present how to manipulate whole matrices or arrays sections in
+<code>Fortran</code>.
+</p>
+</li>
+</ol>
+<ol type="1" start="3" >
+<li>
+<p>
+matrix definition using the <samp>WHERE</samp> statement.
+</p>
+</li>
+</ol>
+
+<hr>
+
+<h2 id="s-sec_42">4.2 Main items.</h2>
+<ul>
+<li>
+<p>
+Storage ordering
+</p>
+
+<p>
+Multidimensional arrays are stored in memory by <code>Fortran</code> in such a
+way that the first subindex varies faster than the second, that varies faster
+than the third and so on and so forth.  This is known as <em>column major
+order</em>.
+</p>
+
+<p>
+For example, if we define a <samp>4 x 2</samp> matrix as
+</p>
+
+<p>
+<samp>REAL , DIMENSION(1:4,1:2) :: A</samp>,
+</p>
+
+<p>
+the <samp>A</samp> array has eight elements stored into memory as follows
+</p>
+
+<pre>
+     A(1,1), A(2,1), A(3,1), A(4,1), A(1,2), A(2,2), A(3,2), A(4,2)
+</pre>
+
+<p>
+The <samp>A</samp> matrix initialization can be carried out in several ways.
+Assuming that each element should be initialized with a number equal to the
+index of the corresponding row, we could use two loops[<a
+href="footnotes.html#f5" name="fr5">5</a>]
+</p>
+
+<pre>
+     DO I_col = 1, 2
+          DO I_row = 1, 4
+             A(I_row, I_col) = I_row
+          ENDDO
+     ENDDO
+</pre>
+
+<p>
+An <em>array constructor</em> can also be of help, though the seemingly simple
+solution
+</p>
+
+<pre>
+     A = (/ 1, 2, 3, 4, 1, 2, 3, 4 /)
+</pre>
+
+<p>
+does not work.  The <em>array constructors</em> produce vectors and not
+matrices.  The vector defined above is of dimension 8, but not a matrix 4x2.
+The vector and the array <samp>A</samp> have identical sizes, but are not
+conformal.  The statement <samp>RESHAPE</samp> gives a possible solution.  The
+sytax of this statement is
+</p>
+
+<pre>
+     <var>output_array</var> = RESHAPE(<var>array_1</var>, <var>array_2</var>)
+</pre>
+
+<p>
+Where <var>array_1</var> is a matrix that would be reshaped and
+<var>array_2</var> is a vector with the dimensions of the new matrix
+<var>output_array</var>.  The total number of elements of <var>array_1</var>
+and <var>output_array</var> needs to be identical.  In the previous example a
+correct <em>array constructor</em> is
+</p>
+
+<pre>
+     A = RESHAPE( (/ 1, 2, 3, 4, 1, 2, 3, 4 /), (/ 4, 2 /) )
+</pre>
+
+<p>
+Another example can be found in code <a
+href="#s-sec_p_4_3"><samp>excode_4_3.f90</samp>, Section 4.3.3</a>.  The
+<samp>RESHAPE</samp> command can be used in the array declaration
+</p>
+
+<pre>
+     INTEGER, DIMENSION(1:4,1:2) :: A = &amp;
+            RESHAPE( (/ 1, 2, 3, 4, 1, 2, 3, 4 /), (/ 4, 2 /) )
+</pre>
+
+<p>
+The data ordering in storage is specially important in I/O operations.  The
+command
+</p>
+
+<pre>
+     PRINT*, A
+</pre>
+
+<p>
+will give as a result
+</p>
+
+<pre>
+     A(1,1), A(2,1), A(3,1), A(4,1), A(1,2), A(2,2), A(3,2), A(4,2)
+</pre>
+
+<p>
+It is necessary to take this into account also when making use of the
+<samp>READ</samp> statement to fill with values the elements of a
+multidimensional array: <samp>READ(<var>unit</var>,*) A</samp>.  The
+<em>implicit</em> <samp>DO</samp> statement allow to change the standard
+reading sequence
+</p>
+
+<pre>
+     READ(unit,*) ( ( A(row,col), col = 1, 2 ), row = 1, 4 )
+</pre>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+<code>FORTRAN</code> allows to define multidimensional arrays, being seven is
+the max number of indices.  The code <a
+href="#s-sec_p_4_2"><samp>excode_4_2.f90</samp>, Section 4.3.2</a> an array is
+fully characterized making use of several <em>inquiry</em> type functions (see
+<a href="ch-clase_8.html#s-sec_p_8_2">Programa ejemplo_8_2.f90, Section
+8.3.2</a>).
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+The usage of whole matrices is a great advantage.  Definig floating point
+vectors <samp>V1</samp>, <samp>V2</samp>, <samp>V3</samp> y <samp>V4</samp> as
+</p>
+
+<pre>
+     REAL , DIMENSION(1:21) :: V1, V2
+     REAL , DIMENSION(-10:10) :: V3
+     REAL , DIMENSION(0:10) :: V4
+</pre>
+
+<p>
+The following tasks are simply performed using this <code>Fortran 90</code>
+feature.
+</p>
+<ol type="1" start="1" >
+<li>
+<p>
+Assigning a particular value to the full array:
+</p>
+
+<pre>
+     V1 = 0.5
+</pre>
+</li>
+</ol>
+<ol type="1" start="2" >
+<li>
+<p>
+Equating matrices:
+</p>
+
+<pre>
+     V1 = V2
+</pre>
+
+<p>
+Making each <samp>V1</samp> element equal to the corresponding element of
+<samp>V2</samp>.  This is only valid when both matrices are <em>conformal</em>.
+It is also valid
+</p>
+
+<pre>
+     V3 = V2
+</pre>
+
+<p>
+but it is <em>not</em> valid
+</p>
+
+<pre>
+     V1 = V4
+</pre>
+</li>
+</ol>
+<ol type="1" start="3" >
+<li>
+<p>
+All arithmetic operation for scalars can be also applied to conformal matrices,
+though they may not be the expected mathematical operations.
+</p>
+
+<pre>
+     V1 = V2 + V3
+     V1 = V2*V3
+</pre>
+
+<p>
+In the first case <samp>V1</samp> is the sum of two vectors, but in the second
+case each <samp>V1</samp> element is the product of the corresponding
+<samp>V2</samp> and <samp>V3</samp> elements, which is not the scalar product.
+In the two-dimensional matrices case, if we define
+</p>
+
+<pre>
+     REAL , DIMENSION(1:4,1:4) :: A, B, C
+</pre>
+
+<p>
+The following are valid statements in <code>Fortran 90</code>
+</p>
+
+<pre>
+     A = A**0.5
+     C = A + B
+     C = A * B
+</pre>
+
+<p>
+The last case is not the matrix product but a matrix having each element as the
+result of the product of the corresponding <samp>A</samp> annd <samp>B</samp>
+elements.
+</p>
+</li>
+</ol>
+<ol type="1" start="4" >
+<li>
+<p>
+A matrix can also be read without a <samp>DO</samp> loop, as in example <a
+href="#s-sec_p_4_1"><samp>excode_4_1.f90</samp>, Section 4.3.1</a>, where also
+the intrinsic function <samp>SUM</samp> is presented.
+</p>
+</li>
+</ol>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+The definition of array slices is possible using the index syntax
+<samp><var>liminf</var>:<var>limsup</var>:<var>step</var></samp>
+</p>
+
+<pre>
+     V1(1:10) = 0.5
+     B(1,1:4) = 100.0
+</pre>
+
+<p>
+In the first case the first ten elements of the <samp>V1</samp> array take the
+value <samp>0.5</samp>, while in the second elements in the first row of
+<samp>B</samp> take the value <samp>100.0</samp>.  See example <a
+href="#s-sec_p_4_1"><samp>excode_4_1.f90</samp>, Section 4.3.1</a>.
+</p>
+
+<p>
+The most general syntax to define a slice is
+<samp><var>lowlimit</var>:<var>upplimit</var>:<var>step</var></samp>, the first
+slice element has index <var>lowlimit</var>, the last one is less than or equal
+to <var>upplimit</var> and <var>step</var> is the index variable increment.
+The default value of <var>step</var> is <samp><var>step</var>=1</samp>.
+Examples:
+</p>
+
+<pre>
+     V1(:)       ! the whole vector
+     V1(3:10)    ! elements V1(3), V1(4), ... ,   V1(10) 
+     V1(3:10:1)  !   &quot;&quot;      &quot;&quot;     &quot;&quot;             &quot;&quot;
+     V1(3:10:2)  !   &quot;&quot;     V1(3), V1(5), ... , V1(9)
+     V1(m:n)     ! elements V1(m), V1(m+1), ... , V1(n) 
+     V1(9:4:-2)  !   &quot;&quot;     V1(9), V1(7), V1(5)
+     V1(m:n:-k)  ! elements V1(m), V1(m-k), ... , V1(n) 
+     V1(::2)     !   &quot;&quot;     V1(1), V1(3), ... , V1(21)
+     V1(m:m)     ! 1 x 1 array
+     V1(m)       ! Scalar
+</pre>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+The assignment of values to an array can be done making use of a <em>logic
+mask</em>, with the <samp>WHERE</samp> statement.  The use of the mask allows
+to select those array elements that should undergo the initialization.  If,
+e.g., we need to compute the square root of the elements of a floating point
+array called <samp>data_mat</samp> and store them in the array
+<samp>sq_data_mat</samp>, we can skip the use of loops and conditionals as in
+the following code
+</p>
+
+<pre>
+     DO j_col = 1, dim_2
+        DO i_row = 1, dim_1
+              IF ( data_mat(i_row, j_col) &gt;= 0.0 ) THEN
+                   sq_data_mat(i_row, j_col) = SQRT( data_mat(i_row, j_col) )
+              ELSE
+                   sq_data_mat(i_row, j_col) = -99999.0
+              ENDIF
+        ENDDO
+     ENDDO
+</pre>
+
+<p>
+The <samp>WHERE</samp> statement greatly simplifies this task.  The statement
+syntax is
+</p>
+
+<pre>
+     [<var>name</var>:] WHERE (<var>mask_expr_1</var>) 
+        ....
+        Array assignment block 1
+        ....
+     ELSEWHERE (<var>mask_expr_2</var>) [<var>name</var>]
+        ....
+        Array assignment block 2
+        ....
+     ELSEWHERE
+        ....
+        Array assignment block 3
+        ....
+     ENDWHERE [<var>name</var>]
+</pre>
+
+<p>
+where <var>mask_expr_1</var> and <var>mask_expr_2</var> are boolean arrays
+conformal with the array being assigned.  The previous example is therefore
+simplified to
+</p>
+
+<pre>
+     WHERE ( data_mat &gt;= 0.0 ) 
+                 sq_data_mat = SQRT( data_mat )
+     ELSEWHERE
+                 sq_data_mat = -99999.0
+     ENDWHERE
+</pre>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+These aspects are treated in the different given examples.  Example <a
+href="#s-sec_p_4_3"><samp>excode_4_3.f90</samp>, Section 4.3.3</a> shows how to
+initialize vectoras and matrices, in the last case making use of the
+<samp>RESHAPE</samp> statement.  The example also introduces the
+<code>Fortran</code> intrinsics <samp>DOT_PRODUCT</samp> (scalar product) and
+<samp>MATMUL</samp> (matrices product).
+</p>
+
+<p>
+Example <a href="#s-sec_p_4_4"><samp>excode_4_4.f90</samp>, Section 4.3.4</a>
+exemplifies the use <samp>WHERE</samp> in combination with a logical mask.
+</p>
+
+<p>
+Example <a href="#s-sec_p_4_5"><samp>excode_4_5.f90</samp>, Section 4.3.5</a>
+stress the fact the the elimination of <samp>DO</samp> loops can sometimes
+bring surprising results about.
+</p>
+
+<p>
+Example <a href="#s-sec_p_4_6"><samp>excode_4_6.f90</samp>, Section 4.3.6</a>
+shows how to use the <samp>RESHAPE</samp> statement in the definition of a
+matrix and how to use slicing in the defined array.
+</p>
+</li>
+</ul>
+
+<hr>
+
+<h2 id="s-sec_43">4.3 Example Codes.</h2>
+
+<hr>
+
+<h3 id="s-sec_p_4_1">4.3.1 <samp>excode_4_1.f90</samp></h3>
+
+<pre>
+     PROGRAM ex_4_1
+       !
+       ! VARIABLE DEFINITION
+       IMPLICIT NONE
+       REAL :: Total=0.0, Average=0.0
+       REAL , DIMENSION(:), ALLOCATABLE :: t_worked
+       ! Correction Factor
+       REAL :: correction =1.05 
+       INTEGER :: day, num_days
+       !
+       PRINT *,' Number of workdays: '
+       READ *, num_days
+       ! Dynamic storage definition
+       ALLOCATE(t_worked(1:num_days))
+       !
+       PRINT *,' Worked hours per day in ', num_days, ' days.'
+       ! I/O
+       READ *, t_worked
+       !
+       t_worked(num_days-1:num_days) = correction*t_worked(num_days-1:num_days)
+       !
+       DO day=1,num_days
+          Total = Total + t_worked(day)
+       ENDDO
+       Average = Total / num_days
+       !
+       PRINT *,' Average daily hours of work in ',num_days, ' days : '
+       PRINT *, Average
+       !
+     END PROGRAM ex_4_1
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_4_2">4.3.2 <samp>excode_4_2.f90</samp></h3>
+
+<pre>
+     PROGRAM ex_4_2
+       !
+       ! Program to characterize an array making use of inquiry functions
+       !
+       IMPLICIT NONE
+       !
+       REAL, DIMENSION(:,:), ALLOCATABLE :: X_grid
+       INTEGER :: Ierr
+       !
+       ! 
+       ALLOCATE(X_grid(-20:20,0:50), STAT = Ierr)
+       IF (Ierr /= 0) THEN
+          STOP 'X_grid allocation failed'
+       ENDIF
+       !
+       WRITE(*, 100) SHAPE(X_grid)
+     100 FORMAT(1X, &quot;Shape :        &quot;, 7I7)
+       !
+       WRITE(*, 110) SIZE(X_grid)
+     110 FORMAT(1X, &quot;Size :         &quot;, I7)
+       !
+       WRITE(*, 120) LBOUND(X_grid)
+     120 FORMAT(1X, &quot;Lower bounds : &quot;, 7I6)
+       !
+       WRITE(*, 130) UBOUND(X_grid)
+     130 FORMAT(1X, &quot;Upper bounds : &quot;, 7I6)
+       !
+       DEALLOCATE(X_grid, STAT = Ierr)
+       IF (Ierr /= 0) THEN
+          STOP 'X_grid deallocation failed'
+       ENDIF
+       !
+     END PROGRAM EX_4_2
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_4_3">4.3.3 <samp>excode_4_3.f90</samp></h3>
+
+<pre>
+     PROGRAM ex_4_3
+       !
+       ! VARIABLES DEFINITION
+       IMPLICIT NONE
+       REAL, DIMENSION(1:5) :: VA = (/1.0,1.0,1.0,1.0,1.0/), PMAT
+       INTEGER I
+       INTEGER, DIMENSION(1:5) :: VB = (/(2*I,I=1,5)/) 
+       REAL :: PE
+       REAL , DIMENSION(1:5,1:5) :: MC
+       REAL , DIMENSION(25) :: VC = &amp;
+            (/ 0.0,0.0,0.0,0.0,1.0,0.5,2.0,3.2,0.0,0.0, &amp; 
+               0.0,0.0,0.0,0.0,11.0,0.5,2.3,3.2,0.0,0.0, &amp; 
+               1.0,3.0,-2.0,-2.0,-0.6 /)
+       ! Scalar Product
+       PE = DOT_PRODUCT(VA,VB)
+       !
+       PRINT *, 'Scalar Product (VA,VB) = ', PE
+       !
+       ! Product of matrices VAxMC
+       ! RESHAPE VC to make it a  5 x 5 matrix
+       MC = RESHAPE(VC,(/5,5/))
+       PMAT = MATMUL(VA,MC)
+       !
+       PRINT *, ' VA x MC = ', PMAT(1:5)
+       !
+     END PROGRAM ex_4_3
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_4_4">4.3.4 <samp>excode_4_4.f90</samp></h3>
+
+<pre>
+     PROGRAM ex_4_4
+       IMPLICIT NONE
+       REAL , DIMENSION(-180:180) :: Time=0
+       INTEGER :: Degree, Strip
+       REAL :: Value
+       CHARACTER (LEN=1), DIMENSION(-180:180) :: LEW=' '
+     !
+       DO Degree=-165,165,15
+          Value=Degree/15
+          DO Strip=-7,7
+             Time(Degree+Strip)=Value
+          ENDDO
+       ENDDO
+     !
+       DO Strip=0,7
+          Time(-180 + Strip) = -180/15
+          Time( 180 - Strip) = 180/15
+       ENDDO
+     !
+       DO Degree=-180,180
+          PRINT *,Degree,' ',Time(Degree), 12 + Time(Degree)
+       END DO
+     !
+       WHERE (Time &gt; 0) 
+          LEW='E'
+       ELSEWHERE (Time &lt; 0)
+          LEW='W'
+       ENDWHERE
+     !
+       PRINT*, LEW
+     !
+     END PROGRAM ex_4_4
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_4_5">4.3.5 <samp>excode_4_5.f90</samp></h3>
+
+<pre>
+     PROGRAM ex_4_5
+       !
+       ! VARIABLE DEFINITION 
+       IMPLICIT NONE
+       REAL, DIMENSION(1:7) :: VA = (/1.2,2.3,3.4,4.5,5.6,6.7,7.8/)
+       REAL, DIMENSION(1:7) :: VA1 = 0.0, VA2 = 0.0
+       INTEGER I
+       !
+       VA1 = VA
+       VA2 = VA
+       !
+       DO I = 2, 7
+          VA1(I) = VA1(I) + VA1(I-1)
+       ENDDO
+       !
+       VA2(2:7) = VA2(2:7) + VA2(1:6)
+       !
+       ! Previous two operations with VA1 and VA2 seem that
+       ! should provide the same result. Which is not the case.
+       PRINT*, VA1
+       PRINT*, VA2
+       !
+       ! To obtain the same effect without an explicit DO loop we can do 
+       ! the following
+       VA2 = VA
+       VA2(2:7) = (/ (SUM(VA2(1:I)), I = 2,7) /)
+       !
+       PRINT*, VA1
+       PRINT*, VA2
+     END PROGRAM ex_4_5
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_4_6">4.3.6 <samp>excode_4_6.f90</samp></h3>
+
+<pre>
+     PROGRAM ex_4_6
+       !
+       ! DEFINITION OF VARIABLES
+       IMPLICIT NONE
+       INTEGER, DIMENSION(1:3,1:3) :: A = RESHAPE( (/ 1,2,3,4,5,6,7,8,9 /), (/ 3,3 /) )
+       !
+       !
+       !      1  4  7     
+       !  A = 2  5  8
+       !      3  6  9
+       !
+       PRINT*, &quot;Matrix Element&quot;, A(2,3)
+       PRINT*, &quot;Submatrix&quot;, A(1:2,2:3)
+       PRINT*, &quot;Submatrix&quot;, A(::2,::2)
+       PRINT*, &quot;Matrix Column&quot;, A(:,3)
+       PRINT*, &quot;Matrix Row&quot;, A(2,:)
+       PRINT*, &quot;Full Matrix&quot;, A
+       PRINT*, &quot;Transposed Matrix&quot;, TRANSPOSE(A)
+     END PROGRAM ex_4_6
+</pre>
+
+<hr>
+
+<p>
+[ <a href="ch-clase_3.html">previous</a> ]
+[ <a href="index.html#contents">Contents</a> ]
+[ <a href="ch-clase_1.html">1</a> ]
+[ <a href="ch-clase_2.html">2</a> ]
+[ <a href="ch-clase_3.html">3</a> ]
+[ 4 ]
+[ <a href="ch-clase_7.html">5</a> ]
+[ <a href="ch-clase_5.html">6</a> ]
+[ <a href="ch-clase_6.html">7</a> ]
+[ <a href="ch-clase_8.html">8</a> ]
+[ <a href="ch-clase_9.html">9</a> ]
+[ <a href="ch-clase_10.html">10</a> ]
+[ <a href="ch-clase_11.html">11</a> ]
+[ <a href="ch-clase_blaslap.html">12</a> ]
+[ <a href="ch-cap_ref.html">13</a> ]
+[ <a href="ch-clase_7.html">next</a> ]
+</p>
+
+<hr>
+
+<p>
+<code>Fortran 90</code> Lessons for Computational Chemistry
+</p>
+
+<address>
+0.0<br>
+<br>
+Curro Pérez-Bernal <code><a href="mailto:francisco.perez@dfaie.uhu.es">mailto:francisco.perez@dfaie.uhu.es</a></code><br>
+<br>
+</address>
+<hr>
+
+</body>
+
+</html>
+

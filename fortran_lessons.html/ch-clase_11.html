@@ -1,0 +1,902 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+
+<html>
+
+<head>
+
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+
+<title>Fortran 90 Lessons for Computational Chemistry - Subprogramas (IV)</title>
+
+<link href="index.html" rel="start">
+<link href="ch-clase_10.html" rel="prev">
+<link href="ch-clase_blaslap.html" rel="next">
+<link href="index.html#contents" rel="contents">
+<link href="index.html#copyright" rel="copyright">
+<link href="ch-clase_1.html" rel="chapter" title="1 Introduction">
+<link href="ch-clase_2.html" rel="chapter" title="2 Basic Operations">
+<link href="ch-clase_3.html" rel="chapter" title="3 Introduction to Fortran Arrays">
+<link href="ch-clase_4.html" rel="chapter" title="4 More on Arrays">
+<link href="ch-clase_7.html" rel="chapter" title="5 Control Structures">
+<link href="ch-clase_5.html" rel="chapter" title="6 INPUT/OUTPUT) (I)">
+<link href="ch-clase_6.html" rel="chapter" title="7 Operaciones I/O (II)">
+<link href="ch-clase_8.html" rel="chapter" title="8 Subprogramas (I): funciones">
+<link href="ch-clase_9.html" rel="chapter" title="9 Subprogramas (II): subrutinas">
+<link href="ch-clase_10.html" rel="chapter" title="10 Subprogramas (III): módulos">
+<link href="ch-clase_11.html" rel="chapter" title="11 Subprogramas (IV)">
+<link href="ch-clase_blaslap.html" rel="chapter" title="12 Instalación y uso de las bibliotecas BLAS y LAPACK">
+<link href="ch-cap_ref.html" rel="chapter" title="13 Referencias">
+<link href="ch-clase_1.html#s-sec_11" rel="section" title="1.1 Objectives">
+<link href="ch-clase_1.html#s-sec_12" rel="section" title="1.2 Main items.">
+<link href="ch-clase_1.html#s-sec_13" rel="section" title="1.3 Example Codes.">
+<link href="ch-clase_2.html#s-sec_21" rel="section" title="2.1 Objectives">
+<link href="ch-clase_2.html#s-sec_22" rel="section" title="2.2 Main items.">
+<link href="ch-clase_2.html#s-sec_23" rel="section" title="2.3 Example Codes.">
+<link href="ch-clase_3.html#s-sec_31" rel="section" title="3.1 Objectivos">
+<link href="ch-clase_3.html#s-sec_32" rel="section" title="3.2 Main items.">
+<link href="ch-clase_3.html#s-sec_33" rel="section" title="3.3 Example Codes.">
+<link href="ch-clase_4.html#s-sec_41" rel="section" title="4.1 Objectives">
+<link href="ch-clase_4.html#s-sec_42" rel="section" title="4.2 Main items.">
+<link href="ch-clase_4.html#s-sec_43" rel="section" title="4.3 Example Codes.">
+<link href="ch-clase_7.html#s-sec_71" rel="section" title="5.1 Objectivos">
+<link href="ch-clase_7.html#s-sec_72" rel="section" title="5.2 Main items.">
+<link href="ch-clase_7.html#s-sec_73" rel="section" title="5.3 Example codes.">
+<link href="ch-clase_5.html#s-sec_51" rel="section" title="6.1 Objectivos">
+<link href="ch-clase_5.html#s-sec_52" rel="section" title="6.2 Main Items.">
+<link href="ch-clase_5.html#s-sec_53" rel="section" title="6.3 Programas usados como ejemplo.">
+<link href="ch-clase_6.html#s-sec_61" rel="section" title="7.1 Objetivos">
+<link href="ch-clase_6.html#s-sec_62" rel="section" title="7.2 Puntos destacables.">
+<link href="ch-clase_6.html#s-sec_63" rel="section" title="7.3 Programas usados como ejemplo.">
+<link href="ch-clase_8.html#s-sec_81" rel="section" title="8.1 Objetivos">
+<link href="ch-clase_8.html#s-sec_82" rel="section" title="8.2 Puntos destacables.">
+<link href="ch-clase_8.html#s-sec_83" rel="section" title="8.3 Programas usados como ejemplo.">
+<link href="ch-clase_9.html#s-sec_91" rel="section" title="9.1 Objetivos">
+<link href="ch-clase_9.html#s-sec_92" rel="section" title="9.2 Puntos destacables.">
+<link href="ch-clase_9.html#s-sec_93" rel="section" title="9.3 Programas usados como ejemplo.">
+<link href="ch-clase_10.html#s-sec_101" rel="section" title="10.1 Objetivos">
+<link href="ch-clase_10.html#s-sec_102" rel="section" title="10.2 Puntos destacables.">
+<link href="ch-clase_10.html#s-sec_103" rel="section" title="10.3 Programas usados como ejemplo.">
+<link href="ch-clase_11.html#s-sec_111" rel="section" title="11.1 Objetivos">
+<link href="ch-clase_11.html#s-sec_112" rel="section" title="11.2 Puntos destacables.">
+<link href="ch-clase_11.html#s-sec_113" rel="section" title="11.3 Programas usados como ejemplo.">
+<link href="ch-clase_blaslap.html#s-sec_bl1" rel="section" title="12.1 Objetivos">
+<link href="ch-clase_blaslap.html#s-sec_bl2" rel="section" title="12.2 Puntos destacables.">
+<link href="ch-clase_blaslap.html#s-sec_bl3" rel="section" title="12.3 Programas usados como ejemplo.">
+<link href="ch-clase_1.html#s-sec_p_1_1" rel="subsection" title="1.3.1 excode_1_1.f90">
+<link href="ch-clase_1.html#s-sec_p_1_2" rel="subsection" title="1.3.2 excode_1_2.f90">
+<link href="ch-clase_2.html#s-sec_p_2_1" rel="subsection" title="2.3.1 excode_2_1.f90">
+<link href="ch-clase_2.html#s-sec_p_2_2" rel="subsection" title="2.3.2 excode_2_2.f90">
+<link href="ch-clase_2.html#s-sec_p_2_3" rel="subsection" title="2.3.3 excode_2_3.f90">
+<link href="ch-clase_2.html#s-sec_p_2_4" rel="subsection" title="2.3.4 excode_2_4.f90">
+<link href="ch-clase_2.html#s-sec_p_2_5" rel="subsection" title="2.3.5 excode_2_5.f90">
+<link href="ch-clase_2.html#s-sec_p_2_6" rel="subsection" title="2.3.6 excode_2_6.f90">
+<link href="ch-clase_3.html#s-sec_p_3_1" rel="subsection" title="3.3.1 excode_3_1.f90">
+<link href="ch-clase_3.html#s-sec_p_3_2" rel="subsection" title="3.3.2 excode_3_2.f90">
+<link href="ch-clase_3.html#s-sec_p_3_3" rel="subsection" title="3.3.3 excode_3_3.f90">
+<link href="ch-clase_3.html#s-sec_p_3_4" rel="subsection" title="3.3.4 excode_3_4.f90">
+<link href="ch-clase_4.html#s-sec_p_4_1" rel="subsection" title="4.3.1 excode_4_1.f90">
+<link href="ch-clase_4.html#s-sec_p_4_2" rel="subsection" title="4.3.2 excode_4_2.f90">
+<link href="ch-clase_4.html#s-sec_p_4_3" rel="subsection" title="4.3.3 excode_4_3.f90">
+<link href="ch-clase_4.html#s-sec_p_4_4" rel="subsection" title="4.3.4 excode_4_4.f90">
+<link href="ch-clase_4.html#s-sec_p_4_5" rel="subsection" title="4.3.5 excode_4_5.f90">
+<link href="ch-clase_4.html#s-sec_p_4_6" rel="subsection" title="4.3.6 excode_4_6.f90">
+<link href="ch-clase_7.html#s-sec_p_7_1" rel="subsection" title="5.3.1 excode_5_1.f90">
+<link href="ch-clase_7.html#s-sec_p_7_2" rel="subsection" title="5.3.2 excode_5_2.f90">
+<link href="ch-clase_7.html#s-sec_p_7_3" rel="subsection" title="5.3.3 excode_5_3.f90">
+<link href="ch-clase_7.html#s-sec_p_7_4" rel="subsection" title="5.3.4 Programa ejemplo_5_4.f90">
+<link href="ch-clase_5.html#s-sec_p_5_1" rel="subsection" title="6.3.1 excode_6_1.f90">
+<link href="ch-clase_5.html#s-sec_p_5_2" rel="subsection" title="6.3.2 excode_6_2.f90">
+<link href="ch-clase_5.html#s-sec_p_5_3" rel="subsection" title="6.3.3 excode_6_3.f90">
+<link href="ch-clase_5.html#s-sec_p_5_4" rel="subsection" title="6.3.4 excode_6_4.f90">
+<link href="ch-clase_5.html#s-sec_p_5_5" rel="subsection" title="6.3.5 excode_6_5.f90">
+<link href="ch-clase_5.html#s-sec_p_5_6" rel="subsection" title="6.3.6 excode_6_6.f90">
+<link href="ch-clase_5.html#s-sec_p_5_7" rel="subsection" title="6.3.7 excode_6_7.f90">
+<link href="ch-clase_6.html#s-sec_p_6_1" rel="subsection" title="7.3.1 Programa ejemplo_7_1.f90">
+<link href="ch-clase_6.html#s-sec_p_6_2" rel="subsection" title="7.3.2 Programa ejemplo_7_2.f90">
+<link href="ch-clase_6.html#s-sec_p_6_22" rel="subsection" title="7.3.3 Script ej_here_file">
+<link href="ch-clase_6.html#s-sec_p_6_3" rel="subsection" title="7.3.4 Programa ejemplo_7_3.f90">
+<link href="ch-clase_6.html#s-sec_p_6_32" rel="subsection" title="7.3.5 namelist input file">
+<link href="ch-clase_6.html#s-sec_p_6_4" rel="subsection" title="7.3.6 Programa ejemplo_7_4.f90">
+<link href="ch-clase_8.html#s-sec_p_8_1" rel="subsection" title="8.3.1 Programa ejemplo_8_1.f90">
+<link href="ch-clase_8.html#s-sec_p_8_2" rel="subsection" title="8.3.2 Programa ejemplo_8_2.f90">
+<link href="ch-clase_8.html#s-sec_p_8_3" rel="subsection" title="8.3.3 Programa ejemplo_8_3.f90">
+<link href="ch-clase_8.html#s-sec_p_8_4" rel="subsection" title="8.3.4 Programa ejemplo_8_4.f90">
+<link href="ch-clase_8.html#s-sec_p_8_5" rel="subsection" title="8.3.5 Programa ejemplo_8_5.f90">
+<link href="ch-clase_8.html#s-sec_p_8_6" rel="subsection" title="8.3.6 Programa ejemplo_8_6.f90">
+<link href="ch-clase_9.html#s-sec_p_9_1" rel="subsection" title="9.3.1 Programa ejemplo_9_1.f90">
+<link href="ch-clase_9.html#s-sec_p_9_2" rel="subsection" title="9.3.2 Programa ejemplo_9_2.f90">
+<link href="ch-clase_9.html#s-sec_p_9_3" rel="subsection" title="9.3.3 Programa ejemplo_9_3.f90">
+<link href="ch-clase_9.html#s-sec_p_9_4" rel="subsection" title="9.3.4 Programa ejemplo_9_4.f90">
+<link href="ch-clase_9.html#s-sec_p_9_5" rel="subsection" title="9.3.5 Programa ejemplo_9_5.f90">
+<link href="ch-clase_9.html#s-sec_p_9_6" rel="subsection" title="9.3.6 Programa ejemplo_9_6.f90">
+<link href="ch-clase_9.html#s-sec_p_9_7" rel="subsection" title="9.3.7 Programa ejemplo_9_7.f90">
+<link href="ch-clase_10.html#s-sec_p_10_1" rel="subsection" title="10.3.1 Programa ejemplo_10_1.f90">
+<link href="ch-clase_10.html#s-sec_p_10_2" rel="subsection" title="10.3.2 Programa ejemplo_10_2.f90">
+<link href="ch-clase_10.html#s-sec_p_10_3" rel="subsection" title="10.3.3 Programa ejemplo_10_3.f90">
+<link href="ch-clase_10.html#s-sec_p_10_4" rel="subsection" title="10.3.4 Programa ejemplo_10_4.f90">
+<link href="ch-clase_11.html#s-sec_p_11_1" rel="subsection" title="11.3.1 Programa ejemplo_11_1.f90">
+<link href="ch-clase_11.html#s-sec_p_11_2" rel="subsection" title="11.3.2 Programa ejemplo_11_2.f90">
+<link href="ch-clase_11.html#s-sec_p_11_3" rel="subsection" title="11.3.3 Programa ejemplo_11_3.f90">
+<link href="ch-clase_11.html#s-sec_p_11_4" rel="subsection" title="11.3.4 Programa ejemplo_11_4.f90">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_1" rel="subsection" title="12.3.1 Ejemplo de fichero make.inc para LAPACK">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_2" rel="subsection" title="12.3.2 Ejemplo de fichero make.inc para LAPACK95">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_3" rel="subsection" title="12.3.3 Ejemplo de programa que invoca LAPACK95">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_4" rel="subsection" title="12.3.4 Ejemplo de makefile para compilar programas que invocan LAPACK95">
+
+</head>
+
+<body>
+
+<p><a name="ch-clase_11"></a></p>
+<hr>
+
+<p>
+[ <a href="ch-clase_10.html">previous</a> ]
+[ <a href="index.html#contents">Contents</a> ]
+[ <a href="ch-clase_1.html">1</a> ]
+[ <a href="ch-clase_2.html">2</a> ]
+[ <a href="ch-clase_3.html">3</a> ]
+[ <a href="ch-clase_4.html">4</a> ]
+[ <a href="ch-clase_7.html">5</a> ]
+[ <a href="ch-clase_5.html">6</a> ]
+[ <a href="ch-clase_6.html">7</a> ]
+[ <a href="ch-clase_8.html">8</a> ]
+[ <a href="ch-clase_9.html">9</a> ]
+[ <a href="ch-clase_10.html">10</a> ]
+[ 11 ]
+[ <a href="ch-clase_blaslap.html">12</a> ]
+[ <a href="ch-cap_ref.html">13</a> ]
+[ <a href="ch-clase_blaslap.html">next</a> ]
+</p>
+
+<hr>
+
+<h1>
+<code>Fortran 90</code> Lessons for Computational Chemistry
+<br>Chapter 11 - Subprogramas (IV)
+</h1>
+
+<hr>
+
+<h2 id="s-sec_111">11.1 Objetivos</h2>
+
+<p>
+Los objetivos de esta clase son los siguientes:
+</p>
+<ol type="1" start="1" >
+<li>
+<p>
+Explicar como se deben gestionar los errores en la invocación de funciones y
+subrutinas.
+</p>
+</li>
+</ol>
+<ol type="1" start="2" >
+<li>
+<p>
+Explicar como se pasa el nombre de una función o subrutina como argumento
+declarando las funciones o subrutinas implicadas con el atributo
+<samp>EXTERNAL</samp>.
+</p>
+</li>
+</ol>
+<ol type="1" start="3" >
+<li>
+<p>
+Explicar como se pasa el nombre de una función o subrutina como argumento
+declarando las funciones o subrutinas en un módulo.
+</p>
+</li>
+</ol>
+
+<hr>
+
+<h2 id="s-sec_112">11.2 Puntos destacables.</h2>
+<ol type="1" start="1" >
+<li>
+<p>
+Se debe evitar que un programa termine sin que una subprograma (función o
+subrutina) devuelva el control al programa que lo ha invocado.  Por ello se
+debe no usar la orden <samp>STOP</samp> en el interior de subprogramas.  La
+mejor forma de gestionar errores en una subrutina, sobre todo aquellos debidos
+a una incorrecta definición de los argumentos de entrada de la subrutina, es
+mediante el uso de varibles <em>flag</em> (bandera) que marquen que ha tenido
+lugar un error.  En el siguiente ejemplo se calcula la raíz cuadrada de la
+diferencia entre dos números, y la variable <samp>sta_flag</samp> es cero si la
+subrutina se ejecuta sin problemas o uno si se trata de calcular la raíz
+cuadrada de un número negativo.
+</p>
+
+<pre>
+     SUBROUTINE calc(a_1, a_2, result, sta_flag)
+        IMPLICIT NONE
+        REAL, INTENT(IN) :: a_1, a_2
+        REAL, INTENT(OUT) :: result
+        INTEGER, INTENT(OUT) :: sta_flag
+        !
+        REAL :: temp
+        !
+        temp = a_1 - a_2
+        IF (temp &gt;= 0) THEN
+           result = SQRT(temp)
+           sta_flag = 0
+        ELSE
+           result = 0.0
+           sta_flag = 1
+        ENDIF
+     END SUBROUTINE calc
+</pre>
+
+<p>
+Una vez ejecutada la subrutina se debe comprobar el valor de la variable
+<samp>sta_flag</samp> para informar si ha existido algún problema.
+</p>
+</li>
+</ol>
+<ol type="1" start="2" >
+<li>
+<p>
+Al invocar una subrutina los argumentos pasan como una serie de punteros a
+ciertas posiciones de memoria.  Eso permite que como argumento figure una
+función o subrutina.
+</p>
+</li>
+</ol>
+<ol type="1" start="3" >
+<li>
+<p>
+En el caso de funciones, cuando se incluye el nombre de una función en la lista
+de argumentos se transforma en un puntero a dicha función.  Para ello las
+funciones han de ser declaradas con el atributo <samp>EXTERNAL</samp>.  Si, por
+ejemplo, desde un programa llamamos a una subrutina llamada
+<samp>evaluate_func</samp> para evaluar las funciones <samp>fun_1</samp> y
+<samp>fun_2</samp> podemos hacer algo como
+</p>
+
+<pre>
+     PROGRAM test
+       IMPLICIT NONE
+       REAL :: fun_1, fun_2
+       EXTERNAL fun_1, fun_2
+       REAL :: x, y, output
+     
+       ......
+     
+       CALL evaluate_func(fun_1, x, y, output)
+       CALL evaluate_func(fun_2, x, y, output)
+     
+       ......
+     
+     END PROGRAM test
+     
+     SUBROUTINE evaluate_func(fun, a, b, out)
+        REAL, EXTERNAL :: fun
+        REAL, INTENT(IN) :: a, b
+        REAL, INTENT(OUT) :: out
+        !
+        out = fun(a,b)
+     END SUBROUTINE evaluate_func
+</pre>
+
+<p>
+En el <a href="#s-sec_p_11_1">Programa ejemplo_11_1.f90, Section 11.3.1</a> se
+muestra un ejemplo en el que se evalua, dependiendo de la elección del usuario,
+el producto o el cociente entre dos números.  Dependiendo de la elección se
+utiliza la subrutina <samp>Eval_Func</samp>, que acepta como uno de sus
+argumentos el nombre de la función que se va a evaluar, <samp>prod_func</samp>
+o <samp>quot_func</samp>.  Debe indicarse el tipo de variable asociado a la
+función, pero no se puede especificar el atributo <samp>INTENT</samp>.
+</p>
+</li>
+</ol>
+<ol type="1" start="4" >
+<li>
+<p>
+También pueden usarse nombres de subrutinas como argumentos.  Para pasar el
+nombre de una subrutina como argumento dicha subrutina debe ser declarada con
+el atributo EXTERNAL.  En el siguiente ejemplo una subrutina llamada
+<samp>launch_sub</samp> acepta como argumentos de entrada las variables
+<samp>x_1</samp> y <samp>x_2</samp> y el nombre de una subrutina a la que
+invoca con las variables anteriores como argumentos y tiene como argumento de
+salida la variable <samp>result</samp>.
+</p>
+
+<pre>
+     SUBROUTINE launch_sub(x_1, x_2, sub_name, result)
+       IMPLICIT NONE
+       REAL, INTENT(IN) :: x_1, x_2
+       EXTERNAL sub_name
+       REAL, INTENT(OUT) :: result
+     
+     
+       ......
+     
+       CALL sub_name(x_1, x_2, result)
+     
+       ......
+     
+     END SUBROUTINE launch_sub
+</pre>
+
+<p>
+Como puede verse en este ejemplo, el argumento que indica la subrutina
+(<samp>sub_name</samp>) no lleva asociado el atributo <samp>INTENT</samp>.  En
+el <a href="#s-sec_p_11_2">Programa ejemplo_11_2.f90, Section 11.3.2</a> se
+muestra un ejemplo similar al anterior, en el que se evalua dependiendo de la
+elección del usuario el producto o el cociente entre dos números.  Dependiendo
+de la elección se utiliza la subrutina <samp>Eval_Sub</samp>, que acepta como
+uno de sus argumentos el nombre de la subrutina que se va a evaluar,
+<samp>prod_sub</samp> o <samp>quot_sub</samp>.
+</p>
+</li>
+</ol>
+<ol type="1" start="5" >
+<li>
+<p>
+En el <a href="#s-sec_p_11_3">Programa ejemplo_11_3.f90, Section 11.3.3</a> se
+muestra un ejemplo algo más complejo en el que se evalua, dependiendo de la
+elección del usuario, una función entre tres posibles para un intervalo de la
+variable independiente.  En este caso las funciones se declaran como
+<samp>EXTERNAL</samp> y se utiliza una subrutina interna para la definición del
+vector de la variable independiente, de acuerdo con la dimensión que
+proporciona el usuario, y la subrutina <samp>Eval_Func</samp> que acepta como
+uno de sus argumentos el nombre de la función que se evalue mostrando los
+resultados en pantalla.
+</p>
+</li>
+</ol>
+<ol type="1" start="6" >
+<li>
+<p>
+Es posible también comunicar a un subprograma el nombre de una función o una
+subrutina mediante el uso de módulos.  En el <a href="#s-sec_p_11_4">Programa
+ejemplo_11_4.f90, Section 11.3.4</a> se muestra un programa similar al <a
+href="#s-sec_p_11_3">Programa ejemplo_11_3.f90, Section 11.3.3</a> utilizando
+módulos.  El módulo <samp>Functions_11_4</samp> debe compilarse en un fichero
+separado al del programa principal.  Si, por ejemplo el módulo se llama
+<code>ejemplo_11_4_mod.f90</code> y el programa principal
+<code>ejemplo_11_4.f90</code> el procedimiento sería el siguiente
+</p>
+
+<pre>
+     $ gfortran -c ejemplo_11_4_mod.f90 
+     $ gfortran ejemplo_11_4.f90 ejemplo_11_4_mod.o
+</pre>
+
+<p>
+Como ocurría en el caso anterior, el o los argumentos que indican funciones o
+subrutinas no llevan el atributo <samp>INTENT</samp>.
+</p>
+</li>
+</ol>
+
+<hr>
+
+<h2 id="s-sec_113">11.3 Programas usados como ejemplo.</h2>
+
+<hr>
+
+<h3 id="s-sec_p_11_1">11.3.1 Programa ejemplo_11_1.f90</h3>
+
+<pre>
+     PROGRAM func_option
+       !
+       ! Select between funs to compute the product of the quotient of two quantities
+       !
+       IMPLICIT NONE
+       !
+       !
+       REAL :: X_1, X_2
+       INTEGER :: I_fun
+       INTEGER :: I_exit
+       !
+       REAL, EXTERNAL :: prod_fun, quot_fun
+       !
+       I_exit = 1
+       !
+       DO WHILE (I_exit /= 0)
+          !
+          PRINT*, &quot;X_1, X_2?&quot; 
+          READ(UNIT = *, FMT = *) X_1, X_2
+          !
+          PRINT*, &quot;function 1 = X_1 * X_2, 2 = X_1/X_2 ? (0 = exit)&quot; 
+          READ(UNIT = *, FMT = *) I_fun
+          !
+          SELECT CASE (I_fun)
+             !
+          CASE (0)
+             I_exit = 1
+          CASE (1) 
+             CALL Eval_func(prod_fun, X_1, X_2)
+          CASE (2) 
+             CALL Eval_func(quot_fun, X_1, X_2)
+          CASE DEFAULT
+             PRINT*, &quot;Valid options : 0, 1, 2&quot;
+             !
+          END SELECT
+          !
+          PRINT*, &quot;Continue? (0 = exit)&quot; 
+          READ(UNIT=*, FMT = *) I_exit
+          !
+          !
+       ENDDO
+       !
+     END PROGRAM func_option
+     !
+     SUBROUTINE Eval_Func(fun, X_1, X_2)
+       !
+       IMPLICIT NONE
+       !
+       REAL, INTENT(IN) :: X_1, X_2
+       REAL, EXTERNAL :: fun
+       !
+       PRINT 10, fun(X_1, X_2)
+       !
+       10 FORMAT(1X, ES16.8)
+       !
+     END SUBROUTINE Eval_Func
+     !
+     !
+     FUNCTION prod_fun(x1, x2)
+       !
+       IMPLICIT  NONE
+       !
+       REAL, INTENT(IN) :: x1, x2
+       ! 
+       REAL prod_fun
+       !
+       prod_fun = x1*x2
+       !
+     END FUNCTION prod_fun
+     !
+     FUNCTION quot_fun(x1, x2)
+       !
+       IMPLICIT  NONE
+       !
+       REAL, INTENT(IN) :: x1, x2
+       ! 
+       REAL quot_fun
+       !
+       quot_fun = x1/x2
+       !
+     END FUNCTION quot_fun
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_11_2">11.3.2 Programa ejemplo_11_2.f90</h3>
+
+<pre>
+     PROGRAM sub_option
+       !
+       ! Select between subs to compute the product or the quotient of two quantities
+       !
+       IMPLICIT NONE
+       !
+       !
+       REAL :: X_1, X_2
+       INTEGER :: I_sub
+       INTEGER :: I_exit
+       !
+       EXTERNAL :: prod_sub, quot_sub
+       !
+       I_exit = 1
+       !
+       DO WHILE (I_exit /= 0)
+          !
+          PRINT*, &quot;X_1, X_2?&quot; 
+          READ(UNIT = *, FMT = *) X_1, X_2
+          !
+          PRINT*, &quot;function 1 = X_1 * X_2, 2 = X_1/X_2 ? (0 = exit)&quot; 
+          READ(UNIT = *, FMT = *) I_sub
+          !
+          SELECT CASE (I_sub)
+             !
+          CASE (0)
+             I_exit = 0
+          CASE (1) 
+             CALL Eval_Sub(prod_sub, X_1, X_2)
+          CASE (2) 
+             CALL Eval_Sub(quot_sub, X_1, X_2)
+          CASE DEFAULT
+             PRINT*, &quot;Valid options : 0, 1, 2&quot;
+             !
+          END SELECT
+          !
+          PRINT*, &quot;Continue? (0 = exit)&quot; 
+          READ(UNIT=*, FMT = *) I_exit
+          !
+       ENDDO
+       !
+     END PROGRAM sub_option
+     !
+     SUBROUTINE Eval_Sub(sub, X_1, X_2)
+       !
+       IMPLICIT NONE
+       !
+       EXTERNAL :: sub
+       REAL, INTENT(IN) :: X_1, X_2
+       !
+       REAL :: res_sub
+       !
+       CALL sub(X_1, X_2, res_sub)
+       PRINT 10, res_sub
+       !
+     10 FORMAT(1X, ES16.8)
+       !
+     END SUBROUTINE Eval_Sub
+     !
+     !
+     SUBROUTINE prod_sub(x1, x2, y)
+       !
+       IMPLICIT  NONE
+       !
+       REAL, INTENT(IN) :: x1, x2
+       REAL, INTENT(OUT) :: y
+       ! 
+       y = x1*x2
+       !
+     END SUBROUTINE prod_sub
+     !
+     !
+     SUBROUTINE quot_sub(x1, x2, y)
+       !
+       IMPLICIT  NONE
+       !
+       REAL, INTENT(IN) :: x1, x2
+       REAL, INTENT(OUT) :: y
+       ! 
+       y = x1/x2
+       !
+     END SUBROUTINE quot_sub
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_11_3">11.3.3 Programa ejemplo_11_3.f90</h3>
+
+<pre>
+     PROGRAM call_func
+       !
+       ! Select which curve is computed and saved in a given interval e.g. (-2 Pi, 2 Pi)
+       ! 
+       ! 1 ---&gt; 10 x^2 cos(2x) exp(-x)
+       ! 2 ---&gt; 10 (-x^2 + x^4)exp(-x^2)
+       ! 3 ---&gt; 10 (-x^2 + cos(x)*x^4)exp(-x^2)
+       !
+       IMPLICIT NONE
+       !
+       !
+       REAL, DIMENSION(:), ALLOCATABLE :: X_grid
+       !
+       REAL, PARAMETER :: pi = ACOS(-1.0)
+       !
+       REAL :: X_min, X_max, Delta_X
+       INTEGER :: X_dim, I_fun
+       INTEGER :: I_exit, Ierr
+       !
+       REAL, EXTERNAL :: fun1, fun2, fun3
+       !
+       X_min = -2*pi
+       X_max = 2*pi
+       !
+       I_exit = 0
+       !
+       DO WHILE (I_exit /= 1)
+          !
+          PRINT*, &quot;number of points? (0 = exit)&quot; 
+          READ(UNIT=*, FMT = *) X_dim
+          !
+          IF (X_dim == 0) THEN
+             !
+             I_exit = 1
+             !
+          ELSE
+             ALLOCATE(X_grid(1:X_dim), STAT = Ierr)
+             IF (Ierr /= 0) THEN
+                STOP 'X_grid allocation failed'
+             ENDIF
+             !
+             CALL make_Grid(X_min, X_max, X_dim)
+             !
+             PRINT*, &quot;function 1, 2, or 3? (0 = exit)&quot; 
+             READ(UNIT = *, FMT = *) I_fun
+             !
+             SELECT CASE (I_fun)
+                !
+             CASE (0)
+                I_exit = 1
+             CASE (1) 
+                CALL Eval_func(fun1, X_dim, X_grid)
+             CASE (2) 
+                CALL Eval_func(fun2, X_dim, X_grid)
+             CASE (3) 
+                CALL Eval_func(fun3, X_dim, X_grid)
+             CASE DEFAULT
+                PRINT*, &quot;Valid options : 0, 1, 2, 3&quot;
+                !
+             END SELECT
+             !
+             DEALLOCATE(X_grid, STAT = Ierr)
+             IF (Ierr /= 0) THEN
+                STOP 'X_grid deallocation failed'
+             ENDIF
+             !
+          ENDIF
+          !
+       ENDDO
+       ! 
+     CONTAINS
+       !
+       SUBROUTINE make_Grid(X_min, X_max, X_dim)
+         !
+         REAL, INTENT(IN) :: X_min, X_max
+         INTEGER, INTENT(IN) :: X_dim
+         !
+         INTEGER :: Index
+         REAL :: Delta_X
+         !
+         !
+         Delta_X = (X_max - X_min)/REAL(X_dim - 1)
+         !
+         X_grid = (/ (Index, Index = 0 , X_dim - 1 ) /)
+         X_grid = X_min + Delta_X*X_grid
+         !
+       END SUBROUTINE make_Grid
+       !
+     END PROGRAM call_func
+     !
+     SUBROUTINE Eval_Func(fun, dim, X_grid)
+       !
+       IMPLICIT NONE
+       !
+       INTEGER, INTENT(IN) :: dim
+       REAL, DIMENSION(dim), INTENT(IN) :: X_grid
+       REAL, EXTERNAL :: fun
+       !
+       INTEGER :: Index
+       !
+       DO Index = 1, dim
+          PRINT 10, X_grid(Index), fun(X_grid(Index))
+       ENDDO
+       !
+       10 FORMAT(1X, ES16.8,2X, ES16.8)
+       !
+     END SUBROUTINE Eval_Func
+     !
+     !
+     FUNCTION fun1(x)
+       !
+       IMPLICIT  NONE
+       !
+       REAL, INTENT(IN) :: x
+       ! 
+       REAL fun1
+       !
+       fun1 = 10.0*x**2*cos(2.0*x)*exp(-x)
+       !
+     END FUNCTION fun1
+     !
+     FUNCTION fun2(x)
+       !
+       IMPLICIT  NONE
+       !
+       REAL, INTENT(IN) :: x
+       ! 
+       REAL fun2
+       !
+       fun2 = 10.0*(-x**2 + x**4)*exp(-x**2)
+       !
+     END FUNCTION fun2
+     !
+     FUNCTION fun3(x)
+       !
+       IMPLICIT  NONE
+       !
+       REAL, INTENT(IN) :: x
+       ! 
+       REAL fun3
+       !
+       fun3 = 10.0*(-x**2 + cos(x)*x**4)*exp(-x**2)
+       !
+     END FUNCTION fun3
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_11_4">11.3.4 Programa ejemplo_11_4.f90</h3>
+
+<pre>
+     PROGRAM call_func
+       !
+       ! Select which curve is computed and saved in a given interval e.g. (-2 Pi, 2 Pi)
+       ! 
+       ! 1 ---&gt; 10 x^2 cos(2x) exp(-x)
+       ! 2 ---&gt; 10 (-x^2 + x^4)exp(-x^2)
+       ! 3 ---&gt; 10 (-x^2 + cos(x)*x^4)exp(-x^2)
+       !
+       USE Functions_11_4
+       !
+       IMPLICIT NONE
+       !
+       !
+       REAL, DIMENSION(:), ALLOCATABLE :: X_grid
+       !
+       REAL, PARAMETER :: pi = ACOS(-1.0)
+       !
+       REAL :: X_min, X_max, Delta_X
+       INTEGER :: X_dim, I_fun
+       INTEGER :: I_exit, Ierr
+       !
+       X_min = -2*pi
+       X_max = 2*pi
+       !
+       I_exit = 0
+       !
+       DO WHILE (I_exit /= 1)
+          !
+          PRINT*, &quot;number of points? (0 = exit)&quot; 
+          READ(UNIT=*, FMT = *) X_dim
+          !
+          IF (X_dim == 0) THEN
+             !
+             I_exit = 1
+             !
+          ELSE
+             ALLOCATE(X_grid(1:X_dim), STAT = Ierr)
+             IF (Ierr /= 0) THEN
+                STOP 'X_grid allocation failed'
+             ENDIF
+             !
+             CALL make_Grid(X_min, X_max, X_dim)
+             !
+             PRINT*, &quot;function 1, 2, or 3? (0 = exit)&quot; 
+             READ(UNIT = *, FMT = *) I_fun
+             !
+             SELECT CASE (I_fun)
+                !
+             CASE (0)
+                I_exit = 1
+             CASE (1) 
+                CALL Eval_func(fun1, X_dim, X_grid)
+             CASE (2) 
+                CALL Eval_func(fun2, X_dim, X_grid)
+             CASE (3) 
+                CALL Eval_func(fun3, X_dim, X_grid)
+             CASE DEFAULT
+                PRINT*, &quot;Valid options : 0, 1, 2, 3&quot;
+                !
+             END SELECT
+             !
+             DEALLOCATE(X_grid, STAT = Ierr)
+             IF (Ierr /= 0) THEN
+                STOP 'X_grid deallocation failed'
+             ENDIF
+             !
+          ENDIF
+          !
+       ENDDO
+       ! 
+     CONTAINS
+       !
+       SUBROUTINE make_Grid(X_min, X_max, X_dim)
+         !
+         REAL, INTENT(IN) :: X_min, X_max
+         INTEGER, INTENT(IN) :: X_dim
+         !
+         INTEGER :: Index
+         REAL :: Delta_X
+         !
+         !
+         Delta_X = (X_max - X_min)/REAL(X_dim - 1)
+         !
+         X_grid = (/ (Index, Index = 0 , X_dim - 1 ) /)
+         X_grid = X_min + Delta_X*X_grid
+         !
+       END SUBROUTINE make_Grid
+       !
+     END PROGRAM call_func
+     !
+     SUBROUTINE Eval_Func(fun, dim, X_grid)
+       !
+       USE Functions_11_4
+       !
+       IMPLICIT NONE
+       !
+       REAL :: fun
+       INTEGER, INTENT(IN) :: dim
+       REAL, DIMENSION(dim), INTENT(IN) :: X_grid
+       !
+       INTEGER :: Index
+       !
+       DO Index = 1, dim
+          PRINT 10, X_grid(Index), fun(X_grid(Index))
+       ENDDO
+       !
+       10 FORMAT(1X, ES16.8,2X, ES16.8)
+       !
+     END SUBROUTINE Eval_Func
+     !
+     MODULE Functions_11_4
+       IMPLICIT NONE
+       !
+     CONTAINS
+       !
+       !
+       FUNCTION fun1(x)
+         !
+         IMPLICIT  NONE
+         !
+         REAL, INTENT(IN) :: x
+         ! 
+         REAL fun1
+         !
+         fun1 = 10.0*x**2*cos(2.0*x)*exp(-x)
+         !
+       END FUNCTION fun1
+       !
+       FUNCTION fun2(x)
+         !
+         IMPLICIT  NONE
+         !
+         REAL, INTENT(IN) :: x
+         ! 
+         REAL fun2
+         !
+         fun2 = 10.0*(-x**2 + x**4)*exp(-x**2)
+         !
+       END FUNCTION fun2
+       !
+       FUNCTION fun3(x)
+         !
+         IMPLICIT  NONE
+         !
+         REAL, INTENT(IN) :: x
+         ! 
+         REAL fun3
+         !
+         fun3 = 10.0*(-x**2 + cos(x)*x**4)*exp(-x**2)
+         !
+       END FUNCTION fun3
+     END MODULE Functions_11_4
+</pre>
+
+<hr>
+
+<p>
+[ <a href="ch-clase_10.html">previous</a> ]
+[ <a href="index.html#contents">Contents</a> ]
+[ <a href="ch-clase_1.html">1</a> ]
+[ <a href="ch-clase_2.html">2</a> ]
+[ <a href="ch-clase_3.html">3</a> ]
+[ <a href="ch-clase_4.html">4</a> ]
+[ <a href="ch-clase_7.html">5</a> ]
+[ <a href="ch-clase_5.html">6</a> ]
+[ <a href="ch-clase_6.html">7</a> ]
+[ <a href="ch-clase_8.html">8</a> ]
+[ <a href="ch-clase_9.html">9</a> ]
+[ <a href="ch-clase_10.html">10</a> ]
+[ 11 ]
+[ <a href="ch-clase_blaslap.html">12</a> ]
+[ <a href="ch-cap_ref.html">13</a> ]
+[ <a href="ch-clase_blaslap.html">next</a> ]
+</p>
+
+<hr>
+
+<p>
+<code>Fortran 90</code> Lessons for Computational Chemistry
+</p>
+
+<address>
+0.0<br>
+<br>
+Curro Pérez-Bernal <code><a href="mailto:francisco.perez@dfaie.uhu.es">mailto:francisco.perez@dfaie.uhu.es</a></code><br>
+<br>
+</address>
+<hr>
+
+</body>
+
+</html>
+

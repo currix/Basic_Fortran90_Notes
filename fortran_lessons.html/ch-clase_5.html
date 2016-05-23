@@ -1,0 +1,1168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+
+<html>
+
+<head>
+
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+
+<title>Fortran 90 Lessons for Computational Chemistry - INPUT/OUTPUT) (I)</title>
+
+<link href="index.html" rel="start">
+<link href="ch-clase_7.html" rel="prev">
+<link href="ch-clase_6.html" rel="next">
+<link href="index.html#contents" rel="contents">
+<link href="index.html#copyright" rel="copyright">
+<link href="ch-clase_1.html" rel="chapter" title="1 Introduction">
+<link href="ch-clase_2.html" rel="chapter" title="2 Basic Operations">
+<link href="ch-clase_3.html" rel="chapter" title="3 Introduction to Fortran Arrays">
+<link href="ch-clase_4.html" rel="chapter" title="4 More on Arrays">
+<link href="ch-clase_7.html" rel="chapter" title="5 Control Structures">
+<link href="ch-clase_5.html" rel="chapter" title="6 INPUT/OUTPUT) (I)">
+<link href="ch-clase_6.html" rel="chapter" title="7 Operaciones I/O (II)">
+<link href="ch-clase_8.html" rel="chapter" title="8 Subprogramas (I): funciones">
+<link href="ch-clase_9.html" rel="chapter" title="9 Subprogramas (II): subrutinas">
+<link href="ch-clase_10.html" rel="chapter" title="10 Subprogramas (III): módulos">
+<link href="ch-clase_11.html" rel="chapter" title="11 Subprogramas (IV)">
+<link href="ch-clase_blaslap.html" rel="chapter" title="12 Instalación y uso de las bibliotecas BLAS y LAPACK">
+<link href="ch-cap_ref.html" rel="chapter" title="13 Referencias">
+<link href="ch-clase_1.html#s-sec_11" rel="section" title="1.1 Objectives">
+<link href="ch-clase_1.html#s-sec_12" rel="section" title="1.2 Main items.">
+<link href="ch-clase_1.html#s-sec_13" rel="section" title="1.3 Example Codes.">
+<link href="ch-clase_2.html#s-sec_21" rel="section" title="2.1 Objectives">
+<link href="ch-clase_2.html#s-sec_22" rel="section" title="2.2 Main items.">
+<link href="ch-clase_2.html#s-sec_23" rel="section" title="2.3 Example Codes.">
+<link href="ch-clase_3.html#s-sec_31" rel="section" title="3.1 Objectivos">
+<link href="ch-clase_3.html#s-sec_32" rel="section" title="3.2 Main items.">
+<link href="ch-clase_3.html#s-sec_33" rel="section" title="3.3 Example Codes.">
+<link href="ch-clase_4.html#s-sec_41" rel="section" title="4.1 Objectives">
+<link href="ch-clase_4.html#s-sec_42" rel="section" title="4.2 Main items.">
+<link href="ch-clase_4.html#s-sec_43" rel="section" title="4.3 Example Codes.">
+<link href="ch-clase_7.html#s-sec_71" rel="section" title="5.1 Objectivos">
+<link href="ch-clase_7.html#s-sec_72" rel="section" title="5.2 Main items.">
+<link href="ch-clase_7.html#s-sec_73" rel="section" title="5.3 Example codes.">
+<link href="ch-clase_5.html#s-sec_51" rel="section" title="6.1 Objectivos">
+<link href="ch-clase_5.html#s-sec_52" rel="section" title="6.2 Main Items.">
+<link href="ch-clase_5.html#s-sec_53" rel="section" title="6.3 Programas usados como ejemplo.">
+<link href="ch-clase_6.html#s-sec_61" rel="section" title="7.1 Objetivos">
+<link href="ch-clase_6.html#s-sec_62" rel="section" title="7.2 Puntos destacables.">
+<link href="ch-clase_6.html#s-sec_63" rel="section" title="7.3 Programas usados como ejemplo.">
+<link href="ch-clase_8.html#s-sec_81" rel="section" title="8.1 Objetivos">
+<link href="ch-clase_8.html#s-sec_82" rel="section" title="8.2 Puntos destacables.">
+<link href="ch-clase_8.html#s-sec_83" rel="section" title="8.3 Programas usados como ejemplo.">
+<link href="ch-clase_9.html#s-sec_91" rel="section" title="9.1 Objetivos">
+<link href="ch-clase_9.html#s-sec_92" rel="section" title="9.2 Puntos destacables.">
+<link href="ch-clase_9.html#s-sec_93" rel="section" title="9.3 Programas usados como ejemplo.">
+<link href="ch-clase_10.html#s-sec_101" rel="section" title="10.1 Objetivos">
+<link href="ch-clase_10.html#s-sec_102" rel="section" title="10.2 Puntos destacables.">
+<link href="ch-clase_10.html#s-sec_103" rel="section" title="10.3 Programas usados como ejemplo.">
+<link href="ch-clase_11.html#s-sec_111" rel="section" title="11.1 Objetivos">
+<link href="ch-clase_11.html#s-sec_112" rel="section" title="11.2 Puntos destacables.">
+<link href="ch-clase_11.html#s-sec_113" rel="section" title="11.3 Programas usados como ejemplo.">
+<link href="ch-clase_blaslap.html#s-sec_bl1" rel="section" title="12.1 Objetivos">
+<link href="ch-clase_blaslap.html#s-sec_bl2" rel="section" title="12.2 Puntos destacables.">
+<link href="ch-clase_blaslap.html#s-sec_bl3" rel="section" title="12.3 Programas usados como ejemplo.">
+<link href="ch-clase_1.html#s-sec_p_1_1" rel="subsection" title="1.3.1 excode_1_1.f90">
+<link href="ch-clase_1.html#s-sec_p_1_2" rel="subsection" title="1.3.2 excode_1_2.f90">
+<link href="ch-clase_2.html#s-sec_p_2_1" rel="subsection" title="2.3.1 excode_2_1.f90">
+<link href="ch-clase_2.html#s-sec_p_2_2" rel="subsection" title="2.3.2 excode_2_2.f90">
+<link href="ch-clase_2.html#s-sec_p_2_3" rel="subsection" title="2.3.3 excode_2_3.f90">
+<link href="ch-clase_2.html#s-sec_p_2_4" rel="subsection" title="2.3.4 excode_2_4.f90">
+<link href="ch-clase_2.html#s-sec_p_2_5" rel="subsection" title="2.3.5 excode_2_5.f90">
+<link href="ch-clase_2.html#s-sec_p_2_6" rel="subsection" title="2.3.6 excode_2_6.f90">
+<link href="ch-clase_3.html#s-sec_p_3_1" rel="subsection" title="3.3.1 excode_3_1.f90">
+<link href="ch-clase_3.html#s-sec_p_3_2" rel="subsection" title="3.3.2 excode_3_2.f90">
+<link href="ch-clase_3.html#s-sec_p_3_3" rel="subsection" title="3.3.3 excode_3_3.f90">
+<link href="ch-clase_3.html#s-sec_p_3_4" rel="subsection" title="3.3.4 excode_3_4.f90">
+<link href="ch-clase_4.html#s-sec_p_4_1" rel="subsection" title="4.3.1 excode_4_1.f90">
+<link href="ch-clase_4.html#s-sec_p_4_2" rel="subsection" title="4.3.2 excode_4_2.f90">
+<link href="ch-clase_4.html#s-sec_p_4_3" rel="subsection" title="4.3.3 excode_4_3.f90">
+<link href="ch-clase_4.html#s-sec_p_4_4" rel="subsection" title="4.3.4 excode_4_4.f90">
+<link href="ch-clase_4.html#s-sec_p_4_5" rel="subsection" title="4.3.5 excode_4_5.f90">
+<link href="ch-clase_4.html#s-sec_p_4_6" rel="subsection" title="4.3.6 excode_4_6.f90">
+<link href="ch-clase_7.html#s-sec_p_7_1" rel="subsection" title="5.3.1 excode_5_1.f90">
+<link href="ch-clase_7.html#s-sec_p_7_2" rel="subsection" title="5.3.2 excode_5_2.f90">
+<link href="ch-clase_7.html#s-sec_p_7_3" rel="subsection" title="5.3.3 excode_5_3.f90">
+<link href="ch-clase_7.html#s-sec_p_7_4" rel="subsection" title="5.3.4 Programa ejemplo_5_4.f90">
+<link href="ch-clase_5.html#s-sec_p_5_1" rel="subsection" title="6.3.1 excode_6_1.f90">
+<link href="ch-clase_5.html#s-sec_p_5_2" rel="subsection" title="6.3.2 excode_6_2.f90">
+<link href="ch-clase_5.html#s-sec_p_5_3" rel="subsection" title="6.3.3 excode_6_3.f90">
+<link href="ch-clase_5.html#s-sec_p_5_4" rel="subsection" title="6.3.4 excode_6_4.f90">
+<link href="ch-clase_5.html#s-sec_p_5_5" rel="subsection" title="6.3.5 excode_6_5.f90">
+<link href="ch-clase_5.html#s-sec_p_5_6" rel="subsection" title="6.3.6 excode_6_6.f90">
+<link href="ch-clase_5.html#s-sec_p_5_7" rel="subsection" title="6.3.7 excode_6_7.f90">
+<link href="ch-clase_6.html#s-sec_p_6_1" rel="subsection" title="7.3.1 Programa ejemplo_7_1.f90">
+<link href="ch-clase_6.html#s-sec_p_6_2" rel="subsection" title="7.3.2 Programa ejemplo_7_2.f90">
+<link href="ch-clase_6.html#s-sec_p_6_22" rel="subsection" title="7.3.3 Script ej_here_file">
+<link href="ch-clase_6.html#s-sec_p_6_3" rel="subsection" title="7.3.4 Programa ejemplo_7_3.f90">
+<link href="ch-clase_6.html#s-sec_p_6_32" rel="subsection" title="7.3.5 namelist input file">
+<link href="ch-clase_6.html#s-sec_p_6_4" rel="subsection" title="7.3.6 Programa ejemplo_7_4.f90">
+<link href="ch-clase_8.html#s-sec_p_8_1" rel="subsection" title="8.3.1 Programa ejemplo_8_1.f90">
+<link href="ch-clase_8.html#s-sec_p_8_2" rel="subsection" title="8.3.2 Programa ejemplo_8_2.f90">
+<link href="ch-clase_8.html#s-sec_p_8_3" rel="subsection" title="8.3.3 Programa ejemplo_8_3.f90">
+<link href="ch-clase_8.html#s-sec_p_8_4" rel="subsection" title="8.3.4 Programa ejemplo_8_4.f90">
+<link href="ch-clase_8.html#s-sec_p_8_5" rel="subsection" title="8.3.5 Programa ejemplo_8_5.f90">
+<link href="ch-clase_8.html#s-sec_p_8_6" rel="subsection" title="8.3.6 Programa ejemplo_8_6.f90">
+<link href="ch-clase_9.html#s-sec_p_9_1" rel="subsection" title="9.3.1 Programa ejemplo_9_1.f90">
+<link href="ch-clase_9.html#s-sec_p_9_2" rel="subsection" title="9.3.2 Programa ejemplo_9_2.f90">
+<link href="ch-clase_9.html#s-sec_p_9_3" rel="subsection" title="9.3.3 Programa ejemplo_9_3.f90">
+<link href="ch-clase_9.html#s-sec_p_9_4" rel="subsection" title="9.3.4 Programa ejemplo_9_4.f90">
+<link href="ch-clase_9.html#s-sec_p_9_5" rel="subsection" title="9.3.5 Programa ejemplo_9_5.f90">
+<link href="ch-clase_9.html#s-sec_p_9_6" rel="subsection" title="9.3.6 Programa ejemplo_9_6.f90">
+<link href="ch-clase_9.html#s-sec_p_9_7" rel="subsection" title="9.3.7 Programa ejemplo_9_7.f90">
+<link href="ch-clase_10.html#s-sec_p_10_1" rel="subsection" title="10.3.1 Programa ejemplo_10_1.f90">
+<link href="ch-clase_10.html#s-sec_p_10_2" rel="subsection" title="10.3.2 Programa ejemplo_10_2.f90">
+<link href="ch-clase_10.html#s-sec_p_10_3" rel="subsection" title="10.3.3 Programa ejemplo_10_3.f90">
+<link href="ch-clase_10.html#s-sec_p_10_4" rel="subsection" title="10.3.4 Programa ejemplo_10_4.f90">
+<link href="ch-clase_11.html#s-sec_p_11_1" rel="subsection" title="11.3.1 Programa ejemplo_11_1.f90">
+<link href="ch-clase_11.html#s-sec_p_11_2" rel="subsection" title="11.3.2 Programa ejemplo_11_2.f90">
+<link href="ch-clase_11.html#s-sec_p_11_3" rel="subsection" title="11.3.3 Programa ejemplo_11_3.f90">
+<link href="ch-clase_11.html#s-sec_p_11_4" rel="subsection" title="11.3.4 Programa ejemplo_11_4.f90">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_1" rel="subsection" title="12.3.1 Ejemplo de fichero make.inc para LAPACK">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_2" rel="subsection" title="12.3.2 Ejemplo de fichero make.inc para LAPACK95">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_3" rel="subsection" title="12.3.3 Ejemplo de programa que invoca LAPACK95">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_4" rel="subsection" title="12.3.4 Ejemplo de makefile para compilar programas que invocan LAPACK95">
+
+</head>
+
+<body>
+
+<p><a name="ch-clase_5"></a></p>
+<hr>
+
+<p>
+[ <a href="ch-clase_7.html">previous</a> ]
+[ <a href="index.html#contents">Contents</a> ]
+[ <a href="ch-clase_1.html">1</a> ]
+[ <a href="ch-clase_2.html">2</a> ]
+[ <a href="ch-clase_3.html">3</a> ]
+[ <a href="ch-clase_4.html">4</a> ]
+[ <a href="ch-clase_7.html">5</a> ]
+[ 6 ]
+[ <a href="ch-clase_6.html">7</a> ]
+[ <a href="ch-clase_8.html">8</a> ]
+[ <a href="ch-clase_9.html">9</a> ]
+[ <a href="ch-clase_10.html">10</a> ]
+[ <a href="ch-clase_11.html">11</a> ]
+[ <a href="ch-clase_blaslap.html">12</a> ]
+[ <a href="ch-cap_ref.html">13</a> ]
+[ <a href="ch-clase_6.html">next</a> ]
+</p>
+
+<hr>
+
+<h1>
+<code>Fortran 90</code> Lessons for Computational Chemistry
+<br>Chapter 6 - <samp>INPUT/OUTPUT</samp>) (I)
+</h1>
+
+<hr>
+
+<h2 id="s-sec_51">6.1 Objectivos</h2>
+
+<p>
+The main aims of this lesson are the following:
+</p>
+<ol type="1" start="1" >
+<li>
+<p>
+present how to make use of the standard <code>bash</code> redirection for
+reading and writing data in <code>Fortran</code>.
+</p>
+</li>
+</ol>
+<ol type="1" start="2" >
+<li>
+<p>
+present the <samp>FORMAT</samp> statement, as well as its differents
+descriptors and its use with the commands <samp>PRINT</samp> and
+<samp>WRITE</samp>.
+</p>
+</li>
+</ol>
+<ol type="1" start="3" >
+<li>
+<p>
+get a basic knowledge about file handling in <code>Fortran</code> with the
+commands <samp>OPEN</samp>, <samp>CLOSE</samp>, and <samp>WRITE</samp>.
+</p>
+</li>
+</ol>
+
+<hr>
+
+<h2 id="s-sec_52">6.2 Main Items.</h2>
+<ul>
+<li>
+<p>
+<code>bash</code> shell redirection
+</p>
+
+<p>
+The standard input and output (<samp>STDIN/STDOUT</samp>) redirection in
+<samp>bash</samp> with <samp>&lt;</samp> and <samp>&gt;</samp> allows a
+<code>Fortran</code> program in a simple and direct way to read from and write
+to a file.
+</p>
+
+<p>
+As an example, the following commands run from a terminal execute a program
+called <samp>a.out</samp>.  Its output is sent to a file called
+<samp>output.dat</samp> in the first case.  In the second case, the program
+reads its input from a file called <samp>input.dat</samp>, instead of the
+standard option, the keyboard.  In the third case bot options are combined.
+</p>
+
+<pre>
+     a.out &gt; output.dat
+     a.out &lt; input.dat
+     a.out &lt;input.dat &gt; output.dat
+</pre>
+
+<p>
+The assignment number 4 can be quite done quite easily making use of standard
+redirection.
+</p>
+
+<p>
+The error output (<samp>STDERR</samp>) can be redirected too as follows
+</p>
+
+<pre>
+     a.out 2&gt; output.dat
+     a.out 2&gt;&amp;1 ouput.dat
+</pre>
+
+<p>
+In the second case <samp>STDERR</samp> and <samp>STDOUT</samp> are merged
+together in file <samp>output.dat</samp>.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+In order to gain a finer control of the format of input and output statementes
+the so called <em>format descriptors</em> are introduced.  We have make use of
+the default options or free format up to now, indicated with the symbol
+<samp>*</samp> as in <samp>READ(*,*)</samp>, <samp>READ*</samp>, and
+<samp>PRINT*</samp>.
+</p>
+
+<p>
+To specify a particular format for the input and output in the above mentioned
+commands the syntax used is <samp>PRINT</samp> <var>nlin</var>,
+<var>output_list</var>, or <samp>READ</samp> <var>nlin</var>,
+<var>output_list</var>; where <var>nlin</var> is a label driving to a
+<samp>FORMAT</samp> statement with the necessary descriptors and
+<var>output_list</var> are the constant and variables that will be read or
+written.  It is possible to include directly the descriptors in the statement.
+</p>
+
+<p>
+The format descriptors in <code>FORTRAN</code>, due to historical reasons (line
+printers), treated the first character as a control character.  If the first
+character is
+</p>
+<ol type="1" start="1" >
+<li>
+<p>
+<samp>0</samp> : double spacing.
+</p>
+</li>
+</ol>
+<ol type="1" start="2" >
+<li>
+<p>
+<samp>1</samp> : new page.
+</p>
+</li>
+</ol>
+<ol type="1" start="3" >
+<li>
+<p>
+<samp>+</samp> : no spacing.  Print over the previous line.
+</p>
+</li>
+</ol>
+<ol type="1" start="4" >
+<li>
+<p>
+<samp>blank</samp> : simple spacing.
+</p>
+</li>
+</ol>
+
+<p>
+But this is not anymore true unless you are using a line printer (quite bizarre
+situation in the XXI century).
+</p>
+
+<p>
+The format descriptors can fix the vertical position in a line of text, alter
+the horizontal position of characters in a line, control the display of
+integers (<samp>I</samp>), floats (<samp>F</samp> and <samp>E</samp>), strings
+<samp>A</samp> and logical variables (<samp>L</samp>).
+</p>
+
+<p>
+The following symbols are used
+</p>
+<ol type="1" start="1" >
+<li>
+<p>
+<var>c</var> : column number
+</p>
+</li>
+</ol>
+<ol type="1" start="2" >
+<li>
+<p>
+<var>d</var> : number of digits after decimal point (real values)
+</p>
+</li>
+</ol>
+<ol type="1" start="3" >
+<li>
+<p>
+<var>m</var> : minimum number of digits displayed
+</p>
+</li>
+</ol>
+<ol type="1" start="4" >
+<li>
+<p>
+<var>n</var> : number of spaces
+</p>
+</li>
+</ol>
+<ol type="1" start="5" >
+<li>
+<p>
+<var>r</var> : times a descriptor is repeated
+</p>
+</li>
+</ol>
+<ol type="1" start="6" >
+<li>
+<p>
+<var>w</var> : number of characters affected by a descriptor
+</p>
+</li>
+</ol>
+
+<p>
+Descriptors in I/O operations
+</p>
+<ol type="1" start="1" >
+<li>
+<p>
+Integers: <samp>I</samp>: General form <var>r</var><samp>I</samp><var>w</var>
+or <var>r</var><samp>I</samp><var>w</var>.
+</p>
+
+<p>
+This descriptor indicates that <var>r</var> integer values will be read or
+written, and they occupy <var>w</var> characters or columns.  The number is
+right justified and if the number of digits is less than the number of spacings
+the rest of the space is filled with space characters.  The example
+</p>
+
+<pre>
+     PRINT 100, I, I*I
+     100 FORMAT(' ',I3, ' squared is ', I6)
+</pre>
+
+<p>
+outputs a space, a three-digit integer, the string '<samp>squared is</samp>'
+and finish with the square of the variable <samp>I</samp>, with a maximum
+number of six digits.  More examples can be found in <a
+href="#s-sec_p_5_1"><samp>excode_6_1.f90</samp>, Section 6.3.1</a>, where the
+reader can see the effect of having a number with more digits than the
+allocated space in the format.  In this example we also include the
+<samp>X</samp> descriptor, such that <var>n</var><samp>X</samp> includes
+<var>n</var> space characters in the output, or skip <var>n</var> characters
+from the input.
+</p>
+
+<p>
+Format descriptors can be also included directly in the <samp>PRINT</samp>
+statement, though the resulting code is generally less readable.
+</p>
+
+<pre>
+     PRINT &quot;(' ',I3, ' squared is ', I6)&quot;, I, I*I
+</pre>
+
+<p>
+As can be seen in code example <a
+href="#s-sec_p_5_1"><samp>excode_6_1.f90</samp>, Section 6.3.1</a> we can have
+an arithmetic overflow in a variable and the solution is shown in example <a
+href="#s-sec_p_5_2"><samp>excode_6_2.f90</samp>, Section 6.3.2</a>.
+</p>
+</li>
+</ol>
+<ol type="1" start="2" >
+<li>
+<p>
+Real values descriptor <samp>F</samp>: General form
+<var>r</var><samp>F</samp><var>w.d</var>
+</p>
+
+<p>
+Where <var>w</var> is the total number of columns used to fit the number,
+<var>d</var> the number of figures after the decimal point, and <var>r</var>
+the number of times this descriptor is applied.
+</p>
+
+<p>
+For example if the descriptor is <samp>F7.3</samp> the number will be displayed
+with three figures after the decimal point and occupies seven spaces.  This
+implies that this format descriptor is valid for numbers between
+<samp>-99.999</samp> and <samp>999.999</samp>.  The truncated decimal part of
+the number is properly rounded.  It may happens that as a result of the
+truncation the number has more digits than expected.  The output will be
+changed for <var>w</var> asterisk characters (<samp>*</samp>).  In source code
+<a href="#s-sec_p_5_3"><samp>excode_6_3.f90</samp>, Section 6.3.3</a> we face
+such kind of problems.
+</p>
+</li>
+</ol>
+<ol type="1" start="3" >
+<li>
+<p>
+Real descriptor <samp>E</samp>: General form
+<var>r</var><samp>E</samp><var>w.d</var>
+</p>
+
+<p>
+Introduces scientific notation.  The number that multiplies the power of ten
+takes values between 0.1 to 1.0.  This case differs from the previous one that
+some space should be devoted to the exponent.  In fact, apart from the
+multiplier, it is needed one character for the sign of the number if it is
+negative, another character for the decimal point, another one for the
+<samp>E</samp> symbol (stands for Exponent), and the magnitude and sign of the
+exponent.  Therefore the minimum size in this case is <var>w = d+7</var>.
+Example code <a href="#s-sec_p_5_4"><samp>excode_6_4.f90</samp>, Section
+6.3.4</a> is identical to example <a
+href="#s-sec_p_5_3"><samp>excode_6_3.f90</samp>, Section 6.3.3</a> changing the
+<samp>F</samp> descriptors to <samp>E</samp>.  This change facilitates to work
+with numbers whose value vary into a big range.
+</p>
+</li>
+</ol>
+<ol type="1" start="4" >
+<li>
+<p>
+Descriptor de reales <samp>ES</samp>:
+</p>
+
+<p>
+Permite el uso de la notación científica estándar.  Su forma general es
+<var>r</var><samp>ES</samp><var>w.d</var>.  El número que multiplica a la
+potencia de 10 toma valores entre 1.0 y 10.0.  Aparte de esto, este caso es muy
+similar al anterior
+</p>
+</li>
+</ol>
+<ol type="1" start="5" >
+<li>
+<p>
+Descriptor de datos lógicos <samp>L</samp>:
+</p>
+
+<p>
+Este descriptor aparece en la forma <var>r</var><samp>L</samp><var>w</var>.
+Estos datos solo pueden tomar los valores <samp>TRUE</samp> y
+<samp>FALSE</samp> y la salida de este descriptor será <samp>T</samp> o
+<samp>F</samp> justificado a la derecha.
+</p>
+</li>
+</ol>
+<ol type="1" start="6" >
+<li>
+<p>
+Descriptor de caracteres <samp>A</samp>:
+</p>
+
+<p>
+Este descriptor aparece en la forma <var>r</var><samp>A</samp> o
+<var>r</var><samp>A</samp><var>w</var>.  En el primer lugar se indica que se
+repiten <var>r</var> veces formatos de carácteres con una anchura igual al
+número de caracteres de los que consta la variable.  En el segundo caso la
+salida tiene una anchura fija dada por <var>w</var>.  El ejemplo <a
+href="#s-sec_p_5_5"><samp>excode_6_5.f90</samp>, Section 6.3.5</a> muestra el
+uso de este descriptor.
+</p>
+</li>
+</ol>
+<ol type="1" start="7" >
+<li>
+<p>
+Descriptor <samp>X</samp>:
+</p>
+
+<p>
+El descriptor <var>n</var><samp>X</samp> controla el desplazamiento horizontal
+e indica que se escriban <var>n</var> espacios en la salida.  El ejemplo <a
+href="#s-sec_p_5_5"><samp>excode_6_5.f90</samp>, Section 6.3.5</a> muestra el
+uso de este descriptor combinado con los anteriores.
+</p>
+</li>
+</ol>
+<ol type="1" start="8" >
+<li>
+<p>
+Descriptor <samp>T</samp>:
+</p>
+
+<p>
+El descriptor <samp>T</samp><var>c</var> controla el desplazamiento horizontal
+e indica que se salte directamente a la columna <var>c</var>.
+</p>
+</li>
+</ol>
+<ol type="1" start="9" >
+<li>
+<p>
+Descriptor <samp>/</samp>:
+</p>
+
+<p>
+El descriptor <samp>/</samp><var>c</var> envía la salida acumulada hasta el
+momento a <samp>STDOUT</samp> y comienza un nuevo registro con un retorno de
+carro.  Este descriptor no necesita ser separado del resto mediante comas.
+Tras cada retorno de carro puede ubicarse un carácter de control.
+</p>
+</li>
+</ol>
+<ol type="1" start="10" >
+<li>
+<p>
+Repetición:
+</p>
+
+<p>
+En todos los casos descritos se puede indicar la repetición de formato usando
+un número a la derecha del símbolo que indica el formato.  Por ejemplo,
+</p>
+
+<pre>
+     100 FORMAT(1X, 2I6, 3F9.3)
+</pre>
+
+<p>
+es equivalente a
+</p>
+
+<pre>
+     100 FORMAT(1X, I6, I6, F9.3, F9.3, F9.3)
+</pre>
+
+<p>
+y se puede simplificar a
+</p>
+
+<pre>
+     100 FORMAT(1X, 3(I6, F9.3))
+</pre>
+
+<p>
+Es también necesario citar el significado especial que tiene un formato entre
+paréntesis en una orden <samp>FORMAT</samp> y lo que sucede si el número de
+datos proporcionado en la lista de variables de la orden <samp>WRITE</samp> es
+mayor o menor que el número de descriptores asociados en la correspondiente
+orden <samp>FORMAT</samp>.
+</p>
+</li>
+</ol>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+<code>Fortran</code> permite la manipulación de ficheros.  En este caso vamos a
+concentrarnos en como se crean y se escriben ficheros.  Para ello se utilizan
+las órdenes básicas <samp>OPEN</samp>, <samp>WRITE</samp> y <samp>CLOSE</samp>.
+Otras órdenes de interés son <samp>REWIND</samp> y <samp>BACKSPACE</samp>.
+</p>
+
+<p>
+La orden <samp>OPEN</samp> permite que se abra un fichero, en su forma más
+simple sería
+</p>
+
+<pre>
+     OPEN(UNIT=<var>int_unit</var>,FILE='<var>nombre_fichero</var>')
+</pre>
+
+<p>
+donde se indica el nombre del fichero creado y el número de unidad asociada a
+dicho fichero (número entero).  Para operaciones de lectura y escritura el
+fichero queda asociado a este número.  Un ejemplo de esto sería escribir algo
+en este fichero usaremos una orden como
+</p>
+
+<pre>
+     OPEN(UNIT=33, FILE='output_program.dat')
+     WRITE(UNIT=33,FMT=100) <var>lista_de_variables</var>
+</pre>
+
+<p>
+lo que indica que envíe los datos en <var>lista_de_variables</var> al fichero
+asociado a la unidad 33, llamado <code>output_program.dat</code>, según el
+formato especificado en la línea etiquetada como <samp>100</samp>.  Es posible
+usar la forma abreviada <samp>WRITE(33,100)</samp> e incluso
+<samp>WRITE(33,*)</samp> si queremos escribir en el fichero con el formato
+estándar dependiente de la lista de variables.  Para escribir en la salida
+estándar <samp>STDOUT</samp>, en principio la pantalla, se puede usar
+<samp>WRITE(6,<var>formato</var>)</samp>, ya que esta salida está asociada a la
+unidad <samp>6</samp>.  Por tanto <samp>WRITE(6,*)</samp> es equivalente a
+<samp>PRINT*</samp>, mientras que <samp>STDIN</samp> se asocia a la unidad
+<samp>5</samp>[<a href="footnotes.html#f6" name="fr6">6</a>].  Para referirnos
+a <samp>STDOUT</samp> y <samp>STDIN</samp> es más conveniente usar el carácter
+<samp>*</samp> ya que los números anteriores pueden depender del procesador.
+</p>
+
+<p>
+Una vez que el proceso de escritura ha terminado el fichero se cierra con la
+orden <samp>CLOSE(UNIT=<var>numero_unidad</var>)</samp>.  En nuestro caso
+</p>
+
+<pre>
+     CLOSE(UNIT=33)
+</pre>
+
+<p>
+El ejemplo <a href="#s-sec_p_5_6"><samp>excode_6_6.f90</samp>, Section
+6.3.6</a> muestra como se escribe a un fichero e introduce la función
+intrínseca de <code>Fortran</code> <samp>CPU_TIME</samp> que nos permite
+estimar el tiempo de cpu dedicado a cada parte del programa.
+</p>
+
+<p>
+La orden <samp>OPEN</samp> puede específicarse de forma más detallada con los
+argumentos siguientes:
+</p>
+
+<pre>
+     OPEN(UNIT=<var>int_unit</var>,FILE=<var>char_nombre_fichero</var>,STATUS=<var>char_sta</var>, ACTION=<var>char_act</var>, IOSTAT=<var>int_stat</var>)
+</pre>
+
+<p>
+Las nuevas opciones fijan los siguientes aspectos al abrir el fichero:
+</p>
+<ol type="1" start="1" >
+<li>
+<p>
+<samp>STATUS=<var>char_sta</var></samp>
+</p>
+
+<p>
+La constante o variable <var>char_sta</var> es de tipo carácter y puede tomar
+los siguientes valores estándar:
+</p>
+<ul>
+<li>
+<p>
+'OLD'
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+'NEW'
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+'REPLACE'
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+'SCRATCH'
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+'UNKNOWN'
+</p>
+</li>
+</ul>
+</li>
+</ol>
+<ol type="1" start="2" >
+<li>
+<p>
+<samp>ACTION=<var>char_act</var></samp>
+</p>
+
+<p>
+La constante o variable <var>char_act</var> es de tipo carácter y puede tomar
+los siguientes valores estándar:
+</p>
+<ul>
+<li>
+<p>
+'READ'
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+'WRITE'
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+'READWRITE'
+</p>
+</li>
+</ul>
+
+<p>
+Por defecto, si no se da otra opción, desde <code>Fortran</code>, los archivos
+se abren con los permisos activados tanto de lectura como de escritura.
+</p>
+</li>
+</ol>
+<ol type="1" start="3" >
+<li>
+<p>
+<samp>IOSTAT=<var>int_var</var></samp>
+</p>
+
+<p>
+La constante o variable <var>int_stat</var> es de tipo entero y permite estimar
+si la apertura y el acceso al fichero ha sido exitosa.  Si el valor que
+devuelve es <samp>0</samp> quiere decir que la apertura se ha resuelto sin
+problemas.  Si ha habido problemas al abrir el fichero devuelve un valor
+diferente de cero.
+</p>
+</li>
+</ol>
+
+<p>
+Un ejemplo más completo que el anterior, creando un fichero de entrada (INPUT)
+sería
+</p>
+
+<pre>
+     INTEGER ierror
+     OPEN(UNIT=33, FILE='input_program.dat', STATUS='OLD', ACTION='READ', IOSTAT=ierror)
+</pre>
+
+<p>
+Para crear un fichero de salida se hace
+</p>
+
+<pre>
+     INTEGER ierror
+     OPEN(UNIT=33, FILE='output_program.dat', STATUS='NEW', ACTION='WRITE', IOSTAT=ierror)
+</pre>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+Es posible controlar de forma rudimentaria el acceso a los elementos
+almacenados en el fichero secuencial creado con la orden <samp>OPEN</samp>.
+Para ello existen dos comandos de interés.
+</p>
+
+<pre>
+     BACKSPACE(UNIT = <var>int_unit</var>)
+     REWIND(UNIT = <var>int_unit</var>)
+</pre>
+
+<p>
+Con <samp>BACKSPACE</samp> se retrocede un registro (una línea) en el fichero
+asociado a la unidad <var>int_unit</var>.  Con <samp>REWIND</samp> se vuelve al
+primer registro del fichero.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+Hasta ahora hemos empleado la orden <samp>OPEN</samp> con ficheros con formato,
+siendo este el comportamiento por defecto al abrir un fichero.  Por tanto, las
+órdenes
+</p>
+
+<pre>
+     OPEN(UNIT=33,FILE='<var>nombre_fichero</var>')
+     OPEN(UNIT=33,FILE='<var>nombre_fichero</var>',FORM='FORMATTED')
+</pre>
+
+<p>
+son equivalentes.  Los ficheros con formato tienen la ventaja de ser editables
+por el usuario, pero precisan de un mayor tiempo para su lectura y escritura
+que cuando se tratan los datos sin formato.  Para ello se abren los ficheros
+con la opción <samp>FORM='UNFORMATTED'</samp> como en el ejemplo siguiente
+</p>
+
+<pre>
+     OPEN(UNIT=33,FILE='<var>nombre_fichero</var>',FORM='UNFORMATTED')
+</pre>
+
+<p>
+Además, que los fichero no tengan formato permite almacenar números reales sin
+la pérdida de información que implica el cambio a un formato dado.  En el
+Ejercicio 5 se pide que transforméis el ejemplo <a
+href="#s-sec_p_5_6"><samp>excode_6_6.f90</samp>, Section 6.3.6</a> para
+comprobar el tiempo que se tarda en la escritura y lectura sin formato.  Al
+escribir en un fichero sin formato no se indica ningún formato en la orden, de
+manera que para escribir en el fichero sin formato que hemos abierto asociado
+con <samp>UNIT=33</samp> haremos
+</p>
+
+<pre>
+     WRITE(UNIT=33) <var>lista-de-variables</var>
+</pre>
+</li>
+</ul>
+
+<p>
+The combination of fortran descriptors and different kinds of loop in a code
+can be found in the example <a href="#s-sec_p_5_7"><samp>excode_6_7.f90</samp>,
+Section 6.3.7</a>.  This program reads a data file (a template of this fila can
+be found under the program, and can be saved removing the trailing
+<samp>!</samp> symbols).  When the program opens the datafile with
+<samp>OPEN</samp> it uses the <samp>STATUS = 'OLD'</samp> and
+<samp>ACTION='READ'</samp> options.  It reads the file, skipping some files
+making use of a <samp>REPEAT UNTIL</samp> loop, until it arrives to a line that
+provides the number of data pairs in the file[<a href="footnotes.html#f7"
+name="fr7">7</a>].  Knowing the number of data pairs the appropriate matrices
+are allocated and the points are read and saved into vectors
+<samp>data_X</samp> and <samp>data_Y</samp>, and computes the maximum (minimum)
+value of <samp>data_X</samp> (<samp>data_Y</samp>) making use of the intrinsic
+functions <samp>MAXVAL</samp> and <samp>MINVAL</samp> (see <a
+href="ch-clase_8.html#s-sec_81">Objetivos, Section 8.1</a>).
+</p>
+
+<hr>
+
+<h2 id="s-sec_53">6.3 Programas usados como ejemplo.</h2>
+
+<hr>
+
+<h3 id="s-sec_p_5_1">6.3.1 <samp>excode_6_1.f90</samp></h3>
+
+<pre>
+     PROGRAM ex_6_1
+       !
+       IMPLICIT NONE
+       !
+       ! Variables
+       INTEGER :: i, big=10
+       !
+       DO i=1,20
+          PRINT 100, i, big
+          big=big*10
+       END DO
+       !
+       ! Format Statements
+     100 FORMAT(1X, '10 to the ',I3,2X,'=',2X,I12)
+       !
+     END PROGRAM ex_6_1
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_5_2">6.3.2 <samp>excode_6_2.f90</samp></h3>
+
+<pre>
+     PROGRAM ex_6_2
+       !
+       IMPLICIT NONE
+       !
+       INTEGER, PARAMETER :: Long=SELECTED_INT_KIND(16) ! 64 bits integer
+       INTEGER :: i
+       INTEGER (KIND=Long) :: big=10 
+       !
+       DO i=1,18
+          !
+          PRINT 100, i, big
+     100  FORMAT(1X, '10 to the ', I3, 2X, '=', 2X, I16)
+          !
+          big=big*10
+          !
+       END DO
+       !
+     END PROGRAM ex_6_2
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_5_3">6.3.3 <samp>excode_6_3.f90</samp></h3>
+
+<pre>
+     PROGRAM ex_6_3
+       ! Program to produce numeric overflow and underflow
+       IMPLICIT NONE
+       INTEGER :: I
+       REAL     :: small = 1.0
+       REAL     :: big   = 1.0
+     !
+       DO i=1,45
+          PRINT 100, I, small, big
+     100  FORMAT(' ',I3,' ',F9.4,' ',F9.4)
+          !
+          small = small/10.0
+          big = big*10.0
+          !
+       END DO
+     END PROGRAM ex_6_3
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_5_4">6.3.4 <samp>excode_6_4.f90</samp></h3>
+
+<pre>
+     PROGRAM ex_6_4
+       ! Program to produce numeric overflow and underflow
+        IMPLICIT NONE
+       INTEGER :: I
+       REAL     :: small = 1.0
+       REAL     :: big   = 1.0
+     !
+       DO i=1,45
+          PRINT 100, I, small, big
+     100  FORMAT(' ',I3,' ',E10.4,' ',E10.4)
+          !
+          small = small/10.0
+          big = big*10.0
+          !
+       END DO
+     END PROGRAM ex_6_4
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_5_5">6.3.5 <samp>excode_6_5.f90</samp></h3>
+
+<pre>
+     PROGRAM ex_6_5
+       ! Program to compute the Body Mass Index (Quetelet Index) according to the formula:
+       !    BMI = (weight (kg))/(height^2 (m^2)) 
+       !
+       IMPLICIT NONE
+       CHARACTER (LEN=25) :: Name
+       INTEGER :: height_cm = 0, weight_kg = 0 ! height in cm and weight in kg
+       REAL     :: height_m = 0.0 ! height in m units
+       REAL     :: BMI ! Body Mass Index
+       !
+       PRINT*,  'Full Name:'; READ*, Name
+       !
+       PRINT*, 'Weight (kg)?:'; READ*, weight_kg
+       !
+       PRINT*, 'Height (cm)?:'; READ*, height_cm
+       !
+       height_m = height_cm/100.0
+       BMI = weight_kg/(height_m**2)
+       !
+       PRINT 100, Name, BMI, BMI 
+     100  FORMAT(1X,A ' BMI  is ', F10.4,' or ', E10.4)
+     !
+     END PROGRAM ex_6_5
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_5_6">6.3.6 <samp>excode_6_6.f90</samp></h3>
+
+<pre>
+     PROGRAM ex_6_6
+     !
+       IMPLICIT NONE
+       INTEGER , PARAMETER :: N=1000000
+       INTEGER , DIMENSION(1:N) :: X
+       REAL    , DIMENSION(1:N) :: Y
+       INTEGER :: I
+       REAL :: T
+       REAL    , DIMENSION(1:5) :: TP
+       CHARACTER*10 :: COMMENT
+     !
+       OPEN(UNIT=10,FILE='/tmp/ex_6_6.txt')
+     !
+       CALL CPU_TIME(T)
+     !
+       TP(1)=T
+       COMMENT=' Initial Time : '
+       PRINT 100, COMMENT, TP(1)
+       !
+       DO I=1,N
+          X(I)=I
+       END DO
+       !
+       CALL CPU_TIME(T)
+       !
+       TP(2)=T-TP(1)
+       COMMENT = ' Integer vector. Time :  '
+       PRINT 100,COMMENT,TP(2)
+       !
+       Y=REAL(X)
+       !
+       CALL CPU_TIME(T)
+       !
+       TP(3)=T-TP(1)-TP(2)
+       COMMENT = ' Real vector. Time :  '
+       !
+       PRINT 100,COMMENT,TP(3)
+       !
+       DO I=1,N
+          WRITE(10,200) X(I)
+     200  FORMAT(1X,I10)
+       END DO
+       !
+       CALL CPU_TIME(T)
+       TP(4)=T-TP(1)-TP(2)-TP(3)
+       !
+       COMMENT = ' Write Integer vector. Time :  '
+       PRINT 100,COMMENT,TP(4)
+       !
+       DO I=1,N
+          WRITE(10,300) Y(I)
+     300  FORMAT(1X,f10.0)
+       END DO
+       !
+       CALL CPU_TIME(T)
+       TP(5)=T-TP(1)-TP(2)-TP(3)-TP(4)
+       !
+       COMMENT = ' Write Real vector. Time :  '
+       PRINT 100,COMMENT,TP(5)
+       !
+     100 FORMAT(1X,A,2X,F7.3)
+     END PROGRAM ex_6_6
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_5_7">6.3.7 <samp>excode_6_7.f90</samp></h3>
+
+<pre>
+     PROGRAM ex_6_7
+       !
+       IMPLICIT NONE
+       !
+       REAL , DIMENSION(:), ALLOCATABLE :: X_vec, Y_vec ! Data Vectors
+       INTEGER :: Index, Ierr, Numpoints = 0
+       REAL :: Max_x, Min_y
+       CHARACTER(LEN=64) :: Filename
+       !
+       ! READ FILENAME
+       READ(5,*) Filename
+       ! OPEN FILE (READONLY)
+       OPEN( UNIT=10, FILE=Filename, STATUS='OLD', ACTION='READ' )
+       !
+       DO
+          READ(UNIT=10, FMT=100, ERR=10) Numpoints
+          IF (Numpoints /= 0) EXIT
+     10   READ (UNIT=10, FMT=*) ! JUMP ONE LINE
+          CYCLE
+       ENDDO
+       !
+       PRINT*, 'NUMPOINTS = ', Numpoints
+       !
+       ! ALLOCATE X, Y VECTORS
+       ALLOCATE(X_vec(1:NUMPOINTS), STAT = IERR)
+       IF (Ierr /= 0) STOP 'X_vec MEM ALLOCATION FAILED'
+       ALLOCATE(Y_vec(1:NUMPOINTS), STAT = IERR)
+       IF (Ierr /= 0) STOP 'Y_vec MEM ALLOCATION FAILED'
+       !
+       DO I = 1, Numpoints
+          !
+          READ(UNIT=10, FMT=110) X_vec(I), Y_vec(I)
+          !
+       ENDDO
+       !
+       Max_x = MAXVAL(X_vec)
+       Min_y = MINVAL(Y_vec)
+       !
+       PRINT*, &quot;MAXIMUM X VALUE = &quot;, Max_x
+       PRINT*, &quot;MINIMUM Y VALUE = &quot;, Min_y
+       ! DEALLOCATE AND CLOSE FILE
+       DEALLOCATE(X_vec, STAT = IERR)
+       IF (Ierr /= 0) STOP 'X_vec MEM DEALLOCATION FAILED'
+       DEALLOCATE(Y_vec, STAT = IERR)
+       IF (Ierr /= 0) STOP 'Y_vec MEM DEALLOCATION FAILED'
+       !
+       CLOSE(10)
+       ! FORMAT STATEMENTS
+     100 FORMAT(19X,I3)
+     110 FORMAT(F6.3,1X,F6.3)
+       !
+     END PROGRAM ex_6_7
+     !# Remark 1
+     !# Remark 2
+     !Useless line 1
+     !Useless line 2
+     !Number of points = 4
+     !+1.300;-2.443
+     !+1.265;-1.453
+     !+1.345;-8.437
+     !+1.566;+4.455
+     !+1.566;+4.455
+     !+3.566;+7.755
+     !+1.566;+4.457
+     !+2.366;+2.454
+     !+1.566;+4.405
+     !+0.566;+9.450
+     !+1.545;+4.465
+     !+9.566;+6.455
+     !+1.466;+8.405
+     !+0.566;+7.055
+</pre>
+
+<hr>
+
+<p>
+[ <a href="ch-clase_7.html">previous</a> ]
+[ <a href="index.html#contents">Contents</a> ]
+[ <a href="ch-clase_1.html">1</a> ]
+[ <a href="ch-clase_2.html">2</a> ]
+[ <a href="ch-clase_3.html">3</a> ]
+[ <a href="ch-clase_4.html">4</a> ]
+[ <a href="ch-clase_7.html">5</a> ]
+[ 6 ]
+[ <a href="ch-clase_6.html">7</a> ]
+[ <a href="ch-clase_8.html">8</a> ]
+[ <a href="ch-clase_9.html">9</a> ]
+[ <a href="ch-clase_10.html">10</a> ]
+[ <a href="ch-clase_11.html">11</a> ]
+[ <a href="ch-clase_blaslap.html">12</a> ]
+[ <a href="ch-cap_ref.html">13</a> ]
+[ <a href="ch-clase_6.html">next</a> ]
+</p>
+
+<hr>
+
+<p>
+<code>Fortran 90</code> Lessons for Computational Chemistry
+</p>
+
+<address>
+0.0<br>
+<br>
+Curro Pérez-Bernal <code><a href="mailto:francisco.perez@dfaie.uhu.es">mailto:francisco.perez@dfaie.uhu.es</a></code><br>
+<br>
+</address>
+<hr>
+
+</body>
+
+</html>
+

@@ -1,0 +1,819 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+
+<html>
+
+<head>
+
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+
+<title>Fortran 90 Lessons for Computational Chemistry - Subprogramas (I): funciones</title>
+
+<link href="index.html" rel="start">
+<link href="ch-clase_6.html" rel="prev">
+<link href="ch-clase_9.html" rel="next">
+<link href="index.html#contents" rel="contents">
+<link href="index.html#copyright" rel="copyright">
+<link href="ch-clase_1.html" rel="chapter" title="1 Introduction">
+<link href="ch-clase_2.html" rel="chapter" title="2 Basic Operations">
+<link href="ch-clase_3.html" rel="chapter" title="3 Introduction to Fortran Arrays">
+<link href="ch-clase_4.html" rel="chapter" title="4 More on Arrays">
+<link href="ch-clase_7.html" rel="chapter" title="5 Control Structures">
+<link href="ch-clase_5.html" rel="chapter" title="6 INPUT/OUTPUT) (I)">
+<link href="ch-clase_6.html" rel="chapter" title="7 Operaciones I/O (II)">
+<link href="ch-clase_8.html" rel="chapter" title="8 Subprogramas (I): funciones">
+<link href="ch-clase_9.html" rel="chapter" title="9 Subprogramas (II): subrutinas">
+<link href="ch-clase_10.html" rel="chapter" title="10 Subprogramas (III): módulos">
+<link href="ch-clase_11.html" rel="chapter" title="11 Subprogramas (IV)">
+<link href="ch-clase_blaslap.html" rel="chapter" title="12 Instalación y uso de las bibliotecas BLAS y LAPACK">
+<link href="ch-cap_ref.html" rel="chapter" title="13 Referencias">
+<link href="ch-clase_1.html#s-sec_11" rel="section" title="1.1 Objectives">
+<link href="ch-clase_1.html#s-sec_12" rel="section" title="1.2 Main items.">
+<link href="ch-clase_1.html#s-sec_13" rel="section" title="1.3 Example Codes.">
+<link href="ch-clase_2.html#s-sec_21" rel="section" title="2.1 Objectives">
+<link href="ch-clase_2.html#s-sec_22" rel="section" title="2.2 Main items.">
+<link href="ch-clase_2.html#s-sec_23" rel="section" title="2.3 Example Codes.">
+<link href="ch-clase_3.html#s-sec_31" rel="section" title="3.1 Objectivos">
+<link href="ch-clase_3.html#s-sec_32" rel="section" title="3.2 Main items.">
+<link href="ch-clase_3.html#s-sec_33" rel="section" title="3.3 Example Codes.">
+<link href="ch-clase_4.html#s-sec_41" rel="section" title="4.1 Objectives">
+<link href="ch-clase_4.html#s-sec_42" rel="section" title="4.2 Main items.">
+<link href="ch-clase_4.html#s-sec_43" rel="section" title="4.3 Example Codes.">
+<link href="ch-clase_7.html#s-sec_71" rel="section" title="5.1 Objectivos">
+<link href="ch-clase_7.html#s-sec_72" rel="section" title="5.2 Main items.">
+<link href="ch-clase_7.html#s-sec_73" rel="section" title="5.3 Example codes.">
+<link href="ch-clase_5.html#s-sec_51" rel="section" title="6.1 Objectivos">
+<link href="ch-clase_5.html#s-sec_52" rel="section" title="6.2 Main Items.">
+<link href="ch-clase_5.html#s-sec_53" rel="section" title="6.3 Programas usados como ejemplo.">
+<link href="ch-clase_6.html#s-sec_61" rel="section" title="7.1 Objetivos">
+<link href="ch-clase_6.html#s-sec_62" rel="section" title="7.2 Puntos destacables.">
+<link href="ch-clase_6.html#s-sec_63" rel="section" title="7.3 Programas usados como ejemplo.">
+<link href="ch-clase_8.html#s-sec_81" rel="section" title="8.1 Objetivos">
+<link href="ch-clase_8.html#s-sec_82" rel="section" title="8.2 Puntos destacables.">
+<link href="ch-clase_8.html#s-sec_83" rel="section" title="8.3 Programas usados como ejemplo.">
+<link href="ch-clase_9.html#s-sec_91" rel="section" title="9.1 Objetivos">
+<link href="ch-clase_9.html#s-sec_92" rel="section" title="9.2 Puntos destacables.">
+<link href="ch-clase_9.html#s-sec_93" rel="section" title="9.3 Programas usados como ejemplo.">
+<link href="ch-clase_10.html#s-sec_101" rel="section" title="10.1 Objetivos">
+<link href="ch-clase_10.html#s-sec_102" rel="section" title="10.2 Puntos destacables.">
+<link href="ch-clase_10.html#s-sec_103" rel="section" title="10.3 Programas usados como ejemplo.">
+<link href="ch-clase_11.html#s-sec_111" rel="section" title="11.1 Objetivos">
+<link href="ch-clase_11.html#s-sec_112" rel="section" title="11.2 Puntos destacables.">
+<link href="ch-clase_11.html#s-sec_113" rel="section" title="11.3 Programas usados como ejemplo.">
+<link href="ch-clase_blaslap.html#s-sec_bl1" rel="section" title="12.1 Objetivos">
+<link href="ch-clase_blaslap.html#s-sec_bl2" rel="section" title="12.2 Puntos destacables.">
+<link href="ch-clase_blaslap.html#s-sec_bl3" rel="section" title="12.3 Programas usados como ejemplo.">
+<link href="ch-clase_1.html#s-sec_p_1_1" rel="subsection" title="1.3.1 excode_1_1.f90">
+<link href="ch-clase_1.html#s-sec_p_1_2" rel="subsection" title="1.3.2 excode_1_2.f90">
+<link href="ch-clase_2.html#s-sec_p_2_1" rel="subsection" title="2.3.1 excode_2_1.f90">
+<link href="ch-clase_2.html#s-sec_p_2_2" rel="subsection" title="2.3.2 excode_2_2.f90">
+<link href="ch-clase_2.html#s-sec_p_2_3" rel="subsection" title="2.3.3 excode_2_3.f90">
+<link href="ch-clase_2.html#s-sec_p_2_4" rel="subsection" title="2.3.4 excode_2_4.f90">
+<link href="ch-clase_2.html#s-sec_p_2_5" rel="subsection" title="2.3.5 excode_2_5.f90">
+<link href="ch-clase_2.html#s-sec_p_2_6" rel="subsection" title="2.3.6 excode_2_6.f90">
+<link href="ch-clase_3.html#s-sec_p_3_1" rel="subsection" title="3.3.1 excode_3_1.f90">
+<link href="ch-clase_3.html#s-sec_p_3_2" rel="subsection" title="3.3.2 excode_3_2.f90">
+<link href="ch-clase_3.html#s-sec_p_3_3" rel="subsection" title="3.3.3 excode_3_3.f90">
+<link href="ch-clase_3.html#s-sec_p_3_4" rel="subsection" title="3.3.4 excode_3_4.f90">
+<link href="ch-clase_4.html#s-sec_p_4_1" rel="subsection" title="4.3.1 excode_4_1.f90">
+<link href="ch-clase_4.html#s-sec_p_4_2" rel="subsection" title="4.3.2 excode_4_2.f90">
+<link href="ch-clase_4.html#s-sec_p_4_3" rel="subsection" title="4.3.3 excode_4_3.f90">
+<link href="ch-clase_4.html#s-sec_p_4_4" rel="subsection" title="4.3.4 excode_4_4.f90">
+<link href="ch-clase_4.html#s-sec_p_4_5" rel="subsection" title="4.3.5 excode_4_5.f90">
+<link href="ch-clase_4.html#s-sec_p_4_6" rel="subsection" title="4.3.6 excode_4_6.f90">
+<link href="ch-clase_7.html#s-sec_p_7_1" rel="subsection" title="5.3.1 excode_5_1.f90">
+<link href="ch-clase_7.html#s-sec_p_7_2" rel="subsection" title="5.3.2 excode_5_2.f90">
+<link href="ch-clase_7.html#s-sec_p_7_3" rel="subsection" title="5.3.3 excode_5_3.f90">
+<link href="ch-clase_7.html#s-sec_p_7_4" rel="subsection" title="5.3.4 Programa ejemplo_5_4.f90">
+<link href="ch-clase_5.html#s-sec_p_5_1" rel="subsection" title="6.3.1 excode_6_1.f90">
+<link href="ch-clase_5.html#s-sec_p_5_2" rel="subsection" title="6.3.2 excode_6_2.f90">
+<link href="ch-clase_5.html#s-sec_p_5_3" rel="subsection" title="6.3.3 excode_6_3.f90">
+<link href="ch-clase_5.html#s-sec_p_5_4" rel="subsection" title="6.3.4 excode_6_4.f90">
+<link href="ch-clase_5.html#s-sec_p_5_5" rel="subsection" title="6.3.5 excode_6_5.f90">
+<link href="ch-clase_5.html#s-sec_p_5_6" rel="subsection" title="6.3.6 excode_6_6.f90">
+<link href="ch-clase_5.html#s-sec_p_5_7" rel="subsection" title="6.3.7 excode_6_7.f90">
+<link href="ch-clase_6.html#s-sec_p_6_1" rel="subsection" title="7.3.1 Programa ejemplo_7_1.f90">
+<link href="ch-clase_6.html#s-sec_p_6_2" rel="subsection" title="7.3.2 Programa ejemplo_7_2.f90">
+<link href="ch-clase_6.html#s-sec_p_6_22" rel="subsection" title="7.3.3 Script ej_here_file">
+<link href="ch-clase_6.html#s-sec_p_6_3" rel="subsection" title="7.3.4 Programa ejemplo_7_3.f90">
+<link href="ch-clase_6.html#s-sec_p_6_32" rel="subsection" title="7.3.5 namelist input file">
+<link href="ch-clase_6.html#s-sec_p_6_4" rel="subsection" title="7.3.6 Programa ejemplo_7_4.f90">
+<link href="ch-clase_8.html#s-sec_p_8_1" rel="subsection" title="8.3.1 Programa ejemplo_8_1.f90">
+<link href="ch-clase_8.html#s-sec_p_8_2" rel="subsection" title="8.3.2 Programa ejemplo_8_2.f90">
+<link href="ch-clase_8.html#s-sec_p_8_3" rel="subsection" title="8.3.3 Programa ejemplo_8_3.f90">
+<link href="ch-clase_8.html#s-sec_p_8_4" rel="subsection" title="8.3.4 Programa ejemplo_8_4.f90">
+<link href="ch-clase_8.html#s-sec_p_8_5" rel="subsection" title="8.3.5 Programa ejemplo_8_5.f90">
+<link href="ch-clase_8.html#s-sec_p_8_6" rel="subsection" title="8.3.6 Programa ejemplo_8_6.f90">
+<link href="ch-clase_9.html#s-sec_p_9_1" rel="subsection" title="9.3.1 Programa ejemplo_9_1.f90">
+<link href="ch-clase_9.html#s-sec_p_9_2" rel="subsection" title="9.3.2 Programa ejemplo_9_2.f90">
+<link href="ch-clase_9.html#s-sec_p_9_3" rel="subsection" title="9.3.3 Programa ejemplo_9_3.f90">
+<link href="ch-clase_9.html#s-sec_p_9_4" rel="subsection" title="9.3.4 Programa ejemplo_9_4.f90">
+<link href="ch-clase_9.html#s-sec_p_9_5" rel="subsection" title="9.3.5 Programa ejemplo_9_5.f90">
+<link href="ch-clase_9.html#s-sec_p_9_6" rel="subsection" title="9.3.6 Programa ejemplo_9_6.f90">
+<link href="ch-clase_9.html#s-sec_p_9_7" rel="subsection" title="9.3.7 Programa ejemplo_9_7.f90">
+<link href="ch-clase_10.html#s-sec_p_10_1" rel="subsection" title="10.3.1 Programa ejemplo_10_1.f90">
+<link href="ch-clase_10.html#s-sec_p_10_2" rel="subsection" title="10.3.2 Programa ejemplo_10_2.f90">
+<link href="ch-clase_10.html#s-sec_p_10_3" rel="subsection" title="10.3.3 Programa ejemplo_10_3.f90">
+<link href="ch-clase_10.html#s-sec_p_10_4" rel="subsection" title="10.3.4 Programa ejemplo_10_4.f90">
+<link href="ch-clase_11.html#s-sec_p_11_1" rel="subsection" title="11.3.1 Programa ejemplo_11_1.f90">
+<link href="ch-clase_11.html#s-sec_p_11_2" rel="subsection" title="11.3.2 Programa ejemplo_11_2.f90">
+<link href="ch-clase_11.html#s-sec_p_11_3" rel="subsection" title="11.3.3 Programa ejemplo_11_3.f90">
+<link href="ch-clase_11.html#s-sec_p_11_4" rel="subsection" title="11.3.4 Programa ejemplo_11_4.f90">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_1" rel="subsection" title="12.3.1 Ejemplo de fichero make.inc para LAPACK">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_2" rel="subsection" title="12.3.2 Ejemplo de fichero make.inc para LAPACK95">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_3" rel="subsection" title="12.3.3 Ejemplo de programa que invoca LAPACK95">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_4" rel="subsection" title="12.3.4 Ejemplo de makefile para compilar programas que invocan LAPACK95">
+
+</head>
+
+<body>
+
+<p><a name="ch-clase_8"></a></p>
+<hr>
+
+<p>
+[ <a href="ch-clase_6.html">previous</a> ]
+[ <a href="index.html#contents">Contents</a> ]
+[ <a href="ch-clase_1.html">1</a> ]
+[ <a href="ch-clase_2.html">2</a> ]
+[ <a href="ch-clase_3.html">3</a> ]
+[ <a href="ch-clase_4.html">4</a> ]
+[ <a href="ch-clase_7.html">5</a> ]
+[ <a href="ch-clase_5.html">6</a> ]
+[ <a href="ch-clase_6.html">7</a> ]
+[ 8 ]
+[ <a href="ch-clase_9.html">9</a> ]
+[ <a href="ch-clase_10.html">10</a> ]
+[ <a href="ch-clase_11.html">11</a> ]
+[ <a href="ch-clase_blaslap.html">12</a> ]
+[ <a href="ch-cap_ref.html">13</a> ]
+[ <a href="ch-clase_9.html">next</a> ]
+</p>
+
+<hr>
+
+<h1>
+<code>Fortran 90</code> Lessons for Computational Chemistry
+<br>Chapter 8 - Subprogramas (I): funciones
+</h1>
+
+<hr>
+
+<h2 id="s-sec_81">8.1 Objetivos</h2>
+
+<p>
+Los objetivos de esta clase son los siguientes:
+</p>
+<ol type="1" start="1" >
+<li>
+<p>
+presentar las ventajas que ofrece el uso de funciones, subrutinas y módulos.
+</p>
+</li>
+</ol>
+<ol type="1" start="2" >
+<li>
+<p>
+presentar el concepto de función en <code>Fortran</code>.
+</p>
+</li>
+</ol>
+<ol type="1" start="3" >
+<li>
+<p>
+mostrar los diferentes tipos de funciones que pueden usarse: intrínsecas,
+genéricas, elementales, transformacionales e internas.
+</p>
+</li>
+</ol>
+<ol type="1" start="4" >
+<li>
+<p>
+hacer posible la definición de funciones por el usuario.
+</p>
+</li>
+</ol>
+<ol type="1" start="5" >
+<li>
+<p>
+mostrar la diferencia entre funciones externas y funciones contenidas en el
+programa principal.
+</p>
+</li>
+</ol>
+
+<p>
+El uso de estas estructuras permite desarrollar una programación más
+estructurada y eficaz ya que permiten
+</p>
+<ul>
+<li>
+<p>
+el desarrollo y comprobación de diferentes subtareas de forma independiente.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+reciclar unidades en diferentes programas, disminuyendo el tiempo necesario
+para generar el código.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+aislar el código de efectos inesperados ya que están perfectamente
+diferenciadas las variables generales y las variables a las que tiene acceso
+cada subrutina o función.
+</p>
+</li>
+</ul>
+
+<hr>
+
+<h2 id="s-sec_82">8.2 Puntos destacables.</h2>
+
+<p>
+En primer lugar nos centramos en las funciones y, en la siguiente unidad,
+tratamos las subrutinas.
+</p>
+<ul>
+<li>
+<p>
+Características generales de las funciones.
+</p>
+
+<p>
+Las principales características de una función son
+</p>
+<ul>
+<li>
+<p>
+Requieren el uso de uno o varios parámetros o argumentos al invocar la función.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+Dichos argumentos pueden ser una expresión.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+Generalmente una función da como resultado un valor, y dicho valor es función
+de los parámetros o argumentos con los que se ha invocado la función.  El
+resultado de la evaluación de la función puede ser un escalar o una matriz de
+cualquier tipo.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+Los argumentos pueden ser de diferente tipo.
+</p>
+</li>
+</ul>
+
+<p>
+En <code>Fortran</code> existen aproximadamente más de cien funciones
+predefinidas que pueden usarse de modo muy simple y directo.  Por ejemplo, si
+necesitamos funciones trigonométricas podemos usar, siendo <samp>X</samp>,
+<samp>Y</samp> variables reales[<a href="footnotes.html#f10"
+name="fr10">10</a>]:
+</p>
+<ul>
+<li>
+<p>
+<samp>Y = SIN(X)</samp>
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+<samp>Y = COS(X)</samp>
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+<samp>Y = TAN(X)</samp>
+</p>
+</li>
+</ul>
+
+<p>
+Este tipo de funciones son llamadas <em>funciones intrínsecas</em>.  En esta
+<code><a
+href="http://gcc.gnu.org/onlinedocs/gfortran/Intrinsic-Procedures.html#Intrinsic-Procedures">URL</a></code>
+puede encontrarse una lista completa de las funciones intrínsecas de que se
+dispone al usar el compilador <code>gfortran</code>.  En general las funciones
+intrínsecas son <em>genéricas</em>, lo que quiere decir que admiten distintos
+tipos de argumentos (mejor dicho argumentos con diferente precisión).  La
+excepción son las cuatro funciones no genéricas, <samp>LGE</samp>,
+<samp>LGT</samp>, <samp>LLE</samp> y <samp>LLT</samp>.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+Las funciones llamadas <em>elementales</em> admiten como argumento tanto
+escalares como matrices.  Un ejemplo de esto se puede ver en los ejemplos <a
+href="#s-sec_p_8_1">Programa ejemplo_8_1.f90, Section 8.3.1</a> y <a
+href="#s-sec_p_8_2">Programa ejemplo_8_2.f90, Section 8.3.2</a>, donde se
+muestra el carácter elemental y genérico de algunas funciones.  En el ejemplo
+<a href="#s-sec_p_8_1">Programa ejemplo_8_1.f90, Section 8.3.1</a> se muestra
+también la diferencia entre variables reales con diferente precisión.  Estas
+funciones elementales pueden aplicarse tanto a variables escalares como a
+arreglos.  En el último caso la función se aplica a cada elemento del arreglo.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+Existen también otro tipo de funciones.  Entre ellas destacan las del tipo
+<em>inquiry</em> que dan información acerca de las características de un
+arreglo.  Por ejemplo las funciones <samp>SIZE</samp> y <samp>ALLOCATED</samp>.
+Un ejemplo del uso de esta última función puede verse en el <a
+href="ch-clase_5.html#s-sec_p_5_7"><samp>excode_6_7.f90</samp>, Section
+6.3.7</a> y en el <a href="ch-clase_9.html#s-sec_p_9_3">Programa
+ejemplo_9_3.f90, Section 9.3.3</a>.
+</p>
+
+<p>
+Otro tipo de funciones son las llamadas &quot;transformacionales&quot;, p.e.
+<samp>REAL</samp> y <samp>TRANSPOSE</samp>, que transforman entre diferentes
+tipos de datos, y funciones que implican medidas de tiempo como
+<samp>SYSTEM_CLOCK</samp> y <samp>DATE_AND_TIME</samp>.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+Conversión entre diferentes tipos de datos.
+</p>
+<ul>
+<li>
+<p>
+<samp>REAL(i)</samp>: convierte un entero <samp>i</samp> en un real.  El
+argumento <samp>i</samp> puede ser un entero, un real de doble precisión o un
+número complejo.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+<samp>INT(x)</samp>: convierte el real <samp>x</samp> en el entero equivalente,
+truncando la parte decimal, pudiendo ser <samp>x</samp> una variable real, real
+de doble precisión o compleja.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+Las siguientes funciones son de interés para definir enteros a partir de
+reales.
+</p>
+<ul>
+<li>
+<p>
+<samp>CEILING(x)</samp>: convierte un real <samp>x</samp> en el entero más
+pequeño mayor o igual a <samp>x</samp>.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+<samp>FLOOR(x)</samp>: convierte un real <samp>x</samp> en el mayor entero que
+sea menor o igual a <samp>x</samp>.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+<samp>NINT(x)</samp>: convierte un real <samp>x</samp> en el entero más próximo
+a <samp>x</samp>.
+</p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+<samp>DBLE(a)</samp>: convierte <samp>a</samp> a doble precisión.  El argumento
+puede ser entero, real o complejo.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+<samp>CMPLX(x)</samp> ó <samp>CMPLX(x,y)</samp>: convierte en valores complejos
+(el segundo argumento es la parte imaginaria).
+</p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+Además de las funciones intrínsecas, pueden definirse funciones.  La definición
+de una función implica por una parte la propia definición y la posterior
+llamada a la función desde un programa.  La definición de una función sigue el
+siguiente esquema:
+</p>
+
+<pre>
+     FUNCTION <var>fun_name</var>(<var>argument_list</var>)
+       IMPLICIT NONE
+       Declaration section (including arguments and fun_name)
+       ....
+       Local variables declaration
+       ....
+       <var>fun_name</var> = expr
+       RETURN ! Optional
+     END FUNCTION <var>fun_name</var>
+</pre>
+
+<p>
+En el ejemplo <a href="#s-sec_p_8_3">Programa ejemplo_8_3.f90, Section
+8.3.3</a> se muestra como se define e invoca una función que calcula el máximo
+común divisor de dos números enteros.  Es importante tener en cuenta lo
+siguiente:
+</p>
+<ul>
+<li>
+<p>
+En este ejemplo podemos distinguir dos bloques.  Un primer bloque con el
+programa principal y un segundo bloque donde se define la función.  De hecho la
+función puede definirse en un fichero diferente al programa principal, y dar
+ambos ficheros al compilador para que prepare el programa ejecutable.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+Es importante tener en cuenta que las variables definidas en la función tienen
+carácter local respecto a las variables que se definen en el programa.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+La función en este caso tiene como nombre <samp>MCD</samp> y su tipo es
+<samp>INTEGER</samp>.  Por tanto, el programa espera que el valor que dé la
+función como resultado sea un entero.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+El atributo <samp>INTENT(IN)</samp> en la definición de las variables
+<samp>A</samp> y <samp>B</samp> de la función:
+</p>
+
+<pre>
+     INTEGER , INTENT(IN) :: A,B
+</pre>
+
+<p>
+indica que dichas variables son variables de entrada y sus valores no pueden
+ser modificados por la función.
+</p>
+</li>
+</ul>
+
+<p>
+Todos los argumentos de una función deben tener este atributo para evitar que
+inadvertidamente sus valores se modifiquen al evaluar la función.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+Es posible definir funciones que sean <em>internas</em>, esto es, que se
+restrinjan a un determinado segmento de código, y no puedan ser llamadas desde
+otro punto del programa.  Para ello se utiliza la orden <samp>CONTAINS</samp>
+como en los ejemplos <a href="#s-sec_p_8_4">Programa ejemplo_8_4.f90, Section
+8.3.4</a> y <a href="#s-sec_p_8_5">Programa ejemplo_8_5.f90, Section 8.3.5</a>.
+El primero de estos dos programas define una función con la que calcular la
+energía de un nivel vibracional teniendo en cuenta la frecuencia <em>we</em> y
+la anarmonicidad <em>wexe</em>.  El segundo, dado un número entero, calcula los
+factores primos de dicho número.  En este ejemplo <a
+href="#s-sec_p_8_5">Programa ejemplo_8_5.f90, Section 8.3.5</a> podemos ver
+también el uso de un bucle del tipo <em>REPEAT UNTIL</em>.
+</p>
+</li>
+</ul>
+
+<hr>
+
+<h2 id="s-sec_83">8.3 Programas usados como ejemplo.</h2>
+
+<hr>
+
+<h3 id="s-sec_p_8_1">8.3.1 Programa ejemplo_8_1.f90</h3>
+
+<pre>
+     PROGRAM EJEMPLO_8_1
+       IMPLICIT NONE
+       !Definicion de variables
+       INTEGER, PARAMETER :: Long=SELECTED_REAL_KIND(18,310)
+       !
+       REAL (KIND=Long), PARAMETER :: DPI = ACOS(-1.0_Long) ! Definimos el número Pi
+       REAL (KIND=Long) :: DANGLE, DANGLERAD
+       !
+       REAL, PARAMETER :: PI = ACOS(-1.0) ! Definimos el número Pi
+       REAL :: ANGLERAD
+       !
+       PRINT*, 'INTRODUZCA UN ANGULO (EN GRADOS)'
+       READ*, DANGLE
+       PRINT*
+       ! PASO A RADIANES
+       DANGLERAD = DPI*DANGLE/180.0_Long
+       ANGLERAD = PI*DANGLE/180.0
+       !
+       PRINT 20, DANGLE, DANGLERAD
+       PRINT 21, DANGLE, ANGLERAD
+       PRINT*
+       PRINT*
+       !
+       PRINT 22, DANGLERAD, SIN(DANGLERAD), COS(DANGLERAD), SIN(DANGLERAD)**2+COS(DANGLERAD)**2,&amp;
+            1.0_Long-(SIN(DANGLERAD)**2+COS(DANGLERAD)**2) 
+       PRINT*
+       PRINT 22, ANGLERAD, SIN(ANGLERAD), COS(ANGLERAD), SIN(ANGLERAD)**2+COS(ANGLERAD)**2,1.0 - (SIN(ANGLERAD)**2+COS(ANGLERAD)**2) 
+       !
+     20 FORMAT (1X, 'UN ANGULO DE ',F14.8,' GRADOS = ', F14.8, ' RADIANES. (dp)')
+     21 FORMAT (1X, 'UN ANGULO DE ',F14.8,' GRADOS = ', F14.8, ' RADIANES. (sp)')
+     22 FORMAT (1X, 'ANGULO ',F14.8,', SIN = ', F13.9, ', COS =',F13.9,/'SIN**2+COS**2 = ', F16.12, ', 1 - SIN**2+COS**2 = ', F16.12)
+     END PROGRAM EJEMPLO_8_1
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_8_2">8.3.2 Programa ejemplo_8_2.f90</h3>
+
+<pre>
+     PROGRAM EJEMPLO_8_2
+       IMPLICIT NONE
+       !Definicion de variables
+       INTEGER , PARAMETER :: NEL=5
+       REAL, PARAMETER :: PI = ACOS(-1.0) ! Definimos el número Pi
+       REAL , DIMENSION(1:NEL)   :: XR = (/ 0.0, PI/2.0, PI, 3.0*PI/2.0, 2.0*PI/)
+       INTEGER , DIMENSION(1:NEL):: XI = (/ 0, 1, 2, 3, 4/)
+       !
+       PRINT*, 'SENO DE ', XR, ' = ', SIN(XR)
+       PRINT*, 'LOG10 DE ', XR, ' = ', LOG10(XR)
+       PRINT*, 'REAL ', XI, ' = ', REAL(XI)
+     END PROGRAM EJEMPLO_8_2
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_8_3">8.3.3 Programa ejemplo_8_3.f90</h3>
+
+<pre>
+     PROGRAM EJEMPLO_8_3
+       IMPLICIT NONE
+       INTEGER :: I,J,Result
+       INTEGER :: MCD
+       EXTERNAL MCD
+       PRINT *,' INTRODUCE DOS NUMEROS ENTEROS:'
+       READ(*,*),I,J
+       RESULT = MCD(I,J)
+       PRINT *,' EL MAX COMUN DIV DE ',I,' Y ',J,' ES ',RESULT
+     END PROGRAM EJEMPLO_8_3
+     !
+     INTEGER FUNCTION MCD(A,B)
+     IMPLICIT NONE
+     INTEGER , INTENT(IN) :: A,B
+     INTEGER :: Temp
+       IF (A &lt; B) THEN
+          Temp=A
+       ELSE
+          Temp=B
+       ENDIF
+       DO WHILE ((MOD(A,Temp) /= 0) .OR. (MOD(B,Temp) /=0))
+          Temp=Temp-1
+       END DO
+       MCD=Temp
+     END FUNCTION MCD
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_8_4">8.3.4 Programa ejemplo_8_4.f90</h3>
+
+<pre>
+     PROGRAM EJEMPLO_8_4
+       IMPLICIT NONE
+       ! Uso de una función interna en el cálculo de la fórmula
+       ! E(v) = we (v+1/2) - wexe (v+1/2)**2.
+       INTEGER :: V, VMAX
+       REAL :: we, wexe, Energy
+       PRINT *,' INTRODUCE EL VALOR DE Vmax:'
+       READ(*,*), VMAX
+       PRINT *,' INTRODUCE EL VALOR DE we Y DE wexe:'
+       READ(*,*),we, wexe
+       DO V = 0, VMAX
+          Energy = FEN(V)
+          PRINT 100, V, Energy
+       ENDDO
+     100 FORMAT(1X,'E(',I3,') = ',F14.6)
+     CONTAINS 
+     !
+       REAL FUNCTION FEN(V)
+         IMPLICIT NONE
+         INTEGER , INTENT(IN) :: V
+         FEN = we*(V+0.5)-wexe*(V+0.5)**2
+       END FUNCTION FEN
+     !
+     END PROGRAM EJEMPLO_8_4
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_8_5">8.3.5 Programa ejemplo_8_5.f90</h3>
+
+<pre>
+     PROGRAM EJEMPLO_8_5
+       !
+       ! Simple program to compute the prime divisors of a given integer number.
+       !
+       IMPLICIT NONE
+       INTEGER :: NUMVAL
+       INTEGER :: NUM
+       !
+       READ(*,*), NUMVAL ! input
+       !
+       DO
+          NUM = QUOT(NUMVAL)
+          IF (NUM == NUMVAL) THEN
+             PRINT*, NUM
+             EXIT
+          ELSE
+             PRINT*, NUMVAL/NUM, NUM
+             NUMVAL = NUM
+          ENDIF
+       ENDDO
+       !
+     CONTAINS
+       ! 
+       INTEGER FUNCTION QUOT(NUM1)
+         !
+         INTEGER, INTENT(IN) :: NUM1
+         INTEGER :: I
+         !
+         QUOT = NUM1
+         !
+         DO I = 2, NUM1-1
+            IF (MOD(NUM1,I) == 0) THEN
+               QUOT = NUM1/I
+               EXIT
+            ENDIF
+         ENDDO
+         !
+       END FUNCTION QUOT
+       !
+     END PROGRAM EJEMPLO_8_5
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_8_6">8.3.6 Programa ejemplo_8_6.f90</h3>
+
+<pre>
+     PROGRAM EJEMPLO_8_6
+       !
+       ! Program to evaluate a 1D potential function on grid points
+       !
+       IMPLICIT NONE
+       !
+       REAL, DIMENSION(:), ALLOCATABLE :: X_grid, Pot_grid
+       !
+       REAL :: X_min, X_max, Delta_X
+       REAL :: V_0 = 10.0, a_val = 1.0
+       INTEGER :: Index, X_dim
+       INTEGER :: Ierr
+       !
+       !
+       INTERFACE Potf
+          ELEMENTAL FUNCTION Potf(Depth, Inv_length, X)
+            !
+            IMPLICIT NONE
+            !
+            REAL, INTENT(IN) :: Depth, Inv_length, X
+            REAL :: Potf
+            !
+          END FUNCTION Potf
+       END INTERFACE Potf
+       !
+       !
+       READ(*,*), X_min, X_max, X_dim ! input minimum and maximum values of X and number of points
+       !
+       ALLOCATE(X_grid(1:X_dim), STAT = Ierr)
+       IF (Ierr /= 0) THEN
+          STOP 'X_grid allocation failed'
+       ENDIF
+       !
+       ALLOCATE(Pot_grid(1:X_dim), STAT = Ierr)
+       IF (Ierr /= 0) THEN
+          STOP 'Pot_grid allocation failed'
+       ENDIF
+       !
+       !
+       Delta_X = (X_max - X_min)/REAL(X_dim - 1)
+       !
+       X_grid = (/ (Index, Index = 0 , X_dim - 1 ) /)
+       X_grid = X_min + Delta_X*X_grid
+       !
+       Pot_grid = Potf(V_0, a_val, X_grid)
+       !
+       DO Index = 1, X_dim
+          PRINT*, X_grid, Pot_grid
+       ENDDO
+       !
+       DEALLOCATE(X_grid, STAT = Ierr)
+       IF (Ierr /= 0) THEN
+          STOP 'X_grid deallocation failed'
+       ENDIF
+       !
+       DEALLOCATE(Pot_grid, STAT = Ierr)
+       IF (Ierr /= 0) THEN
+          STOP 'Pot_grid deallocation failed'
+       ENDIF
+       !
+       !
+     END PROGRAM EJEMPLO_8_6
+     !
+     ELEMENTAL FUNCTION Potf(Depth, Inv_length, X)
+       !
+       IMPLICIT NONE
+       !
+       REAL, INTENT(IN) :: Depth, Inv_length, X
+       !
+       REAL :: Potf
+       !
+       Potf = -Depth/(COSH(Inv_length*X)**2)
+       !
+     END FUNCTION Potf
+</pre>
+
+<hr>
+
+<p>
+[ <a href="ch-clase_6.html">previous</a> ]
+[ <a href="index.html#contents">Contents</a> ]
+[ <a href="ch-clase_1.html">1</a> ]
+[ <a href="ch-clase_2.html">2</a> ]
+[ <a href="ch-clase_3.html">3</a> ]
+[ <a href="ch-clase_4.html">4</a> ]
+[ <a href="ch-clase_7.html">5</a> ]
+[ <a href="ch-clase_5.html">6</a> ]
+[ <a href="ch-clase_6.html">7</a> ]
+[ 8 ]
+[ <a href="ch-clase_9.html">9</a> ]
+[ <a href="ch-clase_10.html">10</a> ]
+[ <a href="ch-clase_11.html">11</a> ]
+[ <a href="ch-clase_blaslap.html">12</a> ]
+[ <a href="ch-cap_ref.html">13</a> ]
+[ <a href="ch-clase_9.html">next</a> ]
+</p>
+
+<hr>
+
+<p>
+<code>Fortran 90</code> Lessons for Computational Chemistry
+</p>
+
+<address>
+0.0<br>
+<br>
+Curro Pérez-Bernal <code><a href="mailto:francisco.perez@dfaie.uhu.es">mailto:francisco.perez@dfaie.uhu.es</a></code><br>
+<br>
+</address>
+<hr>
+
+</body>
+
+</html>
+

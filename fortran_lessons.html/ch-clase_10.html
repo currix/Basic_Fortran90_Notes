@@ -1,0 +1,943 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+
+<html>
+
+<head>
+
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+
+<title>Fortran 90 Lessons for Computational Chemistry - Subprogramas (III): módulos</title>
+
+<link href="index.html" rel="start">
+<link href="ch-clase_9.html" rel="prev">
+<link href="ch-clase_11.html" rel="next">
+<link href="index.html#contents" rel="contents">
+<link href="index.html#copyright" rel="copyright">
+<link href="ch-clase_1.html" rel="chapter" title="1 Introduction">
+<link href="ch-clase_2.html" rel="chapter" title="2 Basic Operations">
+<link href="ch-clase_3.html" rel="chapter" title="3 Introduction to Fortran Arrays">
+<link href="ch-clase_4.html" rel="chapter" title="4 More on Arrays">
+<link href="ch-clase_7.html" rel="chapter" title="5 Control Structures">
+<link href="ch-clase_5.html" rel="chapter" title="6 INPUT/OUTPUT) (I)">
+<link href="ch-clase_6.html" rel="chapter" title="7 Operaciones I/O (II)">
+<link href="ch-clase_8.html" rel="chapter" title="8 Subprogramas (I): funciones">
+<link href="ch-clase_9.html" rel="chapter" title="9 Subprogramas (II): subrutinas">
+<link href="ch-clase_10.html" rel="chapter" title="10 Subprogramas (III): módulos">
+<link href="ch-clase_11.html" rel="chapter" title="11 Subprogramas (IV)">
+<link href="ch-clase_blaslap.html" rel="chapter" title="12 Instalación y uso de las bibliotecas BLAS y LAPACK">
+<link href="ch-cap_ref.html" rel="chapter" title="13 Referencias">
+<link href="ch-clase_1.html#s-sec_11" rel="section" title="1.1 Objectives">
+<link href="ch-clase_1.html#s-sec_12" rel="section" title="1.2 Main items.">
+<link href="ch-clase_1.html#s-sec_13" rel="section" title="1.3 Example Codes.">
+<link href="ch-clase_2.html#s-sec_21" rel="section" title="2.1 Objectives">
+<link href="ch-clase_2.html#s-sec_22" rel="section" title="2.2 Main items.">
+<link href="ch-clase_2.html#s-sec_23" rel="section" title="2.3 Example Codes.">
+<link href="ch-clase_3.html#s-sec_31" rel="section" title="3.1 Objectivos">
+<link href="ch-clase_3.html#s-sec_32" rel="section" title="3.2 Main items.">
+<link href="ch-clase_3.html#s-sec_33" rel="section" title="3.3 Example Codes.">
+<link href="ch-clase_4.html#s-sec_41" rel="section" title="4.1 Objectives">
+<link href="ch-clase_4.html#s-sec_42" rel="section" title="4.2 Main items.">
+<link href="ch-clase_4.html#s-sec_43" rel="section" title="4.3 Example Codes.">
+<link href="ch-clase_7.html#s-sec_71" rel="section" title="5.1 Objectivos">
+<link href="ch-clase_7.html#s-sec_72" rel="section" title="5.2 Main items.">
+<link href="ch-clase_7.html#s-sec_73" rel="section" title="5.3 Example codes.">
+<link href="ch-clase_5.html#s-sec_51" rel="section" title="6.1 Objectivos">
+<link href="ch-clase_5.html#s-sec_52" rel="section" title="6.2 Main Items.">
+<link href="ch-clase_5.html#s-sec_53" rel="section" title="6.3 Programas usados como ejemplo.">
+<link href="ch-clase_6.html#s-sec_61" rel="section" title="7.1 Objetivos">
+<link href="ch-clase_6.html#s-sec_62" rel="section" title="7.2 Puntos destacables.">
+<link href="ch-clase_6.html#s-sec_63" rel="section" title="7.3 Programas usados como ejemplo.">
+<link href="ch-clase_8.html#s-sec_81" rel="section" title="8.1 Objetivos">
+<link href="ch-clase_8.html#s-sec_82" rel="section" title="8.2 Puntos destacables.">
+<link href="ch-clase_8.html#s-sec_83" rel="section" title="8.3 Programas usados como ejemplo.">
+<link href="ch-clase_9.html#s-sec_91" rel="section" title="9.1 Objetivos">
+<link href="ch-clase_9.html#s-sec_92" rel="section" title="9.2 Puntos destacables.">
+<link href="ch-clase_9.html#s-sec_93" rel="section" title="9.3 Programas usados como ejemplo.">
+<link href="ch-clase_10.html#s-sec_101" rel="section" title="10.1 Objetivos">
+<link href="ch-clase_10.html#s-sec_102" rel="section" title="10.2 Puntos destacables.">
+<link href="ch-clase_10.html#s-sec_103" rel="section" title="10.3 Programas usados como ejemplo.">
+<link href="ch-clase_11.html#s-sec_111" rel="section" title="11.1 Objetivos">
+<link href="ch-clase_11.html#s-sec_112" rel="section" title="11.2 Puntos destacables.">
+<link href="ch-clase_11.html#s-sec_113" rel="section" title="11.3 Programas usados como ejemplo.">
+<link href="ch-clase_blaslap.html#s-sec_bl1" rel="section" title="12.1 Objetivos">
+<link href="ch-clase_blaslap.html#s-sec_bl2" rel="section" title="12.2 Puntos destacables.">
+<link href="ch-clase_blaslap.html#s-sec_bl3" rel="section" title="12.3 Programas usados como ejemplo.">
+<link href="ch-clase_1.html#s-sec_p_1_1" rel="subsection" title="1.3.1 excode_1_1.f90">
+<link href="ch-clase_1.html#s-sec_p_1_2" rel="subsection" title="1.3.2 excode_1_2.f90">
+<link href="ch-clase_2.html#s-sec_p_2_1" rel="subsection" title="2.3.1 excode_2_1.f90">
+<link href="ch-clase_2.html#s-sec_p_2_2" rel="subsection" title="2.3.2 excode_2_2.f90">
+<link href="ch-clase_2.html#s-sec_p_2_3" rel="subsection" title="2.3.3 excode_2_3.f90">
+<link href="ch-clase_2.html#s-sec_p_2_4" rel="subsection" title="2.3.4 excode_2_4.f90">
+<link href="ch-clase_2.html#s-sec_p_2_5" rel="subsection" title="2.3.5 excode_2_5.f90">
+<link href="ch-clase_2.html#s-sec_p_2_6" rel="subsection" title="2.3.6 excode_2_6.f90">
+<link href="ch-clase_3.html#s-sec_p_3_1" rel="subsection" title="3.3.1 excode_3_1.f90">
+<link href="ch-clase_3.html#s-sec_p_3_2" rel="subsection" title="3.3.2 excode_3_2.f90">
+<link href="ch-clase_3.html#s-sec_p_3_3" rel="subsection" title="3.3.3 excode_3_3.f90">
+<link href="ch-clase_3.html#s-sec_p_3_4" rel="subsection" title="3.3.4 excode_3_4.f90">
+<link href="ch-clase_4.html#s-sec_p_4_1" rel="subsection" title="4.3.1 excode_4_1.f90">
+<link href="ch-clase_4.html#s-sec_p_4_2" rel="subsection" title="4.3.2 excode_4_2.f90">
+<link href="ch-clase_4.html#s-sec_p_4_3" rel="subsection" title="4.3.3 excode_4_3.f90">
+<link href="ch-clase_4.html#s-sec_p_4_4" rel="subsection" title="4.3.4 excode_4_4.f90">
+<link href="ch-clase_4.html#s-sec_p_4_5" rel="subsection" title="4.3.5 excode_4_5.f90">
+<link href="ch-clase_4.html#s-sec_p_4_6" rel="subsection" title="4.3.6 excode_4_6.f90">
+<link href="ch-clase_7.html#s-sec_p_7_1" rel="subsection" title="5.3.1 excode_5_1.f90">
+<link href="ch-clase_7.html#s-sec_p_7_2" rel="subsection" title="5.3.2 excode_5_2.f90">
+<link href="ch-clase_7.html#s-sec_p_7_3" rel="subsection" title="5.3.3 excode_5_3.f90">
+<link href="ch-clase_7.html#s-sec_p_7_4" rel="subsection" title="5.3.4 Programa ejemplo_5_4.f90">
+<link href="ch-clase_5.html#s-sec_p_5_1" rel="subsection" title="6.3.1 excode_6_1.f90">
+<link href="ch-clase_5.html#s-sec_p_5_2" rel="subsection" title="6.3.2 excode_6_2.f90">
+<link href="ch-clase_5.html#s-sec_p_5_3" rel="subsection" title="6.3.3 excode_6_3.f90">
+<link href="ch-clase_5.html#s-sec_p_5_4" rel="subsection" title="6.3.4 excode_6_4.f90">
+<link href="ch-clase_5.html#s-sec_p_5_5" rel="subsection" title="6.3.5 excode_6_5.f90">
+<link href="ch-clase_5.html#s-sec_p_5_6" rel="subsection" title="6.3.6 excode_6_6.f90">
+<link href="ch-clase_5.html#s-sec_p_5_7" rel="subsection" title="6.3.7 excode_6_7.f90">
+<link href="ch-clase_6.html#s-sec_p_6_1" rel="subsection" title="7.3.1 Programa ejemplo_7_1.f90">
+<link href="ch-clase_6.html#s-sec_p_6_2" rel="subsection" title="7.3.2 Programa ejemplo_7_2.f90">
+<link href="ch-clase_6.html#s-sec_p_6_22" rel="subsection" title="7.3.3 Script ej_here_file">
+<link href="ch-clase_6.html#s-sec_p_6_3" rel="subsection" title="7.3.4 Programa ejemplo_7_3.f90">
+<link href="ch-clase_6.html#s-sec_p_6_32" rel="subsection" title="7.3.5 namelist input file">
+<link href="ch-clase_6.html#s-sec_p_6_4" rel="subsection" title="7.3.6 Programa ejemplo_7_4.f90">
+<link href="ch-clase_8.html#s-sec_p_8_1" rel="subsection" title="8.3.1 Programa ejemplo_8_1.f90">
+<link href="ch-clase_8.html#s-sec_p_8_2" rel="subsection" title="8.3.2 Programa ejemplo_8_2.f90">
+<link href="ch-clase_8.html#s-sec_p_8_3" rel="subsection" title="8.3.3 Programa ejemplo_8_3.f90">
+<link href="ch-clase_8.html#s-sec_p_8_4" rel="subsection" title="8.3.4 Programa ejemplo_8_4.f90">
+<link href="ch-clase_8.html#s-sec_p_8_5" rel="subsection" title="8.3.5 Programa ejemplo_8_5.f90">
+<link href="ch-clase_8.html#s-sec_p_8_6" rel="subsection" title="8.3.6 Programa ejemplo_8_6.f90">
+<link href="ch-clase_9.html#s-sec_p_9_1" rel="subsection" title="9.3.1 Programa ejemplo_9_1.f90">
+<link href="ch-clase_9.html#s-sec_p_9_2" rel="subsection" title="9.3.2 Programa ejemplo_9_2.f90">
+<link href="ch-clase_9.html#s-sec_p_9_3" rel="subsection" title="9.3.3 Programa ejemplo_9_3.f90">
+<link href="ch-clase_9.html#s-sec_p_9_4" rel="subsection" title="9.3.4 Programa ejemplo_9_4.f90">
+<link href="ch-clase_9.html#s-sec_p_9_5" rel="subsection" title="9.3.5 Programa ejemplo_9_5.f90">
+<link href="ch-clase_9.html#s-sec_p_9_6" rel="subsection" title="9.3.6 Programa ejemplo_9_6.f90">
+<link href="ch-clase_9.html#s-sec_p_9_7" rel="subsection" title="9.3.7 Programa ejemplo_9_7.f90">
+<link href="ch-clase_10.html#s-sec_p_10_1" rel="subsection" title="10.3.1 Programa ejemplo_10_1.f90">
+<link href="ch-clase_10.html#s-sec_p_10_2" rel="subsection" title="10.3.2 Programa ejemplo_10_2.f90">
+<link href="ch-clase_10.html#s-sec_p_10_3" rel="subsection" title="10.3.3 Programa ejemplo_10_3.f90">
+<link href="ch-clase_10.html#s-sec_p_10_4" rel="subsection" title="10.3.4 Programa ejemplo_10_4.f90">
+<link href="ch-clase_11.html#s-sec_p_11_1" rel="subsection" title="11.3.1 Programa ejemplo_11_1.f90">
+<link href="ch-clase_11.html#s-sec_p_11_2" rel="subsection" title="11.3.2 Programa ejemplo_11_2.f90">
+<link href="ch-clase_11.html#s-sec_p_11_3" rel="subsection" title="11.3.3 Programa ejemplo_11_3.f90">
+<link href="ch-clase_11.html#s-sec_p_11_4" rel="subsection" title="11.3.4 Programa ejemplo_11_4.f90">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_1" rel="subsection" title="12.3.1 Ejemplo de fichero make.inc para LAPACK">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_2" rel="subsection" title="12.3.2 Ejemplo de fichero make.inc para LAPACK95">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_3" rel="subsection" title="12.3.3 Ejemplo de programa que invoca LAPACK95">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_4" rel="subsection" title="12.3.4 Ejemplo de makefile para compilar programas que invocan LAPACK95">
+
+</head>
+
+<body>
+
+<p><a name="ch-clase_10"></a></p>
+<hr>
+
+<p>
+[ <a href="ch-clase_9.html">previous</a> ]
+[ <a href="index.html#contents">Contents</a> ]
+[ <a href="ch-clase_1.html">1</a> ]
+[ <a href="ch-clase_2.html">2</a> ]
+[ <a href="ch-clase_3.html">3</a> ]
+[ <a href="ch-clase_4.html">4</a> ]
+[ <a href="ch-clase_7.html">5</a> ]
+[ <a href="ch-clase_5.html">6</a> ]
+[ <a href="ch-clase_6.html">7</a> ]
+[ <a href="ch-clase_8.html">8</a> ]
+[ <a href="ch-clase_9.html">9</a> ]
+[ 10 ]
+[ <a href="ch-clase_11.html">11</a> ]
+[ <a href="ch-clase_blaslap.html">12</a> ]
+[ <a href="ch-cap_ref.html">13</a> ]
+[ <a href="ch-clase_11.html">next</a> ]
+</p>
+
+<hr>
+
+<h1>
+<code>Fortran 90</code> Lessons for Computational Chemistry
+<br>Chapter 10 - Subprogramas (III): módulos
+</h1>
+
+<hr>
+
+<h2 id="s-sec_101">10.1 Objetivos</h2>
+
+<p>
+Los objetivos de esta clase son los siguientes:
+</p>
+<ol type="1" start="1" >
+<li>
+<p>
+Presentar los módulos y las ventajas que aportan.
+</p>
+</li>
+</ol>
+<ol type="1" start="2" >
+<li>
+<p>
+Uso de módulos para la definición de variables.  Reemplazo de bloques
+<samp>COMMON</samp>.
+</p>
+</li>
+</ol>
+<ol type="1" start="3" >
+<li>
+<p>
+Uso de módulos para la definición de funciones y subrutinas.
+</p>
+</li>
+</ol>
+<ol type="1" start="4" >
+<li>
+<p>
+Definición de variables públicas y privadas en módulos.  Visibilidad en el
+módulo.
+</p>
+</li>
+</ol>
+
+<hr>
+
+<h2 id="s-sec_102">10.2 Puntos destacables.</h2>
+<ol type="1" start="1" >
+<li>
+<p>
+La definición de módulos permite escribir código de forma más clara y flexible.
+En un módulo podemos encontrar
+</p>
+<ol type="1" start="1" >
+<li>
+<p>
+Declaración global de variables.
+</p>
+
+<p>
+Reemplazan a las órdenes <samp>COMMON</samp> e <samp>INCLUDE</samp> de
+<code>FORTRAN 77</code>.
+</p>
+</li>
+</ol>
+<ol type="1" start="2" >
+<li>
+<p>
+Declaración de bloques <samp>INTERFACE</samp>.
+</p>
+</li>
+</ol>
+<ol type="1" start="3" >
+<li>
+<p>
+Declaración de funciones y subrutinas.  La declaración de funciones y
+subrutinas en un módulo es conveniente para evitar la inclusión de los
+correspondientes <samp>INTERFACE</samp>, ya que estos están ya implícitos en el
+módulo.
+</p>
+</li>
+</ol>
+<ol type="1" start="4" >
+<li>
+<p>
+Control del acceso a los objetos, lo que permite que ciertos objetos tengan
+carácter público y otros privado.
+</p>
+</li>
+</ol>
+<ol type="1" start="5" >
+<li>
+<p>
+Los módulos permiten empaquetar tipos derivados, funciones, subrutinas para
+proveer de capacidades de programación orientada a objetos.  Pueden también
+usarse para definir extensiones semánticas al lenguaje <code>FORTRAN</code>.
+</p>
+</li>
+</ol>
+
+<p>
+La sintaxis para la declaración de un módulo es la siguiente:
+</p>
+
+<pre>
+     MODULE <var>module name</var>
+        IMPLICIT NONE
+        SAVE
+          <var>declaraciones y especificaciones</var>
+        [ CONTAINS
+          <var>definición de subrutinas y funciones</var> ]
+     END MODULE  <var>module name</var>
+</pre>
+
+<p>
+La carga del módulo se hace mediante la orden <samp>USE MODULE <var>module
+name</var></samp> que debe preceder al resto de órdenes de la unidad de
+programa en el que se incluya.  Desde un módulo puede llamarse a otro módulo.
+A continuación desarrollamos brevemente estas ideas.
+</p>
+</li>
+</ol>
+<ol type="1" start="2" >
+<li>
+<p>
+Una de las funciones de los módulos es permitir el intercambio de variables
+entre diferentes programas y subrutinas sin recurrir a los argumentos.  La otra
+función principal es, haciendo uso de <samp>CONTAINS</samp>, definir funciones,
+subrutines y bloques <samp>INTERFACE</samp>.
+</p>
+
+<p>
+La inclusión de estas unidades en un módulo hace que todos los detalles acerca
+de las subrutinas y funciones implicadas sean conocidas para el compilador lo
+que permite una más rápida detección de errores.  Cuando una subrutina o una
+función se compila en un módulo y se hace accesible mediante <samp>USE
+MODULE</samp> se dice que tiene una interfaz explícita (<em>explicit
+interface</em>), mientras que en caso contrario se dice que tiene una interfaz
+implícita (<em>implicit interface</em>).
+</p>
+</li>
+</ol>
+<ol type="1" start="3" >
+<li>
+<p>
+La definición de módulos favorece la llamada <em>encapsulación</em>, que
+consiste en definir secciones de código que resultan fácilmente aplicables en
+diferentes situaciones.  En esto consiste la base de la llamada programación
+orientada a objetos.  En el <a href="#s-sec_p_10_1">Programa ejemplo_10_1.f90,
+Section 10.3.1</a> presentamos como se define un módulo (usando la orden
+<samp>MODULE</samp> en vez de <samp>PROGRAM</samp> para la definición de un
+<em>stack</em> de enteros.  Es importante tener en cuenta como se definen en el
+módulo las variables <samp>STACK_POS</samp> y <samp>STORE</samp> con el
+atributo <samp>SAVE</samp>, para que su valor se conserve entre llamadas.  Esto
+es especialmente importante cuando el módulo se llama desde una subrutina o
+función en vez de desde el programa principal.
+</p>
+</li>
+</ol>
+<ol type="1" start="4" >
+<li>
+<p>
+Este módulo puede ser accedido por otra unidad de programa que lo cargue usando
+la orden <samp>USE</samp>.  Debe compilarse previamente a la unidad de programa
+que lo cargue.
+</p>
+
+<pre>
+     PROGRAM Uso_Stack
+     !
+     USE Stack     ! CARGA EL MODULO 
+     !
+     IMPLICIT NONE
+     ....
+     ....
+     CALL POP(23); CAL PUSH(20)
+     ....
+     ....
+     END PROGRAM Uso_Stack
+</pre>
+</li>
+</ol>
+<ol type="1" start="5" >
+<li>
+<p>
+Como vemos en el <a href="#s-sec_p_10_1">Programa ejemplo_10_1.f90, Section
+10.3.1</a> las variables dentro de un módulo pueden definirse como variables
+privadas, con el atributo <samp>PRIVATE</samp>.  Esto permite que no se pueda
+acceder a estas variables desde el código que usa el módulo.  El programa que
+carga el módulo solo puede acceder a las subrutinas <samp>POP</samp> y
+<samp>PUSH</samp>.  La visibilidad por defecto al definir una variable o
+procedimiento en un módulo es <samp>PUBLIC</samp>.  Es posible añadir el
+atributo a la definición de las variables
+</p>
+
+<pre>
+       INTEGER, PRIVATE, PARAMETER :: STACK_SIZE = 500
+       INTEGER, PRIVATE, SAVE :: STORE(STACK_SIZE) = 0, STACK_POS = 0
+</pre>
+</li>
+</ol>
+<ol type="1" start="6" >
+<li>
+<p>
+En ocasiones es posible que variables o procedimientos definidos en un módulo
+entren en conflicto con variables del programa que usa el módulo.  Para evitar
+esto existe la posibilidad de renombrar las variables que carga el módulo,
+aunque esto solo debe hacerse cuando sea estrictamente necesario.
+</p>
+
+<p>
+Si, por ejemplo, llamamos al módulo <samp>Stack</samp> desde un programa que ya
+tiene una variable llamada <samp>PUSH</samp> podemos renombrar el objeto
+<samp>PUSH</samp> del módulo a <samp>STACK_PUSH</samp> al invocar el módulo
+</p>
+
+<pre>
+     USE Stack, STACK_PUSH =&gt; PUSH
+</pre>
+
+<p>
+Se pueden renombrar varios objetos, separándolos por comas.
+</p>
+</li>
+</ol>
+<ol type="1" start="7" >
+<li>
+<p>
+Es posible hacer que solo algunos elementos del módulo sean accesibles desde el
+programa que lo invoca con la cláusula <samp>ONLY</samp>, donde también es
+posible renombrar los objetos si es necesario.  Por ejemplo, con la llamada
+</p>
+
+<pre>
+     USE Stack, ONLY: POP, STACK_PUSH =&gt; PUSH
+</pre>
+
+<p>
+Solamente se accede a <samp>POP</samp> y <samp>PUSH</samp>, y este último se
+renombra a <samp>STACK_PUSH</samp>.
+</p>
+</li>
+</ol>
+<ol type="1" start="8" >
+<li>
+<p>
+Para definir variables comunes a diferentes partes de un programa se debe
+evitar el uso de variables en <samp>COMMON</samp> y, en vez de ello, se siguen
+los pasos siguientes.
+</p>
+<ol type="1" start="1" >
+<li>
+<p>
+Declarar las variables necesarias en un <samp>MODULE</samp>.
+</p>
+</li>
+</ol>
+<ol type="1" start="2" >
+<li>
+<p>
+Otorgar a estas variables el atributo <samp>SAVE</samp>.
+</p>
+</li>
+</ol>
+<ol type="1" start="3" >
+<li>
+<p>
+Cargar este módulo (<samp>USE</samp> <var>module_name</var>) desde aquellas
+unidades que necesiten acceso a estos datos globales.
+</p>
+</li>
+</ol>
+
+<p>
+Por ejemplo, si existen una serie de constantes físicas que utilizaremos en
+varios programas podemos definirlas en un módulo:
+</p>
+
+<pre>
+     MODULE PHYS_CONST
+       !
+       IMPLICIT NONE
+       !
+       SAVE
+       !
+       REAL, PARAMETER :: Light_Speed = 2.99792458E08  ! m/s
+       REAL, PARAMETER :: Newton_Ctnt = 6.67428E-11    ! m3 kg-1 s-2
+       REAL, PARAMETER :: Planck_Ctnt = 4.13566733E-15 ! eV s
+       !
+       REAL :: Otra_variable
+       !
+     END MODULE PHYS_CONST
+</pre>
+
+<p>
+En este módulo se definen tres constantes físicas (con el atributo
+<samp>PARAMETER</samp>, ya que son constantes) y una cuarta variable a la que
+se desea acceder que no permanece constante.  En cualquier programa, función o
+subrutina que quieran usarse estas variables basta con cargar el módulo
+</p>
+
+<pre>
+     PROGRAM CALCULUS
+       !
+       USE PHYS_CONST 
+       !
+       IMPLICIT NONE
+       !
+       REAL DISTANCE, TIME
+       !
+       ...
+       DISTANCE = Light_Speed*TIME
+       ...
+       !
+     END PROGRAM CALCULUS
+</pre>
+</li>
+</ol>
+<ol type="1" start="9" >
+<li>
+<p>
+El <a href="#s-sec_p_10_2">Programa ejemplo_10_2.f90, Section 10.3.2</a> es un
+programa simple donde se utiliza el módulo para el manejo de un stack
+presentado para realizar operaciones (adición y substracción) con enteros en
+notación polaca inversa (RPN, reverse Polish notation).
+</p>
+
+<p>
+Esta notación permite no usar paréntesis en las operaciones algebraicas y
+resulta más rápida que la notación usual.  Si, por ejemplo, en el stack existen
+los números <samp>(23, 10, 33)</samp> y tenemos en cuenta que un stack se rige
+por el principio <em>last in, first out</em>, tendremos que si introducimos un
+número más (p.e.  <samp>5</samp>) y realizamos las operaciones de suma
+(<samp>plus</samp>) y substracción (<samp>minus</samp>) tendremos lo siguiente
+</p>
+
+<pre>
+     -       -         -              -
+     -       23        -              -
+     23      10        23             -
+     10      33        10             23
+     33   -&gt;  5   -&gt;   38 (=33+5) -&gt; -28 (=10-38)
+     
+     5      plus      minus
+</pre>
+
+<p>
+Para llevar a cabo esta tarea se carga el módulo <samp>Stack</samp> en
+<em>(1)</em>.  Una vez cargado el módulo podemos acceder a las subrutinas
+<samp>POP</samp> y <samp>PUSH</samp> que nos permiten manejar el stack.  En
+<em>(2)</em> comienza el bucle principal, con la etiqueta <samp>inloop</samp>,
+que termina cuando el usuario da como input <samp>Q</samp>, <samp>q</samp> o
+<samp>quit</samp>.
+</p>
+
+<p>
+Para controlar este bucle se utiliza una estructura <samp>SELECT CASE</samp>
+que comienza en <em>(3)</em>.  Esta estructura analiza cuatro casos posibles:
+</p>
+<ul>
+<li>
+<p>
+<em>(4)</em>: salir del programa
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+<em>(5)</em>: suma
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+<em>(6)</em>: resta
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+<em>(7)</em>: introduce número en el stack (<samp>DEFAULT</samp>)
+</p>
+</li>
+</ul>
+
+<p>
+En el último caso se transforma la variable de carácter leída en una variable
+entera para almacenarla en el stack.
+</p>
+
+<p>
+Para compilar y correr este programa podemos hacerlo compilando previamente el
+módulo, si lo hemos salvado en el fichero <code>ejemplo_10_1_Stack.f90</code>
+</p>
+
+<pre>
+     $ gfortran -c ejemplo_10_1_Stack.f90
+     $ gfortran -o ejemplo_10_2 ejemplo_10_2.f90 ejemplo_10_1_Stack.o
+</pre>
+</li>
+</ol>
+<ol type="1" start="10" >
+<li>
+<p>
+El uso de módulos también permite, de forma flexible, segura y fácil de
+modificar, controlar la precisión de los números reales (o enteros) en los
+cálculos que se lleven a cabo.  Una posible forma de definir de forma portable
+la doble precisión es mediante un sencillo módulo, llamado
+<samp>dble_prec</samp>.  Como vimos en el programa <a
+href="ch-clase_2.html#s-sec_p_2_6"><samp>excode_2_6.f90</samp>, Section
+2.3.6</a> los números reales de doble precisión tienen un <samp>KIND =
+8</samp>.  Para hacer el código independiente de la plataforma donde compilemos
+podemos hacer
+</p>
+
+<pre>
+     MODULE dble_prec
+       IMPLICIT NONE
+       INTEGER, PARAMETER :: dbl = KIND(1.0D0)
+     END MODULE dble_prec
+</pre>
+
+<p>
+Por tanto podemos definir esa precisión cargando este módulo, p.e.
+</p>
+
+<pre>
+     PROGRAM TEST_MINUIT
+       !
+       USE dble_prec
+       !
+       IMPLICIT NONE
+       !
+       ! Variable Definition     
+       REAL(KIND=dbl), PARAMETER :: PI = 4.0_dbl*ATAN(1.0_dbl)
+       REAL(KIND=dbl) :: ENERF
+        ....
+        ....
+</pre>
+
+<p>
+Esto favorece la portabilidad y reduce el riesgo de errores ya que para cambiar
+la precisión con la que se trabaja solamente es necesario editar el módulo.  En
+el <a href="#s-sec_p_10_3">Programa ejemplo_10_3.f90, Section 10.3.3</a>
+introducimos esta mejora en el programa <a
+href="ch-clase_9.html#s-sec_p_9_6">Programa ejemplo_9_6.f90, Section 9.3.6</a>.
+Se almacena el módulo simple anteriormente descrito en un fichero llamado,
+p.e., <code>dble_prec.f90</code> y se compila previamente:
+</p>
+
+<pre>
+     $ gfortran -c dble_prec.f90
+     $ gfortran -o ejemplo_10_3 ejemplo_10_3.f90 dble_prec.o
+</pre>
+</li>
+</ol>
+
+<p>
+Un módulo más completo, donde se definen diferentes tipos de enteros y de
+reales es el dado en el programa <a href="#s-sec_p_10_4">Programa
+ejemplo_10_4.f90, Section 10.3.4</a>.
+</p>
+
+<p>
+En un ejercicio se plantean al alumnos diferentes maneras de mejorar el
+programa simple <a href="#s-sec_p_10_2">Programa ejemplo_10_2.f90, Section
+10.3.2</a>.
+</p>
+
+<hr>
+
+<h2 id="s-sec_103">10.3 Programas usados como ejemplo.</h2>
+
+<hr>
+
+<h3 id="s-sec_p_10_1">10.3.1 Programa ejemplo_10_1.f90</h3>
+
+<pre>
+     MODULE Stack
+       ! 
+       ! MODULE THAT DEFINES A BASIC STACK
+       !
+       IMPLICIT NONE
+       !
+       SAVE
+       !
+       INTEGER, PARAMETER :: STACK_SIZE = 500
+       INTEGER :: STORE(STACK_SIZE) = 0, STACK_POS = 0
+       !
+       PRIVATE :: STORE, STACK_POS, STACK_SIZE
+       PUBLIC :: POP, PUSH
+       !
+       CONTAINS
+         !
+         SUBROUTINE PUSH(I)
+           !
+           INTEGER, INTENT(IN) :: I
+           !
+           IF (STACK_POS &lt; STACK_SIZE) THEN
+              !
+              STACK_POS = STACK_POS + 1; STORE(STACK_POS) = I
+              !
+           ELSE
+              !
+              STOP &quot;FULL STACK ERROR&quot;
+              !
+           ENDIF
+           !
+         END SUBROUTINE PUSH
+     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+         SUBROUTINE POP(I)
+           !
+           INTEGER, INTENT(OUT) :: I
+           !
+           IF (STACK_POS &gt; 0) THEN
+              !
+              I = STORE(STACK_POS); STACK_POS = STACK_POS - 1
+              !
+           ELSE
+              !
+              STOP &quot;EMPTY STACK ERROR&quot;
+              !
+           ENDIF
+           !
+         END SUBROUTINE POP
+         !
+     END MODULE Stack
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_10_2">10.3.2 Programa ejemplo_10_2.f90</h3>
+
+<pre>
+     PROGRAM RPN_CALC
+       !
+       ! SIMPLE INTEGER RPN CALCULATOR (ONLY SUM AND SUBSTRACT)
+       !
+       USE Stack                 !!        (1)
+       !
+       IMPLICIT NONE
+       !
+       INTEGER :: KEYB_DATA
+       CHARACTER(LEN=10) :: INPDAT
+       !
+       INTEGER :: I, J, K, DATL, NUM, RES
+       !
+       !
+       inloop: DO      !! MAIN LOOP        (2)
+          !
+          READ 100, INPDAT
+          !
+          SELECT CASE (INPDAT)   !!        (3)
+             !
+          CASE ('Q','q')  !! EXIT          (4)
+             PRINT*, &quot;End of program&quot;
+             EXIT inloop
+          CASE ('plus','Plus','PLUS','+')   !! SUM              (5)        
+             CALL POP(J)
+             CALL POP(K)
+             RES = K + J
+             PRINT 120, K, J, RES
+             CALL PUSH(RES)
+          CASE ('minus','Minus','MINUS','-')   !! SUBSTRACT        (6)
+             CALL POP(J)
+             CALL POP(K)
+             RES = K - J
+             PRINT 130, K, J, RES
+             CALL PUSH(RES)
+          CASE DEFAULT !! NUMBER TO STACK  (7)
+             !
+             DATL = LEN_TRIM(INPDAT)
+             !
+             RES = 0
+             DO I = DATL, 1, -1
+                NUM = IACHAR(INPDAT(I:I)) - 48
+                RES = RES + NUM*10**(DATL-I)
+             ENDDO
+             !
+             PRINT 110, RES
+             CALL PUSH(RES)
+          END SELECT
+          !
+       ENDDO inloop
+       !
+     100 FORMAT(A10)
+     110 FORMAT(1X, I10)
+     120 FORMAT(1X, I10,' + ', I10,' = ', I20)
+     130 FORMAT(1X, I10,' - ', I10,' = ', I20)
+     END PROGRAM RPN_CALC
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_10_3">10.3.3 Programa ejemplo_10_3.f90</h3>
+
+<pre>
+     PROGRAM ejemplo_10_3
+       !
+       USE dble_prec
+       !
+       IMPLICIT NONE
+       !
+       INTEGER :: I, IERR
+       REAL(KIND=dbl), DIMENSION(:), ALLOCATABLE :: X, Y
+       REAL(KIND=dbl) :: M, SD, MEDIAN
+       ! interface block   
+       INTERFACE
+          SUBROUTINE STATS(VECTOR,N,MEAN,STD_DEV,MEDIAN)
+            !
+            USE dble_prec
+            !
+            IMPLICIT NONE
+            INTEGER , INTENT(IN)                    ::  N
+            REAL(KIND=dbl)      , INTENT(IN) , DIMENSION(:)   :: VECTOR  
+            REAL(KIND=dbl)      , INTENT(OUT)                 :: MEAN
+            REAL(KIND=dbl)      , INTENT(OUT)                 :: STD_DEV
+            REAL(KIND=dbl)      , INTENT(OUT)                 :: MEDIAN
+          END SUBROUTINE STATS
+       END INTERFACE
+       !
+       READ*, I  
+       !
+       ALLOCATE(X(1:I), STAT = IERR)    
+       IF (IERR /= 0) THEN
+          PRINT*, &quot;X allocation request denied.&quot;
+          STOP
+       ENDIF
+       !
+       ALLOCATE(Y(1:I), STAT = IERR)    
+       IF (IERR /= 0) THEN
+          PRINT*, &quot;Y allocation request denied.&quot;
+          STOP
+       ENDIF
+       !
+       CALL BOX_MULLER(I)
+       !
+       PRINT*, X
+       CALL STATS(X,I,M,SD,MEDIAN)
+       !
+       PRINT *,' MEAN = ',M
+       PRINT *,' STANDARD DEVIATION = ',SD
+       PRINT *,' MEDIAN IS = ',MEDIAN
+       !
+       IF (ALLOCATED(X)) DEALLOCATE(X, STAT = IERR) 
+       IF (IERR /= 0) THEN
+          PRINT*, &quot;X NON DEALLOCATED!&quot;
+          STOP
+       ENDIF
+       PRINT*, Y
+       CALL STATS(Y,I,M,SD,MEDIAN)
+       !
+       PRINT *,' MEAN = ',M
+       PRINT *,' STANDARD DEVIATION = ',SD
+       PRINT *,' MEDIAN IS = ',MEDIAN
+       !
+       IF (ALLOCATED(Y)) DEALLOCATE(Y, STAT = IERR)   
+       IF (IERR /= 0) THEN
+          PRINT*, &quot;Y NON DEALLOCATED!&quot;
+          STOP
+       ENDIF
+       !
+     CONTAINS
+       !
+       SUBROUTINE BOX_MULLER(dim)
+         ! 
+         ! Uses the Box-Muller method to create two normally distributed vectors
+         !
+         INTEGER, INTENT(IN) :: dim
+         !
+         REAL(KIND=dbl), PARAMETER :: PI = ACOS(-1.0_dbl)
+         REAL(KIND=dbl), DIMENSION(dim) :: RANDOM_u, RANDOM_v ! Automatic arrays
+         !
+         CALL RANDOM_NUMBER(RANDOM_u)
+         CALL RANDOM_NUMBER(RANDOM_v)
+         !
+         X = SQRT(-2.0_dbl*LOG(RANDOM_u))
+         Y = X*SIN(2.0_dbl*PI*RANDOM_v)
+         X = X*COS(2.0_dbl*PI*RANDOM_v)
+         !
+       END SUBROUTINE BOX_MULLER
+       !
+     END PROGRAM ejemplo_10_3
+     SUBROUTINE STATS(VECTOR,N,MEAN,STD_DEV,MEDIAN)
+       USE dble_prec
+       IMPLICIT NONE
+       ! Defincion de variables
+       INTEGER , INTENT(IN)                    ::  N
+       REAL(KIND=dbl)      , INTENT(IN) , DIMENSION(:)    ::  VECTOR    !! (1)
+       REAL(KIND=dbl)      , INTENT(OUT)                  ::  MEAN
+       REAL(KIND=dbl)      , INTENT(OUT)                  ::  STD_DEV
+       REAL(KIND=dbl)      , INTENT(OUT)                  ::  MEDIAN
+       REAL(KIND=dbl)      , DIMENSION(1:N)              ::  Y
+       REAL(KIND=dbl)      :: VARIANCE = 0.0_dbl
+       REAL(KIND=dbl)      :: SUMXI = 0.0_dbl, SUMXI2 = 0.0_dbl
+       !
+       SUMXI=SUM(VECTOR)       !! (6)
+       SUMXI2=SUM(VECTOR*VECTOR)    !! (6)
+       MEAN=SUMXI/N       
+       VARIANCE=(SUMXI2-SUMXI*SUMXI/N)/(N-1)
+       STD_DEV = SQRT(VARIANCE)
+       Y=VECTOR
+       ! Ordena valores por proceso de seleccion
+       CALL SELECTION
+       IF (MOD(N,2) == 0) THEN
+          MEDIAN=(Y(N/2)+Y((N/2)+1))/2
+       ELSE
+          MEDIAN=Y((N/2)+1)
+       ENDIF
+     CONTAINS     !! (7)
+       SUBROUTINE SELECTION
+         IMPLICIT NONE
+         INTEGER :: I,J,K
+         REAL :: MINIMUM
+         DO I=1,N-1
+            K=I
+            MINIMUM=Y(I)
+            DO J=I+1,N
+               IF (Y(J) &lt; MINIMUM) THEN
+                  K=J
+                  MINIMUM=Y(K)
+               END IF
+            END DO
+            Y(K)=Y(I)
+            Y(I)=MINIMUM
+         END DO
+       END SUBROUTINE SELECTION
+     END SUBROUTINE STATS
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_10_4">10.3.4 Programa ejemplo_10_4.f90</h3>
+
+<pre>
+     MODULE NUMERIC_KINDS
+       ! 4, 2, AND 1 BYTE INTEGERS
+       INTEGER, PARAMETER :: &amp;
+            i4b = SELECTED_INT_KIND(9), &amp;
+            i2b = SELECTED_INT_KIND(4), &amp;
+            i1b = SELECTED_INT_KIND(2)
+       ! SINGLE, DOUBLE, AND QUADRUPLE PRECISION
+       INTEGER, PARAMETER :: &amp;
+            sp = KIND(1.0), &amp;
+            dp = SELECTED_REAL_KIND(2*PRECISION(1.0_sp)), &amp;
+            qp = SELECTED_REAL_KIND(2*PRECISION(1.0_dp))
+     END MODULE NUMERIC_KINDS
+</pre>
+
+<hr>
+
+<p>
+[ <a href="ch-clase_9.html">previous</a> ]
+[ <a href="index.html#contents">Contents</a> ]
+[ <a href="ch-clase_1.html">1</a> ]
+[ <a href="ch-clase_2.html">2</a> ]
+[ <a href="ch-clase_3.html">3</a> ]
+[ <a href="ch-clase_4.html">4</a> ]
+[ <a href="ch-clase_7.html">5</a> ]
+[ <a href="ch-clase_5.html">6</a> ]
+[ <a href="ch-clase_6.html">7</a> ]
+[ <a href="ch-clase_8.html">8</a> ]
+[ <a href="ch-clase_9.html">9</a> ]
+[ 10 ]
+[ <a href="ch-clase_11.html">11</a> ]
+[ <a href="ch-clase_blaslap.html">12</a> ]
+[ <a href="ch-cap_ref.html">13</a> ]
+[ <a href="ch-clase_11.html">next</a> ]
+</p>
+
+<hr>
+
+<p>
+<code>Fortran 90</code> Lessons for Computational Chemistry
+</p>
+
+<address>
+0.0<br>
+<br>
+Curro Pérez-Bernal <code><a href="mailto:francisco.perez@dfaie.uhu.es">mailto:francisco.perez@dfaie.uhu.es</a></code><br>
+<br>
+</address>
+<hr>
+
+</body>
+
+</html>
+

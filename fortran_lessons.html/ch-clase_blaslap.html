@@ -1,0 +1,713 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+
+<html>
+
+<head>
+
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+
+<title>Fortran 90 Lessons for Computational Chemistry - Instalación y uso de las bibliotecas BLAS y LAPACK</title>
+
+<link href="index.html" rel="start">
+<link href="ch-clase_11.html" rel="prev">
+<link href="ch-cap_ref.html" rel="next">
+<link href="index.html#contents" rel="contents">
+<link href="index.html#copyright" rel="copyright">
+<link href="ch-clase_1.html" rel="chapter" title="1 Introduction">
+<link href="ch-clase_2.html" rel="chapter" title="2 Basic Operations">
+<link href="ch-clase_3.html" rel="chapter" title="3 Introduction to Fortran Arrays">
+<link href="ch-clase_4.html" rel="chapter" title="4 More on Arrays">
+<link href="ch-clase_7.html" rel="chapter" title="5 Control Structures">
+<link href="ch-clase_5.html" rel="chapter" title="6 INPUT/OUTPUT) (I)">
+<link href="ch-clase_6.html" rel="chapter" title="7 Operaciones I/O (II)">
+<link href="ch-clase_8.html" rel="chapter" title="8 Subprogramas (I): funciones">
+<link href="ch-clase_9.html" rel="chapter" title="9 Subprogramas (II): subrutinas">
+<link href="ch-clase_10.html" rel="chapter" title="10 Subprogramas (III): módulos">
+<link href="ch-clase_11.html" rel="chapter" title="11 Subprogramas (IV)">
+<link href="ch-clase_blaslap.html" rel="chapter" title="12 Instalación y uso de las bibliotecas BLAS y LAPACK">
+<link href="ch-cap_ref.html" rel="chapter" title="13 Referencias">
+<link href="ch-clase_1.html#s-sec_11" rel="section" title="1.1 Objectives">
+<link href="ch-clase_1.html#s-sec_12" rel="section" title="1.2 Main items.">
+<link href="ch-clase_1.html#s-sec_13" rel="section" title="1.3 Example Codes.">
+<link href="ch-clase_2.html#s-sec_21" rel="section" title="2.1 Objectives">
+<link href="ch-clase_2.html#s-sec_22" rel="section" title="2.2 Main items.">
+<link href="ch-clase_2.html#s-sec_23" rel="section" title="2.3 Example Codes.">
+<link href="ch-clase_3.html#s-sec_31" rel="section" title="3.1 Objectivos">
+<link href="ch-clase_3.html#s-sec_32" rel="section" title="3.2 Main items.">
+<link href="ch-clase_3.html#s-sec_33" rel="section" title="3.3 Example Codes.">
+<link href="ch-clase_4.html#s-sec_41" rel="section" title="4.1 Objectives">
+<link href="ch-clase_4.html#s-sec_42" rel="section" title="4.2 Main items.">
+<link href="ch-clase_4.html#s-sec_43" rel="section" title="4.3 Example Codes.">
+<link href="ch-clase_7.html#s-sec_71" rel="section" title="5.1 Objectivos">
+<link href="ch-clase_7.html#s-sec_72" rel="section" title="5.2 Main items.">
+<link href="ch-clase_7.html#s-sec_73" rel="section" title="5.3 Example codes.">
+<link href="ch-clase_5.html#s-sec_51" rel="section" title="6.1 Objectivos">
+<link href="ch-clase_5.html#s-sec_52" rel="section" title="6.2 Main Items.">
+<link href="ch-clase_5.html#s-sec_53" rel="section" title="6.3 Programas usados como ejemplo.">
+<link href="ch-clase_6.html#s-sec_61" rel="section" title="7.1 Objetivos">
+<link href="ch-clase_6.html#s-sec_62" rel="section" title="7.2 Puntos destacables.">
+<link href="ch-clase_6.html#s-sec_63" rel="section" title="7.3 Programas usados como ejemplo.">
+<link href="ch-clase_8.html#s-sec_81" rel="section" title="8.1 Objetivos">
+<link href="ch-clase_8.html#s-sec_82" rel="section" title="8.2 Puntos destacables.">
+<link href="ch-clase_8.html#s-sec_83" rel="section" title="8.3 Programas usados como ejemplo.">
+<link href="ch-clase_9.html#s-sec_91" rel="section" title="9.1 Objetivos">
+<link href="ch-clase_9.html#s-sec_92" rel="section" title="9.2 Puntos destacables.">
+<link href="ch-clase_9.html#s-sec_93" rel="section" title="9.3 Programas usados como ejemplo.">
+<link href="ch-clase_10.html#s-sec_101" rel="section" title="10.1 Objetivos">
+<link href="ch-clase_10.html#s-sec_102" rel="section" title="10.2 Puntos destacables.">
+<link href="ch-clase_10.html#s-sec_103" rel="section" title="10.3 Programas usados como ejemplo.">
+<link href="ch-clase_11.html#s-sec_111" rel="section" title="11.1 Objetivos">
+<link href="ch-clase_11.html#s-sec_112" rel="section" title="11.2 Puntos destacables.">
+<link href="ch-clase_11.html#s-sec_113" rel="section" title="11.3 Programas usados como ejemplo.">
+<link href="ch-clase_blaslap.html#s-sec_bl1" rel="section" title="12.1 Objetivos">
+<link href="ch-clase_blaslap.html#s-sec_bl2" rel="section" title="12.2 Puntos destacables.">
+<link href="ch-clase_blaslap.html#s-sec_bl3" rel="section" title="12.3 Programas usados como ejemplo.">
+<link href="ch-clase_1.html#s-sec_p_1_1" rel="subsection" title="1.3.1 excode_1_1.f90">
+<link href="ch-clase_1.html#s-sec_p_1_2" rel="subsection" title="1.3.2 excode_1_2.f90">
+<link href="ch-clase_2.html#s-sec_p_2_1" rel="subsection" title="2.3.1 excode_2_1.f90">
+<link href="ch-clase_2.html#s-sec_p_2_2" rel="subsection" title="2.3.2 excode_2_2.f90">
+<link href="ch-clase_2.html#s-sec_p_2_3" rel="subsection" title="2.3.3 excode_2_3.f90">
+<link href="ch-clase_2.html#s-sec_p_2_4" rel="subsection" title="2.3.4 excode_2_4.f90">
+<link href="ch-clase_2.html#s-sec_p_2_5" rel="subsection" title="2.3.5 excode_2_5.f90">
+<link href="ch-clase_2.html#s-sec_p_2_6" rel="subsection" title="2.3.6 excode_2_6.f90">
+<link href="ch-clase_3.html#s-sec_p_3_1" rel="subsection" title="3.3.1 excode_3_1.f90">
+<link href="ch-clase_3.html#s-sec_p_3_2" rel="subsection" title="3.3.2 excode_3_2.f90">
+<link href="ch-clase_3.html#s-sec_p_3_3" rel="subsection" title="3.3.3 excode_3_3.f90">
+<link href="ch-clase_3.html#s-sec_p_3_4" rel="subsection" title="3.3.4 excode_3_4.f90">
+<link href="ch-clase_4.html#s-sec_p_4_1" rel="subsection" title="4.3.1 excode_4_1.f90">
+<link href="ch-clase_4.html#s-sec_p_4_2" rel="subsection" title="4.3.2 excode_4_2.f90">
+<link href="ch-clase_4.html#s-sec_p_4_3" rel="subsection" title="4.3.3 excode_4_3.f90">
+<link href="ch-clase_4.html#s-sec_p_4_4" rel="subsection" title="4.3.4 excode_4_4.f90">
+<link href="ch-clase_4.html#s-sec_p_4_5" rel="subsection" title="4.3.5 excode_4_5.f90">
+<link href="ch-clase_4.html#s-sec_p_4_6" rel="subsection" title="4.3.6 excode_4_6.f90">
+<link href="ch-clase_7.html#s-sec_p_7_1" rel="subsection" title="5.3.1 excode_5_1.f90">
+<link href="ch-clase_7.html#s-sec_p_7_2" rel="subsection" title="5.3.2 excode_5_2.f90">
+<link href="ch-clase_7.html#s-sec_p_7_3" rel="subsection" title="5.3.3 excode_5_3.f90">
+<link href="ch-clase_7.html#s-sec_p_7_4" rel="subsection" title="5.3.4 Programa ejemplo_5_4.f90">
+<link href="ch-clase_5.html#s-sec_p_5_1" rel="subsection" title="6.3.1 excode_6_1.f90">
+<link href="ch-clase_5.html#s-sec_p_5_2" rel="subsection" title="6.3.2 excode_6_2.f90">
+<link href="ch-clase_5.html#s-sec_p_5_3" rel="subsection" title="6.3.3 excode_6_3.f90">
+<link href="ch-clase_5.html#s-sec_p_5_4" rel="subsection" title="6.3.4 excode_6_4.f90">
+<link href="ch-clase_5.html#s-sec_p_5_5" rel="subsection" title="6.3.5 excode_6_5.f90">
+<link href="ch-clase_5.html#s-sec_p_5_6" rel="subsection" title="6.3.6 excode_6_6.f90">
+<link href="ch-clase_5.html#s-sec_p_5_7" rel="subsection" title="6.3.7 excode_6_7.f90">
+<link href="ch-clase_6.html#s-sec_p_6_1" rel="subsection" title="7.3.1 Programa ejemplo_7_1.f90">
+<link href="ch-clase_6.html#s-sec_p_6_2" rel="subsection" title="7.3.2 Programa ejemplo_7_2.f90">
+<link href="ch-clase_6.html#s-sec_p_6_22" rel="subsection" title="7.3.3 Script ej_here_file">
+<link href="ch-clase_6.html#s-sec_p_6_3" rel="subsection" title="7.3.4 Programa ejemplo_7_3.f90">
+<link href="ch-clase_6.html#s-sec_p_6_32" rel="subsection" title="7.3.5 namelist input file">
+<link href="ch-clase_6.html#s-sec_p_6_4" rel="subsection" title="7.3.6 Programa ejemplo_7_4.f90">
+<link href="ch-clase_8.html#s-sec_p_8_1" rel="subsection" title="8.3.1 Programa ejemplo_8_1.f90">
+<link href="ch-clase_8.html#s-sec_p_8_2" rel="subsection" title="8.3.2 Programa ejemplo_8_2.f90">
+<link href="ch-clase_8.html#s-sec_p_8_3" rel="subsection" title="8.3.3 Programa ejemplo_8_3.f90">
+<link href="ch-clase_8.html#s-sec_p_8_4" rel="subsection" title="8.3.4 Programa ejemplo_8_4.f90">
+<link href="ch-clase_8.html#s-sec_p_8_5" rel="subsection" title="8.3.5 Programa ejemplo_8_5.f90">
+<link href="ch-clase_8.html#s-sec_p_8_6" rel="subsection" title="8.3.6 Programa ejemplo_8_6.f90">
+<link href="ch-clase_9.html#s-sec_p_9_1" rel="subsection" title="9.3.1 Programa ejemplo_9_1.f90">
+<link href="ch-clase_9.html#s-sec_p_9_2" rel="subsection" title="9.3.2 Programa ejemplo_9_2.f90">
+<link href="ch-clase_9.html#s-sec_p_9_3" rel="subsection" title="9.3.3 Programa ejemplo_9_3.f90">
+<link href="ch-clase_9.html#s-sec_p_9_4" rel="subsection" title="9.3.4 Programa ejemplo_9_4.f90">
+<link href="ch-clase_9.html#s-sec_p_9_5" rel="subsection" title="9.3.5 Programa ejemplo_9_5.f90">
+<link href="ch-clase_9.html#s-sec_p_9_6" rel="subsection" title="9.3.6 Programa ejemplo_9_6.f90">
+<link href="ch-clase_9.html#s-sec_p_9_7" rel="subsection" title="9.3.7 Programa ejemplo_9_7.f90">
+<link href="ch-clase_10.html#s-sec_p_10_1" rel="subsection" title="10.3.1 Programa ejemplo_10_1.f90">
+<link href="ch-clase_10.html#s-sec_p_10_2" rel="subsection" title="10.3.2 Programa ejemplo_10_2.f90">
+<link href="ch-clase_10.html#s-sec_p_10_3" rel="subsection" title="10.3.3 Programa ejemplo_10_3.f90">
+<link href="ch-clase_10.html#s-sec_p_10_4" rel="subsection" title="10.3.4 Programa ejemplo_10_4.f90">
+<link href="ch-clase_11.html#s-sec_p_11_1" rel="subsection" title="11.3.1 Programa ejemplo_11_1.f90">
+<link href="ch-clase_11.html#s-sec_p_11_2" rel="subsection" title="11.3.2 Programa ejemplo_11_2.f90">
+<link href="ch-clase_11.html#s-sec_p_11_3" rel="subsection" title="11.3.3 Programa ejemplo_11_3.f90">
+<link href="ch-clase_11.html#s-sec_p_11_4" rel="subsection" title="11.3.4 Programa ejemplo_11_4.f90">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_1" rel="subsection" title="12.3.1 Ejemplo de fichero make.inc para LAPACK">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_2" rel="subsection" title="12.3.2 Ejemplo de fichero make.inc para LAPACK95">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_3" rel="subsection" title="12.3.3 Ejemplo de programa que invoca LAPACK95">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_4" rel="subsection" title="12.3.4 Ejemplo de makefile para compilar programas que invocan LAPACK95">
+
+</head>
+
+<body>
+
+<p><a name="ch-clase_blaslap"></a></p>
+<hr>
+
+<p>
+[ <a href="ch-clase_11.html">previous</a> ]
+[ <a href="index.html#contents">Contents</a> ]
+[ <a href="ch-clase_1.html">1</a> ]
+[ <a href="ch-clase_2.html">2</a> ]
+[ <a href="ch-clase_3.html">3</a> ]
+[ <a href="ch-clase_4.html">4</a> ]
+[ <a href="ch-clase_7.html">5</a> ]
+[ <a href="ch-clase_5.html">6</a> ]
+[ <a href="ch-clase_6.html">7</a> ]
+[ <a href="ch-clase_8.html">8</a> ]
+[ <a href="ch-clase_9.html">9</a> ]
+[ <a href="ch-clase_10.html">10</a> ]
+[ <a href="ch-clase_11.html">11</a> ]
+[ 12 ]
+[ <a href="ch-cap_ref.html">13</a> ]
+[ <a href="ch-cap_ref.html">next</a> ]
+</p>
+
+<hr>
+
+<h1>
+<code>Fortran 90</code> Lessons for Computational Chemistry
+<br>Chapter 12 - Instalación y uso de las bibliotecas <code>BLAS</code> y <code>LAPACK</code>
+</h1>
+
+<hr>
+
+<h2 id="s-sec_bl1">12.1 Objetivos</h2>
+
+<p>
+Los objetivos de esta clase son los siguientes:
+</p>
+<ol type="1" start="1" >
+<li>
+<p>
+familiarizar el alumno con la compilación de programas y la instalación de
+librerias o biliotecas usando el compilador <code>gfortran</code>.
+</p>
+</li>
+</ol>
+<ol type="1" start="2" >
+<li>
+<p>
+Instalar las bibliotecas de interés científico <code>BLAS</code> y
+<code>LAPACK</code>.
+</p>
+</li>
+</ol>
+<ol type="1" start="3" >
+<li>
+<p>
+Aprender a hacer uso de dichas bibliotecas.
+</p>
+</li>
+</ol>
+
+<p>
+Existe una gran cantidad de código <code>Fortran</code> accesible de forma
+abierta, ya sea como código fuente o en forma de biblioteca.  En la presente
+clase el alumno se familiariza con la obtención, compilación, instalación y uso
+de dos bibliotecas de subrutinas de interés algebraico, <code>BLAS</code> y
+<code>LAPACK</code>.
+</p>
+
+<hr>
+
+<h2 id="s-sec_bl2">12.2 Puntos destacables.</h2>
+
+<p>
+Indicaremos de forma escalonada los diferentes pasos que hay que seguir para la
+instalación de estas bibliotecas.
+</p>
+
+<p>
+El código fuente de las bibliotecas <code>BLAS</code> y <code>LAPACK</code>
+puede descargarse de diferentes lugares, o instalarse a partir de paquetes de
+la distribución <code>Debian</code> o <code>Ubuntu</code> que se esté
+utilizando.  En vez de ello las instalaremos compilándolas en nuestro
+ordenador.
+</p>
+<ul>
+<li>
+<p>
+Descarga de código fuente de la biblioteca <code>BLAS</code>.
+</p>
+
+<p>
+Se puede descargar de la web de <samp>NETLIB</samp>[<a
+href="footnotes.html#f12" name="fr12">12</a>], usando este enlace <code><a
+href="http://www.netlib.org/blas/blas.tgz">BLAS tgz (Netlib)</a></code>.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+Una vez descargado el código fuente, se descomprime, se compila y se crea
+finalmente la libreria.
+</p>
+
+<pre>
+     tar xzf blas.tgz
+     cd BLAS
+     gfortran -O2 -c *.f
+     ar cr libblas.a *.o
+</pre>
+
+<p>
+Con lo que se debe haber creado la librería estática <samp>libblas.a</samp>.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+A continuación se sitúa dicha libreria en un lugar apropiado, por ejemplo con
+</p>
+
+<pre>
+     sudo cp libblas.a /usr/local/lib
+</pre>
+
+<p>
+y se comprueba que tiene los permisos adecuados.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+Descarga del código fuente de la biblioteca <code>LAPACK</code>.
+</p>
+
+<p>
+Se puede descargar también de la web de <samp>NETLIB</samp> usando este enlace
+<code><a href="http://www.netlib.org/lapack/lapack.tgz">LAPACK tgz
+(Netlib)</a></code>.  Tras su descarga se desempaquetan los ficheros.
+</p>
+
+<pre>
+     tar xzf lapack.tgz
+     cd lapack-3.2.1
+</pre>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+Esta biblioteca si tiene una serie de ficheros <samp>makefile</samp> para su
+compilación.  Hemos de preparar un fichero <samp>make.inc</samp> adecuado, como
+el que hemos incluido en <a href="#s-sec_p_bl_1">Ejemplo de fichero
+<samp>make.inc</samp> para <code>LAPACK</code>, Section 12.3.1</a> y que está
+disponible en <code>Moodle</code> en un fichero llamado <code><a
+href="http://moodle.uhu.es/contenidos/file.php/245/src_fortran_clase/make.inc.lapack.ubuntu">make.inc.lapack.ubuntu</a></code>.
+</p>
+
+<p>
+Usando este fichero compilamos la librería haciendo
+</p>
+
+<pre>
+     make
+</pre>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+Por último, instalamos la librería copiando los ficheros creados al lugar que
+creamos más adecuado para su ubicación.
+</p>
+
+<pre>
+     sudo cp lapack_LINUX.a /usr/local/lib
+     sudo cp tmglib_LINUX.a /usr/local/lib
+</pre>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+Para terminar descargamos el código fuente de la biblioteca
+<code>LAPACK95</code>.
+</p>
+
+<p>
+Se puede descargar también de la web de <samp>NETLIB</samp> usando el enlace
+<code><a href="http://www.netlib.org/lapack95/lapack95.tgz">LAPACK95 tgz
+(Netlib)</a></code>.  Tras su descarga se desempaquetan los ficheros.
+</p>
+
+<pre>
+     tar xzf lapack95.tgz
+     cd LAPACK95
+</pre>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+Esta biblioteca también tiene una serie de ficheros <samp>makefile</samp> para
+su compilación.  Hemos de preparar de nuevo un fichero <samp>make.inc</samp>
+adecuado, como el que hemos incluido en <a href="#s-sec_p_bl_2">Ejemplo de
+fichero <samp>make.inc</samp> para <code>LAPACK95</code>, Section 12.3.2</a> y
+que está disponible en <code>Moodle</code> en un fichero llamado <code><a
+href="http://moodle.uhu.es/contenidos/file.php/245/src_fortran_clase/make.inc.lapack95.ubuntu">make.inc.lapack95.ubuntu</a></code>.
+</p>
+
+<p>
+Usando este fichero compilamos la librería haciendo
+</p>
+
+<pre>
+     cd SRC
+     make single_double_complex_dcomplex
+</pre>
+
+<p>
+La opción escogida es la más general, pues general la librería para precisión
+simple, doble, compleja simple y compleja doble.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+Por último, instalamos la librería copiando los ficheros creados al lugar que
+creamos más adecuado para su ubicación.
+</p>
+
+<pre>
+     sudo cp lapack95.a /usr/local/lib
+     sudo cp -r lapack95_modules /usr/local/lib
+</pre>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+En los directorios de ejemplos (<samp>LAPACK95/EXAMPLES1</samp> y
+<samp>LAPACK95/EXAMPLES2</samp>) encontramos un gran número de ejemplos que
+podemos correr y comprobar las salidas obtenidas con las que se encuentran en
+<code><a href="http://www.netlib.org/lapack95/lug95/node1.html">Lapack95 User's
+guide</a></code>.  Las instrucciones para compilar y correr los ejemplos
+proporcionados pueden verse en el fichero <samp>README</samp> del directorio
+donde se encuentra el código fuente de los ejemplos.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+En el ejemplo <a href="#s-sec_p_bl_3">Ejemplo de programa que invoca
+<code>LAPACK95</code>, Section 12.3.3</a> se encuentra el código de un programa
+donde se recurre a la subrutina <samp>la_spsv</samp> para hallar la solución de
+un sistema lineal de ecuaciones, <em>Ax = B</em>, donde la matriz del sistema,
+<em>A</em>, es simétrica y se almacena de forma compacta y <em>x</em>,
+<em>B</em> son vectores.  Es importante que comprenda como funciona este
+programa, así como que se sepa extraer de la documentación de
+<code>LAPACK95</code> el significado de los argumentos de entrada y salida de
+la subrutina.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+Para correr este programa es necesario descargar el código
+<samp>ejemplo_la_spsv.f90</samp> y los ficheros de datos <samp>spsv.ma</samp> y
+<samp>spsv.mb</samp> de la web del curso.  Para compilar el programa se ejecuta
+la orden
+</p>
+
+<pre>
+     gfortran -o ejemplo_la_spsv -I/usr/local/lib/lapack95_modules ejemplo_la_spsv.f90  /usr/local/lib/lapack95.a /usr/local/lib/tmglib_LINUX.a /usr/local/lib/lapack_LINUX.a /usr/local/lib/libblas.a
+</pre>
+
+<p>
+En esta orden de compilación se incluyen todas las librerías y módulos
+necesarios para que pueda crearse el ejecutable, haciendo uso de las librerías
+<code>BLAS</code>, <code>LAPACK</code> y <code>LAPACK95</code> que hemos
+instalado.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+Para proyectos más complejos y evitar tener que escribir comandos de
+compilación tan complejos como el anterior es posible usar un fichero
+<samp>makefile</samp> como el que se proporciona en el ejemplo <a
+href="#s-sec_p_bl_4">Ejemplo de <samp>makefile</samp> para compilar programas
+que invocan <code>LAPACK95</code>, Section 12.3.4</a>.  Para usar este fichero
+en la compilación del ejemplo <a href="#s-sec_p_bl_3">Ejemplo de programa que
+invoca <code>LAPACK95</code>, Section 12.3.3</a> es preciso copiar el fichero
+proporcionado o descargar el fichero <samp>makefile_lapack95</samp> y ejecutar
+la orden
+</p>
+
+<pre>
+      make -f makefile_lapack95 ejemplo_la_spsv
+</pre>
+</li>
+</ul>
+
+<hr>
+
+<h2 id="s-sec_bl3">12.3 Programas usados como ejemplo.</h2>
+
+<hr>
+
+<h3 id="s-sec_p_bl_1">12.3.1 Ejemplo de fichero <samp>make.inc</samp> para <code>LAPACK</code></h3>
+
+<pre>
+     ####################################################################
+     #  LAPACK make include file.                                       #
+     #  LAPACK, Version 3.2.1                                           #
+     #  MAY 2009                                                        #
+     #  Modified by Currix                                              #
+     ####################################################################
+     #
+     SHELL = /bin/sh
+     #
+     #  The machine (platform) identifier to append to the library names
+     #
+     PLAT = _LINUX
+     #  
+     #  Modify the FORTRAN and OPTS definitions to refer to the
+     #  compiler and desired compiler options for your machine.  NOOPT
+     #  refers to the compiler options desired when NO OPTIMIZATION is
+     #  selected.  Define LOADER and LOADOPTS to refer to the loader and 
+     #  desired load options for your machine.
+     #
+     FORTRAN  = gfortran 
+     OPTS     = -O2
+     DRVOPTS  = $(OPTS)
+     NOOPT    = -O0
+     LOADER   = gfortran
+     LOADOPTS =
+     #
+     # Timer for the SECOND and DSECND routines
+     #
+     # Default : SECOND and DSECND will use a call to the EXTERNAL FUNCTION ETIME
+     #TIMER    = EXT_ETIME
+     # For RS6K : SECOND and DSECND will use a call to the EXTERNAL FUNCTION ETIME_
+     # TIMER    = EXT_ETIME_
+     # For gfortran compiler: SECOND and DSECND will use a call to the INTERNAL FUNCTION ETIME
+     TIMER    = INT_ETIME
+     # If your Fortran compiler does not provide etime (like Nag Fortran Compiler, etc...)
+     # SECOND and DSECND will use a call to the INTERNAL FUNCTION CPU_TIME
+     # TIMER    = INT_CPU_TIME
+     # If neither of this works...you can use the NONE value... In that case, SECOND and DSECND will always return 0
+     # TIMER     = NONE
+     #
+     #  The archiver and the flag(s) to use when building archive (library)
+     #  If you system has no ranlib, set RANLIB = echo.
+     #
+     ARCH     = ar
+     ARCHFLAGS= cr
+     RANLIB   = ranlib
+     #
+     #  Location of the extended-precision BLAS (XBLAS) Fortran library
+     #  used for building and testing extended-precision routines.  The
+     #  relevant routines will be compiled and XBLAS will be linked only if
+     #  USEXBLAS is defined.
+     #
+     # USEXBLAS    = Yes
+     XBLASLIB     =
+     # XBLASLIB    = -lxblas
+     #
+     #  The location of the libraries to which you will link.  (The 
+     #  machine-specific, optimized BLAS library should be used whenever
+     #  possible.)
+     #
+     #BLASLIB      = ../../blas$(PLAT).a
+     BLASLIB      = /usr/local/lib/libblas.a
+     LAPACKLIB    = lapack$(PLAT).a
+     TMGLIB       = tmglib$(PLAT).a
+     EIGSRCLIB    = eigsrc$(PLAT).a
+     LINSRCLIB    = linsrc$(PLAT).a
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_bl_2">12.3.2 Ejemplo de fichero <samp>make.inc</samp> para <code>LAPACK95</code></h3>
+
+<pre>
+     #
+     #  -- LAPACK95 interface driver routine (version 2.0) --
+     #     UNI-C, Denmark; Univ. of Tennessee, USA; NAG Ltd., UK
+     #     August 5, 2000
+     #
+     FC	 = gfortran
+     FC1      = gfortran
+     # -dcfuns  Enable recognition of non-standard double
+     #          precision  complex intrinsic functions
+     # -dusty   Allows the compilation and execution of &quot;legacy&quot;
+     #          software by downgrading the category  of  common
+     #          errors  found  in  such software from &quot;Error&quot; to
+     # -ieee=full enables all IEEE arithmetic facilities
+     #          including non-stop arithmetic.
+     
+     OPTS0    = -u -V -dcfuns -dusty -ieee=full
+     MODLIB   = -I./../lapack95_modules
+     OPTS1    = -c $(OPTS0)
+     OPTS3    = $(OPTS1) $(MODLIB)
+     OPTL     = -o 
+     OPTLIB   =
+     
+     LAPACK_PATH = /usr/local/lib/
+     
+     LAPACK95 = ../lapack95.a
+     LAPACK77 = $(LAPACK_PATH)/lapack_LINUX.a
+     TMG77    = $(LAPACK_PATH)/tmglib_LINUX.a
+     BLAS     = $(LAPACK_PATH)/libblas.a
+     
+     LIBS     = $(LAPACK95) $(TMG77) $(LAPACK77) $(BLAS)
+     SUF      = f90
+     
+     XX = 'rm' -f $@; \
+             'rm' -f $@.res; \
+     	$(FC) $(OPTS0) -o $@ $(MODLIB) $@.$(SUF) $(OPTLIB) $(LIBS); \
+             $@ &lt; $@.dat &gt; $@.res; \
+             'rm' -f $@
+     
+     YY = $(FC) $(OPTS0) -o $@ $(MODLIB) $@.$(SUF) $(OPTLIB) $(LIBS)
+     
+     .SUFFIXES: .f90 .f .o
+     
+     .$(SUF).o: 
+     	$(FC) $(OPTS3) $&lt;
+     
+     .f.o:
+     	$(FC1) $(OPTS3) $&lt;
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_bl_3">12.3.3 Ejemplo de programa que invoca <code>LAPACK95</code></h3>
+
+<pre>
+     PROGRAM LA_SSPSV_EXAMPLE
+       
+       !  -- LAPACK95 EXAMPLE DRIVER ROUTINE (VERSION 1.0) --
+       !     UNI-C, DENMARK
+       !     DECEMBER, 1999
+       !
+       !  .. &quot;Use Statements&quot;
+       USE LA_PRECISION, ONLY: WP =&gt; SP
+       USE F95_LAPACK, ONLY: LA_SPSV
+       !  .. &quot;Implicit Statement&quot; ..
+       IMPLICIT NONE
+       !  .. &quot;Local Scalars&quot; ..
+       INTEGER :: I, N, NN, NRHS
+       !  .. &quot;Local Arrays&quot; ..
+       INTEGER, ALLOCATABLE :: IPIV(:)
+       REAL(WP), ALLOCATABLE :: B(:,:), AP(:)
+       !  .. &quot;Executable Statements&quot; ..
+       WRITE (*,*) 'SSPSV Example Program Results.'
+       N = 5; NRHS = 1
+       WRITE(*,'(5H N = , I4, 9H; NRHS = , I4)') N, NRHS
+       NN = N*(N+1)/2
+       ALLOCATE ( AP(NN), B(N,NRHS), IPIV(N) )
+       !
+       OPEN(UNIT=21,FILE='spsv.ma',STATUS='UNKNOWN')
+       DO I=1,NN 
+          READ(21,'(F3.0)') AP(I)
+       ENDDO
+       CLOSE(21)
+       !
+       WRITE(*,*)'Matrix AP :'
+       DO I=1,NN; WRITE(*,&quot;(15(I3,1X,1X),I3,1X))&quot;) INT(AP(I));
+       ENDDO
+       !
+       OPEN(UNIT=21,FILE='spsv.mb',STATUS='UNKNOWN')
+       DO I=1,N 
+          READ(21,'(F3.0)') B(I,1)
+       ENDDO
+       CLOSE(21)
+       !
+       WRITE(*,*)'Matrix B :'
+       DO I=1,N; WRITE(*,&quot;(10(I3,1X,1X),I3,1X)')&quot;) INT(B(I,1));
+       ENDDO
+       !
+       WRITE(*,*)&quot; CALL LA_SPSV( AP, B, 'L', IPIV )&quot;
+       !
+       CALL LA_SPSV( AP, B, 'L', IPIV )
+       !
+       WRITE(*,*)'AP on exit: '
+       DO I=1,NN; WRITE(*,&quot;(15(E13.5))&quot;) AP(I); 
+       ENDDO
+       !
+       WRITE(*,*)'Matrix B on exit :'
+       DO I=1,N; WRITE(*,&quot;(F9.5)&quot;) B(I,1);
+       ENDDO
+       WRITE(*,*)'IPIV = ', IPIV
+       !
+     END PROGRAM LA_SSPSV_EXAMPLE
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_bl_4">12.3.4 Ejemplo de <samp>makefile</samp> para compilar programas que invocan <code>LAPACK95</code></h3>
+
+<pre>
+     #
+     #  -- LAPACK95 makefile (version 1.0) --
+     #
+     FC	 = gfortran
+     #
+     MODLIB   = -I/usr/local/lib/lapack95_modules
+     OPTS1    = -c
+     OPTS3    = $(OPTS1) $(MODLIB)
+     OPTL     = -o 
+     OPTLIB   =
+     
+     LAPACK_PATH = /usr/local/lib
+     LAPACK95_PATH = /usr/local/lib
+     
+     LAPACK95 = $(LAPACK95_PATH)/lapack95.a
+     LAPACK77 = $(LAPACK_PATH)/lapack_LINUX.a
+     TMG77    = $(LAPACK_PATH)/tmglib_LINUX.a
+     BLAS     = $(LAPACK_PATH)/libblas.a
+     
+     LIBS     = $(LAPACK95) $(TMG77) $(LAPACK77) $(BLAS)
+     SUF      = f90
+     
+     YY = $(FC) -o $@ $(MODLIB) $@.$(SUF) $(OPTLIB) $(LIBS)
+     
+     .SUFFIXES: .f90 .f .o
+     
+     .$(SUF).o: 
+     	$(FC) $(OPTS3) $&lt;
+     
+     ejemplo_la_spsv: 
+     	$(YY)
+     
+     clean:
+     	'rm' -f *.o *.mod core
+</pre>
+
+<hr>
+
+<p>
+[ <a href="ch-clase_11.html">previous</a> ]
+[ <a href="index.html#contents">Contents</a> ]
+[ <a href="ch-clase_1.html">1</a> ]
+[ <a href="ch-clase_2.html">2</a> ]
+[ <a href="ch-clase_3.html">3</a> ]
+[ <a href="ch-clase_4.html">4</a> ]
+[ <a href="ch-clase_7.html">5</a> ]
+[ <a href="ch-clase_5.html">6</a> ]
+[ <a href="ch-clase_6.html">7</a> ]
+[ <a href="ch-clase_8.html">8</a> ]
+[ <a href="ch-clase_9.html">9</a> ]
+[ <a href="ch-clase_10.html">10</a> ]
+[ <a href="ch-clase_11.html">11</a> ]
+[ 12 ]
+[ <a href="ch-cap_ref.html">13</a> ]
+[ <a href="ch-cap_ref.html">next</a> ]
+</p>
+
+<hr>
+
+<p>
+<code>Fortran 90</code> Lessons for Computational Chemistry
+</p>
+
+<address>
+0.0<br>
+<br>
+Curro Pérez-Bernal <code><a href="mailto:francisco.perez@dfaie.uhu.es">mailto:francisco.perez@dfaie.uhu.es</a></code><br>
+<br>
+</address>
+<hr>
+
+</body>
+
+</html>
+

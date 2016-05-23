@@ -1,0 +1,598 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+
+<html>
+
+<head>
+
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+
+<title>Fortran 90 Lessons for Computational Chemistry - Operaciones I/O (II)</title>
+
+<link href="index.html" rel="start">
+<link href="ch-clase_5.html" rel="prev">
+<link href="ch-clase_8.html" rel="next">
+<link href="index.html#contents" rel="contents">
+<link href="index.html#copyright" rel="copyright">
+<link href="ch-clase_1.html" rel="chapter" title="1 Introduction">
+<link href="ch-clase_2.html" rel="chapter" title="2 Basic Operations">
+<link href="ch-clase_3.html" rel="chapter" title="3 Introduction to Fortran Arrays">
+<link href="ch-clase_4.html" rel="chapter" title="4 More on Arrays">
+<link href="ch-clase_7.html" rel="chapter" title="5 Control Structures">
+<link href="ch-clase_5.html" rel="chapter" title="6 INPUT/OUTPUT) (I)">
+<link href="ch-clase_6.html" rel="chapter" title="7 Operaciones I/O (II)">
+<link href="ch-clase_8.html" rel="chapter" title="8 Subprogramas (I): funciones">
+<link href="ch-clase_9.html" rel="chapter" title="9 Subprogramas (II): subrutinas">
+<link href="ch-clase_10.html" rel="chapter" title="10 Subprogramas (III): módulos">
+<link href="ch-clase_11.html" rel="chapter" title="11 Subprogramas (IV)">
+<link href="ch-clase_blaslap.html" rel="chapter" title="12 Instalación y uso de las bibliotecas BLAS y LAPACK">
+<link href="ch-cap_ref.html" rel="chapter" title="13 Referencias">
+<link href="ch-clase_1.html#s-sec_11" rel="section" title="1.1 Objectives">
+<link href="ch-clase_1.html#s-sec_12" rel="section" title="1.2 Main items.">
+<link href="ch-clase_1.html#s-sec_13" rel="section" title="1.3 Example Codes.">
+<link href="ch-clase_2.html#s-sec_21" rel="section" title="2.1 Objectives">
+<link href="ch-clase_2.html#s-sec_22" rel="section" title="2.2 Main items.">
+<link href="ch-clase_2.html#s-sec_23" rel="section" title="2.3 Example Codes.">
+<link href="ch-clase_3.html#s-sec_31" rel="section" title="3.1 Objectivos">
+<link href="ch-clase_3.html#s-sec_32" rel="section" title="3.2 Main items.">
+<link href="ch-clase_3.html#s-sec_33" rel="section" title="3.3 Example Codes.">
+<link href="ch-clase_4.html#s-sec_41" rel="section" title="4.1 Objectives">
+<link href="ch-clase_4.html#s-sec_42" rel="section" title="4.2 Main items.">
+<link href="ch-clase_4.html#s-sec_43" rel="section" title="4.3 Example Codes.">
+<link href="ch-clase_7.html#s-sec_71" rel="section" title="5.1 Objectivos">
+<link href="ch-clase_7.html#s-sec_72" rel="section" title="5.2 Main items.">
+<link href="ch-clase_7.html#s-sec_73" rel="section" title="5.3 Example codes.">
+<link href="ch-clase_5.html#s-sec_51" rel="section" title="6.1 Objectivos">
+<link href="ch-clase_5.html#s-sec_52" rel="section" title="6.2 Main Items.">
+<link href="ch-clase_5.html#s-sec_53" rel="section" title="6.3 Programas usados como ejemplo.">
+<link href="ch-clase_6.html#s-sec_61" rel="section" title="7.1 Objetivos">
+<link href="ch-clase_6.html#s-sec_62" rel="section" title="7.2 Puntos destacables.">
+<link href="ch-clase_6.html#s-sec_63" rel="section" title="7.3 Programas usados como ejemplo.">
+<link href="ch-clase_8.html#s-sec_81" rel="section" title="8.1 Objetivos">
+<link href="ch-clase_8.html#s-sec_82" rel="section" title="8.2 Puntos destacables.">
+<link href="ch-clase_8.html#s-sec_83" rel="section" title="8.3 Programas usados como ejemplo.">
+<link href="ch-clase_9.html#s-sec_91" rel="section" title="9.1 Objetivos">
+<link href="ch-clase_9.html#s-sec_92" rel="section" title="9.2 Puntos destacables.">
+<link href="ch-clase_9.html#s-sec_93" rel="section" title="9.3 Programas usados como ejemplo.">
+<link href="ch-clase_10.html#s-sec_101" rel="section" title="10.1 Objetivos">
+<link href="ch-clase_10.html#s-sec_102" rel="section" title="10.2 Puntos destacables.">
+<link href="ch-clase_10.html#s-sec_103" rel="section" title="10.3 Programas usados como ejemplo.">
+<link href="ch-clase_11.html#s-sec_111" rel="section" title="11.1 Objetivos">
+<link href="ch-clase_11.html#s-sec_112" rel="section" title="11.2 Puntos destacables.">
+<link href="ch-clase_11.html#s-sec_113" rel="section" title="11.3 Programas usados como ejemplo.">
+<link href="ch-clase_blaslap.html#s-sec_bl1" rel="section" title="12.1 Objetivos">
+<link href="ch-clase_blaslap.html#s-sec_bl2" rel="section" title="12.2 Puntos destacables.">
+<link href="ch-clase_blaslap.html#s-sec_bl3" rel="section" title="12.3 Programas usados como ejemplo.">
+<link href="ch-clase_1.html#s-sec_p_1_1" rel="subsection" title="1.3.1 excode_1_1.f90">
+<link href="ch-clase_1.html#s-sec_p_1_2" rel="subsection" title="1.3.2 excode_1_2.f90">
+<link href="ch-clase_2.html#s-sec_p_2_1" rel="subsection" title="2.3.1 excode_2_1.f90">
+<link href="ch-clase_2.html#s-sec_p_2_2" rel="subsection" title="2.3.2 excode_2_2.f90">
+<link href="ch-clase_2.html#s-sec_p_2_3" rel="subsection" title="2.3.3 excode_2_3.f90">
+<link href="ch-clase_2.html#s-sec_p_2_4" rel="subsection" title="2.3.4 excode_2_4.f90">
+<link href="ch-clase_2.html#s-sec_p_2_5" rel="subsection" title="2.3.5 excode_2_5.f90">
+<link href="ch-clase_2.html#s-sec_p_2_6" rel="subsection" title="2.3.6 excode_2_6.f90">
+<link href="ch-clase_3.html#s-sec_p_3_1" rel="subsection" title="3.3.1 excode_3_1.f90">
+<link href="ch-clase_3.html#s-sec_p_3_2" rel="subsection" title="3.3.2 excode_3_2.f90">
+<link href="ch-clase_3.html#s-sec_p_3_3" rel="subsection" title="3.3.3 excode_3_3.f90">
+<link href="ch-clase_3.html#s-sec_p_3_4" rel="subsection" title="3.3.4 excode_3_4.f90">
+<link href="ch-clase_4.html#s-sec_p_4_1" rel="subsection" title="4.3.1 excode_4_1.f90">
+<link href="ch-clase_4.html#s-sec_p_4_2" rel="subsection" title="4.3.2 excode_4_2.f90">
+<link href="ch-clase_4.html#s-sec_p_4_3" rel="subsection" title="4.3.3 excode_4_3.f90">
+<link href="ch-clase_4.html#s-sec_p_4_4" rel="subsection" title="4.3.4 excode_4_4.f90">
+<link href="ch-clase_4.html#s-sec_p_4_5" rel="subsection" title="4.3.5 excode_4_5.f90">
+<link href="ch-clase_4.html#s-sec_p_4_6" rel="subsection" title="4.3.6 excode_4_6.f90">
+<link href="ch-clase_7.html#s-sec_p_7_1" rel="subsection" title="5.3.1 excode_5_1.f90">
+<link href="ch-clase_7.html#s-sec_p_7_2" rel="subsection" title="5.3.2 excode_5_2.f90">
+<link href="ch-clase_7.html#s-sec_p_7_3" rel="subsection" title="5.3.3 excode_5_3.f90">
+<link href="ch-clase_7.html#s-sec_p_7_4" rel="subsection" title="5.3.4 Programa ejemplo_5_4.f90">
+<link href="ch-clase_5.html#s-sec_p_5_1" rel="subsection" title="6.3.1 excode_6_1.f90">
+<link href="ch-clase_5.html#s-sec_p_5_2" rel="subsection" title="6.3.2 excode_6_2.f90">
+<link href="ch-clase_5.html#s-sec_p_5_3" rel="subsection" title="6.3.3 excode_6_3.f90">
+<link href="ch-clase_5.html#s-sec_p_5_4" rel="subsection" title="6.3.4 excode_6_4.f90">
+<link href="ch-clase_5.html#s-sec_p_5_5" rel="subsection" title="6.3.5 excode_6_5.f90">
+<link href="ch-clase_5.html#s-sec_p_5_6" rel="subsection" title="6.3.6 excode_6_6.f90">
+<link href="ch-clase_5.html#s-sec_p_5_7" rel="subsection" title="6.3.7 excode_6_7.f90">
+<link href="ch-clase_6.html#s-sec_p_6_1" rel="subsection" title="7.3.1 Programa ejemplo_7_1.f90">
+<link href="ch-clase_6.html#s-sec_p_6_2" rel="subsection" title="7.3.2 Programa ejemplo_7_2.f90">
+<link href="ch-clase_6.html#s-sec_p_6_22" rel="subsection" title="7.3.3 Script ej_here_file">
+<link href="ch-clase_6.html#s-sec_p_6_3" rel="subsection" title="7.3.4 Programa ejemplo_7_3.f90">
+<link href="ch-clase_6.html#s-sec_p_6_32" rel="subsection" title="7.3.5 namelist input file">
+<link href="ch-clase_6.html#s-sec_p_6_4" rel="subsection" title="7.3.6 Programa ejemplo_7_4.f90">
+<link href="ch-clase_8.html#s-sec_p_8_1" rel="subsection" title="8.3.1 Programa ejemplo_8_1.f90">
+<link href="ch-clase_8.html#s-sec_p_8_2" rel="subsection" title="8.3.2 Programa ejemplo_8_2.f90">
+<link href="ch-clase_8.html#s-sec_p_8_3" rel="subsection" title="8.3.3 Programa ejemplo_8_3.f90">
+<link href="ch-clase_8.html#s-sec_p_8_4" rel="subsection" title="8.3.4 Programa ejemplo_8_4.f90">
+<link href="ch-clase_8.html#s-sec_p_8_5" rel="subsection" title="8.3.5 Programa ejemplo_8_5.f90">
+<link href="ch-clase_8.html#s-sec_p_8_6" rel="subsection" title="8.3.6 Programa ejemplo_8_6.f90">
+<link href="ch-clase_9.html#s-sec_p_9_1" rel="subsection" title="9.3.1 Programa ejemplo_9_1.f90">
+<link href="ch-clase_9.html#s-sec_p_9_2" rel="subsection" title="9.3.2 Programa ejemplo_9_2.f90">
+<link href="ch-clase_9.html#s-sec_p_9_3" rel="subsection" title="9.3.3 Programa ejemplo_9_3.f90">
+<link href="ch-clase_9.html#s-sec_p_9_4" rel="subsection" title="9.3.4 Programa ejemplo_9_4.f90">
+<link href="ch-clase_9.html#s-sec_p_9_5" rel="subsection" title="9.3.5 Programa ejemplo_9_5.f90">
+<link href="ch-clase_9.html#s-sec_p_9_6" rel="subsection" title="9.3.6 Programa ejemplo_9_6.f90">
+<link href="ch-clase_9.html#s-sec_p_9_7" rel="subsection" title="9.3.7 Programa ejemplo_9_7.f90">
+<link href="ch-clase_10.html#s-sec_p_10_1" rel="subsection" title="10.3.1 Programa ejemplo_10_1.f90">
+<link href="ch-clase_10.html#s-sec_p_10_2" rel="subsection" title="10.3.2 Programa ejemplo_10_2.f90">
+<link href="ch-clase_10.html#s-sec_p_10_3" rel="subsection" title="10.3.3 Programa ejemplo_10_3.f90">
+<link href="ch-clase_10.html#s-sec_p_10_4" rel="subsection" title="10.3.4 Programa ejemplo_10_4.f90">
+<link href="ch-clase_11.html#s-sec_p_11_1" rel="subsection" title="11.3.1 Programa ejemplo_11_1.f90">
+<link href="ch-clase_11.html#s-sec_p_11_2" rel="subsection" title="11.3.2 Programa ejemplo_11_2.f90">
+<link href="ch-clase_11.html#s-sec_p_11_3" rel="subsection" title="11.3.3 Programa ejemplo_11_3.f90">
+<link href="ch-clase_11.html#s-sec_p_11_4" rel="subsection" title="11.3.4 Programa ejemplo_11_4.f90">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_1" rel="subsection" title="12.3.1 Ejemplo de fichero make.inc para LAPACK">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_2" rel="subsection" title="12.3.2 Ejemplo de fichero make.inc para LAPACK95">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_3" rel="subsection" title="12.3.3 Ejemplo de programa que invoca LAPACK95">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_4" rel="subsection" title="12.3.4 Ejemplo de makefile para compilar programas que invocan LAPACK95">
+
+</head>
+
+<body>
+
+<p><a name="ch-clase_6"></a></p>
+<hr>
+
+<p>
+[ <a href="ch-clase_5.html">previous</a> ]
+[ <a href="index.html#contents">Contents</a> ]
+[ <a href="ch-clase_1.html">1</a> ]
+[ <a href="ch-clase_2.html">2</a> ]
+[ <a href="ch-clase_3.html">3</a> ]
+[ <a href="ch-clase_4.html">4</a> ]
+[ <a href="ch-clase_7.html">5</a> ]
+[ <a href="ch-clase_5.html">6</a> ]
+[ 7 ]
+[ <a href="ch-clase_8.html">8</a> ]
+[ <a href="ch-clase_9.html">9</a> ]
+[ <a href="ch-clase_10.html">10</a> ]
+[ <a href="ch-clase_11.html">11</a> ]
+[ <a href="ch-clase_blaslap.html">12</a> ]
+[ <a href="ch-cap_ref.html">13</a> ]
+[ <a href="ch-clase_8.html">next</a> ]
+</p>
+
+<hr>
+
+<h1>
+<code>Fortran 90</code> Lessons for Computational Chemistry
+<br>Chapter 7 - Operaciones <samp>I/O</samp> (II)
+</h1>
+
+<hr>
+
+<h2 id="s-sec_61">7.1 Objetivos</h2>
+
+<p>
+Los objetivos de esta clase son los siguientes:
+</p>
+<ol type="1" start="1" >
+<li>
+<p>
+presentar como se emplea la orden <samp>FORMAT</samp>, y sus diferentes
+descriptores con la orden <samp>READ</samp>.
+</p>
+</li>
+</ol>
+<ol type="1" start="2" >
+<li>
+<p>
+adquirir conocimientos básicos acerca de la lectura de ficheros en
+<code>Fortran</code>.
+</p>
+</li>
+</ol>
+<ol type="1" start="3" >
+<li>
+<p>
+dar como alternativas útiles para las operaciones de <samp>I/O</samp> los
+<em>here documents</em> y el formato de <samp>NAMELIST</samp>.
+</p>
+</li>
+</ol>
+<ol type="1" start="4" >
+<li>
+<p>
+dar un ejemplo de como se puede trabajar con ficheros internos (<em>internal
+files</em>).
+</p>
+</li>
+</ol>
+
+<p>
+Son similares a los de la clase anterior, aunque en este caso nos centramos en
+la lectura de datos en Fortran.  En general la lectura con formato se emplea al
+leer datos en ficheros y no al introducir datos con el teclado como entrada
+estándar.
+</p>
+
+<hr>
+
+<h2 id="s-sec_62">7.2 Puntos destacables.</h2>
+<ul>
+<li>
+<p>
+La orden <samp>FORMAT</samp> se emplea de igual modo que en las operaciones de
+escritura tratadas en <a href="ch-clase_5.html"><samp>INPUT/OUTPUT</samp>) (I),
+Chapter 6</a>, teniendo los descriptores idéntico significado.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+Una opción útil cuando se emplea el comando <samp>READ</samp> es
+<samp>IOSTAT</samp>, que permite detectar si se ha llegado al final del archivo
+que se esté leyendo o hay un error en la lectura del dato.  De este modo el
+comando quedaría como
+</p>
+
+<pre>
+     READ(UNIT=<var>int_unit</var>, FMT=<var>int_fmt</var>, IOSTAT=<var>int_var</var>) <var>input_list</var>
+</pre>
+
+<p>
+De este modo, si leemos un conjunto de datos (por ejemplo coordenadas de puntos
+<samp>(var_X,var_Y,var_Z)</samp> de un archivo y no sabemos el número total de
+los mismos podemos hacer algo como
+</p>
+
+<pre>
+     num_data = 0
+     readloop: DO
+        READ(UNIT=33, FMT=100, IOSTAT=io_status) var_X, var_Y, var_Z
+        !
+        ! Check reading
+        IF (io_status /= 0) THEN
+          ! Error in the input or EOF
+          EXIT
+        ENDIF
+        num_data = num_dat + 1
+        !   work with the coordinates
+        !
+           ......
+        !
+        ! Format statement
+     100 FORMAT(1X, 3F25.10)
+        ! 
+     ENDDO readloop
+</pre>
+
+<p>
+En este fragmento de código la variable entera <samp>num_data</samp> es un
+contador que almacena el número de datos (puntos) leídos y la variable entera
+<samp>io_status</samp> controla que los datos se hayan leído de forma correcta.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+En el ejemplo <a href="#s-sec_p_6_1">Programa ejemplo_7_1.f90, Section
+7.3.1</a> se presenta como se lee un fichero de datos adjunto
+(<samp>notas.dat</samp>) usando secciones de matrices en el proceso de lectura.
+En dicho fichero se ordenan las notas obtenidas por una serie de alumnos en
+filas y columnas.  Cada fila está asociada a un alumno y cada columna a una
+asignatura.  Es conveniente que comprendais cómo se lleva a cabo la lectura de
+los datos en este caso.
+</p>
+
+<p>
+Se plantea como ejercicio modificar <a href="#s-sec_p_6_1">Programa
+ejemplo_7_1.f90, Section 7.3.1</a> para que lleve a cabo la misma tarea con el
+fichero <samp>notas_ej_6.dat</samp>, donde no se han llevado a cabo los
+promedios por alumno ni por asignatura.  Partiendo del programa ejemplo debeis
+realizar los cambios necesarios para leer los datos, comprobar si hay errores
+de lectura, calcular los promedios necesarios, obtener la salida correcta y
+grabar un fichero donde aparezcan, como en <samp>notas.dat</samp>, los
+promedios calculados.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+Una forma bastante cómoda de leer datos en un programa <code>Fortran</code> es
+usando los llamados <em>here documents</em> de la <code>shell</code>.  Esto
+consiste en hacer un breve <em>script</em>[<a href="footnotes.html#f8"
+name="fr8">8</a>], en el que además de ejecutar el programa -compilándolo
+previamente si el programa no es demasiado extenso- se proporciona la entrada
+del programa, pudiendo comentarse dichas entradas.  El ejemplo <a
+href="#s-sec_p_6_2">Programa ejemplo_7_2.f90, Section 7.3.2</a> es un programa
+que calcula las raíces de una ecuación de segundo grado <samp>y = A*x**2 + B*x
++ C</samp> y en el ejemplo <a href="#s-sec_p_6_22">Script
+<samp>ej_here_file</samp>, Section 7.3.3</a>, fichero <samp>ej_here_file</samp>
+encontrais una forma de aplicar los <em>here documents</em>.  Para ejecutarlo
+tendréis que salvar el fichero y escribir
+</p>
+
+<pre>
+     . ej_here_file
+</pre>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+Una tercera posibilidad es hacer uso del llamado <samp>namelist</samp> que
+consiste en una lista de valores asignados a variables etiquetadas con sus
+nombres.  La forma de un comando <samp>NAMELIST</samp> es la siguiente
+</p>
+
+<pre>
+     NAMELIST/<var>var_group_name</var>/ <var>var1 [var2 var3 ... ]</var>
+</pre>
+
+<p>
+Este comando define las variables asociadas al grupo llamado
+<var>var_group_name</var> y debe aparecer en el programa antes de cualquier
+comando ejecutable.  Para leer las variables en un <samp>NAMELIST</samp> se
+utiliza un comando <samp>READ</samp> donde en vez de especificar el formato de
+entrada con la opción <samp>FMT</samp> se utiliza la opción <samp>NML</samp>
+como sigue[<a href="footnotes.html#f9" name="fr9">9</a>]
+</p>
+
+<pre>
+     READ(UNIT=<var>unit_number</var>, NML=<var>var_group_name</var>, [...])
+</pre>
+
+<p>
+El fichero <samp>NAMELIST</samp> con la información de entrada comienza con un
+carácter &quot;&amp;&quot; seguido del nombre del grupo,
+<var>var_group_name</var>, y termina con el carácter &quot;/&quot;.  Los
+valores en el fichero pueden estar en líneas diferentes siempre que se hayen
+entre estos dos caracteres.
+</p>
+
+<p>
+El programa <a href="#s-sec_p_6_3">Programa ejemplo_7_3.f90, Section 7.3.4</a>
+es casi idéntico al programa <a href="#s-sec_p_6_2">Programa ejemplo_7_2.f90,
+Section 7.3.2</a>.  Se ha modificado para hacer uso de un fichero de entrada en
+formato <samp>namelist</samp>, que llamamos <samp>sec_order.inp</samp> e
+incluimos como <a href="#s-sec_p_6_32"><samp>namelist</samp> input file,
+Section 7.3.5</a>.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+En <a href="#s-sec_p_6_4">Programa ejemplo_7_4.f90, Section 7.3.6</a> se puede
+ver como se trabaja con un fichero interno (<em>internal file</em>) donde la
+operación de I/O tiene lugar en un buffer interno en lugar de en un archivo.
+Esto tiene utilidad en dos casos.  En primer lugar para tratar con datos cuya
+estructura o formato no es bien conocida, por lo que se pueden leer en una
+variable de tipo <samp>CHARACTER</samp> y posteriormente ser tratados como un
+fichero interno.  En segundo lugar, también permiten preparar datos que sean
+mezcla de datos de tipo carácter y de tipo numérico.  Este segundo caso es el
+que se trata en <a href="#s-sec_p_6_4">Programa ejemplo_7_4.f90, Section
+7.3.6</a> donde se muestra como definir una serie de unidades de escritura
+asociadas a archivos que se van numerando sucesivamente.
+</p>
+
+<p>
+En este ejemplo se puede ver como se usa la función intrínseca
+<samp>TRIM</samp> para eliminar los espacios sobrantes de la variable
+<samp>pref</samp> al preparar el nombre del fichero.
+</p>
+</li>
+</ul>
+
+<hr>
+
+<h2 id="s-sec_63">7.3 Programas usados como ejemplo.</h2>
+
+<hr>
+
+<h3 id="s-sec_p_6_1">7.3.1 Programa ejemplo_7_1.f90</h3>
+
+<pre>
+     PROGRAM EJEMPLO_7_1
+       IMPLICIT NONE
+       !Definicion de variables
+       INTEGER , PARAMETER :: NROW=5
+       INTEGER , PARAMETER :: NCOL=6
+       REAL , DIMENSION(1:NROW,1:NCOL)   :: RESULT_EXAMS = 0.0
+       REAL , DIMENSION(1:NROW)          :: MEDIA_ESTUD = 0.0
+       REAL , DIMENSION(1:NCOL)          :: MEDIA_ASIGN = 0.0
+       INTEGER :: R,C
+       !
+       ! Abrir fichero para lectura
+       OPEN(UNIT=20,FILE='notas.dat',STATUS='OLD') 
+       !
+       DO R=1,NROW
+          READ(UNIT=20,FMT=100) RESULT_EXAMS(R,1:NCOL),MEDIA_ESTUD(R) ! Lectura de notas y luego de promedio
+          100 FORMAT(6(2X,F4.1),2X,F5.2) ! Se leen 6 numeros seguidos y luego un septimo 
+       ENDDO
+       READ (20,*) ! Saltamos una linea con esta orden
+       READ (20,110) MEDIA_ASIGN(1:NCOL) ! 
+     110 FORMAT(6(2X,F4.1))
+     !
+     ! IMPRESION DE LAS NOTAS EN LA SALIDA ESTANDAR
+       DO R=1,NROW
+          PRINT 200, RESULT_EXAMS(R,1:NCOL), MEDIA_ESTUD(R)
+     200  FORMAT(1X,6(1X,F5.1),' = ',F6.2)
+       END DO
+       PRINT *,'  ====  ====  ====  ====  ====  ==== '
+       PRINT 210, MEDIA_ASIGN(1:NCOL)
+     210 FORMAT(1X,6(1X,F5.1))
+     END PROGRAM EJEMPLO_7_1
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_6_2">7.3.2 Programa ejemplo_7_2.f90</h3>
+
+<pre>
+     PROGRAM EJEMPLO_7_2
+     ! PROGRAMA QUE CALCULA LAS SOLUCIONES DE UNA EC DE SEGUNDO GRADO
+     ! y = A*x**2 + B*x + C
+       IMPLICIT NONE
+       !Definicion de variables
+       REAL :: A = 0.0
+       REAL :: B = 0.0
+       REAL :: C = 0.0
+       REAL, DIMENSION(2) :: SOL
+       REAL :: TEMP
+       INTEGER :: I
+       !
+       ! Lectura de coeficientes
+       READ*, A 
+       READ*, B
+       READ*, C 
+       ! print*, a,b,c
+       !
+       ! CALCULOS
+       TEMP = SQRT(B*B-4.0*A*C)
+       !
+       SOL(1) = (-B+TEMP)/(2.0*A)
+       SOL(2) = (-B-TEMP)/(2.0*A)
+       !
+       !
+       ! IMPRESION DE LAS SOLUCIONES
+       DO I=1, 2
+          PRINT 200, I, SOL(I)
+     200  FORMAT(1X,'SOLUCION ', I2,' = ',F18.6)
+       END DO
+     !
+     END PROGRAM EJEMPLO_7_2
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_6_22">7.3.3 Script <samp>ej_here_file</samp></h3>
+
+<pre>
+     # Compilar
+     gfortran -o second_order  ejemplo_7_2.f90
+     # Ejecutar
+     ./second_order &lt;&lt;eof
+     2.0     # A
+     1.0     # B
+     -4.0    # C
+     eof
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_6_3">7.3.4 Programa ejemplo_7_3.f90</h3>
+
+<pre>
+     PROGRAM EJEMPLO_7_3
+     ! PROGRAMA QUE CALCULA LAS SOLUCIONES DE UNA EC DE SEGUNDO GRADO
+     ! y = A*x**2 + B*x + C
+       IMPLICIT NONE
+       !Definicion de variables
+       REAL :: A = 0.0
+       REAL :: B = 0.0
+       REAL :: C = 0.0
+       REAL, DIMENSION(2) :: SOL
+       REAL :: TEMP
+       INTEGER :: I
+       !
+       !     NAMELIST DEFINITIONS
+       NAMELIST/INP0/ A, B, C
+       !     NAMELIST FILE
+       OPEN(UNIT=10,FILE='sec_order.inp',STATUS='OLD')
+       ! Lectura de coeficientes
+       READ(10,INP0)
+       !
+       ! CALCULOS
+       TEMP = SQRT(B*B-4.0*A*C)
+       !
+       SOL(1) = (-B+TEMP)/(2.0*A)
+       SOL(2) = (-B-TEMP)/(2.0*A)
+       !
+       !
+       ! IMPRESION DE LAS SOLUCIONES
+       DO I=1, 2
+          PRINT 200, I, SOL(I)
+     200  FORMAT(1X,'SOLUCION ', I2,' = ',F18.6)
+       END DO
+     !
+     END PROGRAM EJEMPLO_7_3
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_6_32">7.3.5 <samp>namelist</samp> input file</h3>
+
+<pre>
+     #
+     #       INPUT FILE FOR EJEMPLO_7_3
+     #
+      &amp;INP0 A=2.0, B=1.0, C=-4.0 /
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_6_4">7.3.6 Programa ejemplo_7_4.f90</h3>
+
+<pre>
+     PROGRAM EJEMPLO_7_4
+       !
+       ! Internal file example
+       !
+       IMPLICIT NONE
+       !Definicion de variables
+       REAL :: x_var
+       INTEGER :: unit_n, index_X
+       CHARACTER(LEN=65) :: filename
+       CHARACTER(LEN=56) :: pref
+       !
+       PRINT*, &quot;Introduce file name preffix: &quot;
+       READ(*,*) pref
+       !
+       DO unit_n = 10, 20
+          !
+          WRITE(filename, '(A, &quot;_&quot;, i2,&quot;.dat&quot;)') TRIM(pref), unit_n
+          OPEN(UNIT = unit_n, FILE = filename, STATUS = &quot;UNKNOWN&quot;, ACTION = &quot;WRITE&quot;)
+          !
+          DO index_X = 0, 100
+             x_var = REAL(index_X)*0.01
+             WRITE(unit_n, '(1X,2ES14.6)') x_var, SIN(REAL(unit_n)*x_var)
+          ENDDO
+          !
+          CLOSE(UNIT = unit_n)
+          !
+       ENDDO
+     !
+     END PROGRAM EJEMPLO_7_4
+</pre>
+
+<hr>
+
+<p>
+[ <a href="ch-clase_5.html">previous</a> ]
+[ <a href="index.html#contents">Contents</a> ]
+[ <a href="ch-clase_1.html">1</a> ]
+[ <a href="ch-clase_2.html">2</a> ]
+[ <a href="ch-clase_3.html">3</a> ]
+[ <a href="ch-clase_4.html">4</a> ]
+[ <a href="ch-clase_7.html">5</a> ]
+[ <a href="ch-clase_5.html">6</a> ]
+[ 7 ]
+[ <a href="ch-clase_8.html">8</a> ]
+[ <a href="ch-clase_9.html">9</a> ]
+[ <a href="ch-clase_10.html">10</a> ]
+[ <a href="ch-clase_11.html">11</a> ]
+[ <a href="ch-clase_blaslap.html">12</a> ]
+[ <a href="ch-cap_ref.html">13</a> ]
+[ <a href="ch-clase_8.html">next</a> ]
+</p>
+
+<hr>
+
+<p>
+<code>Fortran 90</code> Lessons for Computational Chemistry
+</p>
+
+<address>
+0.0<br>
+<br>
+Curro Pérez-Bernal <code><a href="mailto:francisco.perez@dfaie.uhu.es">mailto:francisco.perez@dfaie.uhu.es</a></code><br>
+<br>
+</address>
+<hr>
+
+</body>
+
+</html>
+

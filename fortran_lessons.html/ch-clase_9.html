@@ -1,0 +1,1269 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+
+<html>
+
+<head>
+
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+
+<title>Fortran 90 Lessons for Computational Chemistry - Subprogramas (II): subrutinas</title>
+
+<link href="index.html" rel="start">
+<link href="ch-clase_8.html" rel="prev">
+<link href="ch-clase_10.html" rel="next">
+<link href="index.html#contents" rel="contents">
+<link href="index.html#copyright" rel="copyright">
+<link href="ch-clase_1.html" rel="chapter" title="1 Introduction">
+<link href="ch-clase_2.html" rel="chapter" title="2 Basic Operations">
+<link href="ch-clase_3.html" rel="chapter" title="3 Introduction to Fortran Arrays">
+<link href="ch-clase_4.html" rel="chapter" title="4 More on Arrays">
+<link href="ch-clase_7.html" rel="chapter" title="5 Control Structures">
+<link href="ch-clase_5.html" rel="chapter" title="6 INPUT/OUTPUT) (I)">
+<link href="ch-clase_6.html" rel="chapter" title="7 Operaciones I/O (II)">
+<link href="ch-clase_8.html" rel="chapter" title="8 Subprogramas (I): funciones">
+<link href="ch-clase_9.html" rel="chapter" title="9 Subprogramas (II): subrutinas">
+<link href="ch-clase_10.html" rel="chapter" title="10 Subprogramas (III): módulos">
+<link href="ch-clase_11.html" rel="chapter" title="11 Subprogramas (IV)">
+<link href="ch-clase_blaslap.html" rel="chapter" title="12 Instalación y uso de las bibliotecas BLAS y LAPACK">
+<link href="ch-cap_ref.html" rel="chapter" title="13 Referencias">
+<link href="ch-clase_1.html#s-sec_11" rel="section" title="1.1 Objectives">
+<link href="ch-clase_1.html#s-sec_12" rel="section" title="1.2 Main items.">
+<link href="ch-clase_1.html#s-sec_13" rel="section" title="1.3 Example Codes.">
+<link href="ch-clase_2.html#s-sec_21" rel="section" title="2.1 Objectives">
+<link href="ch-clase_2.html#s-sec_22" rel="section" title="2.2 Main items.">
+<link href="ch-clase_2.html#s-sec_23" rel="section" title="2.3 Example Codes.">
+<link href="ch-clase_3.html#s-sec_31" rel="section" title="3.1 Objectivos">
+<link href="ch-clase_3.html#s-sec_32" rel="section" title="3.2 Main items.">
+<link href="ch-clase_3.html#s-sec_33" rel="section" title="3.3 Example Codes.">
+<link href="ch-clase_4.html#s-sec_41" rel="section" title="4.1 Objectives">
+<link href="ch-clase_4.html#s-sec_42" rel="section" title="4.2 Main items.">
+<link href="ch-clase_4.html#s-sec_43" rel="section" title="4.3 Example Codes.">
+<link href="ch-clase_7.html#s-sec_71" rel="section" title="5.1 Objectivos">
+<link href="ch-clase_7.html#s-sec_72" rel="section" title="5.2 Main items.">
+<link href="ch-clase_7.html#s-sec_73" rel="section" title="5.3 Example codes.">
+<link href="ch-clase_5.html#s-sec_51" rel="section" title="6.1 Objectivos">
+<link href="ch-clase_5.html#s-sec_52" rel="section" title="6.2 Main Items.">
+<link href="ch-clase_5.html#s-sec_53" rel="section" title="6.3 Programas usados como ejemplo.">
+<link href="ch-clase_6.html#s-sec_61" rel="section" title="7.1 Objetivos">
+<link href="ch-clase_6.html#s-sec_62" rel="section" title="7.2 Puntos destacables.">
+<link href="ch-clase_6.html#s-sec_63" rel="section" title="7.3 Programas usados como ejemplo.">
+<link href="ch-clase_8.html#s-sec_81" rel="section" title="8.1 Objetivos">
+<link href="ch-clase_8.html#s-sec_82" rel="section" title="8.2 Puntos destacables.">
+<link href="ch-clase_8.html#s-sec_83" rel="section" title="8.3 Programas usados como ejemplo.">
+<link href="ch-clase_9.html#s-sec_91" rel="section" title="9.1 Objetivos">
+<link href="ch-clase_9.html#s-sec_92" rel="section" title="9.2 Puntos destacables.">
+<link href="ch-clase_9.html#s-sec_93" rel="section" title="9.3 Programas usados como ejemplo.">
+<link href="ch-clase_10.html#s-sec_101" rel="section" title="10.1 Objetivos">
+<link href="ch-clase_10.html#s-sec_102" rel="section" title="10.2 Puntos destacables.">
+<link href="ch-clase_10.html#s-sec_103" rel="section" title="10.3 Programas usados como ejemplo.">
+<link href="ch-clase_11.html#s-sec_111" rel="section" title="11.1 Objetivos">
+<link href="ch-clase_11.html#s-sec_112" rel="section" title="11.2 Puntos destacables.">
+<link href="ch-clase_11.html#s-sec_113" rel="section" title="11.3 Programas usados como ejemplo.">
+<link href="ch-clase_blaslap.html#s-sec_bl1" rel="section" title="12.1 Objetivos">
+<link href="ch-clase_blaslap.html#s-sec_bl2" rel="section" title="12.2 Puntos destacables.">
+<link href="ch-clase_blaslap.html#s-sec_bl3" rel="section" title="12.3 Programas usados como ejemplo.">
+<link href="ch-clase_1.html#s-sec_p_1_1" rel="subsection" title="1.3.1 excode_1_1.f90">
+<link href="ch-clase_1.html#s-sec_p_1_2" rel="subsection" title="1.3.2 excode_1_2.f90">
+<link href="ch-clase_2.html#s-sec_p_2_1" rel="subsection" title="2.3.1 excode_2_1.f90">
+<link href="ch-clase_2.html#s-sec_p_2_2" rel="subsection" title="2.3.2 excode_2_2.f90">
+<link href="ch-clase_2.html#s-sec_p_2_3" rel="subsection" title="2.3.3 excode_2_3.f90">
+<link href="ch-clase_2.html#s-sec_p_2_4" rel="subsection" title="2.3.4 excode_2_4.f90">
+<link href="ch-clase_2.html#s-sec_p_2_5" rel="subsection" title="2.3.5 excode_2_5.f90">
+<link href="ch-clase_2.html#s-sec_p_2_6" rel="subsection" title="2.3.6 excode_2_6.f90">
+<link href="ch-clase_3.html#s-sec_p_3_1" rel="subsection" title="3.3.1 excode_3_1.f90">
+<link href="ch-clase_3.html#s-sec_p_3_2" rel="subsection" title="3.3.2 excode_3_2.f90">
+<link href="ch-clase_3.html#s-sec_p_3_3" rel="subsection" title="3.3.3 excode_3_3.f90">
+<link href="ch-clase_3.html#s-sec_p_3_4" rel="subsection" title="3.3.4 excode_3_4.f90">
+<link href="ch-clase_4.html#s-sec_p_4_1" rel="subsection" title="4.3.1 excode_4_1.f90">
+<link href="ch-clase_4.html#s-sec_p_4_2" rel="subsection" title="4.3.2 excode_4_2.f90">
+<link href="ch-clase_4.html#s-sec_p_4_3" rel="subsection" title="4.3.3 excode_4_3.f90">
+<link href="ch-clase_4.html#s-sec_p_4_4" rel="subsection" title="4.3.4 excode_4_4.f90">
+<link href="ch-clase_4.html#s-sec_p_4_5" rel="subsection" title="4.3.5 excode_4_5.f90">
+<link href="ch-clase_4.html#s-sec_p_4_6" rel="subsection" title="4.3.6 excode_4_6.f90">
+<link href="ch-clase_7.html#s-sec_p_7_1" rel="subsection" title="5.3.1 excode_5_1.f90">
+<link href="ch-clase_7.html#s-sec_p_7_2" rel="subsection" title="5.3.2 excode_5_2.f90">
+<link href="ch-clase_7.html#s-sec_p_7_3" rel="subsection" title="5.3.3 excode_5_3.f90">
+<link href="ch-clase_7.html#s-sec_p_7_4" rel="subsection" title="5.3.4 Programa ejemplo_5_4.f90">
+<link href="ch-clase_5.html#s-sec_p_5_1" rel="subsection" title="6.3.1 excode_6_1.f90">
+<link href="ch-clase_5.html#s-sec_p_5_2" rel="subsection" title="6.3.2 excode_6_2.f90">
+<link href="ch-clase_5.html#s-sec_p_5_3" rel="subsection" title="6.3.3 excode_6_3.f90">
+<link href="ch-clase_5.html#s-sec_p_5_4" rel="subsection" title="6.3.4 excode_6_4.f90">
+<link href="ch-clase_5.html#s-sec_p_5_5" rel="subsection" title="6.3.5 excode_6_5.f90">
+<link href="ch-clase_5.html#s-sec_p_5_6" rel="subsection" title="6.3.6 excode_6_6.f90">
+<link href="ch-clase_5.html#s-sec_p_5_7" rel="subsection" title="6.3.7 excode_6_7.f90">
+<link href="ch-clase_6.html#s-sec_p_6_1" rel="subsection" title="7.3.1 Programa ejemplo_7_1.f90">
+<link href="ch-clase_6.html#s-sec_p_6_2" rel="subsection" title="7.3.2 Programa ejemplo_7_2.f90">
+<link href="ch-clase_6.html#s-sec_p_6_22" rel="subsection" title="7.3.3 Script ej_here_file">
+<link href="ch-clase_6.html#s-sec_p_6_3" rel="subsection" title="7.3.4 Programa ejemplo_7_3.f90">
+<link href="ch-clase_6.html#s-sec_p_6_32" rel="subsection" title="7.3.5 namelist input file">
+<link href="ch-clase_6.html#s-sec_p_6_4" rel="subsection" title="7.3.6 Programa ejemplo_7_4.f90">
+<link href="ch-clase_8.html#s-sec_p_8_1" rel="subsection" title="8.3.1 Programa ejemplo_8_1.f90">
+<link href="ch-clase_8.html#s-sec_p_8_2" rel="subsection" title="8.3.2 Programa ejemplo_8_2.f90">
+<link href="ch-clase_8.html#s-sec_p_8_3" rel="subsection" title="8.3.3 Programa ejemplo_8_3.f90">
+<link href="ch-clase_8.html#s-sec_p_8_4" rel="subsection" title="8.3.4 Programa ejemplo_8_4.f90">
+<link href="ch-clase_8.html#s-sec_p_8_5" rel="subsection" title="8.3.5 Programa ejemplo_8_5.f90">
+<link href="ch-clase_8.html#s-sec_p_8_6" rel="subsection" title="8.3.6 Programa ejemplo_8_6.f90">
+<link href="ch-clase_9.html#s-sec_p_9_1" rel="subsection" title="9.3.1 Programa ejemplo_9_1.f90">
+<link href="ch-clase_9.html#s-sec_p_9_2" rel="subsection" title="9.3.2 Programa ejemplo_9_2.f90">
+<link href="ch-clase_9.html#s-sec_p_9_3" rel="subsection" title="9.3.3 Programa ejemplo_9_3.f90">
+<link href="ch-clase_9.html#s-sec_p_9_4" rel="subsection" title="9.3.4 Programa ejemplo_9_4.f90">
+<link href="ch-clase_9.html#s-sec_p_9_5" rel="subsection" title="9.3.5 Programa ejemplo_9_5.f90">
+<link href="ch-clase_9.html#s-sec_p_9_6" rel="subsection" title="9.3.6 Programa ejemplo_9_6.f90">
+<link href="ch-clase_9.html#s-sec_p_9_7" rel="subsection" title="9.3.7 Programa ejemplo_9_7.f90">
+<link href="ch-clase_10.html#s-sec_p_10_1" rel="subsection" title="10.3.1 Programa ejemplo_10_1.f90">
+<link href="ch-clase_10.html#s-sec_p_10_2" rel="subsection" title="10.3.2 Programa ejemplo_10_2.f90">
+<link href="ch-clase_10.html#s-sec_p_10_3" rel="subsection" title="10.3.3 Programa ejemplo_10_3.f90">
+<link href="ch-clase_10.html#s-sec_p_10_4" rel="subsection" title="10.3.4 Programa ejemplo_10_4.f90">
+<link href="ch-clase_11.html#s-sec_p_11_1" rel="subsection" title="11.3.1 Programa ejemplo_11_1.f90">
+<link href="ch-clase_11.html#s-sec_p_11_2" rel="subsection" title="11.3.2 Programa ejemplo_11_2.f90">
+<link href="ch-clase_11.html#s-sec_p_11_3" rel="subsection" title="11.3.3 Programa ejemplo_11_3.f90">
+<link href="ch-clase_11.html#s-sec_p_11_4" rel="subsection" title="11.3.4 Programa ejemplo_11_4.f90">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_1" rel="subsection" title="12.3.1 Ejemplo de fichero make.inc para LAPACK">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_2" rel="subsection" title="12.3.2 Ejemplo de fichero make.inc para LAPACK95">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_3" rel="subsection" title="12.3.3 Ejemplo de programa que invoca LAPACK95">
+<link href="ch-clase_blaslap.html#s-sec_p_bl_4" rel="subsection" title="12.3.4 Ejemplo de makefile para compilar programas que invocan LAPACK95">
+
+</head>
+
+<body>
+
+<p><a name="ch-clase_9"></a></p>
+<hr>
+
+<p>
+[ <a href="ch-clase_8.html">previous</a> ]
+[ <a href="index.html#contents">Contents</a> ]
+[ <a href="ch-clase_1.html">1</a> ]
+[ <a href="ch-clase_2.html">2</a> ]
+[ <a href="ch-clase_3.html">3</a> ]
+[ <a href="ch-clase_4.html">4</a> ]
+[ <a href="ch-clase_7.html">5</a> ]
+[ <a href="ch-clase_5.html">6</a> ]
+[ <a href="ch-clase_6.html">7</a> ]
+[ <a href="ch-clase_8.html">8</a> ]
+[ 9 ]
+[ <a href="ch-clase_10.html">10</a> ]
+[ <a href="ch-clase_11.html">11</a> ]
+[ <a href="ch-clase_blaslap.html">12</a> ]
+[ <a href="ch-cap_ref.html">13</a> ]
+[ <a href="ch-clase_10.html">next</a> ]
+</p>
+
+<hr>
+
+<h1>
+<code>Fortran 90</code> Lessons for Computational Chemistry
+<br>Chapter 9 - Subprogramas (II): subrutinas
+</h1>
+
+<hr>
+
+<h2 id="s-sec_91">9.1 Objetivos</h2>
+
+<p>
+Los objetivos de esta clase son los siguientes:
+</p>
+<ol type="1" start="1" >
+<li>
+<p>
+Considerar la diferencia entre funciones y subrutinas y por qué son precisas
+estas últimas.
+</p>
+</li>
+</ol>
+<ol type="1" start="2" >
+<li>
+<p>
+Introducir los conceptos e ideas más útiles en la definición de subrutinas.
+</p>
+</li>
+</ol>
+<ol type="1" start="3" >
+<li>
+<p>
+Argumentos de una subrutina.
+</p>
+</li>
+</ol>
+<ol type="1" start="4" >
+<li>
+<p>
+Los comandos <samp>CALL</samp> e <samp>INTERFACE</samp>.
+</p>
+</li>
+</ol>
+<ol type="1" start="5" >
+<li>
+<p>
+Alcance (<em>scope</em>) de las variables.
+</p>
+</li>
+</ol>
+<ol type="1" start="6" >
+<li>
+<p>
+Variables locales y el atributo <samp>SAVE</samp>
+</p>
+</li>
+</ol>
+<ol type="1" start="7" >
+<li>
+<p>
+Diferentes formas de transmitir matrices como argumentos a una subrutina.
+</p>
+</li>
+</ol>
+<ol type="1" start="8" >
+<li>
+<p>
+Definición de matrices automáticas.
+</p>
+</li>
+</ol>
+
+<hr>
+
+<h2 id="s-sec_92">9.2 Puntos destacables.</h2>
+<ol type="1" start="1" >
+<li>
+<p>
+El uso de subrutinas favorece una programación estructurada, mediante la
+definición de subtareas y su realización en las correspondientes subrutinas y
+evitando con su uso la duplicación innecesaria de código.  Además hacen posible
+el uso de una extensa colección de librerías o bibliotecas de subrutinas
+programadas y extensamente probadas para una enorme cantidad de posibles
+aplicaciones.
+</p>
+</li>
+</ol>
+<ol type="1" start="2" >
+<li>
+<p>
+Para explicar este punto vamos a usar un ejemplo práctico, como es el de la
+solución de una ecuación de segundo grado.  Una posible forma de dividir este
+programa en subtareas es la siguiente:
+</p>
+<ol type="1" start="1" >
+<li>
+<p>
+Programa principal.
+</p>
+</li>
+</ol>
+<ol type="1" start="2" >
+<li>
+<p>
+Input de los coeficientes de la ecuación por el usuario.
+</p>
+</li>
+</ol>
+<ol type="1" start="3" >
+<li>
+<p>
+Solución de la ecuación.
+</p>
+</li>
+</ol>
+<ol type="1" start="4" >
+<li>
+<p>
+Impresión de las soluciones.
+</p>
+</li>
+</ol>
+
+<p>
+El programa <a href="#s-sec_p_9_1">Programa ejemplo_9_1.f90, Section 9.3.1</a>
+se ajusta a este esquema usando dos subrutinas, llamadas <samp>Interact</samp>
+y <samp>Solve</samp>.
+</p>
+</li>
+</ol>
+<ol type="1" start="3" >
+<li>
+<p>
+La definición de una subrutina tiene la siguiente estructura:
+</p>
+
+<pre>
+     SUBROUTINE nombre_subrutina(lista de argumentos [opcional])
+              IMPLICIT NONE
+              Arguments (dummy variables) definition (INTENT)
+              ...
+              Local variables definition
+              ...
+              Execution Section
+              ...
+              [RETURN]
+      END SUBROUTINE nombre_subrutina
+</pre>
+
+<p>
+Los argumentos se denominan <em>dummy arguments</em> porque su definición no
+implica la asignación de memoria alguna.  Esta asignación se llevará a cabo de
+acuerdo con los valores que tomen los argumentos cuando se llame a la
+subrutina.
+</p>
+
+<p>
+Cuando el compilador genera el ejecutable cada subrutina se compila de forma
+separada lo que permite el uso de <em>variables locales</em> con el mismo
+nombre en diferentes subrutinas, ya que cada subrutina tiene su particular
+alcance (<em>scope</em>).
+</p>
+
+<p>
+En el programa <a href="#s-sec_p_9_1">Programa ejemplo_9_1.f90, Section
+9.3.1</a> se ve como este esquema se repite para las dos subrutinas empleadas.
+</p>
+</li>
+</ol>
+<ol type="1" start="4" >
+<li>
+<p>
+Para invocar una subrutina se emplea el comando <samp>CALL</samp> de acuerdo
+con el esquema
+</p>
+
+<pre>
+     CALL nombre_subroutina(argumentos [opcional])
+</pre>
+
+<p>
+Tras la ejecución de la subrutina invocada con la orden <samp>CALL</samp>, el
+flujo del programa retorna a la unidad de programa en la que se ha invocado a
+la subrutina y continúa en la orden siguiente al comando en el que se ha
+llamado la subrutina con <samp>CALL</samp>.  Desde la subrutina se devuelve la
+ejecución con el comando <samp>RETURN</samp>.  Si la subrutina llega a su fin
+también se devuelve el control al programa que la ha invocado, por lo que
+generalmente no se incluye el comando <samp>RETURN</samp> justo antes de
+<samp>END SUBROUTINE</samp>.  Si es posible, las subrutinas deberían tener un
+solo punto de salida.
+</p>
+</li>
+</ol>
+<ol type="1" start="5" >
+<li>
+<p>
+La subrutina y el programa principal se comunican a través de los argumentos
+(también llamados parámetros) de la subrutina.  En la definición de la
+subrutina dichos argumentos son <em>dummies</em>, encerrados entre paréntesis y
+separados con comas tras el nombre de la subrutina.  Dichos argumentos tienen
+un tipo asociado, pero <em>NO</em> se reserva ningún espacio para ellos en
+memoria.  Por ejemplo, los argumentos <samp>E</samp>, <samp>F</samp> y
+<samp>G</samp> de la subrutina <samp>Solve</samp> en el ejemplo <a
+href="#s-sec_p_9_1">Programa ejemplo_9_1.f90, Section 9.3.1</a> son del tipo
+<samp>REAL</samp>, pero no se reserva para ellos ningún espacio en memoria.
+Cuando la subrutina es invocada con el comando <samp>CALL
+Solve(P,Q,R,Root1,Root2,IFail)</samp> entonces los argumentos <samp>E</samp>,
+<samp>F</samp> y <samp>G</samp> pasan a ser reemplazados por unos punteros a
+las variables <samp>P</samp>, <samp>Q</samp> y <samp>R</samp>.  Por tanto es
+muy importante que el tipo de los argumentos y el de las variables por las que
+se ven reemplazados coincidan, ya que cuando esto no sucede se producen
+frecuentes errores.
+</p>
+</li>
+</ol>
+<ol type="1" start="6" >
+<li>
+<p>
+Alguno de los argumentos proporcionan una información de entrada (input) a la
+subrutina, mientras que otros proporcionan la salida de la subrutina (output).
+Por último, también es posible que los argumentos sean simultáneamente de
+entrada y salida.
+</p>
+
+<p>
+Aquellos parámetros que solo sean de entrada es conveniente definirlos con el
+atributo <samp>INTENT(IN)</samp>.  Este atributo ya lo vimos en <a
+href="ch-clase_8.html">Subprogramas (I): funciones, Chapter 8</a> aplicándolo a
+funciones.  Cuando un argumento posee este atributo el valor de entrada del
+parámetro se mantiene constante y no puede variar en la ejecución de la
+subrutina.
+</p>
+
+<p>
+Si los parámetros solo son de salida es conveniente definirlos con el atributo
+<samp>INTENT(OUT)</samp>, para que se ignore el valor de entrada del parámetro
+y debe dársele uno durante la ejecución de la subrutina.
+</p>
+
+<p>
+Si el parámetro tiene el atributo <samp>INTENT(INOUT)</samp>, entonces se
+considera el valor inicial del parámetro así como su posible modificación en la
+subrutina.
+</p>
+
+<p>
+Hay ejemplos de los tres casos arriba citados en la subrutina
+<samp>Solve</samp> del ejemplo <a href="#s-sec_p_9_1">Programa ejemplo_9_1.f90,
+Section 9.3.1</a>.  Es muy conveniente etiquetar con el atributo
+<samp>INTENT</samp> todos los argumentos.
+</p>
+</li>
+</ol>
+<ol type="1" start="7" >
+<li>
+<p>
+De acuerdo con lo anterior es de vital importancia que no exista contradicción
+entre la declaración de variables en el programa que invoca a la subrutina y en
+la propia subrutina.  Para facilitar este acuerdo entre ambas declaraciones
+existen los llamados <em>interface blocks</em>.  En el programa <a
+href="#s-sec_p_9_2">Programa ejemplo_9_2.f90, Section 9.3.2</a> podemos ver el
+programa <a href="#s-sec_p_9_1">Programa ejemplo_9_1.f90, Section 9.3.1</a> al
+que se han añadido en el programa principal los <em>interface blocks</em>
+correspondientes a las subrutinas <samp>Interact</samp> y <samp>Solve</samp>.
+</p>
+</li>
+</ol>
+<ol type="1" start="8" >
+<li>
+<p>
+Al igual que en el caso de las funciones, las variables declaradas en una
+subrutina que no sean parámetros o argumentos de la misma se consideran
+locales.  Por ejemplo, en la subrutina <samp>Interact</samp> del <a
+href="#s-sec_p_9_1">Programa ejemplo_9_1.f90, Section 9.3.1</a> la variable
+<samp>IO_Status</samp> es una variable local de la subrutina.
+</p>
+
+<p>
+Generalmente las variables locales se crean al invocarse la subrutina y el
+valor que adquieren se pierde una vez que la subrutina se ha ejecutado.  Sin
+embargo, usando el atributo <samp>SAVE</samp> es posible salvar el valor que
+adquiera la variable de una llamada a la subrutina hasta la siguiente llamada.
+Por ejemplo
+</p>
+
+<pre>
+     INTEGER, SAVE:: It = 0
+</pre>
+
+<p>
+El valor que tome en este caso la variable <samp>It</samp> entre llamadas al
+subprograma en el que se haya declarado se conserva.
+</p>
+
+<p>
+Como en el caso de las funciones, es posible hacer que el programa principal
+&quot;conozca&quot; las variables de las subrutinas que invoque mediante la
+orden <samp>CONTAINS</samp> y haciendo que de hecho las subrutinas formen parte
+del programa principal.  Esta solución resulta difícil de escalar cuando crece
+la longitud del problema y no es recomendable.
+</p>
+</li>
+</ol>
+<ol type="1" start="9" >
+<li>
+<p>
+Cuando el argumento de una subrutina no es una variable escalar (del tipo que
+fuera) sino una matriz (<em>array</em>) es necesario dar una información extra
+acerca de la matriz.  El subprograma al que se pasa la matriz ha de conocer el
+tamaño de la matriz para no acceder a posiciones de memoria erróneas.  Para
+conseguir esto hay tres posibles formas de especificar las dimensiones de una
+matriz que se halle en la lista de argumentos de una subrutina:
+</p>
+<ol type="1" start="1" >
+<li>
+<p>
+<em>explicit-shape approach</em>:
+</p>
+
+<p>
+En este caso se incluyen como argumentos en la llamada a la subrutina las
+dimensiones de las matrices implicadas, declarando posteriormente las matrices
+haciendo uso de dichas dimensiones.  Por ejemplo, si en una subrutina llamada
+<samp>test_pass</samp> se incluye un vector de entrada llamado
+<samp>space_vec_in</samp> y uno de salida<samp>space_vec_out</samp> con la
+misma dimensión, si hacemos uso del <em>explicit-shape approach</em> la
+subrutina comenzaría como
+</p>
+
+<pre>
+     SUBROUTINE test_pass(space_vec_in, space_vec_out, dim_vec)
+              IMPLICIT NONE
+              INTEGER, INTENT(IN) :: dim_vec
+              REAL, INTENT(IN), DIMENSION(1:dim_vec) :: space_vec_in
+              REAL, INTENT(OUT), DIMENSION(1:dim_vec) :: space_vec_out
+              ......
+      END SUBROUTINE test_pass
+</pre>
+</li>
+</ol>
+<ol type="1" start="2" >
+<li>
+<p>
+<em>assumed-shape approach</em>:
+</p>
+
+<p>
+En este caso es necesario incluir el correspondiente bloque
+<samp>INTERFACE</samp> en el subprograma que invoca la subrutina.  Como veremos
+en el <a href="ch-clase_10.html">Subprogramas (III): módulos, Chapter 10</a>
+esto se puede evitar incluyendo la subrutina en un módulo.
+</p>
+
+<p>
+En el <a href="#s-sec_p_9_3">Programa ejemplo_9_3.f90, Section 9.3.3</a> puede
+verse un programa en el que se calcula la media, la mediana[<a
+href="footnotes.html#f11" name="fr11">11</a>], la varianza y la desviación
+estándar de un conjunto de números generados aleatoriamente.  En el programa
+hemos marcado algunos de los puntos de interés que queremos explicar con
+detalle.
+</p>
+<ul>
+<li>
+<p>
+<em>(1-3)</em> Hemos definido la matriz con dimensión variable, de forma que se
+dimensione mediante una orden <samp>ALLOCATE</samp>.  En la orden que
+dimensiona a la matriz se indica que es un vector (<samp>DIMENSION(:)</samp>) y
+del mismo modo se hace en el <em>interface block</em>.  El uso del
+<em>interface block</em> es recomendable, y en casos como este, con matrices
+definidas de este modo, resulta obligatorio.  La orden <em>(3)</em>,
+<samp>ALLOCATE(X(1:N), STAT = IERR)</samp> hace que <samp>X</samp> pase a ser
+un vector N-dimensional.  Usamos también el campo opcional <samp>STAT</samp>
+que nos permita saber si se ha podido dimensionar el arreglo solicitado.  Solo
+si la salida (<samp>IERR</samp>) es cero la matriz se ha creado sin problemas.
+El uso de esta opción debe generalizarse.
+</p>
+
+<pre>
+       REAL , ALLOCATABLE , DIMENSION(:) :: X  !! (1)
+     
+       ...
+     
+       INTERFACE
+          SUBROUTINE STATS(X,N,MEAN,STD_DEV,MEDIAN)
+            IMPLICIT NONE
+     
+            ...
+     
+            REAL      , INTENT(IN) , DIMENSION(:)   ::    X  !!  (1)
+     
+            ...
+     
+          END SUBROUTINE STATS
+       END INTERFACE
+</pre>
+
+<p>
+Es importante tener en cuenta que se puede definir como
+<samp>ALLOCATABLE</samp> el argumento con el que se llama a una subrutina, así
+como a variables internas o locales de la subrutina, pero una variable
+<em>dummy</em> no puede tener este atributo.
+</p>
+
+<p>
+A diferencia de en <code>FORTRAN77</code>, la forma recomendada de transmitir
+arreglos de datos entre un programa y una subrutina es como en el ejemplo,
+usando <em>assumed shape arguments</em> en los que no se da ninguna información
+acerca del tamaño del arreglo.  Sí deben coincidir ambas variables en tipo,
+rango y clase (<samp>KIND</samp>).
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+<em>(4)</em> y <em>(6)</em>: En estas órdenes se aprovecha la capacidad de
+<code>Fortran90</code> para trabajar con arreglos de variables, ya sean estos
+vectores o matrices.  Por ejemplo, el comando <samp>X=X*1000</samp> multiplica
+todas las componentes del vector <samp>X</samp> por un escalar y el comando
+<samp>SUMXI=SUM(X)</samp> aprovecha la función <samp>SUM</samp> para sumar las
+componentes del vector.  En estilo <code>Fortran 77</code> estas operaciones
+conllevarían un bucle <samp>DO</samp>, por ejemplo
+</p>
+
+<pre>
+     SUMXI = 0.0
+     DO I = 1, N
+        SUMXI = SUMXI + X(I)
+     ENDDO
+</pre>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+<em>(5)</em> En esta parte del programa se libera la memoria reservada para el
+vector <samp>X</samp> usando el comando <samp>DEALLOCATE</samp>.  Este paso no
+es obligatorio en este programa, pero sí cuando la matriz del tipo
+<samp>ALLOCATE</samp> se ha definido en una función o subrutina y no tiene el
+atributo <samp>SAVE</samp>.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+<em>(7)</em> Aquí se aprovecha el comando <samp>CONTAINS</samp> para hacer que
+la subrutina de ordenamiento <samp>SELECTION</samp>, que como puede verse no
+posee argumentos, <em>conozca</em> las misma variables que la subrutina
+<samp>STATS</samp>, en la que está contenida.  Por ello, en la subrutina
+<samp>SELECTION</samp> solo es preciso definir las variables locales.  Esta
+subrutina se encarga de ordenar la lista de números según un algoritmo que
+consiste en buscar el número más pequeño de la lista y hacerlo el primer
+miembro.  Se busca a continuación el más pequeño de los restantes que pasa a
+ser segundo, y así prosigue hasta tener ordenada la lista de números.
+</p>
+</li>
+</ul>
+
+<p>
+La definición de bloques <samp>INTERFACE</samp> se facilita con el uso de
+módulos, que describimos en la siguiente unidad.
+</p>
+</li>
+</ol>
+<ol type="1" start="3" >
+<li>
+<p>
+<em>assumed-size approach</em>
+</p>
+
+<p>
+En este caso no se da información a la subrutina acerca de las dimensiones de
+la matriz, es fácil caer en errores de difícil diagnóstico y se desaconseja su
+uso.
+</p>
+</li>
+</ol>
+</li>
+</ol>
+<ol type="1" start="10" >
+<li>
+<p>
+Arreglos multidimensionales.  El <a href="#s-sec_p_9_5">Programa
+ejemplo_9_5.f90, Section 9.3.5</a> es un ejemplo de como pasar como argumentos
+arreglos multidimensionales como <em>assumed shape arrays</em>.  En él, tras
+que el usuario defina dos matrices, <samp>A</samp> y <samp>B</samp>, el
+programa calcula la matriz <samp>C</samp> solución del producto <samp>AB</samp>
+y tras ello calcula la matriz traspuesta de <samp>A</samp>.  Se hace uso de las
+funciones de <code>Fortran 90</code> <samp>MATMUL</samp> y
+<samp>TRANSPOSE</samp>.
+</p>
+</li>
+</ol>
+<ol type="1" start="11" >
+<li>
+<p>
+En las subrutinas pueden dimensionarse <em>automatic arrays</em>, que pueden
+depender de los argumentos de la subrutina.  Estos arreglos son locales a la
+subrutina, no pueden tener el argumento <samp>SAVE</samp> y se crean cada vez
+que se invoca la subrutina, siendo destruidos al salir de ella.  Esto hace que
+si no hay memoria suficiente para dimensionar el arreglo el programa no
+funcione.  Para evitar esto deben definirse arreglos no automáticos, del tipo
+<samp>ALLOCATABLE</samp>.
+</p>
+</li>
+</ol>
+<ol type="1" start="12" >
+<li>
+<p>
+Al pasar como argumento una variable de tipo <samp>CHARACTER</samp> dicho
+argumento se declar con una longitud <samp>LEN = *</samp> y cuando se llame a
+la subrutina la longitud de la variable pasa a ser la longitud de la variable
+en la llamada.
+</p>
+
+<p>
+El <a href="#s-sec_p_9_4">Programa ejemplo_9_4.f90, Section 9.3.4</a> muestra
+un programa en el que, al darle el nombre de un fichero y el número de datos
+almacenados en dicho fichero; el programa abre el fichero y lee dos columnas de
+valores que almacena en los vectores <samp>X</samp> e <samp>Y</samp>.  En estos
+casos, dado que el tamaño de la variable <samp>CHARACTER</samp> es variable, es
+preciso usar un <em>interface block</em>.
+</p>
+
+<p>
+El <a href="#s-sec_p_9_6">Programa ejemplo_9_6.f90, Section 9.3.6</a> es un
+ejemplo donde se construyen dos vectores de números aleatorios de dimensión
+definida por el usuario usando el método <em>Box-Mueller</em>.  Para ello se
+definen dos matrices de tipo <samp>ALLOCATABLE</samp>, <samp>X</samp> e
+<samp>Y</samp>, y en la subrutina interna <samp>BOX_MULLER</samp> se definen
+dos vectores de tipo automático: <samp>RANDOM_u</samp> y <samp>RANDOM_v</samp>.
+</p>
+
+<p>
+Para calcular el valor medio, la desviación estándar y la mediana de los
+vectores <samp>X</samp> e <samp>Y</samp> se hace uso de la subrutina
+<samp>STATS</samp> del <a href="#s-sec_p_9_3">Programa ejemplo_9_3.f90, Section
+9.3.3</a>.  Se incluye el necesario <samp>INTERFACE</samp> en el programa
+principal y la subrutina se debe compilar en un fichero por separado.  <a
+href="#s-sec_p_9_6">Programa ejemplo_9_6.f90, Section 9.3.6</a>
+</p>
+</li>
+</ol>
+<ol type="1" start="13" >
+<li>
+<p>
+Sí es importante tener en cuenta que en el caso que se transfiera un
+<em>array</em> usando <em>assumed shape arguments</em> como en los ejemplos, el
+primer índice de la variable en la subrutina <em>se supone que comienza con el
+valor <samp>1</samp>, a menos que explícitamente se indique lo contrario</em>.
+En el ejemplo <a href="#s-sec_p_9_7">Programa ejemplo_9_7.f90, Section
+9.3.7</a> se muestra un caso simple donde es necesario indicar el índice
+inicial del vector cuando este no es cero.  En este programa se calcula el
+factorial de los enteros entre <samp>IMIN</samp> e <samp>IMAX</samp> y se
+almacenan en un vector real.  Se puede compilar y correr el programa haciendo
+<samp>IMIN = 1</samp> e <samp>IMIN = 0</samp> con y sin la definición del
+índice inicial en la subrutina, para ver la diferencia en las salidas.
+</p>
+</li>
+</ol>
+
+<hr>
+
+<h2 id="s-sec_93">9.3 Programas usados como ejemplo.</h2>
+
+<hr>
+
+<h3 id="s-sec_p_9_1">9.3.1 Programa ejemplo_9_1.f90</h3>
+
+<pre>
+     PROGRAM ejemplo_9_1
+     !
+     IMPLICIT NONE
+     ! Ejemplo simple de un programa con dos subrutinas.
+     ! subrutina (1):: Interact :: Obtiente los coeficientes de la ec. de seg. grado.
+     ! subrutina (2):: Solve :: Resuelve la ec. de seg. grado.
+     !
+     ! Definicion de variables
+     REAL :: P, Q, R, Root1, Root2
+     INTEGER :: IFail=0
+     LOGICAL :: OK=.TRUE.
+     !
+        CALL Interact(P,Q,R,OK) ! Subrutina (1)
+     !
+        IF (OK) THEN
+     !
+           CALL Solve(P,Q,R,Root1,Root2,IFail) ! Subrutina (2)
+     !
+           IF (IFail == 1) THEN
+              PRINT *,' Complex roots'
+              PRINT *,' calculation aborted'
+           ELSE
+              PRINT *,' Roots are ',Root1,' ',Root2
+           ENDIF
+     !
+        ELSE
+     !
+           PRINT*,' Error in data input program ends'
+     !
+        ENDIF
+     !
+     END PROGRAM ejemplo_9_1
+     !
+     !
+     SUBROUTINE Interact(A,B,C,OK)
+        IMPLICIT NONE
+        REAL , INTENT(OUT) :: A
+        REAL , INTENT(OUT) :: B
+        REAL , INTENT(OUT) :: C
+        LOGICAL , INTENT(OUT) :: OK
+        INTEGER :: IO_Status=0
+        PRINT*,' Type in the coefficients A, B AND C'
+        READ(UNIT=*,FMT=*,IOSTAT=IO_Status)A,B,C
+        IF (IO_Status == 0) THEN
+           OK=.TRUE.
+        ELSE
+           OK=.FALSE.
+        ENDIF
+     END SUBROUTINE Interact
+     !
+     !
+     SUBROUTINE Solve(E,F,G,Root1,Root2,IFail)
+        IMPLICIT NONE
+        REAL , INTENT(IN) :: E
+        REAL , INTENT(IN) :: F
+        REAL , INTENT(IN) :: G
+        REAL , INTENT(OUT) :: Root1
+        REAL , INTENT(OUT) :: Root2
+        INTEGER , INTENT(INOUT) :: IFail
+     ! Local variables
+        REAL :: Term
+        REAL :: A2
+        Term = F*F - 4.*E*G
+        A2 = E*2.0
+     ! if term &lt; 0, roots are complex
+        IF(Term &lt; 0.0)THEN
+           IFail=1
+        ELSE
+           Term = SQRT(Term)
+           Root1 = (-F+Term)/A2
+           Root2 = (-F-Term)/A2
+        ENDIF
+     END SUBROUTINE Solve
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_9_2">9.3.2 Programa ejemplo_9_2.f90</h3>
+
+<pre>
+     PROGRAM ejemplo_9_2
+       !
+       IMPLICIT NONE
+       ! Ejemplo simple de un programa con dos subrutinas.
+       ! subrutina (1):: Interact :: Obtiente los coeficientes de la ec. de seg. grado.
+       ! subrutina (2):: Solve :: Resuelve la ec. de seg. grado.
+       !
+       ! Interface blocks
+       INTERFACE
+          SUBROUTINE Interact(A,B,C,OK)
+            IMPLICIT NONE
+            REAL , INTENT(OUT) ::  A
+            REAL , INTENT(OUT) ::  B
+            REAL , INTENT(OUT) ::  C
+            LOGICAL , INTENT(OUT) :: OK
+          END SUBROUTINE Interact
+          SUBROUTINE Solve(E,F,G,Root1,Root2,IFail)
+            IMPLICIT NONE
+            REAL , INTENT(IN) :: E
+            REAL , INTENT(IN) :: F
+            REAL , INTENT(IN) :: G
+            REAL , INTENT(OUT) :: Root1
+            REAL , INTENT(OUT) :: Root2
+            INTEGER , INTENT(INOUT) :: IFail
+          END SUBROUTINE Solve
+       END INTERFACE
+       ! Fin interface blocks
+       !
+       ! Definicion de variables
+       REAL :: P, Q, R, Root1, Root2
+       INTEGER :: IFail=0
+       LOGICAL :: OK=.TRUE.
+       !
+       CALL Interact(P,Q,R,OK) ! Subrutina (1)
+       !
+       IF (OK) THEN
+          !
+          CALL Solve(P,Q,R,Root1,Root2,IFail) ! Subrutina (2)
+          !
+          IF (IFail == 1) THEN
+             PRINT *,' Complex roots'
+             PRINT *,' calculation aborted'
+          ELSE
+             PRINT *,' Roots are ',Root1,' ',Root2
+          ENDIF
+          !
+       ELSE
+          !
+          PRINT*,' Error in data input program ends'
+          !
+       ENDIF
+       !
+     END PROGRAM ejemplo_9_2
+     !
+     !
+     SUBROUTINE Interact(A,B,C,OK)
+       IMPLICIT NONE
+       REAL , INTENT(OUT) :: A
+       REAL , INTENT(OUT) :: B
+       REAL , INTENT(OUT) :: C
+       LOGICAL , INTENT(OUT) :: OK
+       INTEGER :: IO_Status=0
+       PRINT*,' Type in the coefficients A, B AND C'
+       READ(UNIT=*,FMT=*,IOSTAT=IO_Status)A,B,C
+       IF (IO_Status == 0) THEN
+          OK=.TRUE.
+       ELSE
+          OK=.FALSE.
+       ENDIF
+     END SUBROUTINE Interact
+     !
+     !
+     SUBROUTINE Solve(E,F,G,Root1,Root2,IFail)
+       IMPLICIT NONE
+       REAL , INTENT(IN) :: E
+       REAL , INTENT(IN) :: F
+       REAL , INTENT(IN) :: G
+       REAL , INTENT(OUT) :: Root1
+       REAL , INTENT(OUT) :: Root2
+       INTEGER , INTENT(INOUT) :: IFail
+       ! Local variables
+       REAL :: Term
+       REAL :: A2
+       Term = F*F - 4.*E*G
+       A2 = E*2.0
+       ! if term &lt; 0, roots are complex
+       IF(Term &lt; 0.0)THEN
+          IFail=1
+       ELSE
+          Term = SQRT(Term)
+          Root1 = (-F+Term)/A2
+          Root2 = (-F-Term)/A2
+       ENDIF
+     END SUBROUTINE Solve
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_9_3">9.3.3 Programa ejemplo_9_3.f90</h3>
+
+<pre>
+     PROGRAM ejemplo_9_3
+       !
+       IMPLICIT NONE
+       !
+       ! Definicion de variables
+       INTEGER :: N
+       REAL , ALLOCATABLE , DIMENSION(:) :: X  !! (1)
+       REAL :: M,SD,MEDIAN
+       INTEGER :: IERR
+       !
+       ! interface block   !! (2)
+       INTERFACE
+          SUBROUTINE STATS(VECTOR,N,MEAN,STD_DEV,MEDIAN)
+            IMPLICIT NONE
+            INTEGER , INTENT(IN)                    ::  N
+            REAL      , INTENT(IN) , DIMENSION(:)   :: VECTOR  !!  (1)
+            REAL      , INTENT(OUT)                 :: MEAN
+            REAL      , INTENT(OUT)                 :: STD_DEV
+            REAL      , INTENT(OUT)                 :: MEDIAN
+          END SUBROUTINE STATS
+       END INTERFACE
+       PRINT *,' Cuántos valores vas a generar aleatoriamente ?'
+       READ(*,*),N
+       ALLOCATE(X(1:N), STAT = IERR)     !!  (3)
+       IF (IERR /= 0) THEN
+          PRINT*, &quot;X allocation request denied.&quot;
+          STOP
+       ENDIF
+       CALL RANDOM_NUMBER(X)
+       X=X*1000             !!  (4)
+       CALL STATS(X,N,M,SD,MEDIAN)
+     !
+       PRINT *,' MEAN = ',M
+       PRINT *,' STANDARD DEVIATION = ',SD
+       PRINT *,' MEDIAN IS = ',MEDIAN
+     !
+       IF (ALLOCATED(X)) DEALLOCATE(X, STAT = IERR)   !! (5)
+       IF (IERR /= 0) THEN
+          PRINT*, &quot;X NON DEALLOCATED!&quot;
+          STOP
+       ENDIF
+     END PROGRAM ejemplo_9_3
+     !
+     SUBROUTINE STATS(VECTOR,N,MEAN,STD_DEV,MEDIAN)
+       IMPLICIT NONE
+       ! Defincion de variables
+       INTEGER , INTENT(IN)                    ::  N
+       REAL      , INTENT(IN) , DIMENSION(:)    ::  VECTOR    !! (1)
+       REAL      , INTENT(OUT)                  ::  MEAN
+       REAL      , INTENT(OUT)                  ::  STD_DEV
+       REAL      , INTENT(OUT)                  ::  MEDIAN
+       REAL      , DIMENSION(1:N)              ::  Y
+       REAL :: VARIANCE = 0.0
+       REAL      :: SUMXI = 0.0, SUMXI2 = 0.0
+       !
+       SUMXI=SUM(VECTOR)       !! (6)
+       SUMXI2=SUM(VECTOR*VECTOR)    !! (6)
+       MEAN=SUMXI/N       
+       VARIANCE=(SUMXI2-SUMXI*SUMXI/N)/(N-1)
+       STD_DEV = SQRT(VARIANCE)
+       Y=VECTOR
+       ! Ordena valores por proceso de seleccion
+       CALL SELECTION
+       IF (MOD(N,2) == 0) THEN
+          MEDIAN=(Y(N/2)+Y((N/2)+1))/2
+       ELSE
+          MEDIAN=Y((N/2)+1)
+       ENDIF
+     CONTAINS     !! (7)
+       SUBROUTINE SELECTION
+         IMPLICIT NONE
+         INTEGER :: I,J,K
+         REAL :: MINIMUM
+         DO I=1,N-1
+            K=I
+            MINIMUM=Y(I)
+            DO J=I+1,N
+               IF (Y(J) &lt; MINIMUM) THEN
+                  K=J
+                  MINIMUM=Y(K)
+               END IF
+            END DO
+            Y(K)=Y(I)
+            Y(I)=MINIMUM
+         END DO
+       END SUBROUTINE SELECTION
+     END SUBROUTINE STATS
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_9_4">9.3.4 Programa ejemplo_9_4.f90</h3>
+
+<pre>
+     PROGRAM ejemplo_9_4
+       IMPLICIT NONE
+       REAL,DIMENSION(1:100)::A,B
+       INTEGER :: Nos,I
+       CHARACTER(LEN=32)::Filename
+       INTERFACE
+          SUBROUTINE Readin(Name,X,Y,N)
+            IMPLICIT NONE
+            INTEGER , INTENT(IN) :: N
+            REAL,DIMENSION(1:N),INTENT(OUT)::X,Y
+            CHARACTER (LEN=*),INTENT(IN)::Name
+          END SUBROUTINE Readin
+       END INTERFACE
+       PRINT *,' Type in the name of the data file'
+       READ '(A)' , Filename
+       PRINT *,' Input the number of items in the file'
+       READ(*,*) , Nos
+       CALL Readin(Filename,A,B,Nos)
+       PRINT * , ' Data read in was'
+       DO I=1,Nos
+          PRINT *,' ',A(I),' ',B(I)
+       ENDDO
+     END PROGRAM ejemplo_9_4
+     SUBROUTINE Readin(Name,X,Y,N)
+       IMPLICIT NONE
+       INTEGER , INTENT(IN) :: N
+       REAL,DIMENSION(1:N),INTENT(OUT)::X,Y
+       CHARACTER (LEN=*),INTENT(IN)::Name
+       INTEGER::I
+       OPEN(UNIT=10,STATUS='OLD',FILE=Name)
+       DO I=1,N
+          READ(10,*)X(I),Y(I)
+       END DO
+       CLOSE(UNIT=10)
+     END SUBROUTINE Readin
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_9_5">9.3.5 Programa ejemplo_9_5.f90</h3>
+
+<pre>
+     PROGRAM ejemplo_9_5
+       IMPLICIT NONE
+       REAL , ALLOCATABLE , DIMENSION &amp;
+            (:,:)::One,Two,Three,One_T
+       INTEGER :: I,N
+       INTERFACE
+          SUBROUTINE Matrix_bits(A,B,C,A_T)
+            IMPLICIT NONE
+            REAL, DIMENSION (:,:), INTENT(IN) :: A,B
+            REAL, DIMENSION (:,:), INTENT(OUT) :: C,A_T
+          END SUBROUTINE Matrix_bits
+       END INTERFACE
+       PRINT *,'Dimensión de las matrices'
+       READ*,N
+       ALLOCATE(One(1:N,1:N))
+       ALLOCATE(Two(1:N,1:N))
+       ALLOCATE(Three(1:N,1:N))
+       ALLOCATE(One_T(1:N,1:N))
+       DO I=1,N
+          PRINT*, 'Fila ', I,' de la primer matriz?'
+          READ*,One(I,1:N)
+       END DO
+       DO I=1,N
+          PRINT*, 'Fila ', I,' de la segunda matriz?'
+          READ*,Two(I,1:N)
+       END DO
+       CALL Matrix_bits(One,Two,Three,One_T)
+       PRINT*,' Resultado: Matriz Producto:'
+       DO I=1,N
+          PRINT *,Three(I,1:N)
+       END DO
+       PRINT *,' Matriz traspuesta A^T:'! Calcula la matriz transpuesta.
+       DO I=1,N
+          PRINT *,One_T(I,1:N)
+       END DO
+     END PROGRAM ejemplo_9_5
+     !
+     SUBROUTINE Matrix_bits(A,B,C,A_T)
+       IMPLICIT NONE
+       REAL, DIMENSION (:,:), INTENT(IN) :: A,B
+       REAL, DIMENSION (:,:), INTENT(OUT) :: C,A_T
+       C=MATMUL(A,B)
+       A_T=TRANSPOSE(A)
+     END SUBROUTINE Matrix_bits
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_9_6">9.3.6 Programa ejemplo_9_6.f90</h3>
+
+<pre>
+     PROGRAM ejemplo_9_6
+       !
+       IMPLICIT NONE
+       !
+       INTEGER :: I, IERR
+       REAL, DIMENSION(:), ALLOCATABLE :: X, Y
+       REAL :: M, SD, MEDIAN
+       ! interface block   
+       INTERFACE
+          SUBROUTINE STATS(VECTOR,N,MEAN,STD_DEV,MEDIAN)
+            IMPLICIT NONE
+            INTEGER , INTENT(IN)                    ::  N
+            REAL      , INTENT(IN) , DIMENSION(:)   :: VECTOR  
+            REAL      , INTENT(OUT)                 :: MEAN
+            REAL      , INTENT(OUT)                 :: STD_DEV
+            REAL      , INTENT(OUT)                 :: MEDIAN
+          END SUBROUTINE STATS
+       END INTERFACE
+       !
+       READ*, I  
+       !
+       ALLOCATE(X(1:I), STAT = IERR)    
+       IF (IERR /= 0) THEN
+          PRINT*, &quot;X allocation request denied.&quot;
+          STOP
+       ENDIF
+       !
+       ALLOCATE(Y(1:I), STAT = IERR)    
+       IF (IERR /= 0) THEN
+          PRINT*, &quot;Y allocation request denied.&quot;
+          STOP
+       ENDIF
+       !
+       CALL BOX_MULLER(I)
+       !
+       PRINT*, X
+       CALL STATS(X,I,M,SD,MEDIAN)
+       !
+       PRINT *,' MEAN = ',M
+       PRINT *,' STANDARD DEVIATION = ',SD
+       PRINT *,' MEDIAN IS = ',MEDIAN
+       !
+       IF (ALLOCATED(X)) DEALLOCATE(X, STAT = IERR) 
+       IF (IERR /= 0) THEN
+          PRINT*, &quot;X NON DEALLOCATED!&quot;
+          STOP
+       ENDIF
+       PRINT*, Y
+       CALL STATS(Y,I,M,SD,MEDIAN)
+       !
+       PRINT *,' MEAN = ',M
+       PRINT *,' STANDARD DEVIATION = ',SD
+       PRINT *,' MEDIAN IS = ',MEDIAN
+       !
+       IF (ALLOCATED(Y)) DEALLOCATE(Y, STAT = IERR)   
+       IF (IERR /= 0) THEN
+          PRINT*, &quot;Y NON DEALLOCATED!&quot;
+          STOP
+       ENDIF
+       !
+     CONTAINS
+       !
+       SUBROUTINE BOX_MULLER(dim)
+         ! 
+         ! Uses the Box-Muller method to create two normally distributed vectors
+         !
+         INTEGER, INTENT(IN) :: dim
+         !
+         REAL, PARAMETER :: PI = ACOS(-1.0)
+         REAL, DIMENSION(dim) :: RANDOM_u, RANDOM_v ! Automatic arrays
+         !
+         CALL RANDOM_NUMBER(RANDOM_u)
+         CALL RANDOM_NUMBER(RANDOM_v)
+         !
+         X = SQRT(-2.0*LOG(RANDOM_u))
+         Y = X*SIN(2*PI*RANDOM_v)
+         X = X*COS(2*PI*RANDOM_v)
+         !
+       END SUBROUTINE BOX_MULLER
+       !
+     END PROGRAM ejemplo_9_6
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_9_7">9.3.7 Programa ejemplo_9_7.f90</h3>
+
+<pre>
+     PROGRAM EJEMPLO_9_7
+       !
+       IMPLICIT NONE
+       !
+       INTERFACE
+          SUBROUTINE SUBEXAMPLE(IMIN, IMAX, FACT_MAT)
+            INTEGER, INTENT(IN) :: IMIN, IMAX
+            REAL, DIMENSION(IMIN:), INTENT(OUT) :: FACT_MAT
+          END SUBROUTINE SUBEXAMPLE
+       END INTERFACE
+       !
+       REAL, DIMENSION(:), ALLOCATABLE :: FACT_MAT
+       INTEGER :: IMIN, IMAX, I
+       !
+       IMIN = 0
+       IMAX = 5
+       !
+       ALLOCATE(FACT_MAT(IMIN:IMAX))
+       !
+       PRINT*, &quot;MAIN&quot;, SIZE(FACT_MAT)
+       !
+       CALL SUBEXAMPLE(IMIN, IMAX, FACT_MAT)
+       !
+       DO I = IMIN, IMAX
+          PRINT*, I, FACT_MAT(I)
+       ENDDO
+       !
+     END PROGRAM EJEMPLO_9_7
+     !!!!!!!!!!
+     SUBROUTINE SUBEXAMPLE(IMIN, IMAX, FACT_MAT)
+       !
+       IMPLICIT NONE
+       INTEGER, intent(in) :: IMIN, IMAX
+       REAL, DIMENSION(IMIN:), intent(out) :: FACT_MAT
+     ! The subroutine with the next line only would work for IMIN = 1
+     !  REAL, DIMENSION(:), intent(out) :: FACT_MAT
+       !
+       INTEGER :: j,k
+       !
+       PRINT*, &quot;SUB&quot;, SIZE(FACT_MAT)
+       !
+       DO j = imin, imax
+          fact_mat(j) = 1.0
+          do k = 2, j
+             fact_mat(j) = k*fact_mat(j)
+          enddo
+       ENDDO
+       !
+       !
+     END SUBROUTINE SUBEXAMPLE
+</pre>
+
+<hr>
+
+<p>
+[ <a href="ch-clase_8.html">previous</a> ]
+[ <a href="index.html#contents">Contents</a> ]
+[ <a href="ch-clase_1.html">1</a> ]
+[ <a href="ch-clase_2.html">2</a> ]
+[ <a href="ch-clase_3.html">3</a> ]
+[ <a href="ch-clase_4.html">4</a> ]
+[ <a href="ch-clase_7.html">5</a> ]
+[ <a href="ch-clase_5.html">6</a> ]
+[ <a href="ch-clase_6.html">7</a> ]
+[ <a href="ch-clase_8.html">8</a> ]
+[ 9 ]
+[ <a href="ch-clase_10.html">10</a> ]
+[ <a href="ch-clase_11.html">11</a> ]
+[ <a href="ch-clase_blaslap.html">12</a> ]
+[ <a href="ch-cap_ref.html">13</a> ]
+[ <a href="ch-clase_10.html">next</a> ]
+</p>
+
+<hr>
+
+<p>
+<code>Fortran 90</code> Lessons for Computational Chemistry
+</p>
+
+<address>
+0.0<br>
+<br>
+Curro Pérez-Bernal <code><a href="mailto:francisco.perez@dfaie.uhu.es">mailto:francisco.perez@dfaie.uhu.es</a></code><br>
+<br>
+</address>
+<hr>
+
+</body>
+
+</html>
+

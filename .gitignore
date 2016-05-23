@@ -1,0 +1,6 @@
+# Created by Currix
+*.o
+*.mod
+*.pyc
+*~
+*tpt
