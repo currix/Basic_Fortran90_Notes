@@ -1,6 +1,5 @@
 <!doctype debiandoc public "-//DebianDoc//DTD DebianDoc//EN">
 <!--<!doctype debiandoc system>-->
-<!-- $Id: clases_fortran.sgml,v 1.24 2013/07/02 09:38:58 curro Exp curro $    -->
 
 <book>
 
@@ -1739,7 +1738,7 @@ END PROGRAM excode_5_4
 <!--                         Clase 5 -> 6                    -->
 <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 
-<chapt id="clase_5"><heading><tt>INPUT/OUTPUT</tt>) (I)</heading> 
+<chapt id="clase_5"><heading><tt>INPUT/OUTPUT</tt> (I)</heading> 
 <sect id="sec_51"> Objectivos
 
 <p>
@@ -1822,8 +1821,6 @@ The following symbols are used
 Descriptors in I/O operations
 <enumlist>
 <item> Integers: <tt>I</tt>: General form <var>r</var><tt>I</tt><var>w</var>
-  or <var>r</var><tt>I</tt><var>w</var>.
-
   <p>
     This descriptor indicates that <var>r</var> integer values will be read or written, and they occupy <var>w</var> characters or columns. The number is right justified and if the number of digits is less than the number of spacings the rest of the space is filled with space characters. The example
 <p>

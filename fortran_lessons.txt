@@ -51,7 +51,7 @@ Contents
      5.2.      Main items.
      5.3.      Example codes.
 
-     6.        `INPUT/OUTPUT') (I)
+     6.        `INPUT/OUTPUT' (I)
      6.1.      Objectivos
      6.2.      Main Items.
      6.3.      Programas usados como ejemplo.
@@ -1791,8 +1791,8 @@ END PROGRAM excode_5_4
 -------------------------------------------------------------------------------
 
 
-6. `INPUT/OUTPUT') (I)
-----------------------
+6. `INPUT/OUTPUT' (I)
+---------------------
 
 
 6.1. Objectivos
@@ -1891,7 +1891,7 @@ END PROGRAM excode_5_4
 
           Descriptors in I/O operations
 
-          1.   Integers: `I': General form <r>`I'<w> or <r>`I'<w>.
+          1.   Integers: `I': General form <r>`I'<w>
 
                This descriptor indicates that <r> integer values will be
                read or written, and they occupy <w> characters or columns.
@@ -2469,7 +2469,7 @@ END PROGRAM ex_6_5
 ------------------------
 
         * La orden `FORMAT' se emplea de igual modo que en las operaciones
-          de escritura tratadas en Chapter 6, ``INPUT/OUTPUT') (I)',
+          de escritura tratadas en Chapter 6, ``INPUT/OUTPUT' (I)',
           teniendo los descriptores idéntico significado.
 
         * Una opción útil cuando se emplea el comando `READ' es `IOSTAT',
