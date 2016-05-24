@@ -1872,28 +1872,26 @@ characters (<tt>*</tt>). In source code <ref id="sec_p_5_3"> we face such kind o
   to <tt>E</tt>. This change facilitates to work with numbers whose
       value vary into a big range.
       
-<item>  Descriptor de reales <tt>ES</tt>:
-<p> Permite el uso de la notación científica estándar. Su forma
-general es <var>r</var><tt>ES</tt><var>w.d</var>. El número que
-multiplica a la potencia de 10 toma valores entre 1.0 y 10.0. Aparte
-de esto, este caso es muy similar al anterior
+<item>  Real data descriptor  <tt>ES</tt>: general format <var>r</var><tt>ES</tt><var>w.d</var>
+<p> It allows the use of the standard scientific notation, with the
+  factor that multiplies the power of ten taking velues in the range
+  1.0  to 10.0. Apart from this it is similar to the previous float
+  descriptor. 
 
-<item>  Descriptor de datos lógicos <tt>L</tt>:
+<item>  Logical data descriptor <tt>L</tt>: general format <var>r</var><tt>L</tt><var>w</var>
 <p> 
-Este descriptor aparece en la
-forma <var>r</var><tt>L</tt><var>w</var>. Estos datos solo pueden
-tomar los valores <tt>TRUE</tt> y <tt>FALSE</tt> y la salida de este
-descriptor será <tt>T</tt> o <tt>F</tt> justificado a la derecha.
+Logical or boolean data only take the values <tt>TRUE</tt>
+or <tt>FALSE</tt> and the output of this descriptor will be a right justified <tt>T</tt> or <tt>F</tt>.
 
-<item>  Descriptor de caracteres <tt>A</tt>:
-<p> Este descriptor aparece en la forma <var>r</var><tt>A</tt>
-o <var>r</var><tt>A</tt><var>w</var>. En el primer lugar se indica que
-se repiten <var>r</var> veces formatos de carácteres con una anchura
-igual al número de caracteres de los que consta la variable. En el
-segundo caso la salida tiene una anchura fija dada por <var>w</var>.
-El ejemplo <ref id="sec_p_5_5"> muestra el uso de este descriptor.
+<item>  Character descriptor <tt>A</tt>: general format <var>r</var><tt>A</tt>
+or <var>r</var><tt>A</tt><var>w</var>
+<p>
+This format implies that there are <var>r</var> string
+fields <var>w</var> character wide. If <var>w</var> is missing the
+string is taken with the same length of the character variable. The
+example <ref id="sec_p_5_5"> shows how this descriptor is used.
 
-<item>  Descriptor <tt>X</tt>:
+<item>  <tt>X</tt> descriptor:
 <p>
 El descriptor <var>n</var><tt>X</tt> controla el desplazamiento
 horizontal e indica que se

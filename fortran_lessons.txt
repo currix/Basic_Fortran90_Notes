@@ -1956,29 +1956,28 @@ END PROGRAM excode_5_4
                descriptors to `E'.  This change facilitates to work with
                numbers whose value vary into a big range.
 
-          4.   Descriptor de reales `ES':
+          4.   Real data descriptor `ES': general format <r>`ES'<w.d>
 
-               Permite el uso de la notación científica estándar.  Su forma
-               general es <r>`ES'<w.d>.  El número que multiplica a la
-               potencia de 10 toma valores entre 1.0 y 10.0.  Aparte de
-               esto, este caso es muy similar al anterior
+               It allows the use of the standard scientific notation, with
+               the factor that multiplies the power of ten taking velues in
+               the range 1.0 to 10.0.  Apart from this it is similar to the
+               previous float descriptor.
 
-          5.   Descriptor de datos lógicos `L':
+          5.   Logical data descriptor `L': general format <r>`L'<w>
 
-               Este descriptor aparece en la forma <r>`L'<w>.  Estos datos
-               solo pueden tomar los valores `TRUE' y `FALSE' y la salida
-               de este descriptor será `T' o `F' justificado a la derecha.
+               Logical or boolean data only take the values `TRUE' or
+               `FALSE' and the output of this descriptor will be a right
+               justified `T' or `F'.
 
-          6.   Descriptor de caracteres `A':
+          6.   Character descriptor `A': general format <r>`A' or <r>`A'<w>
 
-               Este descriptor aparece en la forma <r>`A' o <r>`A'<w>.  En
-               el primer lugar se indica que se repiten <r> veces formatos
-               de carácteres con una anchura igual al número de caracteres
-               de los que consta la variable.  En el segundo caso la salida
-               tiene una anchura fija dada por <w>.  El ejemplo Section
-               6.3.5, ``excode_6_5.f90'' muestra el uso de este descriptor.
+               This format implies that there are <r> string fields <w>
+               character wide.  If <w> is missing the string is taken with
+               the same length of the character variable.  The example
+               Section 6.3.5, ``excode_6_5.f90'' shows how this descriptor
+               is used.
 
-          7.   Descriptor `X':
+          7.   `X' descriptor:
 
                El descriptor <n>`X' controla el desplazamiento horizontal e
                indica que se escriban <n> espacios en la salida.  El

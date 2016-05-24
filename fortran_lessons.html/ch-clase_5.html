@@ -454,52 +454,51 @@ with numbers whose value vary into a big range.
 <ol type="1" start="4" >
 <li>
 <p>
-Descriptor de reales <samp>ES</samp>:
+Real data descriptor <samp>ES</samp>: general format
+<var>r</var><samp>ES</samp><var>w.d</var>
 </p>
 
 <p>
-Permite el uso de la notación científica estándar.  Su forma general es
-<var>r</var><samp>ES</samp><var>w.d</var>.  El número que multiplica a la
-potencia de 10 toma valores entre 1.0 y 10.0.  Aparte de esto, este caso es muy
-similar al anterior
+It allows the use of the standard scientific notation, with the factor that
+multiplies the power of ten taking velues in the range 1.0 to 10.0.  Apart from
+this it is similar to the previous float descriptor.
 </p>
 </li>
 </ol>
 <ol type="1" start="5" >
 <li>
 <p>
-Descriptor de datos lógicos <samp>L</samp>:
+Logical data descriptor <samp>L</samp>: general format
+<var>r</var><samp>L</samp><var>w</var>
 </p>
 
 <p>
-Este descriptor aparece en la forma <var>r</var><samp>L</samp><var>w</var>.
-Estos datos solo pueden tomar los valores <samp>TRUE</samp> y
-<samp>FALSE</samp> y la salida de este descriptor será <samp>T</samp> o
-<samp>F</samp> justificado a la derecha.
+Logical or boolean data only take the values <samp>TRUE</samp> or
+<samp>FALSE</samp> and the output of this descriptor will be a right justified
+<samp>T</samp> or <samp>F</samp>.
 </p>
 </li>
 </ol>
 <ol type="1" start="6" >
 <li>
 <p>
-Descriptor de caracteres <samp>A</samp>:
+Character descriptor <samp>A</samp>: general format <var>r</var><samp>A</samp>
+or <var>r</var><samp>A</samp><var>w</var>
 </p>
 
 <p>
-Este descriptor aparece en la forma <var>r</var><samp>A</samp> o
-<var>r</var><samp>A</samp><var>w</var>.  En el primer lugar se indica que se
-repiten <var>r</var> veces formatos de carácteres con una anchura igual al
-número de caracteres de los que consta la variable.  En el segundo caso la
-salida tiene una anchura fija dada por <var>w</var>.  El ejemplo <a
-href="#s-sec_p_5_5"><samp>excode_6_5.f90</samp>, Section 6.3.5</a> muestra el
-uso de este descriptor.
+This format implies that there are <var>r</var> string fields <var>w</var>
+character wide.  If <var>w</var> is missing the string is taken with the same
+length of the character variable.  The example <a
+href="#s-sec_p_5_5"><samp>excode_6_5.f90</samp>, Section 6.3.5</a> shows how
+this descriptor is used.
 </p>
 </li>
 </ol>
 <ol type="1" start="7" >
 <li>
 <p>
-Descriptor <samp>X</samp>:
+<samp>X</samp> descriptor:
 </p>
 
 <p>
