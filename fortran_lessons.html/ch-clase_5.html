@@ -19,7 +19,7 @@
 <link href="ch-clase_4.html" rel="chapter" title="4 More on Arrays">
 <link href="ch-clase_7.html" rel="chapter" title="5 Control Structures">
 <link href="ch-clase_5.html" rel="chapter" title="6 INPUT/OUTPUT (I)">
-<link href="ch-clase_6.html" rel="chapter" title="7 Operaciones I/O (II)">
+<link href="ch-clase_6.html" rel="chapter" title="7 Input/Output (II)">
 <link href="ch-clase_8.html" rel="chapter" title="8 Subprogramas (I): funciones">
 <link href="ch-clase_9.html" rel="chapter" title="9 Subprogramas (II): subrutinas">
 <link href="ch-clase_10.html" rel="chapter" title="10 Subprogramas (III): módulos">
@@ -38,14 +38,14 @@
 <link href="ch-clase_4.html#s-sec_41" rel="section" title="4.1 Objectives">
 <link href="ch-clase_4.html#s-sec_42" rel="section" title="4.2 Main items.">
 <link href="ch-clase_4.html#s-sec_43" rel="section" title="4.3 Example Codes.">
-<link href="ch-clase_7.html#s-sec_71" rel="section" title="5.1 Objectivos">
+<link href="ch-clase_7.html#s-sec_71" rel="section" title="5.1 Objectives">
 <link href="ch-clase_7.html#s-sec_72" rel="section" title="5.2 Main items.">
 <link href="ch-clase_7.html#s-sec_73" rel="section" title="5.3 Example codes.">
 <link href="ch-clase_5.html#s-sec_51" rel="section" title="6.1 Objectivos">
 <link href="ch-clase_5.html#s-sec_52" rel="section" title="6.2 Main Items.">
-<link href="ch-clase_5.html#s-sec_53" rel="section" title="6.3 Programas usados como ejemplo.">
-<link href="ch-clase_6.html#s-sec_61" rel="section" title="7.1 Objetivos">
-<link href="ch-clase_6.html#s-sec_62" rel="section" title="7.2 Puntos destacables.">
+<link href="ch-clase_5.html#s-sec_53" rel="section" title="6.3 Example Codes">
+<link href="ch-clase_6.html#s-sec_61" rel="section" title="7.1 Objectives">
+<link href="ch-clase_6.html#s-sec_62" rel="section" title="7.2 Main items.">
 <link href="ch-clase_6.html#s-sec_63" rel="section" title="7.3 Programas usados como ejemplo.">
 <link href="ch-clase_8.html#s-sec_81" rel="section" title="8.1 Objetivos">
 <link href="ch-clase_8.html#s-sec_82" rel="section" title="8.2 Puntos destacables.">
@@ -497,14 +497,14 @@ this descriptor is used.
 <ol type="1" start="7" >
 <li>
 <p>
-<samp>X</samp> descriptor:
+<samp>X</samp> descriptor: general format <var>n</var><samp>X</samp>
 </p>
 
 <p>
-El descriptor <var>n</var><samp>X</samp> controla el desplazamiento horizontal
-e indica que se escriban <var>n</var> espacios en la salida.  El ejemplo <a
-href="#s-sec_p_5_5"><samp>excode_6_5.f90</samp>, Section 6.3.5</a> muestra el
-uso de este descriptor combinado con los anteriores.
+The <samp>X</samp> descriptor controls horizontal displacement, and it implies
+that <var>n</var> spaces should be included in the output.  You can find an
+example of this descriptor in source code <a
+href="#s-sec_p_5_5"><samp>excode_6_5.f90</samp>, Section 6.3.5</a>.
 </p>
 </li>
 </ol>
@@ -523,34 +523,20 @@ e indica que se salte directamente a la columna <var>c</var>.
 <ol type="1" start="9" >
 <li>
 <p>
-Descriptor <samp>/</samp>:
+<samp>/</samp> descriptor:
 </p>
 
 <p>
-El descriptor <samp>/</samp><var>c</var> envía la salida acumulada hasta el
-momento a <samp>STDOUT</samp> y comienza un nuevo registro con un retorno de
-carro.  Este descriptor no necesita ser separado del resto mediante comas.
-Tras cada retorno de carro puede ubicarse un carácter de control.
+The <samp>/</samp>descriptor flush the output buffered and feeds a new line.
+It does not need to be included between commas.
 </p>
 </li>
 </ol>
 <ol type="1" start="10" >
 <li>
 <p>
-Repetición:
-</p>
-
-<p>
-En todos los casos descritos se puede indicar la repetición de formato usando
-un número a la derecha del símbolo que indica el formato.  Por ejemplo,
-</p>
-
-<pre>
-     100 FORMAT(1X, 2I6, 3F9.3)
-</pre>
-
-<p>
-es equivalente a
+The repetition of a set of descriptors can be easily indicated combining them
+between parentheses.  For example
 </p>
 
 <pre>
@@ -558,20 +544,12 @@ es equivalente a
 </pre>
 
 <p>
-y se puede simplificar a
+can be simplified to
 </p>
 
 <pre>
      100 FORMAT(1X, 3(I6, F9.3))
 </pre>
-
-<p>
-Es también necesario citar el significado especial que tiene un formato entre
-paréntesis en una orden <samp>FORMAT</samp> y lo que sucede si el número de
-datos proporcionado en la lista de variables de la orden <samp>WRITE</samp> es
-mayor o menor que el número de descriptores asociados en la correspondiente
-orden <samp>FORMAT</samp>.
-</p>
 </li>
 </ol>
 </li>
@@ -579,52 +557,47 @@ orden <samp>FORMAT</samp>.
 <ul>
 <li>
 <p>
-<code>Fortran</code> permite la manipulación de ficheros.  En este caso vamos a
-concentrarnos en como se crean y se escriben ficheros.  Para ello se utilizan
-las órdenes básicas <samp>OPEN</samp>, <samp>WRITE</samp> y <samp>CLOSE</samp>.
-Otras órdenes de interés son <samp>REWIND</samp> y <samp>BACKSPACE</samp>.
+<code>Fortran</code> allows file manipulation with the commands
+<samp>OPEN</samp>, <samp>WRITE</samp> and <samp>CLOSE</samp>.  Other, more
+advanced, commands are <samp>REWIND</samp> and <samp>BACKSPACE</samp>.
 </p>
 
 <p>
-La orden <samp>OPEN</samp> permite que se abra un fichero, en su forma más
-simple sería
-</p>
-
-<pre>
-     OPEN(UNIT=<var>int_unit</var>,FILE='<var>nombre_fichero</var>')
-</pre>
-
-<p>
-donde se indica el nombre del fichero creado y el número de unidad asociada a
-dicho fichero (número entero).  Para operaciones de lectura y escritura el
-fichero queda asociado a este número.  Un ejemplo de esto sería escribir algo
-en este fichero usaremos una orden como
+The <samp>OPEN</samp> command allows to initiate a file.  The simplest instance
+of this command is
 </p>
 
 <pre>
-     OPEN(UNIT=33, FILE='output_program.dat')
-     WRITE(UNIT=33,FMT=100) <var>lista_de_variables</var>
+     OPEN(UNIT=<var>unit_number</var>,FILE='<var>filename</var>')
 </pre>
 
 <p>
-lo que indica que envíe los datos en <var>lista_de_variables</var> al fichero
-asociado a la unidad 33, llamado <code>output_program.dat</code>, según el
-formato especificado en la línea etiquetada como <samp>100</samp>.  Es posible
-usar la forma abreviada <samp>WRITE(33,100)</samp> e incluso
-<samp>WRITE(33,*)</samp> si queremos escribir en el fichero con el formato
-estándar dependiente de la lista de variables.  Para escribir en la salida
-estándar <samp>STDOUT</samp>, en principio la pantalla, se puede usar
-<samp>WRITE(6,<var>formato</var>)</samp>, ya que esta salida está asociada a la
-unidad <samp>6</samp>.  Por tanto <samp>WRITE(6,*)</samp> es equivalente a
-<samp>PRINT*</samp>, mientras que <samp>STDIN</samp> se asocia a la unidad
-<samp>5</samp>[<a href="footnotes.html#f6" name="fr6">6</a>].  Para referirnos
-a <samp>STDOUT</samp> y <samp>STDIN</samp> es más conveniente usar el carácter
-<samp>*</samp> ya que los números anteriores pueden depender del procesador.
+where the file name and the integer number of the associated unit are
+indicated.  The file is therefore associated to this number for any Read/Write
+operation.  We can write something in this file as follows
+</p>
+
+<pre>
+     OPEN(UNIT=33, FILE='program_OUT.dat')
+     WRITE(UNIT=33,FMT=100) <var>variable_lists</var>
+</pre>
+
+<p>
+which indicates that the data included in <var>variable_list</var> will be
+written in the file associated with unit number 33, following the format
+specified in line labeled <samp>100</samp>.  It is possible to abbreviate the
+command to <samp>WRITE(33,100)</samp> or <samp>WRITE(33,*)</samp> if free
+format is required.  In order to send the data to <samp>STDOUT</samp>,
+<samp>WRITE(UNIT=6,<var>format</var>)</samp>, <samp>WRITE(6,*)</samp>,
+<samp>WRITE(*,*)</samp>, or <samp>PRINT*</samp> are all valid and equivalent
+commands.  Standard input <samp>STDIN</samp> is associated with unit number
+<samp>5</samp> or the <samp>*</samp> symbol[<a href="footnotes.html#f6"
+name="fr6">6</a>].
 </p>
 
 <p>
-Una vez que el proceso de escritura ha terminado el fichero se cierra con la
-orden <samp>CLOSE(UNIT=<var>numero_unidad</var>)</samp>.  En nuestro caso
+Once the write process takes place the unit should be closed using the
+statement <samp>CLOSE(UNIT=<var>unit_number</var>)</samp>.  In our case
 </p>
 
 <pre>
@@ -632,33 +605,33 @@ orden <samp>CLOSE(UNIT=<var>numero_unidad</var>)</samp>.  En nuestro caso
 </pre>
 
 <p>
-El ejemplo <a href="#s-sec_p_5_6"><samp>excode_6_6.f90</samp>, Section
-6.3.6</a> muestra como se escribe a un fichero e introduce la función
-intrínseca de <code>Fortran</code> <samp>CPU_TIME</samp> que nos permite
-estimar el tiempo de cpu dedicado a cada parte del programa.
+Example <a href="#s-sec_p_5_6"><samp>excode_6_6.f90</samp>, Section 6.3.6</a>
+shows how data are sent to a file and introduces the intrinsic function
+<samp>CPU_TIME</samp> that allows to estimate the cpu time spent in a program
+and its different sections.
 </p>
 
 <p>
-La orden <samp>OPEN</samp> puede específicarse de forma más detallada con los
-argumentos siguientes:
+The <samp>OPEN</samp> command can be more specific, adding the following
+arguments:
 </p>
 
 <pre>
-     OPEN(UNIT=<var>int_unit</var>,FILE=<var>char_nombre_fichero</var>,STATUS=<var>char_sta</var>, ACTION=<var>char_act</var>, IOSTAT=<var>int_stat</var>)
+     OPEN(UNIT=<var>unit_number</var>,FILE=<var>file_name</var>,STATUS=<var>file_status</var>, ACTION=<var>action_var</var>, IOSTAT=<var>integer_var</var>)
 </pre>
 
 <p>
-Las nuevas opciones fijan los siguientes aspectos al abrir el fichero:
+These options control the following aspects:
 </p>
 <ol type="1" start="1" >
 <li>
 <p>
-<samp>STATUS=<var>char_sta</var></samp>
+<samp>STATUS=<var>file_status</var></samp>
 </p>
 
 <p>
-La constante o variable <var>char_sta</var> es de tipo carácter y puede tomar
-los siguientes valores estándar:
+The constant or variable <var>file_status</var> is of character type and can
+take the following values:
 </p>
 <ul>
 <li>
@@ -700,12 +673,12 @@ los siguientes valores estándar:
 <ol type="1" start="2" >
 <li>
 <p>
-<samp>ACTION=<var>char_act</var></samp>
+<samp>ACTION=<var>action_var</var></samp>
 </p>
 
 <p>
-La constante o variable <var>char_act</var> es de tipo carácter y puede tomar
-los siguientes valores estándar:
+The constant or variable <var>action_var</var> is of character type and can
+have the following forms:
 </p>
 <ul>
 <li>
@@ -730,104 +703,94 @@ los siguientes valores estándar:
 </ul>
 
 <p>
-Por defecto, si no se da otra opción, desde <code>Fortran</code>, los archivos
-se abren con los permisos activados tanto de lectura como de escritura.
+By default.  archives are opened with both read and write permissions active.
 </p>
 </li>
 </ol>
 <ol type="1" start="3" >
 <li>
 <p>
-<samp>IOSTAT=<var>int_var</var></samp>
+<samp>IOSTAT=<var>integer_var</var></samp>
 </p>
 
 <p>
-La constante o variable <var>int_stat</var> es de tipo entero y permite estimar
-si la apertura y el acceso al fichero ha sido exitosa.  Si el valor que
-devuelve es <samp>0</samp> quiere decir que la apertura se ha resuelto sin
-problemas.  Si ha habido problemas al abrir el fichero devuelve un valor
-diferente de cero.
+The variable <var>integer_stat</var> is of integer type and gives feedback
+about the success of the opening of the file.  If the final value is
+<samp>0</samp> the file has been correctly opened.  Any other value indicates a
+problem.
 </p>
 </li>
 </ol>
 
 <p>
-Un ejemplo más completo que el anterior, creando un fichero de entrada (INPUT)
-sería
+A complete example will be
 </p>
 
 <pre>
-     INTEGER ierror
-     OPEN(UNIT=33, FILE='input_program.dat', STATUS='OLD', ACTION='READ', IOSTAT=ierror)
+     INTEGER ierr
+     OPEN(UNIT=33, FILE='input_program.dat', STATUS='OLD', ACTION='READ', IOSTAT=ierr)
 </pre>
 
 <p>
-Para crear un fichero de salida se hace
+If we want to create a file to store some data:
 </p>
 
 <pre>
-     INTEGER ierror
-     OPEN(UNIT=33, FILE='output_program.dat', STATUS='NEW', ACTION='WRITE', IOSTAT=ierror)
+     INTEGER ierr
+     OPEN(UNIT=33, FILE='output_program.dat', STATUS='NEW', ACTION='WRITE', IOSTAT=ierr)
 </pre>
 </li>
 </ul>
 <ul>
 <li>
 <p>
-Es posible controlar de forma rudimentaria el acceso a los elementos
-almacenados en el fichero secuencial creado con la orden <samp>OPEN</samp>.
-Para ello existen dos comandos de interés.
+It is possible some degree of control on the access to the elements stored
+sequentially using the commands
 </p>
 
 <pre>
-     BACKSPACE(UNIT = <var>int_unit</var>)
-     REWIND(UNIT = <var>int_unit</var>)
+     BACKSPACE(UNIT = <var>unit_number</var>)
+     REWIND(UNIT = <var>unit_number</var>)
 </pre>
 
 <p>
-Con <samp>BACKSPACE</samp> se retrocede un registro (una línea) en el fichero
-asociado a la unidad <var>int_unit</var>.  Con <samp>REWIND</samp> se vuelve al
-primer registro del fichero.
+The <samp>BACKSPACE</samp> statement set the register one line back in the
+associated file while <samp>REWIND</samp> move back to the first register of
+the file.
 </p>
 </li>
 </ul>
 <ul>
 <li>
 <p>
-Hasta ahora hemos empleado la orden <samp>OPEN</samp> con ficheros con formato,
-siendo este el comportamiento por defecto al abrir un fichero.  Por tanto, las
-órdenes
+The default is to open formatted files.  Thus, the following two statements are
+equivalent
 </p>
 
 <pre>
-     OPEN(UNIT=33,FILE='<var>nombre_fichero</var>')
-     OPEN(UNIT=33,FILE='<var>nombre_fichero</var>',FORM='FORMATTED')
+     OPEN(UNIT=33,FILE='<var>file_name</var>')
+     OPEN(UNIT=33,FILE='<var>file_name</var>',FORM='FORMATTED')
 </pre>
 
 <p>
-son equivalentes.  Los ficheros con formato tienen la ventaja de ser editables
-por el usuario, pero precisan de un mayor tiempo para su lectura y escritura
-que cuando se tratan los datos sin formato.  Para ello se abren los ficheros
-con la opción <samp>FORM='UNFORMATTED'</samp> como en el ejemplo siguiente
+Formatted files can be edited and read by the user, but they have a couple of
+cons.  Data storage and reading in formatted files takes longer than in
+unformatted files and there may be some precision loss in float numbers.  In
+order to write data without format files should be opened including the
+<samp>FORM='UNFORMATTED'</samp> option:
 </p>
 
 <pre>
-     OPEN(UNIT=33,FILE='<var>nombre_fichero</var>',FORM='UNFORMATTED')
+     OPEN(UNIT=33,FILE='<var>file_name</var>',FORM='UNFORMATTED')
 </pre>
 
 <p>
-Además, que los fichero no tengan formato permite almacenar números reales sin
-la pérdida de información que implica el cambio a un formato dado.  En el
-Ejercicio 5 se pide que transforméis el ejemplo <a
-href="#s-sec_p_5_6"><samp>excode_6_6.f90</samp>, Section 6.3.6</a> para
-comprobar el tiempo que se tarda en la escritura y lectura sin formato.  Al
-escribir en un fichero sin formato no se indica ningún formato en la orden, de
-manera que para escribir en el fichero sin formato que hemos abierto asociado
-con <samp>UNIT=33</samp> haremos
+To write in a file declared unformatted the <samp>WRITE</samp> command takes
+the form
 </p>
 
 <pre>
-     WRITE(UNIT=33) <var>lista-de-variables</var>
+     WRITE(UNIT=33) <var>variable_list</var>
 </pre>
 </li>
 </ul>
@@ -852,7 +815,7 @@ href="ch-clase_8.html#s-sec_81">Objetivos, Section 8.1</a>).
 
 <hr>
 
-<h2 id="s-sec_53">6.3 Programas usados como ejemplo.</h2>
+<h2 id="s-sec_53">6.3 Example Codes</h2>
 
 <hr>
 

@@ -47,18 +47,18 @@ Contents
      4.3.      Example Codes.
 
      5.        Control Structures
-     5.1.      Objectivos
+     5.1.      Objectives
      5.2.      Main items.
      5.3.      Example codes.
 
      6.        `INPUT/OUTPUT' (I)
      6.1.      Objectivos
      6.2.      Main Items.
-     6.3.      Programas usados como ejemplo.
+     6.3.      Example Codes
 
-     7.        Operaciones `I/O' (II)
-     7.1.      Objetivos
-     7.2.      Puntos destacables.
+     7.        `Input/Output' (II)
+     7.1.      Objectives
+     7.2.      Main items.
      7.3.      Programas usados como ejemplo.
 
      8.        Subprogramas (I): funciones
@@ -1305,7 +1305,7 @@ END PROGRAM ex_4_6
 ---------------------
 
 
-5.1. Objectivos
+5.1. Objectives
 ---------------
 
      The main aims of this session consist of:
@@ -1977,105 +1977,79 @@ END PROGRAM excode_5_4
                Section 6.3.5, ``excode_6_5.f90'' shows how this descriptor
                is used.
 
-          7.   `X' descriptor:
+          7.   `X' descriptor: general format <n>`X'
 
-               El descriptor <n>`X' controla el desplazamiento horizontal e
-               indica que se escriban <n> espacios en la salida.  El
-               ejemplo Section 6.3.5, ``excode_6_5.f90'' muestra el uso de
-               este descriptor combinado con los anteriores.
+               The `X' descriptor controls horizontal displacement, and it
+               implies that <n> spaces should be included in the output.
+               You can find an example of this descriptor in source code
+               Section 6.3.5, ``excode_6_5.f90''.
 
           8.   Descriptor `T':
 
                El descriptor `T'<c> controla el desplazamiento horizontal e
                indica que se salte directamente a la columna <c>.
 
-          9.   Descriptor `/':
+          9.   `/' descriptor:
 
-               El descriptor `/'<c> envía la salida acumulada hasta el
-               momento a `STDOUT' y comienza un nuevo registro con un
-               retorno de carro.  Este descriptor no necesita ser separado
-               del resto mediante comas.  Tras cada retorno de carro puede
-               ubicarse un carácter de control.
+               The `/'descriptor flush the output buffered and feeds a new
+               line.  It does not need to be included between commas.
 
-          10.  Repetición:
-
-               En todos los casos descritos se puede indicar la repetición
-               de formato usando un número a la derecha del símbolo que
-               indica el formato.  Por ejemplo,
-
-                    100 FORMAT(1X, 2I6, 3F9.3)
-
-               es equivalente a
+          10.  The repetition of a set of descriptors can be easily
+               indicated combining them between parentheses.  For example
 
                     100 FORMAT(1X, I6, I6, F9.3, F9.3, F9.3)
 
-               y se puede simplificar a
+               can be simplified to
 
                     100 FORMAT(1X, 3(I6, F9.3))
 
-               Es también necesario citar el significado especial que tiene
-               un formato entre paréntesis en una orden `FORMAT' y lo que
-               sucede si el número de datos proporcionado en la lista de
-               variables de la orden `WRITE' es mayor o menor que el número
-               de descriptores asociados en la correspondiente orden
-               `FORMAT'.
+        * `Fortran' allows file manipulation with the commands `OPEN',
+          `WRITE' and `CLOSE'.  Other, more advanced, commands are `REWIND'
+          and `BACKSPACE'.
 
-        * `Fortran' permite la manipulación de ficheros.  En este caso
-          vamos a concentrarnos en como se crean y se escriben ficheros.
-          Para ello se utilizan las órdenes básicas `OPEN', `WRITE' y
-          `CLOSE'.  Otras órdenes de interés son `REWIND' y `BACKSPACE'.
+          The `OPEN' command allows to initiate a file.  The simplest
+          instance of this command is
 
-          La orden `OPEN' permite que se abra un fichero, en su forma más
-          simple sería
+               OPEN(UNIT=<unit_number>,FILE='<filename>')
 
-               OPEN(UNIT=<int_unit>,FILE='<nombre_fichero>')
+          where the file name and the integer number of the associated unit
+          are indicated.  The file is therefore associated to this number
+          for any Read/Write operation.  We can write something in this
+          file as follows
 
-          donde se indica el nombre del fichero creado y el número de
-          unidad asociada a dicho fichero (número entero).  Para
-          operaciones de lectura y escritura el fichero queda asociado a
-          este número.  Un ejemplo de esto sería escribir algo en este
-          fichero usaremos una orden como
+               OPEN(UNIT=33, FILE='program_OUT.dat')
+               WRITE(UNIT=33,FMT=100) <variable_lists>
 
-               OPEN(UNIT=33, FILE='output_program.dat')
-               WRITE(UNIT=33,FMT=100) <lista_de_variables>
+          which indicates that the data included in <variable_list> will be
+          written in the file associated with unit number 33, following the
+          format specified in line labeled `100'.  It is possible to
+          abbreviate the command to `WRITE(33,100)' or `WRITE(33,*)' if
+          free format is required.  In order to send the data to `STDOUT',
+          `WRITE(UNIT=6,<format>)', `WRITE(6,*)', `WRITE(*,*)', or `PRINT*'
+          are all valid and equivalent commands.  Standard input `STDIN' is
+          associated with unit number `5' or the `*' symbol[1].
 
-          lo que indica que envíe los datos en <lista_de_variables> al
-          fichero asociado a la unidad 33, llamado `output_program.dat',
-          según el formato especificado en la línea etiquetada como `100'.
-          Es posible usar la forma abreviada `WRITE(33,100)' e incluso
-          `WRITE(33,*)' si queremos escribir en el fichero con el formato
-          estándar dependiente de la lista de variables.  Para escribir en
-          la salida estándar `STDOUT', en principio la pantalla, se puede
-          usar `WRITE(6,<formato>)', ya que esta salida está asociada a la
-          unidad `6'.  Por tanto `WRITE(6,*)' es equivalente a `PRINT*',
-          mientras que `STDIN' se asocia a la unidad `5'[1].  Para
-          referirnos a `STDOUT' y `STDIN' es más conveniente usar el
-          carácter `*' ya que los números anteriores pueden depender del
-          procesador.
-
-          Una vez que el proceso de escritura ha terminado el fichero se
-          cierra con la orden `CLOSE(UNIT=<numero_unidad>)'.  En nuestro
-          caso
+          Once the write process takes place the unit should be closed
+          using the statement `CLOSE(UNIT=<unit_number>)'.  In our case
 
                CLOSE(UNIT=33)
 
-          El ejemplo Section 6.3.6, ``excode_6_6.f90'' muestra como se
-          escribe a un fichero e introduce la función intrínseca de
-          `Fortran' `CPU_TIME' que nos permite estimar el tiempo de cpu
-          dedicado a cada parte del programa.
+          Example Section 6.3.6, ``excode_6_6.f90'' shows how data are sent
+          to a file and introduces the intrinsic function `CPU_TIME' that
+          allows to estimate the cpu time spent in a program and its
+          different sections.
 
-          La orden `OPEN' puede específicarse de forma más detallada con
-          los argumentos siguientes:
+          The `OPEN' command can be more specific, adding the following
+          arguments:
 
-OPEN(UNIT=<int_unit>,FILE=<char_nombre_fichero>,STATUS=<char_sta>, ACTION=<char_act>, IOSTAT=<int_stat>)
+OPEN(UNIT=<unit_number>,FILE=<file_name>,STATUS=<file_status>, ACTION=<action_var>, IOSTAT=<integer_var>)
 
-          Las nuevas opciones fijan los siguientes aspectos al abrir el
-          fichero:
+          These options control the following aspects:
 
-          1.   `STATUS=<char_sta>'
+          1.   `STATUS=<file_status>'
 
-               La constante o variable <char_sta> es de tipo carácter y
-               puede tomar los siguientes valores estándar:
+               The constant or variable <file_status> is of character type
+               and can take the following values:
 
                   * 'OLD'
 
@@ -2087,10 +2061,10 @@ OPEN(UNIT=<int_unit>,FILE=<char_nombre_fichero>,STATUS=<char_sta>, ACTION=<char_
 
                   * 'UNKNOWN'
 
-          2.   `ACTION=<char_act>'
+          2.   `ACTION=<action_var>'
 
-               La constante o variable <char_act> es de tipo carácter y
-               puede tomar los siguientes valores estándar:
+               The constant or variable <action_var> is of character type
+               and can have the following forms:
 
                   * 'READ'
 
@@ -2098,67 +2072,55 @@ OPEN(UNIT=<int_unit>,FILE=<char_nombre_fichero>,STATUS=<char_sta>, ACTION=<char_
 
                   * 'READWRITE'
 
-               Por defecto, si no se da otra opción, desde `Fortran', los
-               archivos se abren con los permisos activados tanto de
-               lectura como de escritura.
+               By default.  archives are opened with both read and write
+               permissions active.
 
-          3.   `IOSTAT=<int_var>'
+          3.   `IOSTAT=<integer_var>'
 
-               La constante o variable <int_stat> es de tipo entero y
-               permite estimar si la apertura y el acceso al fichero ha
-               sido exitosa.  Si el valor que devuelve es `0' quiere decir
-               que la apertura se ha resuelto sin problemas.  Si ha habido
-               problemas al abrir el fichero devuelve un valor diferente de
-               cero.
+               The variable <integer_stat> is of integer type and gives
+               feedback about the success of the opening of the file.  If
+               the final value is `0' the file has been correctly opened.
+               Any other value indicates a problem.
 
-          Un ejemplo más completo que el anterior, creando un fichero de
-          entrada (INPUT) sería
+          A complete example will be
 
-INTEGER ierror
-OPEN(UNIT=33, FILE='input_program.dat', STATUS='OLD', ACTION='READ', IOSTAT=ierror)
+INTEGER ierr
+OPEN(UNIT=33, FILE='input_program.dat', STATUS='OLD', ACTION='READ', IOSTAT=ierr)
 
-          Para crear un fichero de salida se hace
+          If we want to create a file to store some data:
 
-INTEGER ierror
-OPEN(UNIT=33, FILE='output_program.dat', STATUS='NEW', ACTION='WRITE', IOSTAT=ierror)
+INTEGER ierr
+OPEN(UNIT=33, FILE='output_program.dat', STATUS='NEW', ACTION='WRITE', IOSTAT=ierr)
 
-        * Es posible controlar de forma rudimentaria el acceso a los
-          elementos almacenados en el fichero secuencial creado con la
-          orden `OPEN'.  Para ello existen dos comandos de interés.
+        * It is possible some degree of control on the access to the
+          elements stored sequentially using the commands
 
-               BACKSPACE(UNIT = <int_unit>)
-               REWIND(UNIT = <int_unit>)
+               BACKSPACE(UNIT = <unit_number>)
+               REWIND(UNIT = <unit_number>)
 
-          Con `BACKSPACE' se retrocede un registro (una línea) en el
-          fichero asociado a la unidad <int_unit>.  Con `REWIND' se vuelve
-          al primer registro del fichero.
+          The `BACKSPACE' statement set the register one line back in the
+          associated file while `REWIND' move back to the first register of
+          the file.
 
-        * Hasta ahora hemos empleado la orden `OPEN' con ficheros con
-          formato, siendo este el comportamiento por defecto al abrir un
-          fichero.  Por tanto, las órdenes
+        * The default is to open formatted files.  Thus, the following two
+          statements are equivalent
 
-               OPEN(UNIT=33,FILE='<nombre_fichero>')
-               OPEN(UNIT=33,FILE='<nombre_fichero>',FORM='FORMATTED')
+               OPEN(UNIT=33,FILE='<file_name>')
+               OPEN(UNIT=33,FILE='<file_name>',FORM='FORMATTED')
 
-          son equivalentes.  Los ficheros con formato tienen la ventaja de
-          ser editables por el usuario, pero precisan de un mayor tiempo
-          para su lectura y escritura que cuando se tratan los datos sin
-          formato.  Para ello se abren los ficheros con la opción
-          `FORM='UNFORMATTED'' como en el ejemplo siguiente
+          Formatted files can be edited and read by the user, but they have
+          a couple of cons.  Data storage and reading in formatted files
+          takes longer than in unformatted files and there may be some
+          precision loss in float numbers.  In order to write data without
+          format files should be opened including the `FORM='UNFORMATTED''
+          option:
 
-               OPEN(UNIT=33,FILE='<nombre_fichero>',FORM='UNFORMATTED')
+               OPEN(UNIT=33,FILE='<file_name>',FORM='UNFORMATTED')
 
-          Además, que los fichero no tengan formato permite almacenar
-          números reales sin la pérdida de información que implica el
-          cambio a un formato dado.  En el Ejercicio 5 se pide que
-          transforméis el ejemplo Section 6.3.6, ``excode_6_6.f90'' para
-          comprobar el tiempo que se tarda en la escritura y lectura sin
-          formato.  Al escribir en un fichero sin formato no se indica
-          ningún formato en la orden, de manera que para escribir en el
-          fichero sin formato que hemos abierto asociado con `UNIT=33'
-          haremos
+          To write in a file declared unformatted the `WRITE' command takes
+          the form
 
-               WRITE(UNIT=33) <lista-de-variables>
+               WRITE(UNIT=33) <variable_list>
 
      The combination of fortran descriptors and different kinds of loop in
      a code can be found in the example Section 6.3.7, ``excode_6_7.f90''.
@@ -2174,15 +2136,15 @@ OPEN(UNIT=33, FILE='output_program.dat', STATUS='NEW', ACTION='WRITE', IOSTAT=ie
      (`data_Y') making use of the intrinsic functions `MAXVAL' and `MINVAL'
      (see Section 8.1, `Objetivos').
 
-[1]  `STDERR' se asocia a la unidad `0'.
+[1]  `STDERR' is associated with unit `0'.
 
 [2]  This is achieved making use of the `IERR =' <label> option in the
      `READ' command.  opción indica que si se ha producido un error de
      lectura el programa debe saltar a la línea marcada por <label>.
 
 
-6.3. Programas usados como ejemplo.
------------------------------------
+6.3. Example Codes
+------------------
 
 6.3.1. `excode_6_1.f90'
 -----------------------
@@ -2438,53 +2400,49 @@ END PROGRAM ex_6_5
 -------------------------------------------------------------------------------
 
 
-7. Operaciones `I/O' (II)
--------------------------
+7. `Input/Output' (II)
+----------------------
 
 
-7.1. Objetivos
---------------
+7.1. Objectives
+---------------
 
-     Los objetivos de esta clase son los siguientes:
+     The main aims of this session consist of:
 
-     1.   presentar como se emplea la orden `FORMAT', y sus diferentes
-          descriptores con la orden `READ'.
+     1.   present the use of `FORMAT' in reading operations.
 
-     2.   adquirir conocimientos básicos acerca de la lectura de ficheros
-          en `Fortran'.
+     2.   basic techniques about the reading of files in `Fortran'.
 
-     3.   dar como alternativas útiles para las operaciones de `I/O' los
-          _here documents_ y el formato de `NAMELIST'.
+     3.   present possible alternatives to the standard `I/O': _here
+          documents_ and the `NAMELIST' type input.
 
-     4.   dar un ejemplo de como se puede trabajar con ficheros internos
-          (_internal files_).
+     4.   present internal files.
 
-     Son similares a los de la clase anterior, aunque en este caso nos
-     centramos en la lectura de datos en Fortran.  En general la lectura
-     con formato se emplea al leer datos en ficheros y no al introducir
-     datos con el teclado como entrada estándar.
+     This chapter is very much linked with the previous one, having an
+     emphasis in reading data instead of writing them.  We present
+     interesting options for providing input data to a program.  Formatted
+     input is seldom used with the keyboard, though it is very important
+     when reading data stored in a file.
 
 
-7.2. Puntos destacables.
-------------------------
+7.2. Main items.
+----------------
 
-        * La orden `FORMAT' se emplea de igual modo que en las operaciones
-          de escritura tratadas en Chapter 6, ``INPUT/OUTPUT' (I)',
-          teniendo los descriptores idéntico significado.
+        * The `FORMAT' statement acts in a completely equivalent way to the
+          one explained in Chapter 6, ``INPUT/OUTPUT' (I)'.
 
-        * Una opción útil cuando se emplea el comando `READ' es `IOSTAT',
-          que permite detectar si se ha llegado al final del archivo que se
-          esté leyendo o hay un error en la lectura del dato.  De este modo
-          el comando quedaría como
+        * A useful option of the `READ' command is `IOSTAT'.  It allows to
+          detect if the read process has reached the end-of-file:
 
-READ(UNIT=<int_unit>, FMT=<int_fmt>, IOSTAT=<int_var>) <input_list>
+READ(UNIT=<unit_number>, FMT=<format_label>, IOSTAT=<integer_var>) <variable_list>
 
-          De este modo, si leemos un conjunto de datos (por ejemplo
-          coordenadas de puntos `(var_X,var_Y,var_Z)' de un archivo y no
-          sabemos el número total de los mismos podemos hacer algo como
+          Thus, if if we read a set of data, e.g.  coordinates in space as
+          `(var_X,var_Y,var_Z)' from a file and we do not know the total
+          number of coordinates included we can proceed as follows
 
                num_data = 0
                readloop: DO
+                  !
                   READ(UNIT=33, FMT=100, IOSTAT=io_status) var_X, var_Y, var_Z
                   !
                   ! Check reading
@@ -2502,71 +2460,54 @@ READ(UNIT=<int_unit>, FMT=<int_fmt>, IOSTAT=<int_var>) <input_list>
                   !
                ENDDO readloop
 
-          En este fragmento de código la variable entera `num_data' es un
-          contador que almacena el número de datos (puntos) leídos y la
-          variable entera `io_status' controla que los datos se hayan leído
-          de forma correcta.
+          The integer variable `num_data' is a counter that indicates the
+          number of points read and the integer `io_status' check if the
+          reading has been correct.
 
-        * En el ejemplo Section 7.3.1, `Programa ejemplo_7_1.f90' se
-          presenta como se lee un fichero de datos adjunto (`notas.dat')
-          usando secciones de matrices en el proceso de lectura.  En dicho
-          fichero se ordenan las notas obtenidas por una serie de alumnos
-          en filas y columnas.  Cada fila está asociada a un alumno y cada
-          columna a una asignatura.  Es conveniente que comprendais cómo se
-          lleva a cabo la lectura de los datos en este caso.
+        * The example Section 7.3.1, `Programa ejemplo_7_1.f90' presents
+          how to read array slices from a file were students' grades are
+          indicated in rows (students) and columns (subjects).
 
-          Se plantea como ejercicio modificar Section 7.3.1, `Programa
-          ejemplo_7_1.f90' para que lleve a cabo la misma tarea con el
-          fichero `notas_ej_6.dat', donde no se han llevado a cabo los
-          promedios por alumno ni por asignatura.  Partiendo del programa
-          ejemplo debeis realizar los cambios necesarios para leer los
-          datos, comprobar si hay errores de lectura, calcular los
-          promedios necesarios, obtener la salida correcta y grabar un
-          fichero donde aparezcan, como en `notas.dat', los promedios
-          calculados.
+        * A convenient way to convey the input to a `Fortran' program is
+          making use of a _here documents_ from the `bash shell'.
 
-        * Una forma bastante cómoda de leer datos en un programa `Fortran'
-          es usando los llamados _here documents_ de la `shell'.  Esto
-          consiste en hacer un breve _script_[1], en el que además de
-          ejecutar el programa -compilándolo previamente si el programa no
-          es demasiado extenso- se proporciona la entrada del programa,
-          pudiendo comentarse dichas entradas.  El ejemplo Section 7.3.2,
-          `Programa ejemplo_7_2.f90' es un programa que calcula las raíces
-          de una ecuación de segundo grado `y = A*x**2 + B*x + C' y en el
-          ejemplo Section 7.3.3, `Script `ej_here_file'', fichero
-          `ej_here_file' encontrais una forma de aplicar los _here
-          documents_.  Para ejecutarlo tendréis que salvar el fichero y
-          escribir
+          A _here document_ is a brief script[1], such that apart from
+          compiling (if necessary) and running the program, the input is
+          given in a way that comments can also be included.  Example
+          Section 7.3.2, `Programa ejemplo_7_2.f90' is a program that
+          computes the roots of a second order algebraic equation `y =
+          A*x**2 + B*x + C' and `ej_here_file' included in Section 7.3.3,
+          `Script `ej_here_file'', is an application of a _here document_.
+          In order to run this program proceed as follows
 
                . ej_here_file
 
-        * Una tercera posibilidad es hacer uso del llamado `namelist' que
-          consiste en una lista de valores asignados a variables
-          etiquetadas con sus nombres.  La forma de un comando `NAMELIST'
-          es la siguiente
+        * The `namelist' format is quite informative, consisting in a list
+          of values assigned to variables labeled with their names.  The
+          command `NAMELIST' syntax is
 
                NAMELIST/<var_group_name>/ <var1 [var2 var3 ... ]>
 
-          Este comando define las variables asociadas al grupo llamado
-          <var_group_name> y debe aparecer en el programa antes de
-          cualquier comando ejecutable.  Para leer las variables en un
-          `NAMELIST' se utiliza un comando `READ' donde en vez de
-          especificar el formato de entrada con la opción `FMT' se utiliza
-          la opción `NML' como sigue[2]
+          This statement define a set of variables assigned to the
+          <var_group_name> and should appear in the program prior to any
+          executable statemnt.  The reading of variables included in a
+          `NAMELIST' is done with a `READ' statement where, instead of
+          specifying a format with the `FMT' option, is used the option
+          `NML' as follows[2]
 
                READ(UNIT=<unit_number>, NML=<var_group_name>, [...])
 
-          El fichero `NAMELIST' con la información de entrada comienza con
-          un carácter "&" seguido del nombre del grupo, <var_group_name>, y
-          termina con el carácter "/".  Los valores en el fichero pueden
-          estar en líneas diferentes siempre que se hayen entre estos dos
-          caracteres.
+          The `NAMELIST' file with the variable information must start each
+          line with the "&" character, followed by the variable group name,
+          <var_group_name>, ending the line with the character "/".  The
+          values in the file can be in different lines but always between
+          the two mentioned characters.
 
-          El programa Section 7.3.4, `Programa ejemplo_7_3.f90' es casi
-          idéntico al programa Section 7.3.2, `Programa ejemplo_7_2.f90'.
-          Se ha modificado para hacer uso de un fichero de entrada en
-          formato `namelist', que llamamos `sec_order.inp' e incluimos como
-          Section 7.3.5, ``namelist' input file'.
+          Program Section 7.3.4, `Programa ejemplo_7_3.f90' is almost
+          identical to program Section 7.3.2, `Programa ejemplo_7_2.f90'
+          but it has been modified to make use of a `namelist' file, called
+          `sec_order.inp', included as Section 7.3.5, ``namelist' input
+          file'.
 
         * En Section 7.3.6, `Programa ejemplo_7_4.f90' se puede ver como se
           trabaja con un fichero interno (_internal file_) donde la
@@ -2589,8 +2530,8 @@ READ(UNIT=<int_unit>, FMT=<int_fmt>, IOSTAT=<int_var>) <input_list>
 [1]  From The Free On-line Dictionary of Computing (8 July 2008) [foldoc]:
      _script_: A program written in a scripting language.
 
-[2]  El formato `NAMELIST' también se puede utilizar con el comando `WRITE'
-     para guardar variables etiquetadas en operaciones de salida.
+[2]  The `NAMELIST' format could also be used with the `WRITE' command to
+     save labeled variables.
 
 
 7.3. Programas usados como ejemplo.

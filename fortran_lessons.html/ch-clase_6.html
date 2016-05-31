@@ -6,7 +6,7 @@
 
 <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
 
-<title>Fortran 90 Lessons for Computational Chemistry - Operaciones I/O (II)</title>
+<title>Fortran 90 Lessons for Computational Chemistry - Input/Output (II)</title>
 
 <link href="index.html" rel="start">
 <link href="ch-clase_5.html" rel="prev">
@@ -19,7 +19,7 @@
 <link href="ch-clase_4.html" rel="chapter" title="4 More on Arrays">
 <link href="ch-clase_7.html" rel="chapter" title="5 Control Structures">
 <link href="ch-clase_5.html" rel="chapter" title="6 INPUT/OUTPUT (I)">
-<link href="ch-clase_6.html" rel="chapter" title="7 Operaciones I/O (II)">
+<link href="ch-clase_6.html" rel="chapter" title="7 Input/Output (II)">
 <link href="ch-clase_8.html" rel="chapter" title="8 Subprogramas (I): funciones">
 <link href="ch-clase_9.html" rel="chapter" title="9 Subprogramas (II): subrutinas">
 <link href="ch-clase_10.html" rel="chapter" title="10 Subprogramas (III): módulos">
@@ -38,14 +38,14 @@
 <link href="ch-clase_4.html#s-sec_41" rel="section" title="4.1 Objectives">
 <link href="ch-clase_4.html#s-sec_42" rel="section" title="4.2 Main items.">
 <link href="ch-clase_4.html#s-sec_43" rel="section" title="4.3 Example Codes.">
-<link href="ch-clase_7.html#s-sec_71" rel="section" title="5.1 Objectivos">
+<link href="ch-clase_7.html#s-sec_71" rel="section" title="5.1 Objectives">
 <link href="ch-clase_7.html#s-sec_72" rel="section" title="5.2 Main items.">
 <link href="ch-clase_7.html#s-sec_73" rel="section" title="5.3 Example codes.">
 <link href="ch-clase_5.html#s-sec_51" rel="section" title="6.1 Objectivos">
 <link href="ch-clase_5.html#s-sec_52" rel="section" title="6.2 Main Items.">
-<link href="ch-clase_5.html#s-sec_53" rel="section" title="6.3 Programas usados como ejemplo.">
-<link href="ch-clase_6.html#s-sec_61" rel="section" title="7.1 Objetivos">
-<link href="ch-clase_6.html#s-sec_62" rel="section" title="7.2 Puntos destacables.">
+<link href="ch-clase_5.html#s-sec_53" rel="section" title="6.3 Example Codes">
+<link href="ch-clase_6.html#s-sec_61" rel="section" title="7.1 Objectives">
+<link href="ch-clase_6.html#s-sec_62" rel="section" title="7.2 Main items.">
 <link href="ch-clase_6.html#s-sec_63" rel="section" title="7.3 Programas usados como ejemplo.">
 <link href="ch-clase_8.html#s-sec_81" rel="section" title="8.1 Objetivos">
 <link href="ch-clase_8.html#s-sec_82" rel="section" title="8.2 Puntos destacables.">
@@ -153,90 +153,86 @@
 
 <h1>
 <code>Fortran 90</code> Lessons for Computational Chemistry
-<br>Chapter 7 - Operaciones <samp>I/O</samp> (II)
+<br>Chapter 7 - <samp>Input/Output</samp> (II)
 </h1>
 
 <hr>
 
-<h2 id="s-sec_61">7.1 Objetivos</h2>
+<h2 id="s-sec_61">7.1 Objectives</h2>
 
 <p>
-Los objetivos de esta clase son los siguientes:
+The main aims of this session consist of:
 </p>
 <ol type="1" start="1" >
 <li>
 <p>
-presentar como se emplea la orden <samp>FORMAT</samp>, y sus diferentes
-descriptores con la orden <samp>READ</samp>.
+present the use of <samp>FORMAT</samp> in reading operations.
 </p>
 </li>
 </ol>
 <ol type="1" start="2" >
 <li>
 <p>
-adquirir conocimientos básicos acerca de la lectura de ficheros en
-<code>Fortran</code>.
+basic techniques about the reading of files in <code>Fortran</code>.
 </p>
 </li>
 </ol>
 <ol type="1" start="3" >
 <li>
 <p>
-dar como alternativas útiles para las operaciones de <samp>I/O</samp> los
-<em>here documents</em> y el formato de <samp>NAMELIST</samp>.
+present possible alternatives to the standard <samp>I/O</samp>: <em>here
+documents</em> and the <samp>NAMELIST</samp> type input.
 </p>
 </li>
 </ol>
 <ol type="1" start="4" >
 <li>
 <p>
-dar un ejemplo de como se puede trabajar con ficheros internos (<em>internal
-files</em>).
+present internal files.
 </p>
 </li>
 </ol>
 
 <p>
-Son similares a los de la clase anterior, aunque en este caso nos centramos en
-la lectura de datos en Fortran.  En general la lectura con formato se emplea al
-leer datos en ficheros y no al introducir datos con el teclado como entrada
-estándar.
+This chapter is very much linked with the previous one, having an emphasis in
+reading data instead of writing them.  We present interesting options for
+providing input data to a program.  Formatted input is seldom used with the
+keyboard, though it is very important when reading data stored in a file.
 </p>
 
 <hr>
 
-<h2 id="s-sec_62">7.2 Puntos destacables.</h2>
+<h2 id="s-sec_62">7.2 Main items.</h2>
 <ul>
 <li>
 <p>
-La orden <samp>FORMAT</samp> se emplea de igual modo que en las operaciones de
-escritura tratadas en <a href="ch-clase_5.html"><samp>INPUT/OUTPUT</samp> (I),
-Chapter 6</a>, teniendo los descriptores idéntico significado.
+The <samp>FORMAT</samp> statement acts in a completely equivalent way to the
+one explained in <a href="ch-clase_5.html"><samp>INPUT/OUTPUT</samp> (I),
+Chapter 6</a>.
 </p>
 </li>
 </ul>
 <ul>
 <li>
 <p>
-Una opción útil cuando se emplea el comando <samp>READ</samp> es
-<samp>IOSTAT</samp>, que permite detectar si se ha llegado al final del archivo
-que se esté leyendo o hay un error en la lectura del dato.  De este modo el
-comando quedaría como
+A useful option of the <samp>READ</samp> command is <samp>IOSTAT</samp>.  It
+allows to detect if the read process has reached the end-of-file:
 </p>
 
 <pre>
-     READ(UNIT=<var>int_unit</var>, FMT=<var>int_fmt</var>, IOSTAT=<var>int_var</var>) <var>input_list</var>
+     READ(UNIT=<var>unit_number</var>, FMT=<var>format_label</var>, IOSTAT=<var>integer_var</var>) <var>variable_list</var>
 </pre>
 
 <p>
-De este modo, si leemos un conjunto de datos (por ejemplo coordenadas de puntos
-<samp>(var_X,var_Y,var_Z)</samp> de un archivo y no sabemos el número total de
-los mismos podemos hacer algo como
+Thus, if if we read a set of data, e.g.  coordinates in space as
+<samp>(var_X,var_Y,var_Z)</samp> from a file and we do not know the total
+number of coordinates included we can proceed as follows
 </p>
 
 <pre>
      num_data = 0
      readloop: DO
+        !
         READ(UNIT=33, FMT=100, IOSTAT=io_status) var_X, var_Y, var_Z
         !
         ! Check reading
@@ -256,51 +252,38 @@ los mismos podemos hacer algo como
 </pre>
 
 <p>
-En este fragmento de código la variable entera <samp>num_data</samp> es un
-contador que almacena el número de datos (puntos) leídos y la variable entera
-<samp>io_status</samp> controla que los datos se hayan leído de forma correcta.
+The integer variable <samp>num_data</samp> is a counter that indicates the
+number of points read and the integer <samp>io_status</samp> check if the
+reading has been correct.
 </p>
 </li>
 </ul>
 <ul>
 <li>
 <p>
-En el ejemplo <a href="#s-sec_p_6_1">Programa ejemplo_7_1.f90, Section
-7.3.1</a> se presenta como se lee un fichero de datos adjunto
-(<samp>notas.dat</samp>) usando secciones de matrices en el proceso de lectura.
-En dicho fichero se ordenan las notas obtenidas por una serie de alumnos en
-filas y columnas.  Cada fila está asociada a un alumno y cada columna a una
-asignatura.  Es conveniente que comprendais cómo se lleva a cabo la lectura de
-los datos en este caso.
+The example <a href="#s-sec_p_6_1">Programa ejemplo_7_1.f90, Section 7.3.1</a>
+presents how to read array slices from a file were students' grades are
+indicated in rows (students) and columns (subjects).
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+A convenient way to convey the input to a <code>Fortran</code> program is
+making use of a <em>here documents</em> from the <code>bash shell</code>.
 </p>
 
 <p>
-Se plantea como ejercicio modificar <a href="#s-sec_p_6_1">Programa
-ejemplo_7_1.f90, Section 7.3.1</a> para que lleve a cabo la misma tarea con el
-fichero <samp>notas_ej_6.dat</samp>, donde no se han llevado a cabo los
-promedios por alumno ni por asignatura.  Partiendo del programa ejemplo debeis
-realizar los cambios necesarios para leer los datos, comprobar si hay errores
-de lectura, calcular los promedios necesarios, obtener la salida correcta y
-grabar un fichero donde aparezcan, como en <samp>notas.dat</samp>, los
-promedios calculados.
-</p>
-</li>
-</ul>
-<ul>
-<li>
-<p>
-Una forma bastante cómoda de leer datos en un programa <code>Fortran</code> es
-usando los llamados <em>here documents</em> de la <code>shell</code>.  Esto
-consiste en hacer un breve <em>script</em>[<a href="footnotes.html#f8"
-name="fr8">8</a>], en el que además de ejecutar el programa -compilándolo
-previamente si el programa no es demasiado extenso- se proporciona la entrada
-del programa, pudiendo comentarse dichas entradas.  El ejemplo <a
-href="#s-sec_p_6_2">Programa ejemplo_7_2.f90, Section 7.3.2</a> es un programa
-que calcula las raíces de una ecuación de segundo grado <samp>y = A*x**2 + B*x
-+ C</samp> y en el ejemplo <a href="#s-sec_p_6_22">Script
-<samp>ej_here_file</samp>, Section 7.3.3</a>, fichero <samp>ej_here_file</samp>
-encontrais una forma de aplicar los <em>here documents</em>.  Para ejecutarlo
-tendréis que salvar el fichero y escribir
+A <em>here document</em> is a brief script[<a href="footnotes.html#f8"
+name="fr8">8</a>], such that apart from compiling (if necessary) and running
+the program, the input is given in a way that comments can also be included.
+Example <a href="#s-sec_p_6_2">Programa ejemplo_7_2.f90, Section 7.3.2</a> is a
+program that computes the roots of a second order algebraic equation <samp>y =
+A*x**2 + B*x + C</samp> and <samp>ej_here_file</samp> included in <a
+href="#s-sec_p_6_22">Script <samp>ej_here_file</samp>, Section 7.3.3</a>, is an
+application of a <em>here document</em>.  In order to run this program proceed
+as follows
 </p>
 
 <pre>
@@ -311,9 +294,9 @@ tendréis que salvar el fichero y escribir
 <ul>
 <li>
 <p>
-Una tercera posibilidad es hacer uso del llamado <samp>namelist</samp> que
-consiste en una lista de valores asignados a variables etiquetadas con sus
-nombres.  La forma de un comando <samp>NAMELIST</samp> es la siguiente
+The <samp>namelist</samp> format is quite informative, consisting in a list of
+values assigned to variables labeled with their names.  The command
+<samp>NAMELIST</samp> syntax is
 </p>
 
 <pre>
@@ -321,12 +304,12 @@ nombres.  La forma de un comando <samp>NAMELIST</samp> es la siguiente
 </pre>
 
 <p>
-Este comando define las variables asociadas al grupo llamado
-<var>var_group_name</var> y debe aparecer en el programa antes de cualquier
-comando ejecutable.  Para leer las variables en un <samp>NAMELIST</samp> se
-utiliza un comando <samp>READ</samp> donde en vez de especificar el formato de
-entrada con la opción <samp>FMT</samp> se utiliza la opción <samp>NML</samp>
-como sigue[<a href="footnotes.html#f9" name="fr9">9</a>]
+This statement define a set of variables assigned to the
+<var>var_group_name</var> and should appear in the program prior to any
+executable statemnt.  The reading of variables included in a
+<samp>NAMELIST</samp> is done with a <samp>READ</samp> statement where, instead
+of specifying a format with the <samp>FMT</samp> option, is used the option
+<samp>NML</samp> as follows[<a href="footnotes.html#f9" name="fr9">9</a>]
 </p>
 
 <pre>
@@ -334,20 +317,19 @@ como sigue[<a href="footnotes.html#f9" name="fr9">9</a>]
 </pre>
 
 <p>
-El fichero <samp>NAMELIST</samp> con la información de entrada comienza con un
-carácter &quot;&amp;&quot; seguido del nombre del grupo,
-<var>var_group_name</var>, y termina con el carácter &quot;/&quot;.  Los
-valores en el fichero pueden estar en líneas diferentes siempre que se hayen
-entre estos dos caracteres.
+The <samp>NAMELIST</samp> file with the variable information must start each
+line with the &quot;&amp;&quot; character, followed by the variable group name,
+<var>var_group_name</var>, ending the line with the character &quot;/&quot;.
+The values in the file can be in different lines but always between the two
+mentioned characters.
 </p>
 
 <p>
-El programa <a href="#s-sec_p_6_3">Programa ejemplo_7_3.f90, Section 7.3.4</a>
-es casi idéntico al programa <a href="#s-sec_p_6_2">Programa ejemplo_7_2.f90,
-Section 7.3.2</a>.  Se ha modificado para hacer uso de un fichero de entrada en
-formato <samp>namelist</samp>, que llamamos <samp>sec_order.inp</samp> e
-incluimos como <a href="#s-sec_p_6_32"><samp>namelist</samp> input file,
-Section 7.3.5</a>.
+Program <a href="#s-sec_p_6_3">Programa ejemplo_7_3.f90, Section 7.3.4</a> is
+almost identical to program <a href="#s-sec_p_6_2">Programa ejemplo_7_2.f90,
+Section 7.3.2</a> but it has been modified to make use of a
+<samp>namelist</samp> file, called <samp>sec_order.inp</samp>, included as <a
+href="#s-sec_p_6_32"><samp>namelist</samp> input file, Section 7.3.5</a>.
 </p>
 </li>
 </ul>
