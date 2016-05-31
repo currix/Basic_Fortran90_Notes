@@ -2456,25 +2456,20 @@ Program <ref id="sec_p_6_3"> is almost identical to
   program <ref id="sec_p_6_2"> but it has been modified to make use of
   a <tt>namelist</tt> file, called <tt>sec_order.inp</tt>, included as <ref id="sec_p_6_32">.
 
-<item> En  <ref id="sec_p_6_4"> se puede ver como se trabaja con un
-    fichero interno (<em>internal file</em>) donde la operación de I/O
-    tiene lugar en un buffer interno en lugar de en un archivo. Esto
-    tiene utilidad en dos casos. En primer lugar para tratar con datos cuya estructura
-    o formato no es bien conocida, por lo que se pueden leer en una
-    variable de tipo <tt>CHARACTER</tt> y posteriormente ser tratados
-    como un fichero interno. En segundo lugar, también permiten
-    preparar datos que sean mezcla de datos de tipo carácter y de tipo
-    numérico. Este segundo caso es el que se trata
-    en  <ref id="sec_p_6_4"> donde se muestra como definir una serie
-    de unidades de escritura asociadas a archivos que se van numerando
-    sucesivamente.
-
-<p> En este ejemplo se puede ver como se usa la función
-  intrínseca <tt>TRIM</tt> para eliminar los espacios sobrantes de la
-  variable <tt>pref</tt> al preparar el nombre del fichero.
+<item> In the example  <ref id="sec_p_6_4"> you can find
+    an <em>internal file</em>, where the I/O takes place in an
+    internal buffer instead than in a file. This is rather handy to
+    treat data of unknowkn format, reading them first in a character
+    variable and treating them later, or to handle data mixing
+    variables of different types, like character and integer. This is
+    the case in the example <ref id="sec_p_6_4"> where a series of
+    different numbered files are defined and data saved in them. 
+    sucesivamente. In this example the intrinsic
+    function  <tt>TRIM</tt> is used to remove trailing spaces from the
+    variable <tt>pref</tt>.
 </list>  
 </sect>
-<sect id="sec_63">  Programas usados como ejemplo.
+<sect id="sec_63">  Example Codes
 
 <sect1 id="sec_p_6_1">  Programa ejemplo_7_1.f90
 <p>
@@ -2511,14 +2506,14 @@ PROGRAM EJEMPLO_7_1
 END PROGRAM EJEMPLO_7_1
 </example>
 </sect1>
-<sect1 id="sec_p_6_2">  Programa ejemplo_7_2.f90
+<sect1 id="sec_p_6_2">  <tt>excode_7_2.f90</tt>
 <p>
 <example>
-PROGRAM EJEMPLO_7_2
-! PROGRAMA QUE CALCULA LAS SOLUCIONES DE UNA EC DE SEGUNDO GRADO
+PROGRAM ex_7_2
+! Second degree equation solver
 ! y = A*x**2 + B*x + C
   IMPLICIT NONE
-  !Definicion de variables
+  ! Variables
   REAL :: A = 0.0
   REAL :: B = 0.0
   REAL :: C = 0.0
@@ -2526,34 +2521,33 @@ PROGRAM EJEMPLO_7_2
   REAL :: TEMP
   INTEGER :: I
   !
-  ! Lectura de coeficientes
+  ! Input: A, B, C
   READ*, A 
   READ*, B
   READ*, C 
-  ! print*, a,b,c
   !
-  ! CALCULOS
+  ! Calculations
   TEMP = SQRT(B*B-4.0*A*C)
   !
   SOL(1) = (-B+TEMP)/(2.0*A)
   SOL(2) = (-B-TEMP)/(2.0*A)
   !
   !
-  ! IMPRESION DE LAS SOLUCIONES
+  ! 
   DO I=1, 2
      PRINT 200, I, SOL(I)
-200  FORMAT(1X,'SOLUCION ', I2,' = ',F18.6)
+200  FORMAT(1X,'SOLUTION ', I2,' = ',F18.6)
   END DO
 !
-END PROGRAM EJEMPLO_7_2
+END PROGRAM EX_7_2
 </example>
 </sect1>
 <sect1 id="sec_p_6_22">  Script <tt>ej_here_file</tt>
 <p>
 <example>
-# Compilar
-gfortran -o second_order  ejemplo_7_2.f90
-# Ejecutar
+# Compile..
+gfortran -o second_order  excode_7_2.f90
+# And Run...
 ./second_order &lt;&lt;eof
 2.0     # A
 1.0     # B
@@ -2561,14 +2555,14 @@ gfortran -o second_order  ejemplo_7_2.f90
 eof
 </example>
 </sect1>
-<sect1 id="sec_p_6_3">  Programa ejemplo_7_3.f90
+<sect1 id="sec_p_6_3">  <tt>excode_7_3.f90</tt>
 <p>
 <example>
-PROGRAM EJEMPLO_7_3
-! PROGRAMA QUE CALCULA LAS SOLUCIONES DE UNA EC DE SEGUNDO GRADO
-! y = A*x**2 + B*x + C
+PROGRAM ex_7_3
+  ! Solving second order algebraic equation
+  ! y = A*x**2 + B*x + C
   IMPLICIT NONE
-  !Definicion de variables
+  ! Variables
   REAL :: A = 0.0
   REAL :: B = 0.0
   REAL :: C = 0.0
@@ -2576,48 +2570,48 @@ PROGRAM EJEMPLO_7_3
   REAL :: TEMP
   INTEGER :: I
   !
-  !     NAMELIST DEFINITIONS
+  !     NAMELIST DEFINITION
   NAMELIST/INP0/ A, B, C
   !     NAMELIST FILE
   OPEN(UNIT=10,FILE='sec_order.inp',STATUS='OLD')
-  ! Lectura de coeficientes
+  !     Inpot of A, B, C
   READ(10,INP0)
   !
-  ! CALCULOS
+  ! Calculations
   TEMP = SQRT(B*B-4.0*A*C)
   !
   SOL(1) = (-B+TEMP)/(2.0*A)
   SOL(2) = (-B-TEMP)/(2.0*A)
   !
   !
-  ! IMPRESION DE LAS SOLUCIONES
+  ! OUTOPUT 
   DO I=1, 2
      PRINT 200, I, SOL(I)
-200  FORMAT(1X,'SOLUCION ', I2,' = ',F18.6)
+200  FORMAT(1X,'SOLUTION ', I2,' = ',F18.6)
   END DO
 !
-END PROGRAM EJEMPLO_7_3
+END PROGRAM EX_7_3
 </example>
 </sect1>
 <sect1 id="sec_p_6_32">   <tt>namelist</tt> input file
 <p>
 <example>
 #
-#       INPUT FILE FOR EJEMPLO_7_3
+#       INPUT FILE FOR excode_7_3.f90
 #
  &amp;INP0 A=2.0, B=1.0, C=-4.0 /
 
 </example>
 </sect1>
-<sect1 id="sec_p_6_4">  Programa ejemplo_7_4.f90
+<sect1 id="sec_p_6_4">  <tt>excode_7_4.f90</tt>
 <p>
 <example>
-PROGRAM EJEMPLO_7_4
+PROGRAM ex_7_4
   !
   ! Internal file example
   !
   IMPLICIT NONE
-  !Definicion de variables
+  ! Variables
   REAL :: x_var
   INTEGER :: unit_n, index_X
   CHARACTER(LEN=65) :: filename
@@ -2640,7 +2634,7 @@ PROGRAM EJEMPLO_7_4
      !
   ENDDO
 !
-END PROGRAM EJEMPLO_7_4
+END PROGRAM ex_7_4
 </example>
 </sect1>
 

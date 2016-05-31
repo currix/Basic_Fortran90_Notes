@@ -59,7 +59,7 @@ Contents
      7.        `Input/Output' (II)
      7.1.      Objectives
      7.2.      Main items.
-     7.3.      Programas usados como ejemplo.
+     7.3.      Example Codes
 
      8.        Subprogramas (I): funciones
      8.1.      Objetivos
@@ -2474,11 +2474,11 @@ READ(UNIT=<unit_number>, FMT=<format_label>, IOSTAT=<integer_var>) <variable_lis
           A _here document_ is a brief script[1], such that apart from
           compiling (if necessary) and running the program, the input is
           given in a way that comments can also be included.  Example
-          Section 7.3.2, `Programa ejemplo_7_2.f90' is a program that
-          computes the roots of a second order algebraic equation `y =
-          A*x**2 + B*x + C' and `ej_here_file' included in Section 7.3.3,
-          `Script `ej_here_file'', is an application of a _here document_.
-          In order to run this program proceed as follows
+          Section 7.3.2, ``excode_7_2.f90'' is a program that computes the
+          roots of a second order algebraic equation `y = A*x**2 + B*x + C'
+          and `ej_here_file' included in Section 7.3.3, `Script
+          `ej_here_file'', is an application of a _here document_.  In
+          order to run this program proceed as follows
 
                . ej_here_file
 
@@ -2503,29 +2503,22 @@ READ(UNIT=<unit_number>, FMT=<format_label>, IOSTAT=<integer_var>) <variable_lis
           values in the file can be in different lines but always between
           the two mentioned characters.
 
-          Program Section 7.3.4, `Programa ejemplo_7_3.f90' is almost
-          identical to program Section 7.3.2, `Programa ejemplo_7_2.f90'
-          but it has been modified to make use of a `namelist' file, called
+          Program Section 7.3.4, ``excode_7_3.f90'' is almost identical to
+          program Section 7.3.2, ``excode_7_2.f90'' but it has been
+          modified to make use of a `namelist' file, called
           `sec_order.inp', included as Section 7.3.5, ``namelist' input
           file'.
 
-        * En Section 7.3.6, `Programa ejemplo_7_4.f90' se puede ver como se
-          trabaja con un fichero interno (_internal file_) donde la
-          operación de I/O tiene lugar en un buffer interno en lugar de en
-          un archivo.  Esto tiene utilidad en dos casos.  En primer lugar
-          para tratar con datos cuya estructura o formato no es bien
-          conocida, por lo que se pueden leer en una variable de tipo
-          `CHARACTER' y posteriormente ser tratados como un fichero
-          interno.  En segundo lugar, también permiten preparar datos que
-          sean mezcla de datos de tipo carácter y de tipo numérico.  Este
-          segundo caso es el que se trata en Section 7.3.6, `Programa
-          ejemplo_7_4.f90' donde se muestra como definir una serie de
-          unidades de escritura asociadas a archivos que se van numerando
-          sucesivamente.
-
-          En este ejemplo se puede ver como se usa la función intrínseca
-          `TRIM' para eliminar los espacios sobrantes de la variable `pref'
-          al preparar el nombre del fichero.
+        * In the example Section 7.3.6, ``excode_7_4.f90'' you can find an
+          _internal file_, where the I/O takes place in an internal buffer
+          instead than in a file.  This is rather handy to treat data of
+          unknowkn format, reading them first in a character variable and
+          treating them later, or to handle data mixing variables of
+          different types, like character and integer.  This is the case in
+          the example Section 7.3.6, ``excode_7_4.f90'' where a series of
+          different numbered files are defined and data saved in them.
+          sucesivamente.  In this example the intrinsic function `TRIM' is
+          used to remove trailing spaces from the variable `pref'.
 
 [1]  From The Free On-line Dictionary of Computing (8 July 2008) [foldoc]:
      _script_: A program written in a scripting language.
@@ -2534,8 +2527,8 @@ READ(UNIT=<unit_number>, FMT=<format_label>, IOSTAT=<integer_var>) <variable_lis
      save labeled variables.
 
 
-7.3. Programas usados como ejemplo.
------------------------------------
+7.3. Example Codes
+------------------
 
 7.3.1. Programa ejemplo_7_1.f90
 -------------------------------
@@ -2571,14 +2564,14 @@ PROGRAM EJEMPLO_7_1
 210 FORMAT(1X,6(1X,F5.1))
 END PROGRAM EJEMPLO_7_1
 
-7.3.2. Programa ejemplo_7_2.f90
--------------------------------
+7.3.2. `excode_7_2.f90'
+-----------------------
 
-          PROGRAM EJEMPLO_7_2
-          ! PROGRAMA QUE CALCULA LAS SOLUCIONES DE UNA EC DE SEGUNDO GRADO
+          PROGRAM ex_7_2
+          ! Second degree equation solver
           ! y = A*x**2 + B*x + C
             IMPLICIT NONE
-            !Definicion de variables
+            ! Variables
             REAL :: A = 0.0
             REAL :: B = 0.0
             REAL :: C = 0.0
@@ -2586,47 +2579,46 @@ END PROGRAM EJEMPLO_7_1
             REAL :: TEMP
             INTEGER :: I
             !
-            ! Lectura de coeficientes
+            ! Input: A, B, C
             READ*, A
             READ*, B
             READ*, C
-            ! print*, a,b,c
             !
-            ! CALCULOS
+            ! Calculations
             TEMP = SQRT(B*B-4.0*A*C)
             !
             SOL(1) = (-B+TEMP)/(2.0*A)
             SOL(2) = (-B-TEMP)/(2.0*A)
             !
             !
-            ! IMPRESION DE LAS SOLUCIONES
+            !
             DO I=1, 2
                PRINT 200, I, SOL(I)
-          200  FORMAT(1X,'SOLUCION ', I2,' = ',F18.6)
+          200  FORMAT(1X,'SOLUTION ', I2,' = ',F18.6)
             END DO
           !
-          END PROGRAM EJEMPLO_7_2
+          END PROGRAM EX_7_2
 
 7.3.3. Script `ej_here_file'
 ----------------------------
 
-          # Compilar
-          gfortran -o second_order  ejemplo_7_2.f90
-          # Ejecutar
+          # Compile..
+          gfortran -o second_order  excode_7_2.f90
+          # And Run...
           ./second_order <<eof
           2.0     # A
           1.0     # B
           -4.0    # C
           eof
 
-7.3.4. Programa ejemplo_7_3.f90
--------------------------------
+7.3.4. `excode_7_3.f90'
+-----------------------
 
-          PROGRAM EJEMPLO_7_3
-          ! PROGRAMA QUE CALCULA LAS SOLUCIONES DE UNA EC DE SEGUNDO GRADO
-          ! y = A*x**2 + B*x + C
+          PROGRAM ex_7_3
+            ! Solving second order algebraic equation
+            ! y = A*x**2 + B*x + C
             IMPLICIT NONE
-            !Definicion de variables
+            ! Variables
             REAL :: A = 0.0
             REAL :: B = 0.0
             REAL :: C = 0.0
@@ -2634,45 +2626,45 @@ END PROGRAM EJEMPLO_7_1
             REAL :: TEMP
             INTEGER :: I
             !
-            !     NAMELIST DEFINITIONS
+            !     NAMELIST DEFINITION
             NAMELIST/INP0/ A, B, C
             !     NAMELIST FILE
             OPEN(UNIT=10,FILE='sec_order.inp',STATUS='OLD')
-            ! Lectura de coeficientes
+            !     Inpot of A, B, C
             READ(10,INP0)
             !
-            ! CALCULOS
+            ! Calculations
             TEMP = SQRT(B*B-4.0*A*C)
             !
             SOL(1) = (-B+TEMP)/(2.0*A)
             SOL(2) = (-B-TEMP)/(2.0*A)
             !
             !
-            ! IMPRESION DE LAS SOLUCIONES
+            ! OUTOPUT
             DO I=1, 2
                PRINT 200, I, SOL(I)
-          200  FORMAT(1X,'SOLUCION ', I2,' = ',F18.6)
+          200  FORMAT(1X,'SOLUTION ', I2,' = ',F18.6)
             END DO
           !
-          END PROGRAM EJEMPLO_7_3
+          END PROGRAM EX_7_3
 
 7.3.5. `namelist' input file
 ----------------------------
 
           #
-          #       INPUT FILE FOR EJEMPLO_7_3
+          #       INPUT FILE FOR excode_7_3.f90
           #
            &INP0 A=2.0, B=1.0, C=-4.0 /
 
-7.3.6. Programa ejemplo_7_4.f90
--------------------------------
+7.3.6. `excode_7_4.f90'
+-----------------------
 
-PROGRAM EJEMPLO_7_4
+PROGRAM ex_7_4
   !
   ! Internal file example
   !
   IMPLICIT NONE
-  !Definicion de variables
+  ! Variables
   REAL :: x_var
   INTEGER :: unit_n, index_X
   CHARACTER(LEN=65) :: filename
@@ -2695,7 +2687,7 @@ PROGRAM EJEMPLO_7_4
      !
   ENDDO
 !
-END PROGRAM EJEMPLO_7_4
+END PROGRAM ex_7_4
 
 
 -------------------------------------------------------------------------------

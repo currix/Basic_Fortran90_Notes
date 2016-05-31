@@ -1,0 +1,8 @@
+# Compile..
+gfortran -o second_order  excode_7_2.f90
+# And Run...
+./second_order <<eof
+2.0     # A
+1.0     # B
+-4.0    # C
+eof

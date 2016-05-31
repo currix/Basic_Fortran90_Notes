@@ -46,7 +46,7 @@
 <link href="ch-clase_5.html#s-sec_53" rel="section" title="6.3 Example Codes">
 <link href="ch-clase_6.html#s-sec_61" rel="section" title="7.1 Objectives">
 <link href="ch-clase_6.html#s-sec_62" rel="section" title="7.2 Main items.">
-<link href="ch-clase_6.html#s-sec_63" rel="section" title="7.3 Programas usados como ejemplo.">
+<link href="ch-clase_6.html#s-sec_63" rel="section" title="7.3 Example Codes">
 <link href="ch-clase_8.html#s-sec_81" rel="section" title="8.1 Objetivos">
 <link href="ch-clase_8.html#s-sec_82" rel="section" title="8.2 Puntos destacables.">
 <link href="ch-clase_8.html#s-sec_83" rel="section" title="8.3 Programas usados como ejemplo.">
@@ -92,11 +92,11 @@
 <link href="ch-clase_5.html#s-sec_p_5_6" rel="subsection" title="6.3.6 excode_6_6.f90">
 <link href="ch-clase_5.html#s-sec_p_5_7" rel="subsection" title="6.3.7 excode_6_7.f90">
 <link href="ch-clase_6.html#s-sec_p_6_1" rel="subsection" title="7.3.1 Programa ejemplo_7_1.f90">
-<link href="ch-clase_6.html#s-sec_p_6_2" rel="subsection" title="7.3.2 Programa ejemplo_7_2.f90">
+<link href="ch-clase_6.html#s-sec_p_6_2" rel="subsection" title="7.3.2 excode_7_2.f90">
 <link href="ch-clase_6.html#s-sec_p_6_22" rel="subsection" title="7.3.3 Script ej_here_file">
-<link href="ch-clase_6.html#s-sec_p_6_3" rel="subsection" title="7.3.4 Programa ejemplo_7_3.f90">
+<link href="ch-clase_6.html#s-sec_p_6_3" rel="subsection" title="7.3.4 excode_7_3.f90">
 <link href="ch-clase_6.html#s-sec_p_6_32" rel="subsection" title="7.3.5 namelist input file">
-<link href="ch-clase_6.html#s-sec_p_6_4" rel="subsection" title="7.3.6 Programa ejemplo_7_4.f90">
+<link href="ch-clase_6.html#s-sec_p_6_4" rel="subsection" title="7.3.6 excode_7_4.f90">
 <link href="ch-clase_8.html#s-sec_p_8_1" rel="subsection" title="8.3.1 Programa ejemplo_8_1.f90">
 <link href="ch-clase_8.html#s-sec_p_8_2" rel="subsection" title="8.3.2 Programa ejemplo_8_2.f90">
 <link href="ch-clase_8.html#s-sec_p_8_3" rel="subsection" title="8.3.3 Programa ejemplo_8_3.f90">
@@ -278,9 +278,9 @@ making use of a <em>here documents</em> from the <code>bash shell</code>.
 A <em>here document</em> is a brief script[<a href="footnotes.html#f8"
 name="fr8">8</a>], such that apart from compiling (if necessary) and running
 the program, the input is given in a way that comments can also be included.
-Example <a href="#s-sec_p_6_2">Programa ejemplo_7_2.f90, Section 7.3.2</a> is a
-program that computes the roots of a second order algebraic equation <samp>y =
-A*x**2 + B*x + C</samp> and <samp>ej_here_file</samp> included in <a
+Example <a href="#s-sec_p_6_2"><samp>excode_7_2.f90</samp>, Section 7.3.2</a>
+is a program that computes the roots of a second order algebraic equation
+<samp>y = A*x**2 + B*x + C</samp> and <samp>ej_here_file</samp> included in <a
 href="#s-sec_p_6_22">Script <samp>ej_here_file</samp>, Section 7.3.3</a>, is an
 application of a <em>here document</em>.  In order to run this program proceed
 as follows
@@ -325,10 +325,11 @@ mentioned characters.
 </p>
 
 <p>
-Program <a href="#s-sec_p_6_3">Programa ejemplo_7_3.f90, Section 7.3.4</a> is
-almost identical to program <a href="#s-sec_p_6_2">Programa ejemplo_7_2.f90,
-Section 7.3.2</a> but it has been modified to make use of a
-<samp>namelist</samp> file, called <samp>sec_order.inp</samp>, included as <a
+Program <a href="#s-sec_p_6_3"><samp>excode_7_3.f90</samp>, Section 7.3.4</a>
+is almost identical to program <a
+href="#s-sec_p_6_2"><samp>excode_7_2.f90</samp>, Section 7.3.2</a> but it has
+been modified to make use of a <samp>namelist</samp> file, called
+<samp>sec_order.inp</samp>, included as <a
 href="#s-sec_p_6_32"><samp>namelist</samp> input file, Section 7.3.5</a>.
 </p>
 </li>
@@ -336,30 +337,23 @@ href="#s-sec_p_6_32"><samp>namelist</samp> input file, Section 7.3.5</a>.
 <ul>
 <li>
 <p>
-En <a href="#s-sec_p_6_4">Programa ejemplo_7_4.f90, Section 7.3.6</a> se puede
-ver como se trabaja con un fichero interno (<em>internal file</em>) donde la
-operación de I/O tiene lugar en un buffer interno en lugar de en un archivo.
-Esto tiene utilidad en dos casos.  En primer lugar para tratar con datos cuya
-estructura o formato no es bien conocida, por lo que se pueden leer en una
-variable de tipo <samp>CHARACTER</samp> y posteriormente ser tratados como un
-fichero interno.  En segundo lugar, también permiten preparar datos que sean
-mezcla de datos de tipo carácter y de tipo numérico.  Este segundo caso es el
-que se trata en <a href="#s-sec_p_6_4">Programa ejemplo_7_4.f90, Section
-7.3.6</a> donde se muestra como definir una serie de unidades de escritura
-asociadas a archivos que se van numerando sucesivamente.
-</p>
-
-<p>
-En este ejemplo se puede ver como se usa la función intrínseca
-<samp>TRIM</samp> para eliminar los espacios sobrantes de la variable
-<samp>pref</samp> al preparar el nombre del fichero.
+In the example <a href="#s-sec_p_6_4"><samp>excode_7_4.f90</samp>, Section
+7.3.6</a> you can find an <em>internal file</em>, where the I/O takes place in
+an internal buffer instead than in a file.  This is rather handy to treat data
+of unknowkn format, reading them first in a character variable and treating
+them later, or to handle data mixing variables of different types, like
+character and integer.  This is the case in the example <a
+href="#s-sec_p_6_4"><samp>excode_7_4.f90</samp>, Section 7.3.6</a> where a
+series of different numbered files are defined and data saved in them.
+sucesivamente.  In this example the intrinsic function <samp>TRIM</samp> is
+used to remove trailing spaces from the variable <samp>pref</samp>.
 </p>
 </li>
 </ul>
 
 <hr>
 
-<h2 id="s-sec_63">7.3 Programas usados como ejemplo.</h2>
+<h2 id="s-sec_63">7.3 Example Codes</h2>
 
 <hr>
 
@@ -400,14 +394,14 @@ En este ejemplo se puede ver como se usa la función intrínseca
 
 <hr>
 
-<h3 id="s-sec_p_6_2">7.3.2 Programa ejemplo_7_2.f90</h3>
+<h3 id="s-sec_p_6_2">7.3.2 <samp>excode_7_2.f90</samp></h3>
 
 <pre>
-     PROGRAM EJEMPLO_7_2
-     ! PROGRAMA QUE CALCULA LAS SOLUCIONES DE UNA EC DE SEGUNDO GRADO
+     PROGRAM ex_7_2
+     ! Second degree equation solver
      ! y = A*x**2 + B*x + C
        IMPLICIT NONE
-       !Definicion de variables
+       ! Variables
        REAL :: A = 0.0
        REAL :: B = 0.0
        REAL :: C = 0.0
@@ -415,26 +409,25 @@ En este ejemplo se puede ver como se usa la función intrínseca
        REAL :: TEMP
        INTEGER :: I
        !
-       ! Lectura de coeficientes
+       ! Input: A, B, C
        READ*, A 
        READ*, B
        READ*, C 
-       ! print*, a,b,c
        !
-       ! CALCULOS
+       ! Calculations
        TEMP = SQRT(B*B-4.0*A*C)
        !
        SOL(1) = (-B+TEMP)/(2.0*A)
        SOL(2) = (-B-TEMP)/(2.0*A)
        !
        !
-       ! IMPRESION DE LAS SOLUCIONES
+       ! 
        DO I=1, 2
           PRINT 200, I, SOL(I)
-     200  FORMAT(1X,'SOLUCION ', I2,' = ',F18.6)
+     200  FORMAT(1X,'SOLUTION ', I2,' = ',F18.6)
        END DO
      !
-     END PROGRAM EJEMPLO_7_2
+     END PROGRAM EX_7_2
 </pre>
 
 <hr>
@@ -442,9 +435,9 @@ En este ejemplo se puede ver como se usa la función intrínseca
 <h3 id="s-sec_p_6_22">7.3.3 Script <samp>ej_here_file</samp></h3>
 
 <pre>
-     # Compilar
-     gfortran -o second_order  ejemplo_7_2.f90
-     # Ejecutar
+     # Compile..
+     gfortran -o second_order  excode_7_2.f90
+     # And Run...
      ./second_order &lt;&lt;eof
      2.0     # A
      1.0     # B
@@ -454,14 +447,14 @@ En este ejemplo se puede ver como se usa la función intrínseca
 
 <hr>
 
-<h3 id="s-sec_p_6_3">7.3.4 Programa ejemplo_7_3.f90</h3>
+<h3 id="s-sec_p_6_3">7.3.4 <samp>excode_7_3.f90</samp></h3>
 
 <pre>
-     PROGRAM EJEMPLO_7_3
-     ! PROGRAMA QUE CALCULA LAS SOLUCIONES DE UNA EC DE SEGUNDO GRADO
-     ! y = A*x**2 + B*x + C
+     PROGRAM ex_7_3
+       ! Solving second order algebraic equation
+       ! y = A*x**2 + B*x + C
        IMPLICIT NONE
-       !Definicion de variables
+       ! Variables
        REAL :: A = 0.0
        REAL :: B = 0.0
        REAL :: C = 0.0
@@ -469,27 +462,27 @@ En este ejemplo se puede ver como se usa la función intrínseca
        REAL :: TEMP
        INTEGER :: I
        !
-       !     NAMELIST DEFINITIONS
+       !     NAMELIST DEFINITION
        NAMELIST/INP0/ A, B, C
        !     NAMELIST FILE
        OPEN(UNIT=10,FILE='sec_order.inp',STATUS='OLD')
-       ! Lectura de coeficientes
+       !     Inpot of A, B, C
        READ(10,INP0)
        !
-       ! CALCULOS
+       ! Calculations
        TEMP = SQRT(B*B-4.0*A*C)
        !
        SOL(1) = (-B+TEMP)/(2.0*A)
        SOL(2) = (-B-TEMP)/(2.0*A)
        !
        !
-       ! IMPRESION DE LAS SOLUCIONES
+       ! OUTOPUT 
        DO I=1, 2
           PRINT 200, I, SOL(I)
-     200  FORMAT(1X,'SOLUCION ', I2,' = ',F18.6)
+     200  FORMAT(1X,'SOLUTION ', I2,' = ',F18.6)
        END DO
      !
-     END PROGRAM EJEMPLO_7_3
+     END PROGRAM EX_7_3
 </pre>
 
 <hr>
@@ -498,22 +491,22 @@ En este ejemplo se puede ver como se usa la función intrínseca
 
 <pre>
      #
-     #       INPUT FILE FOR EJEMPLO_7_3
+     #       INPUT FILE FOR excode_7_3.f90
      #
       &amp;INP0 A=2.0, B=1.0, C=-4.0 /
 </pre>
 
 <hr>
 
-<h3 id="s-sec_p_6_4">7.3.6 Programa ejemplo_7_4.f90</h3>
+<h3 id="s-sec_p_6_4">7.3.6 <samp>excode_7_4.f90</samp></h3>
 
 <pre>
-     PROGRAM EJEMPLO_7_4
+     PROGRAM ex_7_4
        !
        ! Internal file example
        !
        IMPLICIT NONE
-       !Definicion de variables
+       ! Variables
        REAL :: x_var
        INTEGER :: unit_n, index_X
        CHARACTER(LEN=65) :: filename
@@ -536,7 +529,7 @@ En este ejemplo se puede ver como se usa la función intrínseca
           !
        ENDDO
      !
-     END PROGRAM EJEMPLO_7_4
+     END PROGRAM ex_7_4
 </pre>
 
 <hr>
