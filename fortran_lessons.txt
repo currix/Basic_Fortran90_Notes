@@ -66,13 +66,13 @@ Contents
      8.2.      Main items.
      8.3.      Example Codes
 
-     9.        Subprogramas (II): subrutinas
-     9.1.      Objetivos
-     9.2.      Puntos destacables.
-     9.3.      Programas usados como ejemplo.
+     9.        Subprograms (II): subroutines
+     9.1.      Objectives
+     9.2.      Main items.
+     9.3.      Example Codes
 
-     10.       Subprogramas (III): módulos
-     10.1.     Objetivos
+     10.       Subprograms (III): modules
+     10.1.     Objectives
      10.2.     Puntos destacables.
      10.3.     Programas usados como ejemplo.
 
@@ -722,7 +722,7 @@ END PROGRAM ex_2_6
           `ALLOCATE' function, as it is shown in example Section 3.3.2,
           ``excode_3_2.f90''.  The `ALLOCATE' option `STAT = <var>' allows
           to chek if the array has been properly defined.  See example in
-          program Section 9.3.3, `Programa ejemplo_9_3.f90'.
+          program Section 9.3.3, ``excode_9_3.f90''.
 
         * implicit `DO' and multidimensional arrays.  See example Section
           3.3.3, ``excode_3_3.f90''.
@@ -2409,14 +2409,15 @@ END PROGRAM ex_6_5
 
      The main aims of this session consist of:
 
-     1.   present the use of `FORMAT' in reading operations.
+     1.   presenting the use of `FORMAT' in reading operations.
 
-     2.   basic techniques about the reading of files in `Fortran'.
+     2.   considering basic techniques about the reading of files in
+          `Fortran'.
 
-     3.   present possible alternatives to the standard `I/O': _here
+     3.   presenting possible alternatives to the standard `I/O': _here
           documents_ and the `NAMELIST' type input.
 
-     4.   present internal files.
+     4.   presenting internal files.
 
      This chapter is very much linked with the previous one, having an
      emphasis in reading data instead of writing them.  We present
@@ -2780,8 +2781,8 @@ END PROGRAM ex_7_4
         * Other type of functions are of _inquiry_ type, giving information
           about the characterictics of an array, e.g.  the `SIZE' and
           `ALLOCATED' functions.  Examples of the latter are found in
-          Section 6.3.7, ``excode_6_7.f90'' and Section 9.3.3, `Programa
-          ejemplo_9_3.f90'.
+          Section 6.3.7, ``excode_6_7.f90'' and Section 9.3.3,
+          ``excode_9_3.f90''.
 
           The _transformational_ functions transform between different data
           types, e.g.  `REAL' and `TRANSPOSE', or functions that work with
@@ -3148,66 +3149,60 @@ END FUNCTION Potf
 -------------------------------------------------------------------------------
 
 
-9. Subprogramas (II): subrutinas
+9. Subprograms (II): subroutines
 --------------------------------
 
 
-9.1. Objetivos
---------------
+9.1. Objectives
+---------------
 
-     Los objetivos de esta clase son los siguientes:
+     The main aims of this session consist of:
 
-     1.   Considerar la diferencia entre funciones y subrutinas y por qué
-          son precisas estas últimas.
+     1.   considering the differences between functions and subroutines and
+          in what cases are the latter useful.
 
-     2.   Introducir los conceptos e ideas más útiles en la definición de
-          subrutinas.
+     2.   introducing the user to the subroutine definition procedures.
 
-     3.   Argumentos de una subrutina.
+     3.   explaining subroutine arguments roles.
 
-     4.   Los comandos `CALL' e `INTERFACE'.
+     4.   defining the commands `CALL' and `INTERFACE'.
 
-     5.   Alcance (_scope_) de las variables.
+     5.   explaining the _scope_ of the variables of a subroutine and the
+          role of local variables and of variables with the `SAVE'
+          attribute.
 
-     6.   Variables locales y el atributo `SAVE'
+     6.   presenting the different ways of passing an array as an argument
+          to a subroutine.
 
-     7.   Diferentes formas de transmitir matrices como argumentos a una
-          subrutina.
-
-     8.   Definición de matrices automáticas.
+     7.   defining the so called automatic arrays.
 
 
-9.2. Puntos destacables.
-------------------------
+9.2. Main items.
+----------------
 
-     1.   El uso de subrutinas favorece una programación estructurada,
-          mediante la definición de subtareas y su realización en las
-          correspondientes subrutinas y evitando con su uso la duplicación
-          innecesaria de código.  Además hacen posible el uso de una
-          extensa colección de librerías o bibliotecas de subrutinas
-          programadas y extensamente probadas para una enorme cantidad de
-          posibles aplicaciones.
+     1.   The use of subroutines favors a structured programming through
+          the definition of subtasks and avoiding code duplication.
+          Together with functions, they make possible to access to an
+          extense collection of libraries for multiple applications.
 
-     2.   Para explicar este punto vamos a usar un ejemplo práctico, como
-          es el de la solución de una ecuación de segundo grado.  Una
-          posible forma de dividir este programa en subtareas es la
-          siguiente:
+     2.   To better explain this point we will make use of a simple
+          example: solving a second order equation.  A possible way of
+          dividing this task in simpler subtasks is as follows
 
-          1.   Programa principal.
+          1.   Main program.
 
-          2.   Input de los coeficientes de la ecuación por el usuario.
+          2.   Equation coefficient input.
 
-          3.   Solución de la ecuación.
+          3.   Solution of the algebraic equation.
 
-          4.   Impresión de las soluciones.
+          4.   Solution output.
 
-          El programa Section 9.3.1, `Programa ejemplo_9_1.f90' se ajusta a
-          este esquema usando dos subrutinas, llamadas `Interact' y
-          `Solve'.
+          The program Section 9.3.1, ``excode_9_1.f90'' follows closely
+          this scheme with two subroutines: `Interact' and `Solve'.
 
-     3.   La definición de una subrutina tiene la siguiente estructura:
+     3.   The syntax to define a subroutine is as follows
 
-               SUBROUTINE nombre_subrutina(lista de argumentos [opcional])
+                 SUBROUTINE <subroutine_name>(arguments [optional])
                         IMPLICIT NONE
                         Arguments (dummy variables) definition (INTENT)
                         ...
@@ -3216,121 +3211,99 @@ END FUNCTION Potf
                         Execution Section
                         ...
                         [RETURN]
-                END SUBROUTINE nombre_subrutina
+                END SUBROUTINE  <subroutine_name>
 
-          Los argumentos se denominan _dummy arguments_ porque su
-          definición no implica la asignación de memoria alguna.  Esta
-          asignación se llevará a cabo de acuerdo con los valores que tomen
-          los argumentos cuando se llame a la subrutina.
+          Argumentos are called _dummy_ because their definition is not
+          followed by a memory assignment, this assignment will take place
+          once the subroutine is called.
 
-          Cuando el compilador genera el ejecutable cada subrutina se
-          compila de forma separada lo que permite el uso de _variables
-          locales_ con el mismo nombre en diferentes subrutinas, ya que
-          cada subrutina tiene su particular alcance (_scope_).
+          Each subroutine is compiled in a separate way by the compiler,
+          what allows for the use of _local variables_ that may have the
+          same name in different subroutines and the main program without
+          clashing due to the different scopes.
 
-          En el programa Section 9.3.1, `Programa ejemplo_9_1.f90' se ve
-          como este esquema se repite para las dos subrutinas empleadas.
+          This scheme can be seen in program Section 9.3.1,
+          ``excode_9_1.f90''.
 
-     4.   Para invocar una subrutina se emplea el comando `CALL' de acuerdo
-          con el esquema
+     4.   A subroutine is invoked with the `CALL' command as follows
 
-               CALL nombre_subroutina(argumentos [opcional])
+               CALL subroutine_name(arguments [optional])
 
-          Tras la ejecución de la subrutina invocada con la orden `CALL',
-          el flujo del programa retorna a la unidad de programa en la que
-          se ha invocado a la subrutina y continúa en la orden siguiente al
-          comando en el que se ha llamado la subrutina con `CALL'.  Desde
-          la subrutina se devuelve la ejecución con el comando `RETURN'.
-          Si la subrutina llega a su fin también se devuelve el control al
-          programa que la ha invocado, por lo que generalmente no se
-          incluye el comando `RETURN' justo antes de `END SUBROUTINE'.  Si
-          es posible, las subrutinas deberían tener un solo punto de
-          salida.
+          Once the subroutine is executed the program flow returns to the
+          program unit where the subroutine was invoked, after the `CALL'
+          statement.  The subroutine determines when to return to the
+          invoking unit once the `RETURN' statement is found or if the
+          subroutine execution ends.
 
-     5.   La subrutina y el programa principal se comunican a través de los
-          argumentos (también llamados parámetros) de la subrutina.  En la
-          definición de la subrutina dichos argumentos son _dummies_,
-          encerrados entre paréntesis y separados con comas tras el nombre
-          de la subrutina.  Dichos argumentos tienen un tipo asociado, pero
-          _NO_ se reserva ningún espacio para ellos en memoria.  Por
-          ejemplo, los argumentos `E', `F' y `G' de la subrutina `Solve' en
-          el ejemplo Section 9.3.1, `Programa ejemplo_9_1.f90' son del tipo
-          `REAL', pero no se reserva para ellos ningún espacio en memoria.
-          Cuando la subrutina es invocada con el comando `CALL
-          Solve(P,Q,R,Root1,Root2,IFail)' entonces los argumentos `E', `F'
-          y `G' pasan a ser reemplazados por unos punteros a las variables
-          `P', `Q' y `R'.  Por tanto es muy importante que el tipo de los
-          argumentos y el de las variables por las que se ven reemplazados
-          coincidan, ya que cuando esto no sucede se producen frecuentes
-          errores.
+     5.   The subroutine and the main program data flow takes place through
+          the arguments, also called subroutine parameters.  Arguments in
+          the subroutine definition are _dummy_ variables, with an
+          associated type but no space reserved in memory.  For example,
+          the `E', `F', and `G' arguments in the `Solve' subroutine in the
+          code Section 9.3.1, ``excode_9_1.f90'' are of `REAL' type, but
+          without any memory allocation.  Only when the subroutine is
+          invoked with the `CALL Solve(P,Q,R,Root1,Root2,IFail)' command
+          the arguments `E', `F', and `G' are replaced by pointers to the
+          main program variables `P', `Q', and `R'.  This is why it is of
+          great importance that the data type of variables and arguments
+          match correctly.
 
-     6.   Alguno de los argumentos proporcionan una información de entrada
-          (input) a la subrutina, mientras que otros proporcionan la salida
-          de la subrutina (output).  Por último, también es posible que los
-          argumentos sean simultáneamente de entrada y salida.
+     6.   Some of the arguments provide the necessary input for the
+          subroutine, while others are output arguments that send the
+          subroutine results to the invoking program unit.  Mixed character
+          input/output arguments can also be used.
 
-          Aquellos parámetros que solo sean de entrada es conveniente
-          definirlos con el atributo `INTENT(IN)'.  Este atributo ya lo
-          vimos en Chapter 8, `Subprograms (I): FUNCTIONS' aplicándolo a
-          funciones.  Cuando un argumento posee este atributo el valor de
-          entrada del parámetro se mantiene constante y no puede variar en
-          la ejecución de la subrutina.
+          Those parameters that are only input parameters should be defined
+          using the `INTENT(IN)' attribute that, as it is the case with
+          functions, indicate that the argument values cannot be altered in
+          the subroutine.
 
-          Si los parámetros solo son de salida es conveniente definirlos
-          con el atributo `INTENT(OUT)', para que se ignore el valor de
-          entrada del parámetro y debe dársele uno durante la ejecución de
-          la subrutina.
+          If the parameters are output, the arguments should be defined
+          with the `INTENT(OUT)' attribute, to avoid taking into account
+          the input value of the argument.
 
-          Si el parámetro tiene el atributo `INTENT(INOUT)', entonces se
-          considera el valor inicial del parámetro así como su posible
-          modificación en la subrutina.
+          Mixed character arguments should be defined with the
+          `INTENT(INOUT)' attribute.
 
-          Hay ejemplos de los tres casos arriba citados en la subrutina
-          `Solve' del ejemplo Section 9.3.1, `Programa ejemplo_9_1.f90'.
-          Es muy conveniente etiquetar con el atributo `INTENT' todos los
-          argumentos.
+          The subroutine `Solve' in example Section 9.3.1,
+          ``excode_9_1.f90'' provides examples for the three cases.  It is
+          advisable to label with the corresponding `INTENT' attribute
+          every argument.
 
-     7.   De acuerdo con lo anterior es de vital importancia que no exista
-          contradicción entre la declaración de variables en el programa
-          que invoca a la subrutina y en la propia subrutina.  Para
-          facilitar este acuerdo entre ambas declaraciones existen los
-          llamados _interface blocks_.  En el programa Section 9.3.2,
-          `Programa ejemplo_9_2.f90' podemos ver el programa Section 9.3.1,
-          `Programa ejemplo_9_1.f90' al que se han añadido en el programa
-          principal los _interface blocks_ correspondientes a las
-          subrutinas `Interact' y `Solve'.
+     7.   In order to facilitate the accordance between variables in the
+          invoking program unit and the subroutine the user can defined the
+          so called _interface blocks_.  The example Section 9.3.2,
+          ``excode_9_2.f90'' is the same code than Section 9.3.1,
+          ``excode_9_1.f90'' to which interface blocks have been added for
+          the `Interact' and `Solve' subroutines.
 
-     8.   Al igual que en el caso de las funciones, las variables
-          declaradas en una subrutina que no sean parámetros o argumentos
-          de la misma se consideran locales.  Por ejemplo, en la subrutina
-          `Interact' del Section 9.3.1, `Programa ejemplo_9_1.f90' la
-          variable `IO_Status' es una variable local de la subrutina.
+     8.   As in the case of functions, those variables defined in a
+          subroutine that are not arguments are considered as local
+          variables.  For example, the `Interact' subroutine in Section
+          9.3.1, ``excode_9_1.f90'' has a local variable called
+          `IO_Status'.
 
-          Generalmente las variables locales se crean al invocarse la
-          subrutina y el valor que adquieren se pierde una vez que la
-          subrutina se ha ejecutado.  Sin embargo, usando el atributo
-          `SAVE' es posible salvar el valor que adquiera la variable de una
-          llamada a la subrutina hasta la siguiente llamada.  Por ejemplo
+          In general the local variables are created once the subroutine is
+          called and the value is lost unless they possess the `SAVE'
+          attribute, that makes possible to store the variable value from
+          one call to the next.  For example
 
                INTEGER, SAVE:: It = 0
 
-          El valor que tome en este caso la variable `It' entre llamadas al
-          subprograma en el que se haya declarado se conserva.
+          The variable `It' value is kept among different calls to the
+          subroutine.
 
-          Como en el caso de las funciones, es posible hacer que el
-          programa principal "conozca" las variables de las subrutinas que
-          invoque mediante la orden `CONTAINS' y haciendo que de hecho las
-          subrutinas formen parte del programa principal.  Esta solución
-          resulta difícil de escalar cuando crece la longitud del problema
-          y no es recomendable.
+          As it is the case for functions, it is possible that the
+          subprogram has access to the main program variables making use of
+          the `CONTAINS' statement.  This solution can be hard to scale
+          once programs acquire certain size and it is not very advisable.
 
-     9.   Cuando el argumento de una subrutina no es una variable escalar
-          (del tipo que fuera) sino una matriz (_array_) es necesario dar
-          una información extra acerca de la matriz.  El subprograma al que
-          se pasa la matriz ha de conocer el tamaño de la matriz para no
-          acceder a posiciones de memoria erróneas.  Para conseguir esto
-          hay tres posibles formas de especificar las dimensiones de una
-          matriz que se halle en la lista de argumentos de una subrutina:
+     9.   When the argument of a subroutine is of _array_ type it is
+          necessary to provide some extra information about the matrix to
+          avoid the possible access of the subroutine to wrong memory
+          areas.  In order to achieve this there are three possible ways of
+          specifying the dimensiones of an array included in a subroutine
+          list of arguments.
 
           1.   _explicit-shape approach_:
 
@@ -3355,11 +3328,11 @@ SUBROUTINE test_pass(space_vec_in, space_vec_out, dim_vec)
 
                En este caso es necesario incluir el correspondiente bloque
                `INTERFACE' en el subprograma que invoca la subrutina.  Como
-               veremos en el Chapter 10, `Subprogramas (III): módulos' esto
+               veremos en el Chapter 10, `Subprograms (III): modules' esto
                se puede evitar incluyendo la subrutina en un módulo.
 
-               En el Section 9.3.3, `Programa ejemplo_9_3.f90' puede verse
-               un programa en el que se calcula la media, la mediana[1], la
+               En el Section 9.3.3, ``excode_9_3.f90'' puede verse un
+               programa en el que se calcula la media, la mediana[1], la
                varianza y la desviación estándar de un conjunto de números
                generados aleatoriamente.  En el programa hemos marcado
                algunos de los puntos de interés que queremos explicar con
@@ -3454,8 +3427,8 @@ SUBROUTINE test_pass(space_vec_in, space_vec_out, dim_vec)
                las dimensiones de la matriz, es fácil caer en errores de
                difícil diagnóstico y se desaconseja su uso.
 
-     10.  Arreglos multidimensionales.  El Section 9.3.5, `Programa
-          ejemplo_9_5.f90' es un ejemplo de como pasar como argumentos
+     10.  Arreglos multidimensionales.  El Section 9.3.5,
+          ``excode_9_5.f90'' es un ejemplo de como pasar como argumentos
           arreglos multidimensionales como _assumed shape arrays_.  En él,
           tras que el usuario defina dos matrices, `A' y `B', el programa
           calcula la matriz `C' solución del producto `AB' y tras ello
@@ -3476,15 +3449,15 @@ SUBROUTINE test_pass(space_vec_in, space_vec_out, dim_vec)
           a la subrutina la longitud de la variable pasa a ser la longitud
           de la variable en la llamada.
 
-          El Section 9.3.4, `Programa ejemplo_9_4.f90' muestra un programa
-          en el que, al darle el nombre de un fichero y el número de datos
+          El Section 9.3.4, ``excode_9_4.f90'' muestra un programa en el
+          que, al darle el nombre de un fichero y el número de datos
           almacenados en dicho fichero; el programa abre el fichero y lee
           dos columnas de valores que almacena en los vectores `X' e `Y'.
           En estos casos, dado que el tamaño de la variable `CHARACTER' es
           variable, es preciso usar un _interface block_.
 
-          El Section 9.3.6, `Programa ejemplo_9_6.f90' es un ejemplo donde
-          se construyen dos vectores de números aleatorios de dimensión
+          El Section 9.3.6, ``excode_9_6.f90'' es un ejemplo donde se
+          construyen dos vectores de números aleatorios de dimensión
           definida por el usuario usando el método _Box-Mueller_.  Para
           ello se definen dos matrices de tipo `ALLOCATABLE', `X' e `Y', y
           en la subrutina interna `BOX_MULLER' se definen dos vectores de
@@ -3492,23 +3465,23 @@ SUBROUTINE test_pass(space_vec_in, space_vec_out, dim_vec)
 
           Para calcular el valor medio, la desviación estándar y la mediana
           de los vectores `X' e `Y' se hace uso de la subrutina `STATS' del
-          Section 9.3.3, `Programa ejemplo_9_3.f90'.  Se incluye el
-          necesario `INTERFACE' en el programa principal y la subrutina se
-          debe compilar en un fichero por separado.  Section 9.3.6,
-          `Programa ejemplo_9_6.f90'
+          Section 9.3.3, ``excode_9_3.f90''.  Se incluye el necesario
+          `INTERFACE' en el programa principal y la subrutina se debe
+          compilar en un fichero por separado.  Section 9.3.6,
+          ``excode_9_6.f90''
 
      13.  Sí es importante tener en cuenta que en el caso que se transfiera
           un _array_ usando _assumed shape arguments_ como en los ejemplos,
           el primer índice de la variable en la subrutina _se supone que
           comienza con el valor `1', a menos que explícitamente se indique
-          lo contrario_.  En el ejemplo Section 9.3.7, `Programa
-          ejemplo_9_7.f90' se muestra un caso simple donde es necesario
-          indicar el índice inicial del vector cuando este no es cero.  En
-          este programa se calcula el factorial de los enteros entre `IMIN'
-          e `IMAX' y se almacenan en un vector real.  Se puede compilar y
-          correr el programa haciendo `IMIN = 1' e `IMIN = 0' con y sin la
-          definición del índice inicial en la subrutina, para ver la
-          diferencia en las salidas.
+          lo contrario_.  En el ejemplo Section 9.3.7, ``excode_9_7.f90''
+          se muestra un caso simple donde es necesario indicar el índice
+          inicial del vector cuando este no es cero.  En este programa se
+          calcula el factorial de los enteros entre `IMIN' e `IMAX' y se
+          almacenan en un vector real.  Se puede compilar y correr el
+          programa haciendo `IMIN = 1' e `IMIN = 0' con y sin la definición
+          del índice inicial en la subrutina, para ver la diferencia en las
+          salidas.
 
 [1]  Se define la _mediana_ de un conjunto de números como aquel valor de
      la lista tal que la mitad de los valores sean inferiores a él y la
@@ -3517,192 +3490,192 @@ SUBROUTINE test_pass(space_vec_in, space_vec_out, dim_vec)
      previamente la lista de números.
 
 
-9.3. Programas usados como ejemplo.
------------------------------------
+9.3. Example Codes
+------------------
 
-9.3.1. Programa ejemplo_9_1.f90
--------------------------------
+9.3.1. `excode_9_1.f90'
+-----------------------
 
-PROGRAM ejemplo_9_1
-!
-IMPLICIT NONE
-! Ejemplo simple de un programa con dos subrutinas.
-! subrutina (1):: Interact :: Obtiente los coeficientes de la ec. de seg. grado.
-! subrutina (2):: Solve :: Resuelve la ec. de seg. grado.
-!
-! Definicion de variables
-REAL :: P, Q, R, Root1, Root2
-INTEGER :: IFail=0
-LOGICAL :: OK=.TRUE.
-!
-   CALL Interact(P,Q,R,OK) ! Subrutina (1)
-!
-   IF (OK) THEN
-!
-      CALL Solve(P,Q,R,Root1,Root2,IFail) ! Subrutina (2)
-!
-      IF (IFail == 1) THEN
-         PRINT *,' Complex roots'
-         PRINT *,' calculation aborted'
-      ELSE
-         PRINT *,' Roots are ',Root1,' ',Root2
-      ENDIF
-!
-   ELSE
-!
-      PRINT*,' Error in data input program ends'
-!
-   ENDIF
-!
-END PROGRAM ejemplo_9_1
-!
-!
-SUBROUTINE Interact(A,B,C,OK)
-   IMPLICIT NONE
-   REAL , INTENT(OUT) :: A
-   REAL , INTENT(OUT) :: B
-   REAL , INTENT(OUT) :: C
-   LOGICAL , INTENT(OUT) :: OK
-   INTEGER :: IO_Status=0
-   PRINT*,' Type in the coefficients A, B AND C'
-   READ(UNIT=*,FMT=*,IOSTAT=IO_Status)A,B,C
-   IF (IO_Status == 0) THEN
-      OK=.TRUE.
-   ELSE
-      OK=.FALSE.
-   ENDIF
-END SUBROUTINE Interact
-!
-!
-SUBROUTINE Solve(E,F,G,Root1,Root2,IFail)
-   IMPLICIT NONE
-   REAL , INTENT(IN) :: E
-   REAL , INTENT(IN) :: F
-   REAL , INTENT(IN) :: G
-   REAL , INTENT(OUT) :: Root1
-   REAL , INTENT(OUT) :: Root2
-   INTEGER , INTENT(INOUT) :: IFail
-! Local variables
-   REAL :: Term
-   REAL :: A2
-   Term = F*F - 4.*E*G
-   A2 = E*2.0
-! if term < 0, roots are complex
-   IF(Term < 0.0)THEN
-      IFail=1
-   ELSE
-      Term = SQRT(Term)
-      Root1 = (-F+Term)/A2
-      Root2 = (-F-Term)/A2
-   ENDIF
-END SUBROUTINE Solve
+          PROGRAM ex_9_1
+            !
+            IMPLICIT NONE
+            ! Simple program with two subroutines.
+            ! subroutine (1):: Interact :: Data input.
+            ! subroutine (2):: Solve :: Solve second order Eq.
+            !
+            ! Variables
+            REAL :: P, Q, R, Root1, Root2
+            INTEGER :: IFail=0
+            LOGICAL :: OK=.TRUE.
+            !
+            CALL Interact(P,Q,R,OK) ! Subrutina (1)
+            !
+            IF (OK) THEN
+               !
+               CALL Solve(P,Q,R,Root1,Root2,IFail) ! Subrutina (2)
+               !
+               IF (IFail == 1) THEN
+                  PRINT *,' Complex roots'
+                  PRINT *,' calculation aborted'
+               ELSE
+                  PRINT *,' Roots are ',Root1,' ',Root2
+               ENDIF
+               !
+            ELSE
+               !
+               PRINT*,' Error in data input program ends'
+               !
+            ENDIF
+            !
+          END PROGRAM ex_9_1
+          !
+          !
+          SUBROUTINE Interact(A,B,C,OK)
+            IMPLICIT NONE
+            REAL , INTENT(OUT) :: A
+            REAL , INTENT(OUT) :: B
+            REAL , INTENT(OUT) :: C
+            LOGICAL , INTENT(OUT) :: OK
+            INTEGER :: IO_Status=0
+            PRINT*,' Type in the coefficients A, B AND C'
+            READ(UNIT=*,FMT=*,IOSTAT=IO_Status) A,B,C
+            IF (IO_Status == 0) THEN
+               OK=.TRUE.
+            ELSE
+               OK=.FALSE.
+            ENDIF
+          END SUBROUTINE Interact
+          !
+          !
+          SUBROUTINE Solve(E,F,G,Root1,Root2,IFail)
+            IMPLICIT NONE
+            REAL , INTENT(IN) :: E
+            REAL , INTENT(IN) :: F
+            REAL , INTENT(IN) :: G
+            REAL , INTENT(OUT) :: Root1
+            REAL , INTENT(OUT) :: Root2
+            INTEGER , INTENT(INOUT) :: IFail
+            ! Local variables
+            REAL :: Term
+            REAL :: A2
+            Term = F*F - 4.*E*G
+            A2 = E*2.0
+            ! if term < 0, roots are complex
+            IF(Term < 0.0)THEN
+               IFail=1
+            ELSE
+               Term = SQRT(Term)
+               Root1 = (-F+Term)/A2
+               Root2 = (-F-Term)/A2
+            ENDIF
+          END SUBROUTINE Solve
 
-9.3.2. Programa ejemplo_9_2.f90
--------------------------------
+9.3.2. `excode_9_2.f90'
+-----------------------
 
-PROGRAM ejemplo_9_2
-  !
-  IMPLICIT NONE
-  ! Ejemplo simple de un programa con dos subrutinas.
-  ! subrutina (1):: Interact :: Obtiente los coeficientes de la ec. de seg. grado.
-  ! subrutina (2):: Solve :: Resuelve la ec. de seg. grado.
-  !
-  ! Interface blocks
-  INTERFACE
-     SUBROUTINE Interact(A,B,C,OK)
-       IMPLICIT NONE
-       REAL , INTENT(OUT) ::  A
-       REAL , INTENT(OUT) ::  B
-       REAL , INTENT(OUT) ::  C
-       LOGICAL , INTENT(OUT) :: OK
-     END SUBROUTINE Interact
-     SUBROUTINE Solve(E,F,G,Root1,Root2,IFail)
-       IMPLICIT NONE
-       REAL , INTENT(IN) :: E
-       REAL , INTENT(IN) :: F
-       REAL , INTENT(IN) :: G
-       REAL , INTENT(OUT) :: Root1
-       REAL , INTENT(OUT) :: Root2
-       INTEGER , INTENT(INOUT) :: IFail
-     END SUBROUTINE Solve
-  END INTERFACE
-  ! Fin interface blocks
-  !
-  ! Definicion de variables
-  REAL :: P, Q, R, Root1, Root2
-  INTEGER :: IFail=0
-  LOGICAL :: OK=.TRUE.
-  !
-  CALL Interact(P,Q,R,OK) ! Subrutina (1)
-  !
-  IF (OK) THEN
-     !
-     CALL Solve(P,Q,R,Root1,Root2,IFail) ! Subrutina (2)
-     !
-     IF (IFail == 1) THEN
-        PRINT *,' Complex roots'
-        PRINT *,' calculation aborted'
-     ELSE
-        PRINT *,' Roots are ',Root1,' ',Root2
-     ENDIF
-     !
-  ELSE
-     !
-     PRINT*,' Error in data input program ends'
-     !
-  ENDIF
-  !
-END PROGRAM ejemplo_9_2
-!
-!
-SUBROUTINE Interact(A,B,C,OK)
-  IMPLICIT NONE
-  REAL , INTENT(OUT) :: A
-  REAL , INTENT(OUT) :: B
-  REAL , INTENT(OUT) :: C
-  LOGICAL , INTENT(OUT) :: OK
-  INTEGER :: IO_Status=0
-  PRINT*,' Type in the coefficients A, B AND C'
-  READ(UNIT=*,FMT=*,IOSTAT=IO_Status)A,B,C
-  IF (IO_Status == 0) THEN
-     OK=.TRUE.
-  ELSE
-     OK=.FALSE.
-  ENDIF
-END SUBROUTINE Interact
-!
-!
-SUBROUTINE Solve(E,F,G,Root1,Root2,IFail)
-  IMPLICIT NONE
-  REAL , INTENT(IN) :: E
-  REAL , INTENT(IN) :: F
-  REAL , INTENT(IN) :: G
-  REAL , INTENT(OUT) :: Root1
-  REAL , INTENT(OUT) :: Root2
-  INTEGER , INTENT(INOUT) :: IFail
-  ! Local variables
-  REAL :: Term
-  REAL :: A2
-  Term = F*F - 4.*E*G
-  A2 = E*2.0
-  ! if term < 0, roots are complex
-  IF(Term < 0.0)THEN
-     IFail=1
-  ELSE
-     Term = SQRT(Term)
-     Root1 = (-F+Term)/A2
-     Root2 = (-F-Term)/A2
-  ENDIF
-END SUBROUTINE Solve
+          PROGRAM ex_9_2
+            !
+            IMPLICIT NONE
+            ! Simple program with two subroutines.
+            ! subroutine (1):: Interact :: Data input.
+            ! subroutine (2):: Solve :: Solve second order Eq.
+            !
+            ! Interface blocks
+            INTERFACE
+               SUBROUTINE Interact(A,B,C,OK)
+                 IMPLICIT NONE
+                 REAL , INTENT(OUT) ::  A
+                 REAL , INTENT(OUT) ::  B
+                 REAL , INTENT(OUT) ::  C
+                 LOGICAL , INTENT(OUT) :: OK
+               END SUBROUTINE Interact
+               SUBROUTINE Solve(E,F,G,Root1,Root2,IFail)
+                 IMPLICIT NONE
+                 REAL , INTENT(IN) :: E
+                 REAL , INTENT(IN) :: F
+                 REAL , INTENT(IN) :: G
+                 REAL , INTENT(OUT) :: Root1
+                 REAL , INTENT(OUT) :: Root2
+                 INTEGER , INTENT(INOUT) :: IFail
+               END SUBROUTINE Solve
+            END INTERFACE
+            !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            !
+            ! Variables
+            REAL :: P, Q, R, Root1, Root2
+            INTEGER :: IFail=0
+            LOGICAL :: OK=.TRUE.
+            !
+            CALL Interact(P,Q,R,OK) ! Subrutina (1)
+            !
+            IF (OK) THEN
+               !
+               CALL Solve(P,Q,R,Root1,Root2,IFail) ! Subrutina (2)
+               !
+               IF (IFail == 1) THEN
+                  PRINT *,' Complex roots'
+                  PRINT *,' calculation aborted'
+               ELSE
+                  PRINT *,' Roots are ',Root1,' ',Root2
+               ENDIF
+               !
+            ELSE
+               !
+               PRINT*,' Error in data input program ends'
+               !
+            ENDIF
+            !
+          END PROGRAM ex_9_2
+          !
+          !
+          SUBROUTINE Interact(A,B,C,OK)
+            IMPLICIT NONE
+            REAL , INTENT(OUT) :: A
+            REAL , INTENT(OUT) :: B
+            REAL , INTENT(OUT) :: C
+            LOGICAL , INTENT(OUT) :: OK
+            INTEGER :: IO_Status=0
+            PRINT*,' Type in the coefficients A, B AND C'
+            READ(UNIT=*,FMT=*,IOSTAT=IO_Status)A,B,C
+            IF (IO_Status == 0) THEN
+               OK=.TRUE.
+            ELSE
+               OK=.FALSE.
+            ENDIF
+          END SUBROUTINE Interact
+          !
+          !
+          SUBROUTINE Solve(E,F,G,Root1,Root2,IFail)
+            IMPLICIT NONE
+            REAL , INTENT(IN) :: E
+            REAL , INTENT(IN) :: F
+            REAL , INTENT(IN) :: G
+            REAL , INTENT(OUT) :: Root1
+            REAL , INTENT(OUT) :: Root2
+            INTEGER , INTENT(INOUT) :: IFail
+            ! Local variables
+            REAL :: Term
+            REAL :: A2
+            Term = F*F - 4.*E*G
+            A2 = E*2.0
+            ! if term < 0, roots are complex
+            IF(Term < 0.0)THEN
+               IFail=1
+            ELSE
+               Term = SQRT(Term)
+               Root1 = (-F+Term)/A2
+               Root2 = (-F-Term)/A2
+            ENDIF
+          END SUBROUTINE Solve
 
-9.3.3. Programa ejemplo_9_3.f90
--------------------------------
+9.3.3. `excode_9_3.f90'
+-----------------------
 
-          PROGRAM ejemplo_9_3
+          PROGRAM ex_9_3
             !
             IMPLICIT NONE
             !
-            ! Definicion de variables
+            ! Variables
             INTEGER :: N
             REAL , ALLOCATABLE , DIMENSION(:) :: X  !! (1)
             REAL :: M,SD,MEDIAN
@@ -3719,8 +3692,8 @@ END SUBROUTINE Solve
                  REAL      , INTENT(OUT)                 :: MEDIAN
                END SUBROUTINE STATS
             END INTERFACE
-            PRINT *,' Cuántos valores vas a generar aleatoriamente ?'
-            READ(*,*),N
+            PRINT *,' Length of random values vector ?'
+            READ *,N
             ALLOCATE(X(1:N), STAT = IERR)     !!  (3)
             IF (IERR /= 0) THEN
                PRINT*, "X allocation request denied."
@@ -3729,17 +3702,17 @@ END SUBROUTINE Solve
             CALL RANDOM_NUMBER(X)
             X=X*1000             !!  (4)
             CALL STATS(X,N,M,SD,MEDIAN)
-          !
+            !
             PRINT *,' MEAN = ',M
             PRINT *,' STANDARD DEVIATION = ',SD
             PRINT *,' MEDIAN IS = ',MEDIAN
-          !
+            !
             IF (ALLOCATED(X)) DEALLOCATE(X, STAT = IERR)   !! (5)
             IF (IERR /= 0) THEN
                PRINT*, "X NON DEALLOCATED!"
                STOP
             ENDIF
-          END PROGRAM ejemplo_9_3
+          END PROGRAM ex_9_3
           !
           SUBROUTINE STATS(VECTOR,N,MEAN,STD_DEV,MEDIAN)
             IMPLICIT NONE
@@ -3786,10 +3759,10 @@ END SUBROUTINE Solve
             END SUBROUTINE SELECTION
           END SUBROUTINE STATS
 
-9.3.4. Programa ejemplo_9_4.f90
--------------------------------
+9.3.4. `excode_9_4.f90'
+-----------------------
 
-          PROGRAM ejemplo_9_4
+          PROGRAM ex_9_4
             IMPLICIT NONE
             REAL,DIMENSION(1:100)::A,B
             INTEGER :: Nos,I
@@ -3805,13 +3778,13 @@ END SUBROUTINE Solve
             PRINT *,' Type in the name of the data file'
             READ '(A)' , Filename
             PRINT *,' Input the number of items in the file'
-            READ(*,*) , Nos
+            READ * , Nos
             CALL Readin(Filename,A,B,Nos)
             PRINT * , ' Data read in was'
             DO I=1,Nos
                PRINT *,' ',A(I),' ',B(I)
             ENDDO
-          END PROGRAM ejemplo_9_4
+          END PROGRAM ex_9_4
           SUBROUTINE Readin(Name,X,Y,N)
             IMPLICIT NONE
             INTEGER , INTENT(IN) :: N
@@ -3825,10 +3798,10 @@ END SUBROUTINE Solve
             CLOSE(UNIT=10)
           END SUBROUTINE Readin
 
-9.3.5. Programa ejemplo_9_5.f90
--------------------------------
+9.3.5. `excode_9_5.f90'
+-----------------------
 
-          PROGRAM ejemplo_9_5
+          PROGRAM ex_9_5
             IMPLICIT NONE
             REAL , ALLOCATABLE , DIMENSION &
                  (:,:)::One,Two,Three,One_T
@@ -3840,30 +3813,30 @@ END SUBROUTINE Solve
                  REAL, DIMENSION (:,:), INTENT(OUT) :: C,A_T
                END SUBROUTINE Matrix_bits
             END INTERFACE
-            PRINT *,'Dimensión de las matrices'
+            PRINT *,'Matrix Dimension?'
             READ*,N
             ALLOCATE(One(1:N,1:N))
             ALLOCATE(Two(1:N,1:N))
             ALLOCATE(Three(1:N,1:N))
             ALLOCATE(One_T(1:N,1:N))
             DO I=1,N
-               PRINT*, 'Fila ', I,' de la primer matriz?'
+               PRINT*, 'Row ', I,'-th of the first array?'
                READ*,One(I,1:N)
             END DO
             DO I=1,N
-               PRINT*, 'Fila ', I,' de la segunda matriz?'
+               PRINT*, 'Row ', I,'-th of the second array?'
                READ*,Two(I,1:N)
             END DO
             CALL Matrix_bits(One,Two,Three,One_T)
-            PRINT*,' Resultado: Matriz Producto:'
+            PRINT*,' Result: Matrix Product'
             DO I=1,N
                PRINT *,Three(I,1:N)
             END DO
-            PRINT *,' Matriz traspuesta A^T:'! Calcula la matriz transpuesta.
+            PRINT *,' Transpose A^T:'
             DO I=1,N
                PRINT *,One_T(I,1:N)
             END DO
-          END PROGRAM ejemplo_9_5
+          END PROGRAM ex_9_5
           !
           SUBROUTINE Matrix_bits(A,B,C,A_T)
             IMPLICIT NONE
@@ -3873,10 +3846,10 @@ END SUBROUTINE Solve
             A_T=TRANSPOSE(A)
           END SUBROUTINE Matrix_bits
 
-9.3.6. Programa ejemplo_9_6.f90
--------------------------------
+9.3.6. `excode_9_6.f90'
+-----------------------
 
-PROGRAM ejemplo_9_6
+PROGRAM ex_9_6
   !
   IMPLICIT NONE
   !
@@ -3956,22 +3929,70 @@ CONTAINS
     !
   END SUBROUTINE BOX_MULLER
   !
-END PROGRAM ejemplo_9_6
+END PROGRAM ex_9_6
+!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!
+SUBROUTINE STATS(VECTOR,N,MEAN,STD_DEV,MEDIAN)
+  IMPLICIT NONE
+  ! Arguments
+  INTEGER , INTENT(IN)                    ::  N
+  REAL      , INTENT(IN) , DIMENSION(:)    ::  VECTOR    !! (1)
+  REAL      , INTENT(OUT)                  ::  MEAN
+  REAL      , INTENT(OUT)                  ::  STD_DEV
+  REAL      , INTENT(OUT)                  ::  MEDIAN
+  ! Local Variables
+  REAL      , DIMENSION(1:N)              ::  Y
+  REAL      :: VARIANCE = 0.0
+  REAL      :: SUMXI = 0.0, SUMXI2 = 0.0
+  !
+  SUMXI=SUM(VECTOR)       !! (6)
+  SUMXI2=SUM(VECTOR*VECTOR)    !! (6)
+  MEAN=SUMXI/N
+  VARIANCE=(SUMXI2-SUMXI*SUMXI/N)/(N-1)
+  STD_DEV = SQRT(VARIANCE)
+  Y=VECTOR
+  ! Sort values
+  CALL SELECTION
+  IF (MOD(N,2) == 0) THEN
+     MEDIAN=(Y(N/2)+Y((N/2)+1))/2
+  ELSE
+     MEDIAN=Y((N/2)+1)
+  ENDIF
+CONTAINS     !! (7)
+  SUBROUTINE SELECTION
+    IMPLICIT NONE
+    INTEGER :: I,J,K
+    REAL :: MINIMUM
+    DO I=1,N-1
+       K=I
+       MINIMUM=Y(I)
+       DO J=I+1,N
+          IF (Y(J) < MINIMUM) THEN
+             K=J
+             MINIMUM=Y(K)
+          END IF
+       END DO
+       Y(K)=Y(I)
+       Y(I)=MINIMUM
+    END DO
+  END SUBROUTINE SELECTION
+END SUBROUTINE STATS
 
-9.3.7. Programa ejemplo_9_7.f90
--------------------------------
+9.3.7. `excode_9_7.f90'
+-----------------------
 
-          PROGRAM EJEMPLO_9_7
+          PROGRAM ex_9_7
             !
             IMPLICIT NONE
             !
             INTERFACE
                SUBROUTINE SUBEXAMPLE(IMIN, IMAX, FACT_MAT)
-                 INTEGER, INTENT(IN) :: IMIN, IMAX
-                 REAL, DIMENSION(IMIN:), INTENT(OUT) :: FACT_MAT
+                 INTEGER, intent(in) :: IMIN, IMAX
+                 REAL, DIMENSION(IMIN:), intent(out) :: FACT_MAT
                END SUBROUTINE SUBEXAMPLE
             END INTERFACE
             !
+            ! Variables
             REAL, DIMENSION(:), ALLOCATABLE :: FACT_MAT
             INTEGER :: IMIN, IMAX, I
             !
@@ -3988,15 +4009,16 @@ END PROGRAM ejemplo_9_6
                PRINT*, I, FACT_MAT(I)
             ENDDO
             !
-          END PROGRAM EJEMPLO_9_7
+          END PROGRAM ex_9_7
+          !!!!!!!!!!
           !!!!!!!!!!
           SUBROUTINE SUBEXAMPLE(IMIN, IMAX, FACT_MAT)
             !
             IMPLICIT NONE
             INTEGER, intent(in) :: IMIN, IMAX
             REAL, DIMENSION(IMIN:), intent(out) :: FACT_MAT
-          ! The subroutine with the next line only would work for IMIN = 1
-          !  REAL, DIMENSION(:), intent(out) :: FACT_MAT
+            ! The subroutine with the next line only would work for IMIN = 1
+            !  REAL, DIMENSION(:), intent(out) :: FACT_MAT
             !
             INTEGER :: j,k
             !
@@ -4016,12 +4038,12 @@ END PROGRAM ejemplo_9_6
 -------------------------------------------------------------------------------
 
 
-10. Subprogramas (III): módulos
--------------------------------
+10. Subprograms (III): modules
+------------------------------
 
 
-10.1. Objetivos
----------------
+10.1. Objectives
+----------------
 
      Los objetivos de esta clase son los siguientes:
 
@@ -4288,7 +4310,7 @@ END PROGRAM ejemplo_9_6
           que para cambiar la precisión con la que se trabaja solamente es
           necesario editar el módulo.  En el Section 10.3.3, `Programa
           ejemplo_10_3.f90' introducimos esta mejora en el programa Section
-          9.3.6, `Programa ejemplo_9_6.f90'.  Se almacena el módulo simple
+          9.3.6, ``excode_9_6.f90''.  Se almacena el módulo simple
           anteriormente descrito en un fichero llamado, p.e.,
           `dble_prec.f90' y se compila previamente:
 
