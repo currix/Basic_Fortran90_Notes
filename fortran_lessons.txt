@@ -2816,10 +2816,13 @@ END PROGRAM ex_7_4
              * `CMPLX(x)' or `CMPLX(x,y)': transform to complex values,
                where the second argument is the imaginary part.
 
-        * Además de las funciones intrínsecas, pueden definirse funciones.
-          La definición de una función implica por una parte la propia
-          definición y la posterior llamada a la función desde un programa.
-          La definición de una función sigue el siguiente esquema:
+        * Apart from the intrinsic functions, user defined functions can
+          also be added.  The definition of a function requires, apart from
+          the function definition, the way the function is invoked from a
+          program.
+
+          A user defined function is created according to the following
+          scheme.
 
                FUNCTION <fun_name>(<argument_list>)
                  IMPLICIT NONE
@@ -2831,49 +2834,40 @@ END PROGRAM ex_7_4
                  RETURN ! Optional
                END FUNCTION <fun_name>
 
-          En el ejemplo Section 8.3.3, `Programa ejemplo_8_3.f90' se
-          muestra como se define e invoca una función que calcula el máximo
-          común divisor de dos números enteros.  Es importante tener en
-          cuenta lo siguiente:
+          The example Section 8.3.3, `Programa ejemplo_8_3.f90' shows how
+          to define and invoke a function computing the greatest common
+          divisor of two integers.  The following considerations should be
+          taken into account:
 
-             * En este ejemplo podemos distinguir dos bloques.  Un primer
-               bloque con el programa principal y un segundo bloque donde
-               se define la función.  De hecho la función puede definirse
-               en un fichero diferente al programa principal, y dar ambos
-               ficheros al compilador para que prepare el programa
-               ejecutable.
+             * This example is built with two blocks, the main program and
+               the function definition.  bloque con el programa principal y
+               un segundo bloque donde se define la función.  The function
+               definition can be carried out in a separate file.  In such
+               case both filenames should be provided to the compiler.
 
-             * Es importante tener en cuenta que las variables definidas en
-               la función tienen carácter local respecto a las variables
-               que se definen en el programa.
+             * The variables defined in a function are _local_ with respect
+               to the main program variables.
 
-             * La función en este caso tiene como nombre `MCD' y su tipo es
-               `INTEGER'.  Por tanto, el programa espera que el valor que
-               dé la función como resultado sea un entero.
+             * The `MCD' function is of `INTEGER' type.  Therefore, in
+               principle, the function output should be of integer type.
 
-             * El atributo `INTENT(IN)' en la definición de las variables
-               `A' y `B' de la función:
+             * The `INTENT(IN)' attribute characterizing the `A' and `B'
+               variables:
 
                     INTEGER , INTENT(IN) :: A,B
 
-               indica que dichas variables son variables de entrada y sus
-               valores no pueden ser modificados por la función.
+               marks these two as input variables, whose values cannot be
+               modified in the body of the function.
 
-          Todos los argumentos de una función deben tener este atributo
-          para evitar que inadvertidamente sus valores se modifiquen al
-          evaluar la función.
+          Every function argument needs to be difined with the `INTENT(IN)'
+          attribute to avoid the modification of their values with
+          unforeseen consequences.
 
-        * Es posible definir funciones que sean _internas_, esto es, que se
-          restrinjan a un determinado segmento de código, y no puedan ser
-          llamadas desde otro punto del programa.  Para ello se utiliza la
-          orden `CONTAINS' como en los ejemplos Section 8.3.4, `Programa
-          ejemplo_8_4.f90' y Section 8.3.5, ``excode_8_5.f90''.  El primero
-          de estos dos programas define una función con la que calcular la
-          energía de un nivel vibracional teniendo en cuenta la frecuencia
-          _we_ y la anarmonicidad _wexe_.  El segundo, dado un número
-          entero, calcula los factores primos de dicho número.  En este
-          ejemplo Section 8.3.5, ``excode_8_5.f90'' podemos ver también el
-          uso de un bucle del tipo _REPEAT UNTIL_.
+        * It is possible to define _internal_ functions, restrained to
+          certain code segment.  Such functions cannot be called from any
+          program unit but the one that defines them.  This is achieved
+          with the `CONTAINS' statement (e.g.  Section 8.3.4, `Programa
+          ejemplo_8_4.f90' and Section 8.3.5, ``excode_8_5.f90'').
 
 [1]  You should take into account that in `Fortran' angles are expressed in
      radian units.

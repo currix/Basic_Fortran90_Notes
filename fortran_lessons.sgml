@@ -2754,10 +2754,14 @@ name="URL"> you can find a complet list of the intrinsic functions at
   values, where the second argument is the imaginary part.
 </list>
 
-<item> Además de las funciones intrínsecas, pueden definirse
-  funciones. La definición de una función implica por una parte la
-  propia definición y la posterior llamada a la función desde un
-  programa. La definición de una función sigue el siguiente esquema:
+<item> Apart from the intrinsic functions, user defined functions can
+  also be added. The definition of a function requires, apart from the
+  function definition, the way the function is invoked from a
+  program.
+
+  <p>
+    A user defined function is created according to the following
+    scheme. 
 <p>
 <example>
 FUNCTION <var>fun_name</var>(<var>argument_list</var>)
@@ -2772,37 +2776,37 @@ END FUNCTION <var>fun_name</var>
 </example>
 
 <p>
-En el
-ejemplo <ref id="sec_p_8_3"> se muestra como se define e invoca una
-  función que calcula el máximo común divisor de dos números enteros.
-Es importante tener en cuenta lo siguiente:
+The example <ref id="sec_p_8_3"> shows how to define and invoke a
+  function computing the greatest common divisor of two integers. The
+  following considerations should be taken into account:
 <list>
-<item> En este ejemplo podemos distinguir dos bloques. Un primer
+<item> This example is built with two blocks, the main program and the
+  function definition. 
   bloque con el programa principal y un segundo bloque donde se define
-  la función. De hecho la función puede definirse en un fichero
-  diferente al programa principal, y dar ambos ficheros al compilador
-  para que prepare el programa ejecutable.
-<item> Es importante tener en cuenta que las variables definidas en la
-  función tienen carácter local respecto a las variables que se
-  definen en el programa.
-<item> La función en este caso tiene como nombre <tt>MCD</tt> y su
-  tipo es <tt>INTEGER</tt>. Por tanto, el programa espera que el valor
-  que dé la función como resultado sea un entero.
-<item> El atributo <tt>INTENT(IN)</tt> en la definición de las
-  variables <tt>A</tt> y <tt>B</tt> de la función:
+  la función. The function definition can be carried out in a separate
+  file. In such case both filenames should be provided to the
+  compiler. 
+  <item> The variables defined in a function are <em>local</em> with
+  respect to the main program variables.
+<item> The  <tt>MCD</tt> function is of <tt>INTEGER</tt>
+  type. Therefore, in principle, the function output should be of
+  integer type.
+<item> The <tt>INTENT(IN)</tt> attribute characterizing the <tt>A</tt> and <tt>B</tt> variables:
 <p>
 <example>
 INTEGER , INTENT(IN) :: A,B 
 </example>
 <p>
-indica que  dichas variables son variables de entrada y sus valores no
-pueden ser modificados por la función.
+marks these two as input variables, whose values cannot be modified in
+the body of the function. 
 </list>
-<p> Todos los argumentos de una función deben tener este atributo para evitar que inadvertidamente sus valores se modifiquen al evaluar la función.
-<item> Es posible definir funciones que sean <em>internas</em>, esto
-es, que se restrinjan a un determinado segmento de código, y no puedan
-ser llamadas desde otro punto del programa. Para ello se utiliza la
-orden <tt>CONTAINS</tt> como en los ejemplos <ref id="sec_p_8_4"> y  <ref id="sec_p_8_5">. El primero de estos dos programas define una función con la que calcular la energía de un nivel vibracional teniendo en cuenta la frecuencia <em>we</em> y la anarmonicidad <em>wexe</em>. El segundo, dado un número entero, calcula los factores primos de dicho número. En este ejemplo <ref id="sec_p_8_5"> podemos ver también el uso de un bucle del tipo <em>REPEAT UNTIL</em>.
+<p> Every function argument needs to be difined with
+  the <tt>INTENT(IN)</tt> attribute to avoid the modification of their
+  values with unforeseen consequences.
+<item> It is possible to define <em>internal</em> functions,
+  restrained to certain code segment. Such functions cannot be called
+  from any program unit but the one that defines them. This is
+  achieved with the <tt>CONTAINS</tt> statement (e.g. <ref id="sec_p_8_4"> and <ref id="sec_p_8_5">). 
 </list>
 </sect>
 <sect id="sec_83">   Example Codes
