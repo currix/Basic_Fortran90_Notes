@@ -61,10 +61,10 @@ Contents
      7.2.      Main items.
      7.3.      Example Codes
 
-     8.        Subprogramas (I): funciones
-     8.1.      Objetivos
-     8.2.      Puntos destacables.
-     8.3.      Programas usados como ejemplo.
+     8.        Subprograms (I): FUNCTIONS
+     8.1.      Objectives
+     8.2.      Main items.
+     8.3.      Example Codes
 
      9.        Subprogramas (II): subrutinas
      9.1.      Objetivos
@@ -424,7 +424,7 @@ END PROGRAM ex_1_2
 [2]  See Section 2.3.4, ``excode_2_4.f90''.
 
 [3]  More info on intrinsic functions and function definition in `Fortran'
-     can be found in Section 8.1, `Objetivos'.
+     can be found in Section 8.1, `Objectives'.
 
 
 2.3. Example Codes.
@@ -861,9 +861,9 @@ END PROGRAM ATTEND_CONTROL
 
      The main aims of this lesson are the following:
 
-     1.   present storage ordering of multidimensional arrays.
+     1.   presenting storage ordering of multidimensional arrays.
 
-     2.   present how to manipulate whole matrices or arrays sections in
+     2.   presenting how to manipulate whole matrices or arrays sections in
           `Fortran'.
 
      3.   matrix definition using the `WHERE' statement.
@@ -945,8 +945,8 @@ END PROGRAM ATTEND_CONTROL
         * `FORTRAN' allows to define multidimensional arrays, being seven
           is the max number of indices.  The code Section 4.3.2,
           ``excode_4_2.f90'' an array is fully characterized making use of
-          several _inquiry_ type functions (see Section 8.3.2, `Programa
-          ejemplo_8_2.f90').
+          several _inquiry_ type functions (see Section 8.3.2,
+          ``excode_8_2.f90'').
 
         * The usage of whole matrices is a great advantage.  Definig
           floating point vectors `V1', `V2', `V3' y `V4' as
@@ -2134,7 +2134,7 @@ OPEN(UNIT=33, FILE='output_program.dat', STATUS='NEW', ACTION='WRITE', IOSTAT=ie
      are allocated and the points are read and saved into vectors `data_X'
      and `data_Y', and computes the maximum (minimum) value of `data_X'
      (`data_Y') making use of the intrinsic functions `MAXVAL' and `MINVAL'
-     (see Section 8.1, `Objetivos').
+     (see Section 8.1, `Objectives').
 
 [1]  `STDERR' is associated with unit `0'.
 
@@ -2693,70 +2693,64 @@ END PROGRAM ex_7_4
 -------------------------------------------------------------------------------
 
 
-8. Subprogramas (I): funciones
-------------------------------
+8. Subprograms (I): FUNCTIONS
+-----------------------------
 
 
-8.1. Objetivos
---------------
+8.1. Objectives
+---------------
 
-     Los objetivos de esta clase son los siguientes:
+     The main aims of this lesson are the following:
 
-     1.   presentar las ventajas que ofrece el uso de funciones, subrutinas
-          y módulos.
+     1.   presenting the advantages of using functions, subroutines and
+          modules.
 
-     2.   presentar el concepto de función en `Fortran'.
+     2.   presenting the function concept in `Fortran'.
 
-     3.   mostrar los diferentes tipos de funciones que pueden usarse:
-          intrínsecas, genéricas, elementales, transformacionales e
-          internas.
+     3.   showing the different types of functions: intrinsic, generic,
+          elemental, transformational, and internal.
 
-     4.   hacer posible la definición de funciones por el usuario.
+     4.   making possible the definition of new functions by the user.
 
-     5.   mostrar la diferencia entre funciones externas y funciones
-          contenidas en el programa principal.
+     5.   evinving the difference beyween external and internal functions.
 
-     El uso de estas estructuras permite desarrollar una programación más
-     estructurada y eficaz ya que permiten
+     The use of subporgrams allows a more structured and efficient
+     programming owing to
 
-        * el desarrollo y comprobación de diferentes subtareas de forma
-          independiente.
+        * the possibility of developing and testing different subtasks in
+          an independent manner.
 
-        * reciclar unidades en diferentes programas, disminuyendo el tiempo
-          necesario para generar el código.
+        * it makes possible to recycle subprograms in different programs,
+          diminishing the necessary time for coding.
 
-        * aislar el código de efectos inesperados ya que están
-          perfectamente diferenciadas las variables generales y las
-          variables a las que tiene acceso cada subrutina o función.
+        * the isolation in different subtasks of possible errors and the
+          minimization of unexpected side effects, due to variable
+          encapsulation.
 
 
-8.2. Puntos destacables.
-------------------------
+8.2. Main items.
+----------------
 
-     En primer lugar nos centramos en las funciones y, en la siguiente
-     unidad, tratamos las subrutinas.
+     We first focus in functions and will follow with subroutines and
+     modules.
 
-        * Características generales de las funciones.
+        * General characteristics of functions.
 
-          Las principales características de una función son
+          The main characteristics of a function are:
 
-             * Requieren el uso de uno o varios parámetros o argumentos al
-               invocar la función.
+             * May require the input of one or several arguments.
 
-             * Dichos argumentos pueden ser una expresión.
+             * Arguments can take the form of an expression.
 
-             * Generalmente una función da como resultado un valor, y dicho
-               valor es función de los parámetros o argumentos con los que
-               se ha invocado la función.  El resultado de la evaluación de
-               la función puede ser un escalar o una matriz de cualquier
-               tipo.
+             * In general, a function produces a single output, which is a
+               function of the arguments, and this output is of scalar type
+               though in some cases it also can be of an array type.
 
-             * Los argumentos pueden ser de diferente tipo.
+             * The arguments can be of different types.
 
-          En `Fortran' existen aproximadamente más de cien funciones
-          predefinidas que pueden usarse de modo muy simple y directo.  Por
-          ejemplo, si necesitamos funciones trigonométricas podemos usar,
-          siendo `X', `Y' variables reales[1]:
+          There are more than one hundred predefined functions in
+          `Fortran', highly tested, and of easy usage.  E.g.  we need
+          trigonometric functions we can make use of the following:
 
              * `Y = SIN(X)'
 
@@ -2764,66 +2758,63 @@ END PROGRAM ex_7_4
 
              * `Y = TAN(X)'
 
-          Este tipo de funciones son llamadas _funciones intrínsecas_.  En
-          esta URL
+          where `X' and `Y' are real variables[1]
+
+          This predefined functions are called _intrinsic functions_.  In
+          this link URL
           (http://gcc.gnu.org/onlinedocs/gfortran/Intrinsic-Procedures.html#Intrinsic-Procedures)
-          puede encontrarse una lista completa de las funciones intrínsecas
-          de que se dispone al usar el compilador `gfortran'.  En general
-          las funciones intrínsecas son _genéricas_, lo que quiere decir
-          que admiten distintos tipos de argumentos (mejor dicho argumentos
-          con diferente precisión).  La excepción son las cuatro funciones
-          no genéricas, `LGE', `LGT', `LLE' y `LLT'.
+          you can find a complet list of the intrinsic functions at your
+          disposal with the `gfortran' compiler.
 
-        * Las funciones llamadas _elementales_ admiten como argumento tanto
-          escalares como matrices.  Un ejemplo de esto se puede ver en los
-          ejemplos Section 8.3.1, `Programa ejemplo_8_1.f90' y Section
-          8.3.2, `Programa ejemplo_8_2.f90', donde se muestra el carácter
-          elemental y genérico de algunas funciones.  En el ejemplo Section
-          8.3.1, `Programa ejemplo_8_1.f90' se muestra también la
-          diferencia entre variables reales con diferente precisión.  Estas
-          funciones elementales pueden aplicarse tanto a variables
-          escalares como a arreglos.  En el último caso la función se
-          aplica a cada elemento del arreglo.
+          In general intrinsic functions are also _generic_, which means
+          that they can admit different argument types, with the exception
+          of the functions `LGE', `LGT', `LLE', and `LLT'.
 
-        * Existen también otro tipo de funciones.  Entre ellas destacan las
-          del tipo _inquiry_ que dan información acerca de las
-          características de un arreglo.  Por ejemplo las funciones `SIZE'
-          y `ALLOCATED'.  Un ejemplo del uso de esta última función puede
-          verse en el Section 6.3.7, ``excode_6_7.f90'' y en el Section
-          9.3.3, `Programa ejemplo_9_3.f90'.
+        * The _elemental_ functions may have as an argument both scalars or
+          vectors.  The example source codes Section 8.3.1,
+          ``excode_8_1.f90'' and Section 8.3.2, ``excode_8_2.f90'' show the
+          elemental and generic character of some intrinsic functions.
+          When an elemental function is applied to an array the fucntions
+          is applied to each array element.
 
-          Otro tipo de funciones son las llamadas "transformacionales",
-          p.e.  `REAL' y `TRANSPOSE', que transforman entre diferentes
-          tipos de datos, y funciones que implican medidas de tiempo como
-          `SYSTEM_CLOCK' y `DATE_AND_TIME'.
+        * Other type of functions are of _inquiry_ type, giving information
+          about the characterictics of an array, e.g.  the `SIZE' and
+          `ALLOCATED' functions.  Examples of the latter are found in
+          Section 6.3.7, ``excode_6_7.f90'' and Section 9.3.3, `Programa
+          ejemplo_9_3.f90'.
 
-        * Conversión entre diferentes tipos de datos.
+          The _transformational_ functions transform between different data
+          types, e.g.  `REAL' and `TRANSPOSE', or functions that work with
+          time data variables as `SYSTEM_CLOCK' and `DATE_AND_TIME'.
 
-             * `REAL(i)': convierte un entero `i' en un real.  El argumento
-               `i' puede ser un entero, un real de doble precisión o un
-               número complejo.
+        * Conversion between data types:
 
-             * `INT(x)': convierte el real `x' en el entero equivalente,
-               truncando la parte decimal, pudiendo ser `x' una variable
-               real, real de doble precisión o compleja.
+             * `REAL(i)': integer `i' is converted to a float.  The
+               argument `i' can be an integer, a double precision real or a
+               complex number.
 
-             * Las siguientes funciones son de interés para definir enteros
-               a partir de reales.
+             * `INT(x)': transforms the real variable `x' to an integer,
+               truncating the decimal part.  No rounding is performed.  The
+               `x' variable can be a real, double precision real, or a
+               complex variable.
 
-                  * `CEILING(x)': convierte un real `x' en el entero más
-                    pequeño mayor o igual a `x'.
+             * The functions that follow allow to transform from real to
+               integer values with an adequate control:
 
-                  * `FLOOR(x)': convierte un real `x' en el mayor entero
-                    que sea menor o igual a `x'.
+                  * `CEILING(x)': real value `x' to the minimum integer
+                    value larger than or equal than `x'.
 
-                  * `NINT(x)': convierte un real `x' en el entero más
-                    próximo a `x'.
+                  * `FLOOR(x)': real value `x' to the maximum integer value
+                    less than or equal than `x'.
 
-             * `DBLE(a)': convierte `a' a doble precisión.  El argumento
-               puede ser entero, real o complejo.
+                  * `NINT(x)': round the real value `x' to the nearest
+                    integer.
 
-             * `CMPLX(x)' ó `CMPLX(x,y)': convierte en valores complejos
-               (el segundo argumento es la parte imaginaria).
+             * `DBLE(a)': transforms `a' to double precision.  The argument
+               can be integer, real, or complex.
+
+             * `CMPLX(x)' or `CMPLX(x,y)': transform to complex values,
+               where the second argument is the imaginary part.
 
         * Además de las funciones intrínsecas, pueden definirse funciones.
           La definición de una función implica por una parte la propia
@@ -2876,42 +2867,41 @@ END PROGRAM ex_7_4
           restrinjan a un determinado segmento de código, y no puedan ser
           llamadas desde otro punto del programa.  Para ello se utiliza la
           orden `CONTAINS' como en los ejemplos Section 8.3.4, `Programa
-          ejemplo_8_4.f90' y Section 8.3.5, `Programa ejemplo_8_5.f90'.  El
-          primero de estos dos programas define una función con la que
-          calcular la energía de un nivel vibracional teniendo en cuenta la
-          frecuencia _we_ y la anarmonicidad _wexe_.  El segundo, dado un
-          número entero, calcula los factores primos de dicho número.  En
-          este ejemplo Section 8.3.5, `Programa ejemplo_8_5.f90' podemos
-          ver también el uso de un bucle del tipo _REPEAT UNTIL_.
+          ejemplo_8_4.f90' y Section 8.3.5, ``excode_8_5.f90''.  El primero
+          de estos dos programas define una función con la que calcular la
+          energía de un nivel vibracional teniendo en cuenta la frecuencia
+          _we_ y la anarmonicidad _wexe_.  El segundo, dado un número
+          entero, calcula los factores primos de dicho número.  En este
+          ejemplo Section 8.3.5, ``excode_8_5.f90'' podemos ver también el
+          uso de un bucle del tipo _REPEAT UNTIL_.
 
-[1]  Hay que tener en cuenta que en `Fortran' se supone que los ángulos en
-     las funciones trigonométricas vienen expresados en radianes y no en
-     grados.
+[1]  You should take into account that in `Fortran' angles are expressed in
+     radian units.
 
 
-8.3. Programas usados como ejemplo.
------------------------------------
+8.3. Example Codes
+------------------
 
-8.3.1. Programa ejemplo_8_1.f90
--------------------------------
+8.3.1. `excode_8_1.f90'
+-----------------------
 
-PROGRAM EJEMPLO_8_1
+PROGRAM ex_8_1
   IMPLICIT NONE
-  !Definicion de variables
+  ! Variable Definition
   INTEGER, PARAMETER :: Long=SELECTED_REAL_KIND(18,310)
   !
-  REAL (KIND=Long), PARAMETER :: DPI = ACOS(-1.0_Long) ! Definimos el número Pi
+  REAL (KIND=Long), PARAMETER :: DPI = ACOS(-1.0_Long) ! Pi number double precision
   REAL (KIND=Long) :: DANGLE, DANGLERAD
   !
-  REAL, PARAMETER :: PI = ACOS(-1.0) ! Definimos el número Pi
+  REAL, PARAMETER :: PI = ACOS(-1.0) ! Pi number single precision
   REAL :: ANGLERAD
   !
-  PRINT*, 'INTRODUZCA UN ANGULO (EN GRADOS)'
+  PRINT*, 'ANGLE INPUT (Degrees)'
   READ*, DANGLE
   PRINT*
-  ! PASO A RADIANES
+  ! Transform to  RAD
   DANGLERAD = DPI*DANGLE/180.0_Long
-  ANGLERAD = PI*DANGLE/180.0
+  ANGLERAD  = PI*DANGLE/180.0
   !
   PRINT 20, DANGLE, DANGLERAD
   PRINT 21, DANGLE, ANGLERAD
@@ -2923,69 +2913,69 @@ PROGRAM EJEMPLO_8_1
   PRINT*
   PRINT 22, ANGLERAD, SIN(ANGLERAD), COS(ANGLERAD), SIN(ANGLERAD)**2+COS(ANGLERAD)**2,1.0 - (SIN(ANGLERAD)**2+COS(ANGLERAD)**2)
   !
-20 FORMAT (1X, 'UN ANGULO DE ',F14.8,' GRADOS = ', F14.8, ' RADIANES. (dp)')
-21 FORMAT (1X, 'UN ANGULO DE ',F14.8,' GRADOS = ', F14.8, ' RADIANES. (sp)')
-22 FORMAT (1X, 'ANGULO ',F14.8,', SIN = ', F13.9, ', COS =',F13.9,/'SIN**2+COS**2 = ', F16.12, ', 1 - SIN**2+COS**2 = ', F16.12)
-END PROGRAM EJEMPLO_8_1
+20 FORMAT (1X, 'An angle of ',F14.8,' degrees = ', F14.8, ' rad. (dp)')
+21 FORMAT (1X, 'An angle of ',F14.8,' degrees = ', F14.8, ' rad. (sp)')
+22 FORMAT (1X, 'ANGLE ',F14.8,', SIN = ', F13.9, ', COS =',F13.9,/'SIN**2+COS**2 = ', F18.14, ', 1 - SIN**2+COS**2 = ', F18.14)
+END PROGRAM EX_8_1
 
-8.3.2. Programa ejemplo_8_2.f90
--------------------------------
+8.3.2. `excode_8_2.f90'
+-----------------------
 
-PROGRAM EJEMPLO_8_2
+PROGRAM ex_8_2
   IMPLICIT NONE
-  !Definicion de variables
+  ! VARIABLE DEFINITION
   INTEGER , PARAMETER :: NEL=5
-  REAL, PARAMETER :: PI = ACOS(-1.0) ! Definimos el número Pi
-  REAL , DIMENSION(1:NEL)   :: XR = (/ 0.0, PI/2.0, PI, 3.0*PI/2.0, 2.0*PI/)
+  REAL, PARAMETER :: PI = ACOS(-1.0) ! Pi number
+  REAL, DIMENSION(1:NEL)   :: XR = (/ 0.0, PI/2.0, PI, 3.0*PI/2.0, 2.0*PI/)
   INTEGER , DIMENSION(1:NEL):: XI = (/ 0, 1, 2, 3, 4/)
   !
-  PRINT*, 'SENO DE ', XR, ' = ', SIN(XR)
-  PRINT*, 'LOG10 DE ', XR, ' = ', LOG10(XR)
+  PRINT*, 'Sin  ', XR, ' = ', SIN(XR)
+  PRINT*, 'LOG10  ', XR, ' = ', LOG10(XR)
   PRINT*, 'REAL ', XI, ' = ', REAL(XI)
-END PROGRAM EJEMPLO_8_2
+END PROGRAM ex_8_2
 
 8.3.3. Programa ejemplo_8_3.f90
 -------------------------------
 
-          PROGRAM EJEMPLO_8_3
-            IMPLICIT NONE
-            INTEGER :: I,J,Result
-            INTEGER :: MCD
-            EXTERNAL MCD
-            PRINT *,' INTRODUCE DOS NUMEROS ENTEROS:'
-            READ(*,*),I,J
-            RESULT = MCD(I,J)
-            PRINT *,' EL MAX COMUN DIV DE ',I,' Y ',J,' ES ',RESULT
-          END PROGRAM EJEMPLO_8_3
-          !
-          INTEGER FUNCTION MCD(A,B)
-          IMPLICIT NONE
-          INTEGER , INTENT(IN) :: A,B
-          INTEGER :: Temp
-            IF (A < B) THEN
-               Temp=A
-            ELSE
-               Temp=B
-            ENDIF
-            DO WHILE ((MOD(A,Temp) /= 0) .OR. (MOD(B,Temp) /=0))
-               Temp=Temp-1
-            END DO
-            MCD=Temp
-          END FUNCTION MCD
+PROGRAM ex_8_3
+  IMPLICIT NONE
+  INTEGER :: I,J,Result
+  INTEGER :: MCD
+  EXTERNAL MCD
+  PRINT *,' INTRODUCE TWO INTEGERS:'
+  READ *,I,J
+  RESULT = MCD(I,J)
+  PRINT *,' THE GREATEST COMMON DIVISOR OF ',I,' AND ',J,' IS ',RESULT
+END PROGRAM ex_8_3
+!
+INTEGER FUNCTION MCD(A,B)
+IMPLICIT NONE
+INTEGER , INTENT(IN) :: A,B
+INTEGER :: Temp
+  IF (A < B) THEN
+     Temp=A
+  ELSE
+     Temp=B
+  ENDIF
+  DO WHILE ((MOD(A,Temp) /= 0) .OR. (MOD(B,Temp) /=0))
+     Temp=Temp-1
+  END DO
+  MCD=Temp
+END FUNCTION MCD
 
 8.3.4. Programa ejemplo_8_4.f90
 -------------------------------
 
-          PROGRAM EJEMPLO_8_4
+          PROGRAM ex_8_4
             IMPLICIT NONE
-            ! Uso de una función interna en el cálculo de la fórmula
+            ! Internal function example:
             ! E(v) = we (v+1/2) - wexe (v+1/2)**2.
             INTEGER :: V, VMAX
             REAL :: we, wexe, Energy
-            PRINT *,' INTRODUCE EL VALOR DE Vmax:'
-            READ(*,*), VMAX
-            PRINT *,' INTRODUCE EL VALOR DE we Y DE wexe:'
-            READ(*,*),we, wexe
+            PRINT *,' Vmax?:'
+            READ *, VMAX
+            PRINT *,' we and wexe?'
+            READ *,we, wexe
             DO V = 0, VMAX
                Energy = FEN(V)
                PRINT 100, V, Energy
@@ -2999,12 +2989,12 @@ END PROGRAM EJEMPLO_8_2
               FEN = we*(V+0.5)-wexe*(V+0.5)**2
             END FUNCTION FEN
           !
-          END PROGRAM EJEMPLO_8_4
+          END PROGRAM EX_8_4
 
-8.3.5. Programa ejemplo_8_5.f90
--------------------------------
+8.3.5. `excode_8_5.f90'
+-----------------------
 
-PROGRAM EJEMPLO_8_5
+PROGRAM ex_8_5
   !
   ! Simple program to compute the prime divisors of a given integer number.
   !
@@ -3012,7 +3002,7 @@ PROGRAM EJEMPLO_8_5
   INTEGER :: NUMVAL
   INTEGER :: NUM
   !
-  READ(*,*), NUMVAL ! input
+  READ*, NUMVAL ! input
   !
   DO
      NUM = QUOT(NUMVAL)
@@ -3043,12 +3033,12 @@ CONTAINS
     !
   END FUNCTION QUOT
   !
-END PROGRAM EJEMPLO_8_5
+END PROGRAM ex_8_5
 
-8.3.6. Programa ejemplo_8_6.f90
--------------------------------
+8.3.6. `excode_8_6.f90'
+-----------------------
 
-PROGRAM EJEMPLO_8_6
+PROGRAM ex_8_6
   !
   ! Program to evaluate a 1D potential function on grid points
   !
@@ -3109,7 +3099,7 @@ PROGRAM EJEMPLO_8_6
   ENDIF
   !
   !
-END PROGRAM EJEMPLO_8_6
+END PROGRAM ex_8_6
 !
 ELEMENTAL FUNCTION Potf(Depth, Inv_length, X)
   !
@@ -3122,6 +3112,43 @@ ELEMENTAL FUNCTION Potf(Depth, Inv_length, X)
   Potf = -Depth/(COSH(Inv_length*X)**2)
   !
 END FUNCTION Potf
+
+8.3.7. `excode_8_7.f90'
+-----------------------
+
+          PROGRAM ex_8_7
+            !
+            ! Program to characterize an array making use of inquiry functions
+            !
+            IMPLICIT NONE
+            !
+            REAL, DIMENSION(:,:), ALLOCATABLE :: X_grid
+            INTEGER :: Ierr
+            !
+            !
+            ALLOCATE(X_grid(-20:20,0:50), STAT = Ierr)
+            IF (Ierr /= 0) THEN
+               STOP 'X_grid allocation failed'
+            ENDIF
+            !
+            WRITE(*, 100) SHAPE(X_grid)
+          100 FORMAT(1X, "Shape :        ", 7I7)
+            !
+            WRITE(*, 110) SIZE(X_grid)
+          110 FORMAT(1X, "Size :         ", I7)
+            !
+            WRITE(*, 120) LBOUND(X_grid)
+          120 FORMAT(1X, "Lower bounds : ", 7I6)
+            !
+            WRITE(*, 130) UBOUND(X_grid)
+          130 FORMAT(1X, "Upper bounds : ", 7I6)
+            !
+            DEALLOCATE(X_grid, STAT = Ierr)
+            IF (Ierr /= 0) THEN
+               STOP 'X_grid deallocation failed'
+            ENDIF
+            !
+          END PROGRAM ex_8_7
 
 
 -------------------------------------------------------------------------------
@@ -3250,7 +3277,7 @@ END FUNCTION Potf
 
           Aquellos parámetros que solo sean de entrada es conveniente
           definirlos con el atributo `INTENT(IN)'.  Este atributo ya lo
-          vimos en Chapter 8, `Subprogramas (I): funciones' aplicándolo a
+          vimos en Chapter 8, `Subprograms (I): FUNCTIONS' aplicándolo a
           funciones.  Cuando un argumento posee este atributo el valor de
           entrada del parámetro se mantiene constante y no puede variar en
           la ejecución de la subrutina.

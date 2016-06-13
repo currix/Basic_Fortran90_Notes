@@ -1,0 +1,32 @@
+PROGRAM ex_8_1
+  IMPLICIT NONE
+  ! Variable Definition
+  INTEGER, PARAMETER :: Long=SELECTED_REAL_KIND(18,310)
+  !
+  REAL (KIND=Long), PARAMETER :: DPI = ACOS(-1.0_Long) ! Pi number double precision
+  REAL (KIND=Long) :: DANGLE, DANGLERAD
+  !
+  REAL, PARAMETER :: PI = ACOS(-1.0) ! Pi number single precision
+  REAL :: ANGLERAD
+  !
+  PRINT*, 'ANGLE INPUT (Degrees)'
+  READ*, DANGLE
+  PRINT*
+  ! Transform to  RAD
+  DANGLERAD = DPI*DANGLE/180.0_Long
+  ANGLERAD  = PI*DANGLE/180.0
+  !
+  PRINT 20, DANGLE, DANGLERAD
+  PRINT 21, DANGLE, ANGLERAD
+  PRINT*
+  PRINT*
+  !
+  PRINT 22, DANGLERAD, SIN(DANGLERAD), COS(DANGLERAD), SIN(DANGLERAD)**2+COS(DANGLERAD)**2,&
+       1.0_Long-(SIN(DANGLERAD)**2+COS(DANGLERAD)**2) 
+  PRINT*
+  PRINT 22, ANGLERAD, SIN(ANGLERAD), COS(ANGLERAD), SIN(ANGLERAD)**2+COS(ANGLERAD)**2,1.0 - (SIN(ANGLERAD)**2+COS(ANGLERAD)**2) 
+  !
+20 FORMAT (1X, 'An angle of ',F14.8,' degrees = ', F14.8, ' rad. (dp)')
+21 FORMAT (1X, 'An angle of ',F14.8,' degrees = ', F14.8, ' rad. (sp)')
+22 FORMAT (1X, 'ANGLE ',F14.8,', SIN = ', F13.9, ', COS =',F13.9,/'SIN**2+COS**2 = ', F18.14, ', 1 - SIN**2+COS**2 = ', F18.14)
+END PROGRAM EX_8_1

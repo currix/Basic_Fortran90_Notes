@@ -6,7 +6,7 @@
 
 <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
 
-<title>Fortran 90 Lessons for Computational Chemistry - Subprogramas (I): funciones</title>
+<title>Fortran 90 Lessons for Computational Chemistry - Subprograms (I): FUNCTIONS</title>
 
 <link href="index.html" rel="start">
 <link href="ch-clase_6.html" rel="prev">
@@ -20,7 +20,7 @@
 <link href="ch-clase_7.html" rel="chapter" title="5 Control Structures">
 <link href="ch-clase_5.html" rel="chapter" title="6 INPUT/OUTPUT (I)">
 <link href="ch-clase_6.html" rel="chapter" title="7 Input/Output (II)">
-<link href="ch-clase_8.html" rel="chapter" title="8 Subprogramas (I): funciones">
+<link href="ch-clase_8.html" rel="chapter" title="8 Subprograms (I): FUNCTIONS">
 <link href="ch-clase_9.html" rel="chapter" title="9 Subprogramas (II): subrutinas">
 <link href="ch-clase_10.html" rel="chapter" title="10 Subprogramas (III): módulos">
 <link href="ch-clase_11.html" rel="chapter" title="11 Subprogramas (IV)">
@@ -47,9 +47,9 @@
 <link href="ch-clase_6.html#s-sec_61" rel="section" title="7.1 Objectives">
 <link href="ch-clase_6.html#s-sec_62" rel="section" title="7.2 Main items.">
 <link href="ch-clase_6.html#s-sec_63" rel="section" title="7.3 Example Codes">
-<link href="ch-clase_8.html#s-sec_81" rel="section" title="8.1 Objetivos">
-<link href="ch-clase_8.html#s-sec_82" rel="section" title="8.2 Puntos destacables.">
-<link href="ch-clase_8.html#s-sec_83" rel="section" title="8.3 Programas usados como ejemplo.">
+<link href="ch-clase_8.html#s-sec_81" rel="section" title="8.1 Objectives">
+<link href="ch-clase_8.html#s-sec_82" rel="section" title="8.2 Main items.">
+<link href="ch-clase_8.html#s-sec_83" rel="section" title="8.3 Example Codes">
 <link href="ch-clase_9.html#s-sec_91" rel="section" title="9.1 Objetivos">
 <link href="ch-clase_9.html#s-sec_92" rel="section" title="9.2 Puntos destacables.">
 <link href="ch-clase_9.html#s-sec_93" rel="section" title="9.3 Programas usados como ejemplo.">
@@ -97,12 +97,13 @@
 <link href="ch-clase_6.html#s-sec_p_6_3" rel="subsection" title="7.3.4 excode_7_3.f90">
 <link href="ch-clase_6.html#s-sec_p_6_32" rel="subsection" title="7.3.5 namelist input file">
 <link href="ch-clase_6.html#s-sec_p_6_4" rel="subsection" title="7.3.6 excode_7_4.f90">
-<link href="ch-clase_8.html#s-sec_p_8_1" rel="subsection" title="8.3.1 Programa ejemplo_8_1.f90">
-<link href="ch-clase_8.html#s-sec_p_8_2" rel="subsection" title="8.3.2 Programa ejemplo_8_2.f90">
+<link href="ch-clase_8.html#s-sec_p_8_1" rel="subsection" title="8.3.1 excode_8_1.f90">
+<link href="ch-clase_8.html#s-sec_p_8_2" rel="subsection" title="8.3.2 excode_8_2.f90">
 <link href="ch-clase_8.html#s-sec_p_8_3" rel="subsection" title="8.3.3 Programa ejemplo_8_3.f90">
 <link href="ch-clase_8.html#s-sec_p_8_4" rel="subsection" title="8.3.4 Programa ejemplo_8_4.f90">
-<link href="ch-clase_8.html#s-sec_p_8_5" rel="subsection" title="8.3.5 Programa ejemplo_8_5.f90">
-<link href="ch-clase_8.html#s-sec_p_8_6" rel="subsection" title="8.3.6 Programa ejemplo_8_6.f90">
+<link href="ch-clase_8.html#s-sec_p_8_5" rel="subsection" title="8.3.5 excode_8_5.f90">
+<link href="ch-clase_8.html#s-sec_p_8_6" rel="subsection" title="8.3.6 excode_8_6.f90">
+<link href="ch-clase_8.html#s-sec_p_8_7" rel="subsection" title="8.3.7 excode_8_7.f90">
 <link href="ch-clase_9.html#s-sec_p_9_1" rel="subsection" title="9.3.1 Programa ejemplo_9_1.f90">
 <link href="ch-clase_9.html#s-sec_p_9_2" rel="subsection" title="9.3.2 Programa ejemplo_9_2.f90">
 <link href="ch-clase_9.html#s-sec_p_9_3" rel="subsection" title="9.3.3 Programa ejemplo_9_3.f90">
@@ -153,138 +154,133 @@
 
 <h1>
 <code>Fortran 90</code> Lessons for Computational Chemistry
-<br>Chapter 8 - Subprogramas (I): funciones
+<br>Chapter 8 - Subprograms (I): FUNCTIONS
 </h1>
 
 <hr>
 
-<h2 id="s-sec_81">8.1 Objetivos</h2>
+<h2 id="s-sec_81">8.1 Objectives</h2>
 
 <p>
-Los objetivos de esta clase son los siguientes:
+The main aims of this lesson are the following:
 </p>
 <ol type="1" start="1" >
 <li>
 <p>
-presentar las ventajas que ofrece el uso de funciones, subrutinas y módulos.
+presenting the advantages of using functions, subroutines and modules.
 </p>
 </li>
 </ol>
 <ol type="1" start="2" >
 <li>
 <p>
-presentar el concepto de función en <code>Fortran</code>.
+presenting the function concept in <code>Fortran</code>.
 </p>
 </li>
 </ol>
 <ol type="1" start="3" >
 <li>
 <p>
-mostrar los diferentes tipos de funciones que pueden usarse: intrínsecas,
-genéricas, elementales, transformacionales e internas.
+showing the different types of functions: intrinsic, generic, elemental,
+transformational, and internal.
 </p>
 </li>
 </ol>
 <ol type="1" start="4" >
 <li>
 <p>
-hacer posible la definición de funciones por el usuario.
+making possible the definition of new functions by the user.
 </p>
 </li>
 </ol>
 <ol type="1" start="5" >
 <li>
 <p>
-mostrar la diferencia entre funciones externas y funciones contenidas en el
-programa principal.
+evinving the difference beyween external and internal functions.
 </p>
 </li>
 </ol>
 
 <p>
-El uso de estas estructuras permite desarrollar una programación más
-estructurada y eficaz ya que permiten
+The use of subporgrams allows a more structured and efficient programming owing
+to
 </p>
 <ul>
 <li>
 <p>
-el desarrollo y comprobación de diferentes subtareas de forma independiente.
-</p>
-</li>
-</ul>
-<ul>
-<li>
-<p>
-reciclar unidades en diferentes programas, disminuyendo el tiempo necesario
-para generar el código.
+the possibility of developing and testing different subtasks in an independent
+manner.
 </p>
 </li>
 </ul>
 <ul>
 <li>
 <p>
-aislar el código de efectos inesperados ya que están perfectamente
-diferenciadas las variables generales y las variables a las que tiene acceso
-cada subrutina o función.
+it makes possible to recycle subprograms in different programs, diminishing the
+necessary time for coding.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+the isolation in different subtasks of possible errors and the minimization of
+unexpected side effects, due to variable encapsulation.
 </p>
 </li>
 </ul>
 
 <hr>
 
-<h2 id="s-sec_82">8.2 Puntos destacables.</h2>
+<h2 id="s-sec_82">8.2 Main items.</h2>
 
 <p>
-En primer lugar nos centramos en las funciones y, en la siguiente unidad,
-tratamos las subrutinas.
+We first focus in functions and will follow with subroutines and modules.
 </p>
 <ul>
 <li>
 <p>
-Características generales de las funciones.
+General characteristics of functions.
 </p>
 
 <p>
-Las principales características de una función son
+The main characteristics of a function are:
 </p>
 <ul>
 <li>
 <p>
-Requieren el uso de uno o varios parámetros o argumentos al invocar la función.
-</p>
-</li>
-</ul>
-<ul>
-<li>
-<p>
-Dichos argumentos pueden ser una expresión.
+May require the input of one or several arguments.
 </p>
 </li>
 </ul>
 <ul>
 <li>
 <p>
-Generalmente una función da como resultado un valor, y dicho valor es función
-de los parámetros o argumentos con los que se ha invocado la función.  El
-resultado de la evaluación de la función puede ser un escalar o una matriz de
-cualquier tipo.
+Arguments can take the form of an expression.
 </p>
 </li>
 </ul>
 <ul>
 <li>
 <p>
-Los argumentos pueden ser de diferente tipo.
+In general, a function produces a single output, which is a function of the
+arguments, and this output is of scalar type though in some cases it also can
+be of an array type.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+The arguments can be of different types.
 </p>
 </li>
 </ul>
 
 <p>
-En <code>Fortran</code> existen aproximadamente más de cien funciones
-predefinidas que pueden usarse de modo muy simple y directo.  Por ejemplo, si
-necesitamos funciones trigonométricas podemos usar, siendo <samp>X</samp>,
-<samp>Y</samp> variables reales[<a href="footnotes.html#f10"
-name="fr10">10</a>]:
+There are more than one hundred predefined functions in <code>Fortran</code>,
+highly tested, and of easy usage.  E.g.  we need trigonometric functions we can
+make use of the following:
 </p>
 <ul>
 <li>
@@ -309,103 +305,106 @@ name="fr10">10</a>]:
 </ul>
 
 <p>
-Este tipo de funciones son llamadas <em>funciones intrínsecas</em>.  En esta
-<code><a
-href="http://gcc.gnu.org/onlinedocs/gfortran/Intrinsic-Procedures.html#Intrinsic-Procedures">URL</a></code>
-puede encontrarse una lista completa de las funciones intrínsecas de que se
-dispone al usar el compilador <code>gfortran</code>.  En general las funciones
-intrínsecas son <em>genéricas</em>, lo que quiere decir que admiten distintos
-tipos de argumentos (mejor dicho argumentos con diferente precisión).  La
-excepción son las cuatro funciones no genéricas, <samp>LGE</samp>,
-<samp>LGT</samp>, <samp>LLE</samp> y <samp>LLT</samp>.
-</p>
-</li>
-</ul>
-<ul>
-<li>
-<p>
-Las funciones llamadas <em>elementales</em> admiten como argumento tanto
-escalares como matrices.  Un ejemplo de esto se puede ver en los ejemplos <a
-href="#s-sec_p_8_1">Programa ejemplo_8_1.f90, Section 8.3.1</a> y <a
-href="#s-sec_p_8_2">Programa ejemplo_8_2.f90, Section 8.3.2</a>, donde se
-muestra el carácter elemental y genérico de algunas funciones.  En el ejemplo
-<a href="#s-sec_p_8_1">Programa ejemplo_8_1.f90, Section 8.3.1</a> se muestra
-también la diferencia entre variables reales con diferente precisión.  Estas
-funciones elementales pueden aplicarse tanto a variables escalares como a
-arreglos.  En el último caso la función se aplica a cada elemento del arreglo.
-</p>
-</li>
-</ul>
-<ul>
-<li>
-<p>
-Existen también otro tipo de funciones.  Entre ellas destacan las del tipo
-<em>inquiry</em> que dan información acerca de las características de un
-arreglo.  Por ejemplo las funciones <samp>SIZE</samp> y <samp>ALLOCATED</samp>.
-Un ejemplo del uso de esta última función puede verse en el <a
-href="ch-clase_5.html#s-sec_p_5_7"><samp>excode_6_7.f90</samp>, Section
-6.3.7</a> y en el <a href="ch-clase_9.html#s-sec_p_9_3">Programa
-ejemplo_9_3.f90, Section 9.3.3</a>.
+where <samp>X</samp> and <samp>Y</samp> are real variables[<a
+href="footnotes.html#f10" name="fr10">10</a>]
 </p>
 
 <p>
-Otro tipo de funciones son las llamadas &quot;transformacionales&quot;, p.e.
-<samp>REAL</samp> y <samp>TRANSPOSE</samp>, que transforman entre diferentes
-tipos de datos, y funciones que implican medidas de tiempo como
-<samp>SYSTEM_CLOCK</samp> y <samp>DATE_AND_TIME</samp>.
+This predefined functions are called <em>intrinsic functions</em>.  In this
+link <code><a
+href="http://gcc.gnu.org/onlinedocs/gfortran/Intrinsic-Procedures.html#Intrinsic-Procedures">URL</a></code>
+you can find a complet list of the intrinsic functions at your disposal with
+the <code>gfortran</code> compiler.
+</p>
+
+<p>
+In general intrinsic functions are also <em>generic</em>, which means that they
+can admit different argument types, with the exception of the functions
+<samp>LGE</samp>, <samp>LGT</samp>, <samp>LLE</samp>, and <samp>LLT</samp>.
 </p>
 </li>
 </ul>
 <ul>
 <li>
 <p>
-Conversión entre diferentes tipos de datos.
-</p>
-<ul>
-<li>
-<p>
-<samp>REAL(i)</samp>: convierte un entero <samp>i</samp> en un real.  El
-argumento <samp>i</samp> puede ser un entero, un real de doble precisión o un
-número complejo.
+The <em>elemental</em> functions may have as an argument both scalars or
+vectors.  The example source codes <a
+href="#s-sec_p_8_1"><samp>excode_8_1.f90</samp>, Section 8.3.1</a> and <a
+href="#s-sec_p_8_2"><samp>excode_8_2.f90</samp>, Section 8.3.2</a> show the
+elemental and generic character of some intrinsic functions.  When an elemental
+function is applied to an array the fucntions is applied to each array element.
 </p>
 </li>
 </ul>
 <ul>
 <li>
 <p>
-<samp>INT(x)</samp>: convierte el real <samp>x</samp> en el entero equivalente,
-truncando la parte decimal, pudiendo ser <samp>x</samp> una variable real, real
-de doble precisión o compleja.
+Other type of functions are of <em>inquiry</em> type, giving information about
+the characterictics of an array, e.g.  the <samp>SIZE</samp> and
+<samp>ALLOCATED</samp> functions.  Examples of the latter are found in <a
+href="ch-clase_5.html#s-sec_p_5_7"><samp>excode_6_7.f90</samp>, Section
+6.3.7</a> and <a href="ch-clase_9.html#s-sec_p_9_3">Programa ejemplo_9_3.f90,
+Section 9.3.3</a>.
+</p>
+
+<p>
+The <em>transformational</em> functions transform between different data types,
+e.g.  <samp>REAL</samp> and <samp>TRANSPOSE</samp>, or functions that work with
+time data variables as <samp>SYSTEM_CLOCK</samp> and
+<samp>DATE_AND_TIME</samp>.
 </p>
 </li>
 </ul>
 <ul>
 <li>
 <p>
-Las siguientes funciones son de interés para definir enteros a partir de
-reales.
+Conversion between data types:
 </p>
 <ul>
 <li>
 <p>
-<samp>CEILING(x)</samp>: convierte un real <samp>x</samp> en el entero más
-pequeño mayor o igual a <samp>x</samp>.
-</p>
-</li>
-</ul>
-<ul>
-<li>
-<p>
-<samp>FLOOR(x)</samp>: convierte un real <samp>x</samp> en el mayor entero que
-sea menor o igual a <samp>x</samp>.
+<samp>REAL(i)</samp>: integer <samp>i</samp> is converted to a float.  The
+argument <samp>i</samp> can be an integer, a double precision real or a complex
+number.
 </p>
 </li>
 </ul>
 <ul>
 <li>
 <p>
-<samp>NINT(x)</samp>: convierte un real <samp>x</samp> en el entero más próximo
-a <samp>x</samp>.
+<samp>INT(x)</samp>: transforms the real variable <samp>x</samp> to an integer,
+truncating the decimal part.  No rounding is performed.  The <samp>x</samp>
+variable can be a real, double precision real, or a complex variable.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+The functions that follow allow to transform from real to integer values with
+an adequate control:
+</p>
+<ul>
+<li>
+<p>
+<samp>CEILING(x)</samp>: real value <samp>x</samp> to the minimum integer value
+larger than or equal than <samp>x</samp>.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+<samp>FLOOR(x)</samp>: real value <samp>x</samp> to the maximum integer value
+less than or equal than <samp>x</samp>.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+<samp>NINT(x)</samp>: round the real value <samp>x</samp> to the nearest
+integer.
 </p>
 </li>
 </ul>
@@ -414,16 +413,16 @@ a <samp>x</samp>.
 <ul>
 <li>
 <p>
-<samp>DBLE(a)</samp>: convierte <samp>a</samp> a doble precisión.  El argumento
-puede ser entero, real o complejo.
+<samp>DBLE(a)</samp>: transforms <samp>a</samp> to double precision.  The
+argument can be integer, real, or complex.
 </p>
 </li>
 </ul>
 <ul>
 <li>
 <p>
-<samp>CMPLX(x)</samp> ó <samp>CMPLX(x,y)</samp>: convierte en valores complejos
-(el segundo argumento es la parte imaginaria).
+<samp>CMPLX(x)</samp> or <samp>CMPLX(x,y)</samp>: transform to complex values,
+where the second argument is the imaginary part.
 </p>
 </li>
 </ul>
@@ -514,12 +513,12 @@ Es posible definir funciones que sean <em>internas</em>, esto es, que se
 restrinjan a un determinado segmento de código, y no puedan ser llamadas desde
 otro punto del programa.  Para ello se utiliza la orden <samp>CONTAINS</samp>
 como en los ejemplos <a href="#s-sec_p_8_4">Programa ejemplo_8_4.f90, Section
-8.3.4</a> y <a href="#s-sec_p_8_5">Programa ejemplo_8_5.f90, Section 8.3.5</a>.
-El primero de estos dos programas define una función con la que calcular la
-energía de un nivel vibracional teniendo en cuenta la frecuencia <em>we</em> y
-la anarmonicidad <em>wexe</em>.  El segundo, dado un número entero, calcula los
-factores primos de dicho número.  En este ejemplo <a
-href="#s-sec_p_8_5">Programa ejemplo_8_5.f90, Section 8.3.5</a> podemos ver
+8.3.4</a> y <a href="#s-sec_p_8_5"><samp>excode_8_5.f90</samp>, Section
+8.3.5</a>.  El primero de estos dos programas define una función con la que
+calcular la energía de un nivel vibracional teniendo en cuenta la frecuencia
+<em>we</em> y la anarmonicidad <em>wexe</em>.  El segundo, dado un número
+entero, calcula los factores primos de dicho número.  En este ejemplo <a
+href="#s-sec_p_8_5"><samp>excode_8_5.f90</samp>, Section 8.3.5</a> podemos ver
 también el uso de un bucle del tipo <em>REPEAT UNTIL</em>.
 </p>
 </li>
@@ -527,30 +526,30 @@ también el uso de un bucle del tipo <em>REPEAT UNTIL</em>.
 
 <hr>
 
-<h2 id="s-sec_83">8.3 Programas usados como ejemplo.</h2>
+<h2 id="s-sec_83">8.3 Example Codes</h2>
 
 <hr>
 
-<h3 id="s-sec_p_8_1">8.3.1 Programa ejemplo_8_1.f90</h3>
+<h3 id="s-sec_p_8_1">8.3.1 <samp>excode_8_1.f90</samp></h3>
 
 <pre>
-     PROGRAM EJEMPLO_8_1
+     PROGRAM ex_8_1
        IMPLICIT NONE
-       !Definicion de variables
+       ! Variable Definition
        INTEGER, PARAMETER :: Long=SELECTED_REAL_KIND(18,310)
        !
-       REAL (KIND=Long), PARAMETER :: DPI = ACOS(-1.0_Long) ! Definimos el número Pi
+       REAL (KIND=Long), PARAMETER :: DPI = ACOS(-1.0_Long) ! Pi number double precision
        REAL (KIND=Long) :: DANGLE, DANGLERAD
        !
-       REAL, PARAMETER :: PI = ACOS(-1.0) ! Definimos el número Pi
+       REAL, PARAMETER :: PI = ACOS(-1.0) ! Pi number single precision
        REAL :: ANGLERAD
        !
-       PRINT*, 'INTRODUZCA UN ANGULO (EN GRADOS)'
+       PRINT*, 'ANGLE INPUT (Degrees)'
        READ*, DANGLE
        PRINT*
-       ! PASO A RADIANES
+       ! Transform to  RAD
        DANGLERAD = DPI*DANGLE/180.0_Long
-       ANGLERAD = PI*DANGLE/180.0
+       ANGLERAD  = PI*DANGLE/180.0
        !
        PRINT 20, DANGLE, DANGLERAD
        PRINT 21, DANGLE, ANGLERAD
@@ -562,29 +561,29 @@ también el uso de un bucle del tipo <em>REPEAT UNTIL</em>.
        PRINT*
        PRINT 22, ANGLERAD, SIN(ANGLERAD), COS(ANGLERAD), SIN(ANGLERAD)**2+COS(ANGLERAD)**2,1.0 - (SIN(ANGLERAD)**2+COS(ANGLERAD)**2) 
        !
-     20 FORMAT (1X, 'UN ANGULO DE ',F14.8,' GRADOS = ', F14.8, ' RADIANES. (dp)')
-     21 FORMAT (1X, 'UN ANGULO DE ',F14.8,' GRADOS = ', F14.8, ' RADIANES. (sp)')
-     22 FORMAT (1X, 'ANGULO ',F14.8,', SIN = ', F13.9, ', COS =',F13.9,/'SIN**2+COS**2 = ', F16.12, ', 1 - SIN**2+COS**2 = ', F16.12)
-     END PROGRAM EJEMPLO_8_1
+     20 FORMAT (1X, 'An angle of ',F14.8,' degrees = ', F14.8, ' rad. (dp)')
+     21 FORMAT (1X, 'An angle of ',F14.8,' degrees = ', F14.8, ' rad. (sp)')
+     22 FORMAT (1X, 'ANGLE ',F14.8,', SIN = ', F13.9, ', COS =',F13.9,/'SIN**2+COS**2 = ', F18.14, ', 1 - SIN**2+COS**2 = ', F18.14)
+     END PROGRAM EX_8_1
 </pre>
 
 <hr>
 
-<h3 id="s-sec_p_8_2">8.3.2 Programa ejemplo_8_2.f90</h3>
+<h3 id="s-sec_p_8_2">8.3.2 <samp>excode_8_2.f90</samp></h3>
 
 <pre>
-     PROGRAM EJEMPLO_8_2
+     PROGRAM ex_8_2
        IMPLICIT NONE
-       !Definicion de variables
+       ! VARIABLE DEFINITION
        INTEGER , PARAMETER :: NEL=5
-       REAL, PARAMETER :: PI = ACOS(-1.0) ! Definimos el número Pi
-       REAL , DIMENSION(1:NEL)   :: XR = (/ 0.0, PI/2.0, PI, 3.0*PI/2.0, 2.0*PI/)
+       REAL, PARAMETER :: PI = ACOS(-1.0) ! Pi number
+       REAL, DIMENSION(1:NEL)   :: XR = (/ 0.0, PI/2.0, PI, 3.0*PI/2.0, 2.0*PI/)
        INTEGER , DIMENSION(1:NEL):: XI = (/ 0, 1, 2, 3, 4/)
        !
-       PRINT*, 'SENO DE ', XR, ' = ', SIN(XR)
-       PRINT*, 'LOG10 DE ', XR, ' = ', LOG10(XR)
+       PRINT*, 'Sin  ', XR, ' = ', SIN(XR)
+       PRINT*, 'LOG10  ', XR, ' = ', LOG10(XR)
        PRINT*, 'REAL ', XI, ' = ', REAL(XI)
-     END PROGRAM EJEMPLO_8_2
+     END PROGRAM ex_8_2
 </pre>
 
 <hr>
@@ -592,16 +591,16 @@ también el uso de un bucle del tipo <em>REPEAT UNTIL</em>.
 <h3 id="s-sec_p_8_3">8.3.3 Programa ejemplo_8_3.f90</h3>
 
 <pre>
-     PROGRAM EJEMPLO_8_3
+     PROGRAM ex_8_3
        IMPLICIT NONE
        INTEGER :: I,J,Result
        INTEGER :: MCD
        EXTERNAL MCD
-       PRINT *,' INTRODUCE DOS NUMEROS ENTEROS:'
-       READ(*,*),I,J
+       PRINT *,' INTRODUCE TWO INTEGERS:'
+       READ *,I,J
        RESULT = MCD(I,J)
-       PRINT *,' EL MAX COMUN DIV DE ',I,' Y ',J,' ES ',RESULT
-     END PROGRAM EJEMPLO_8_3
+       PRINT *,' THE GREATEST COMMON DIVISOR OF ',I,' AND ',J,' IS ',RESULT
+     END PROGRAM ex_8_3
      !
      INTEGER FUNCTION MCD(A,B)
      IMPLICIT NONE
@@ -624,16 +623,16 @@ también el uso de un bucle del tipo <em>REPEAT UNTIL</em>.
 <h3 id="s-sec_p_8_4">8.3.4 Programa ejemplo_8_4.f90</h3>
 
 <pre>
-     PROGRAM EJEMPLO_8_4
+     PROGRAM ex_8_4
        IMPLICIT NONE
-       ! Uso de una función interna en el cálculo de la fórmula
+       ! Internal function example:
        ! E(v) = we (v+1/2) - wexe (v+1/2)**2.
        INTEGER :: V, VMAX
        REAL :: we, wexe, Energy
-       PRINT *,' INTRODUCE EL VALOR DE Vmax:'
-       READ(*,*), VMAX
-       PRINT *,' INTRODUCE EL VALOR DE we Y DE wexe:'
-       READ(*,*),we, wexe
+       PRINT *,' Vmax?:'
+       READ *, VMAX
+       PRINT *,' we and wexe?'
+       READ *,we, wexe
        DO V = 0, VMAX
           Energy = FEN(V)
           PRINT 100, V, Energy
@@ -647,15 +646,15 @@ también el uso de un bucle del tipo <em>REPEAT UNTIL</em>.
          FEN = we*(V+0.5)-wexe*(V+0.5)**2
        END FUNCTION FEN
      !
-     END PROGRAM EJEMPLO_8_4
+     END PROGRAM EX_8_4
 </pre>
 
 <hr>
 
-<h3 id="s-sec_p_8_5">8.3.5 Programa ejemplo_8_5.f90</h3>
+<h3 id="s-sec_p_8_5">8.3.5 <samp>excode_8_5.f90</samp></h3>
 
 <pre>
-     PROGRAM EJEMPLO_8_5
+     PROGRAM ex_8_5
        !
        ! Simple program to compute the prime divisors of a given integer number.
        !
@@ -663,7 +662,7 @@ también el uso de un bucle del tipo <em>REPEAT UNTIL</em>.
        INTEGER :: NUMVAL
        INTEGER :: NUM
        !
-       READ(*,*), NUMVAL ! input
+       READ*, NUMVAL ! input
        !
        DO
           NUM = QUOT(NUMVAL)
@@ -694,15 +693,15 @@ también el uso de un bucle del tipo <em>REPEAT UNTIL</em>.
          !
        END FUNCTION QUOT
        !
-     END PROGRAM EJEMPLO_8_5
+     END PROGRAM ex_8_5
 </pre>
 
 <hr>
 
-<h3 id="s-sec_p_8_6">8.3.6 Programa ejemplo_8_6.f90</h3>
+<h3 id="s-sec_p_8_6">8.3.6 <samp>excode_8_6.f90</samp></h3>
 
 <pre>
-     PROGRAM EJEMPLO_8_6
+     PROGRAM ex_8_6
        !
        ! Program to evaluate a 1D potential function on grid points
        !
@@ -763,7 +762,7 @@ también el uso de un bucle del tipo <em>REPEAT UNTIL</em>.
        ENDIF
        !
        !
-     END PROGRAM EJEMPLO_8_6
+     END PROGRAM ex_8_6
      !
      ELEMENTAL FUNCTION Potf(Depth, Inv_length, X)
        !
@@ -776,6 +775,46 @@ también el uso de un bucle del tipo <em>REPEAT UNTIL</em>.
        Potf = -Depth/(COSH(Inv_length*X)**2)
        !
      END FUNCTION Potf
+</pre>
+
+<hr>
+
+<h3 id="s-sec_p_8_7">8.3.7 <samp>excode_8_7.f90</samp></h3>
+
+<pre>
+     PROGRAM ex_8_7
+       !
+       ! Program to characterize an array making use of inquiry functions
+       !
+       IMPLICIT NONE
+       !
+       REAL, DIMENSION(:,:), ALLOCATABLE :: X_grid
+       INTEGER :: Ierr
+       !
+       ! 
+       ALLOCATE(X_grid(-20:20,0:50), STAT = Ierr)
+       IF (Ierr /= 0) THEN
+          STOP 'X_grid allocation failed'
+       ENDIF
+       !
+       WRITE(*, 100) SHAPE(X_grid)
+     100 FORMAT(1X, &quot;Shape :        &quot;, 7I7)
+       !
+       WRITE(*, 110) SIZE(X_grid)
+     110 FORMAT(1X, &quot;Size :         &quot;, I7)
+       !
+       WRITE(*, 120) LBOUND(X_grid)
+     120 FORMAT(1X, &quot;Lower bounds : &quot;, 7I6)
+       !
+       WRITE(*, 130) UBOUND(X_grid)
+     130 FORMAT(1X, &quot;Upper bounds : &quot;, 7I6)
+       !
+       DEALLOCATE(X_grid, STAT = Ierr)
+       IF (Ierr /= 0) THEN
+          STOP 'X_grid deallocation failed'
+       ENDIF
+       !
+     END PROGRAM ex_8_7
 </pre>
 
 <hr>

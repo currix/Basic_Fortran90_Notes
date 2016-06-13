@@ -1,0 +1,12 @@
+PROGRAM ex_8_2
+  IMPLICIT NONE
+  ! VARIABLE DEFINITION
+  INTEGER , PARAMETER :: NEL=5
+  REAL, PARAMETER :: PI = ACOS(-1.0) ! Pi number
+  REAL, DIMENSION(1:NEL)   :: XR = (/ 0.0, PI/2.0, PI, 3.0*PI/2.0, 2.0*PI/)
+  INTEGER , DIMENSION(1:NEL):: XI = (/ 0, 1, 2, 3, 4/)
+  !
+  PRINT*, 'Sin  ', XR, ' = ', SIN(XR)
+  PRINT*, 'LOG10  ', XR, ' = ', LOG10(XR)
+  PRINT*, 'REAL ', XI, ' = ', REAL(XI)
+END PROGRAM ex_8_2
