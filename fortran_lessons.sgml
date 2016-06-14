@@ -4155,10 +4155,14 @@ CALL POP(23); CAL PUSH(20)
 END PROGRAM Use_Stack
 </example>
 
-<item> Como vemos en el <ref id="sec_p_10_2_mod"> las variables dentro de
-un módulo pueden definirse como variables privadas, con el
-atributo <tt>PRIVATE</tt>. Esto permite que no se pueda acceder a
-estas variables desde el código que usa el módulo. El programa que carga el módulo solo puede acceder a las subrutinas <tt>POP</tt> y <tt>PUSH</tt>. La visibilidad por defecto al definir una variable o procedimiento en un módulo es <tt>PUBLIC</tt>. Es posible añadir el atributo a la definición de las variables
+<item> As shown in <ref id="sec_p_10_2_mod">,  variables in a module
+    can have either a private or a public character, using
+    the <tt>PRIVATE/PUBLIC</tt> attributes. A private variable can not
+    be accessed from the calling program unit. The program loading the
+    module in the proposed example only can access the <tt>POP</tt>
+    and <tt>PUSH</tt> subroutines. The default option
+    is  <tt>PUBLIC</tt> ant it's possible to define the attribute in
+    the same line of the variable definition.
 
 <p>
 <example>
@@ -4166,10 +4170,18 @@ estas variables desde el código que usa el módulo. El programa que carga el módu
   INTEGER, PRIVATE, SAVE :: STORE(STACK_SIZE) = 0, STACK_POS = 0
 </example>
 
-<item> En ocasiones es posible que variables o procedimientos definidos en un módulo entren en conflicto con variables del programa que usa el módulo. Para evitar esto existe la posibilidad de renombrar las variables que carga el módulo, aunque esto solo debe hacerse cuando sea estrictamente necesario. 
+<item> Sometimes it is possible that there are conflicts between a
+  variable or a subprogram defined in a module are in conflict with
+  variables or subprograms defined in the calling program unit. In
+  order to avoid this problem there exists the possibility of renaming
+  the module variables, though this is a last minute solution for
+  desperate situations. 
 
 <p>
-Si, por ejemplo, llamamos al módulo <tt>Stack</tt> desde un programa que ya tiene una variable llamada <tt>PUSH</tt> podemos renombrar el objeto <tt>PUSH</tt> del módulo a <tt>STACK_PUSH</tt> al invocar el módulo
+If, for example, we call the module  <tt>Stack</tt> from a main
+program that already has a variable called <tt>PUSH</tt>, we can
+rename the module  <tt>PUSH</tt> object to <tt>STACK_PUSH</tt> when
+invoking the module.
 
 <p>
 <example>
@@ -4177,7 +4189,8 @@ USE Stack, STACK_PUSH => PUSH
 </example>
 
 <p> 
-Se pueden renombrar varios objetos, separándolos por comas.
+Several objects can be simultaneously renamed, separating the list
+with commas. 
 
 <item> Es posible hacer que solo algunos elementos del módulo sean accesibles desde el programa que lo invoca con la cláusula <tt>ONLY</tt>, donde también es posible renombrar los objetos si es necesario. Por ejemplo,  con la llamada
 

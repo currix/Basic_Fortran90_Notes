@@ -441,14 +441,14 @@ the <samp>SAVE</samp> attribute.
 <ol type="1" start="8" >
 <li>
 <p>
-Como vemos en el <a href="#s-sec_p_10_2_mod"><samp>excode_10_2_mod.f90</samp>,
-Section 10.3.4</a> las variables dentro de un módulo pueden definirse como
-variables privadas, con el atributo <samp>PRIVATE</samp>.  Esto permite que no
-se pueda acceder a estas variables desde el código que usa el módulo.  El
-programa que carga el módulo solo puede acceder a las subrutinas
-<samp>POP</samp> y <samp>PUSH</samp>.  La visibilidad por defecto al definir
-una variable o procedimiento en un módulo es <samp>PUBLIC</samp>.  Es posible
-añadir el atributo a la definición de las variables
+As shown in <a href="#s-sec_p_10_2_mod"><samp>excode_10_2_mod.f90</samp>,
+Section 10.3.4</a>, variables in a module can have either a private or a public
+character, using the <samp>PRIVATE/PUBLIC</samp> attributes.  A private
+variable can not be accessed from the calling program unit.  The program
+loading the module in the proposed example only can access the <samp>POP</samp>
+and <samp>PUSH</samp> subroutines.  The default option is <samp>PUBLIC</samp>
+ant it's possible to define the attribute in the same line of the variable
+definition.
 </p>
 
 <pre>
@@ -460,16 +460,17 @@ añadir el atributo a la definición de las variables
 <ol type="1" start="9" >
 <li>
 <p>
-En ocasiones es posible que variables o procedimientos definidos en un módulo
-entren en conflicto con variables del programa que usa el módulo.  Para evitar
-esto existe la posibilidad de renombrar las variables que carga el módulo,
-aunque esto solo debe hacerse cuando sea estrictamente necesario.
+Sometimes it is possible that there are conflicts between a variable or a
+subprogram defined in a module are in conflict with variables or subprograms
+defined in the calling program unit.  In order to avoid this problem there
+exists the possibility of renaming the module variables, though this is a last
+minute solution for desperate situations.
 </p>
 
 <p>
-Si, por ejemplo, llamamos al módulo <samp>Stack</samp> desde un programa que ya
-tiene una variable llamada <samp>PUSH</samp> podemos renombrar el objeto
-<samp>PUSH</samp> del módulo a <samp>STACK_PUSH</samp> al invocar el módulo
+If, for example, we call the module <samp>Stack</samp> from a main program that
+already has a variable called <samp>PUSH</samp>, we can rename the module
+<samp>PUSH</samp> object to <samp>STACK_PUSH</samp> when invoking the module.
 </p>
 
 <pre>
@@ -477,7 +478,7 @@ tiene una variable llamada <samp>PUSH</samp> podemos renombrar el objeto
 </pre>
 
 <p>
-Se pueden renombrar varios objetos, separándolos por comas.
+Several objects can be simultaneously renamed, separating the list with commas.
 </p>
 </li>
 </ol>
