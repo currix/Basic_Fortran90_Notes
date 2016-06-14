@@ -54,8 +54,8 @@
 <link href="ch-clase_9.html#s-sec_92" rel="section" title="9.2 Main items.">
 <link href="ch-clase_9.html#s-sec_93" rel="section" title="9.3 Example Codes">
 <link href="ch-clase_10.html#s-sec_101" rel="section" title="10.1 Objectives">
-<link href="ch-clase_10.html#s-sec_102" rel="section" title="10.2 Puntos destacables.">
-<link href="ch-clase_10.html#s-sec_103" rel="section" title="10.3 Programas usados como ejemplo.">
+<link href="ch-clase_10.html#s-sec_102" rel="section" title="10.2 Main items.">
+<link href="ch-clase_10.html#s-sec_103" rel="section" title="10.3 Example codes.">
 <link href="ch-clase_11.html#s-sec_111" rel="section" title="11.1 Objetivos">
 <link href="ch-clase_11.html#s-sec_112" rel="section" title="11.2 Puntos destacables.">
 <link href="ch-clase_11.html#s-sec_113" rel="section" title="11.3 Programas usados como ejemplo.">
@@ -111,10 +111,10 @@
 <link href="ch-clase_9.html#s-sec_p_9_5" rel="subsection" title="9.3.5 excode_9_5.f90">
 <link href="ch-clase_9.html#s-sec_p_9_6" rel="subsection" title="9.3.6 excode_9_6.f90">
 <link href="ch-clase_9.html#s-sec_p_9_7" rel="subsection" title="9.3.7 excode_9_7.f90">
-<link href="ch-clase_10.html#s-sec_p_10_1" rel="subsection" title="10.3.1 Programa ejemplo_10_1.f90">
-<link href="ch-clase_10.html#s-sec_p_10_2" rel="subsection" title="10.3.2 Programa ejemplo_10_2.f90">
-<link href="ch-clase_10.html#s-sec_p_10_3" rel="subsection" title="10.3.3 Programa ejemplo_10_3.f90">
-<link href="ch-clase_10.html#s-sec_p_10_4" rel="subsection" title="10.3.4 Programa ejemplo_10_4.f90">
+<link href="ch-clase_10.html#s-sec_p_10_1" rel="subsection" title="10.3.1 excode_10_1.f90">
+<link href="ch-clase_10.html#s-sec_p_10_1_mod" rel="subsection" title="10.3.2 excode_10_1_mod.f90">
+<link href="ch-clase_10.html#s-sec_p_10_2" rel="subsection" title="10.3.3 excode_10_2.f90">
+<link href="ch-clase_10.html#s-sec_p_10_2_mod" rel="subsection" title="10.3.4 excode_10_2_mod.f90">
 <link href="ch-clase_11.html#s-sec_p_11_1" rel="subsection" title="11.3.1 Programa ejemplo_11_1.f90">
 <link href="ch-clase_11.html#s-sec_p_11_2" rel="subsection" title="11.3.2 Programa ejemplo_11_2.f90">
 <link href="ch-clase_11.html#s-sec_p_11_3" rel="subsection" title="11.3.3 Programa ejemplo_11_3.f90">
@@ -442,13 +442,12 @@ subroutine list of arguments.
 </p>
 
 <p>
-En este caso se incluyen como argumentos en la llamada a la subrutina las
-dimensiones de las matrices implicadas, declarando posteriormente las matrices
-haciendo uso de dichas dimensiones.  Por ejemplo, si en una subrutina llamada
-<samp>test_pass</samp> se incluye un vector de entrada llamado
-<samp>space_vec_in</samp> y uno de salida<samp>space_vec_out</samp> con la
-misma dimensión, si hacemos uso del <em>explicit-shape approach</em> la
-subrutina comenzaría como
+In this case the dimensions of the matrices are included as arguments in the
+subroutine call and the matrices are declared making use of these arguments.
+For example, if in a subroutine called <samp>test_pass</samp> an input vector
+(<samp>space_vec_in</samp>) and an output vector (<samp>space_vec_out</samp>)
+with equal dimensions are used, if we make use of the <em>explicit-shape
+approach</em> the subroutine starts as follows
 </p>
 
 <pre>
@@ -469,34 +468,32 @@ subrutina comenzaría como
 </p>
 
 <p>
-En este caso es necesario incluir el correspondiente bloque
-<samp>INTERFACE</samp> en el subprograma que invoca la subrutina.  Como veremos
-en el <a href="ch-clase_10.html">Subprograms (III): modules, Chapter 10</a>
-esto se puede evitar incluyendo la subrutina en un módulo.
+The main difference with the previous case is that either the corresponding
+<samp>INTERFACE</samp> block is added or, as explained in <a
+href="ch-clase_10.html">Subprograms (III): modules, Chapter 10</a>, the
+subroutine is embedded in a module.
 </p>
 
 <p>
-En el <a href="#s-sec_p_9_3"><samp>excode_9_3.f90</samp>, Section 9.3.3</a>
-puede verse un programa en el que se calcula la media, la mediana[<a
-href="footnotes.html#f11" name="fr11">11</a>], la varianza y la desviación
-estándar de un conjunto de números generados aleatoriamente.  En el programa
-hemos marcado algunos de los puntos de interés que queremos explicar con
-detalle.
+The example code <a href="#s-sec_p_9_3"><samp>excode_9_3.f90</samp>, Section
+9.3.3</a> calculates the mean, the median[<a href="footnotes.html#f11"
+name="fr11">11</a>], the variance and the standard deviation of a set of random
+numbers following a continuous uniform distribution.  Several points of
+interest has been marked in the program.
 </p>
 <ul>
 <li>
 <p>
-<em>(1-3)</em> Hemos definido la matriz con dimensión variable, de forma que se
-dimensione mediante una orden <samp>ALLOCATE</samp>.  En la orden que
-dimensiona a la matriz se indica que es un vector (<samp>DIMENSION(:)</samp>) y
-del mismo modo se hace en el <em>interface block</em>.  El uso del
-<em>interface block</em> es recomendable, y en casos como este, con matrices
-definidas de este modo, resulta obligatorio.  La orden <em>(3)</em>,
-<samp>ALLOCATE(X(1:N), STAT = IERR)</samp> hace que <samp>X</samp> pase a ser
-un vector N-dimensional.  Usamos también el campo opcional <samp>STAT</samp>
-que nos permita saber si se ha podido dimensionar el arreglo solicitado.  Solo
-si la salida (<samp>IERR</samp>) es cero la matriz se ha creado sin problemas.
-El uso de esta opción debe generalizarse.
+<em>(1-3)</em> Dynamic memory storage using the <samp>ALLOCATABLE</samp>
+attribute and the <samp>ALLOCATE</samp> statement.  Notice that the array is a
+vector (<samp>DIMENSION(:)</samp>) and this piece of info needs to be also
+include in the <em>interface block</em>.  The use of the <em>interface
+block</em> in cases like this one is mandatory.  The statement <em>(3)</em>,
+<samp>ALLOCATE(X(1:N), STAT = IERR)</samp> defines the length of the
+<samp>X</samp> vector.  We also use the optional field <samp>STAT</samp> to
+check whether the array has been correctly dimensioned or not.  Only if the
+output of this field, in the <samp>IERR</samp> variable, is zero the dynamic
+allocation has worked flawlessly.
 </p>
 
 <pre>
@@ -519,71 +516,53 @@ El uso de esta opción debe generalizarse.
 </pre>
 
 <p>
-Es importante tener en cuenta que se puede definir como
-<samp>ALLOCATABLE</samp> el argumento con el que se llama a una subrutina, así
-como a variables internas o locales de la subrutina, pero una variable
-<em>dummy</em> no puede tener este atributo.
+It is important to take into account that an argument of a subroutine can have
+the <samp>ALLOCATABLE</samp> attribute, as well as local subroutine variables,
+but not <em>dummy</em> variables.
 </p>
 
 <p>
-A diferencia de en <code>FORTRAN77</code>, la forma recomendada de transmitir
-arreglos de datos entre un programa y una subrutina es como en el ejemplo,
-usando <em>assumed shape arguments</em> en los que no se da ninguna información
-acerca del tamaño del arreglo.  Sí deben coincidir ambas variables en tipo,
-rango y clase (<samp>KIND</samp>).
+The <em>assumed shape arguments</em> are nonexistent in <code>FORTRAN
+77</code>, and it is the recommended form of transmitting arguments between a
+main program and a subprogram.  In this form there is no transmitted
+information about the dimension of the array, and the argument and the main
+program variable need to have equal type, range, and class (<samp>KIND</samp>).
 </p>
 </li>
 </ul>
 <ul>
 <li>
 <p>
-<em>(4)</em> y <em>(6)</em>: En estas órdenes se aprovecha la capacidad de
-<code>Fortran90</code> para trabajar con arreglos de variables, ya sean estos
-vectores o matrices.  Por ejemplo, el comando <samp>X=X*1000</samp> multiplica
-todas las componentes del vector <samp>X</samp> por un escalar y el comando
-<samp>SUMXI=SUM(X)</samp> aprovecha la función <samp>SUM</samp> para sumar las
-componentes del vector.  En estilo <code>Fortran 77</code> estas operaciones
-conllevarían un bucle <samp>DO</samp>, por ejemplo
-</p>
-
-<pre>
-     SUMXI = 0.0
-     DO I = 1, N
-        SUMXI = SUMXI + X(I)
-     ENDDO
-</pre>
-</li>
-</ul>
-<ul>
-<li>
-<p>
-<em>(5)</em> En esta parte del programa se libera la memoria reservada para el
-vector <samp>X</samp> usando el comando <samp>DEALLOCATE</samp>.  Este paso no
-es obligatorio en este programa, pero sí cuando la matriz del tipo
-<samp>ALLOCATE</samp> se ha definido en una función o subrutina y no tiene el
-atributo <samp>SAVE</samp>.
+<em>(4)</em> and <em>(6)</em>: these statements take advantage of the
+<code>Fortran 90</code> rules to work with vector and arrays.
 </p>
 </li>
 </ul>
 <ul>
 <li>
 <p>
-<em>(7)</em> Aquí se aprovecha el comando <samp>CONTAINS</samp> para hacer que
-la subrutina de ordenamiento <samp>SELECTION</samp>, que como puede verse no
-posee argumentos, <em>conozca</em> las misma variables que la subrutina
-<samp>STATS</samp>, en la que está contenida.  Por ello, en la subrutina
-<samp>SELECTION</samp> solo es preciso definir las variables locales.  Esta
-subrutina se encarga de ordenar la lista de números según un algoritmo que
-consiste en buscar el número más pequeño de la lista y hacerlo el primer
-miembro.  Se busca a continuación el más pequeño de los restantes que pasa a
-ser segundo, y así prosigue hasta tener ordenada la lista de números.
+<em>(5)</em> In this statement the allocated memory is revoked and freed using
+the <samp>DEALLOCATE</samp> statement.  This is not mandatory in programs like
+the present example, though it is necessary to do so when the allocatable array
+has been defined in a function of subroutine without the <samp>SAVE</samp>
+attribute.
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>
+<em>(7)</em> The <samp>CONTAINS</samp> statement is used to make the sorting
+subroutine <samp>SELECTION</samp> have access to the variables of the
+<samp>STATS</samp> subroutine.  This is why in the <samp>SELECTION</samp>
+subroutine with the sorting algorithm only local variables need to be defined.
 </p>
 </li>
 </ul>
 
 <p>
-La definición de bloques <samp>INTERFACE</samp> se facilita con el uso de
-módulos, que describimos en la siguiente unidad.
+The definition of <samp>INTERFACE</samp> blocks is a task simplified making use
+of modules, that are introduced in the next chapter.
 </p>
 </li>
 </ol>
@@ -594,9 +573,9 @@ módulos, que describimos en la siguiente unidad.
 </p>
 
 <p>
-En este caso no se da información a la subrutina acerca de las dimensiones de
-la matriz, es fácil caer en errores de difícil diagnóstico y se desaconseja su
-uso.
+This case is not advised due to the lack of info in the subroutine about the
+matrix dimensiones.  This makes easy to make errors of difficult diagnose.  Its
+use is not encouraged.
 </p>
 </li>
 </ol>
@@ -605,82 +584,81 @@ uso.
 <ol type="1" start="10" >
 <li>
 <p>
-Arreglos multidimensionales.  El <a
-href="#s-sec_p_9_5"><samp>excode_9_5.f90</samp>, Section 9.3.5</a> es un
-ejemplo de como pasar como argumentos arreglos multidimensionales como
-<em>assumed shape arrays</em>.  En él, tras que el usuario defina dos matrices,
-<samp>A</samp> y <samp>B</samp>, el programa calcula la matriz <samp>C</samp>
-solución del producto <samp>AB</samp> y tras ello calcula la matriz traspuesta
-de <samp>A</samp>.  Se hace uso de las funciones de <code>Fortran 90</code>
-<samp>MATMUL</samp> y <samp>TRANSPOSE</samp>.
+Multidimensional arrays.  The source code <a
+href="#s-sec_p_9_5"><samp>excode_9_5.f90</samp>, Section 9.3.5</a> is an
+example of how to pass multidimensional arrays as arguments of a subroutine as
+<em>assumed shape arrays</em>.  The user defines two arrays , <samp>A</samp>
+and <samp>B</samp>, and the program computes the <samp>C</samp> array as the
+matrix product <samp>A</samp> times <samp>B</samp>.  Then, the program computes
+the transpose matrix of <samp>A</samp>.  The program makes use of the
+<code>Fortran 90</code> functions <samp>MATMUL</samp> and
+<samp>TRANSPOSE</samp>.
 </p>
 </li>
 </ol>
 <ol type="1" start="11" >
 <li>
 <p>
-En las subrutinas pueden dimensionarse <em>automatic arrays</em>, que pueden
-depender de los argumentos de la subrutina.  Estos arreglos son locales a la
-subrutina, no pueden tener el argumento <samp>SAVE</samp> y se crean cada vez
-que se invoca la subrutina, siendo destruidos al salir de ella.  Esto hace que
-si no hay memoria suficiente para dimensionar el arreglo el programa no
-funcione.  Para evitar esto deben definirse arreglos no automáticos, del tipo
-<samp>ALLOCATABLE</samp>.
+Subroutines can contain <em>automatic arrays</em>, that may depend on the
+subroutine argument values.  These are local array that may not have the
+<samp>SAVE</samp> attribute.  They are created when the subroutine is invoked
+and destroyed when the execution flow leaves the subroutine.  It is preferable
+to use <samp>ALLOCATABLE</samp> arrays.
 </p>
 </li>
 </ol>
 <ol type="1" start="12" >
 <li>
 <p>
-Al pasar como argumento una variable de tipo <samp>CHARACTER</samp> dicho
-argumento se declar con una longitud <samp>LEN = *</samp> y cuando se llame a
-la subrutina la longitud de la variable pasa a ser la longitud de la variable
-en la llamada.
+An argument of <samp>CHARACTER</samp> type is also diffenrent in the sense that
+if such argument is declared with a length <samp>LEN = *</samp>, once the
+subroutine is called the variable length is the legth of the variable in the
+call.
 </p>
 
 <p>
-El <a href="#s-sec_p_9_4"><samp>excode_9_4.f90</samp>, Section 9.3.4</a>
-muestra un programa en el que, al darle el nombre de un fichero y el número de
-datos almacenados en dicho fichero; el programa abre el fichero y lee dos
-columnas de valores que almacena en los vectores <samp>X</samp> e
-<samp>Y</samp>.  En estos casos, dado que el tamaño de la variable
-<samp>CHARACTER</samp> es variable, es preciso usar un <em>interface
-block</em>.
+The code <a href="#s-sec_p_9_4"><samp>excode_9_4.f90</samp>, Section 9.3.4</a>
+is a program to which a file name is given and the number of data pairs stored
+in the file.  The program opens the file and reads the two-column dataset.
+Notice that, due to the variable size of the <samp>CHARACTER</samp> variable,
+the <em>interface block</em> is required.
 </p>
 
 <p>
-El <a href="#s-sec_p_9_6"><samp>excode_9_6.f90</samp>, Section 9.3.6</a> es un
-ejemplo donde se construyen dos vectores de números aleatorios de dimensión
-definida por el usuario usando el método <em>Box-Mueller</em>.  Para ello se
-definen dos matrices de tipo <samp>ALLOCATABLE</samp>, <samp>X</samp> e
-<samp>Y</samp>, y en la subrutina interna <samp>BOX_MULLER</samp> se definen
-dos vectores de tipo automático: <samp>RANDOM_u</samp> y <samp>RANDOM_v</samp>.
+The example <a href="#s-sec_p_9_6"><samp>excode_9_6.f90</samp>, Section
+9.3.6</a> caluculate two pseudo random number vectors with a Gaussian or normal
+distribution with a dimension defined by the user.  This is achieved with the
+<em>Box-Mueller</em> method.
 </p>
 
 <p>
-Para calcular el valor medio, la desviación estándar y la mediana de los
-vectores <samp>X</samp> e <samp>Y</samp> se hace uso de la subrutina
-<samp>STATS</samp> del <a href="#s-sec_p_9_3"><samp>excode_9_3.f90</samp>,
-Section 9.3.3</a>.  Se incluye el necesario <samp>INTERFACE</samp> en el
-programa principal y la subrutina se debe compilar en un fichero por separado.
-<a href="#s-sec_p_9_6"><samp>excode_9_6.f90</samp>, Section 9.3.6</a>
+Two <samp>ALLOCATABLE</samp> arrays, <samp>X</samp> and <samp>Y</samp> are
+difined and in the internal subroutine <samp>BOX_MULLER</samp> two vectors of
+automatic type are defined: <samp>RANDOM_u</samp> and <samp>RANDOM_v</samp>.
+</p>
+
+<p>
+The mean value, the median and the standard deviation are computed making use
+of the <samp>STATS</samp> subroutine in the source code <a
+href="#s-sec_p_9_3"><samp>excode_9_3.f90</samp>, Section 9.3.3</a>.  The
+necessary <samp>INTERFACE</samp> block is included in the main program and the
+subroutine should be compiled in a separate file.
 </p>
 </li>
 </ol>
 <ol type="1" start="13" >
 <li>
 <p>
-Sí es importante tener en cuenta que en el caso que se transfiera un
-<em>array</em> usando <em>assumed shape arguments</em> como en los ejemplos, el
-primer índice de la variable en la subrutina <em>se supone que comienza con el
-valor <samp>1</samp>, a menos que explícitamente se indique lo contrario</em>.
-En el ejemplo <a href="#s-sec_p_9_7"><samp>excode_9_7.f90</samp>, Section
-9.3.7</a> se muestra un caso simple donde es necesario indicar el índice
-inicial del vector cuando este no es cero.  En este programa se calcula el
-factorial de los enteros entre <samp>IMIN</samp> e <samp>IMAX</samp> y se
-almacenan en un vector real.  Se puede compilar y correr el programa haciendo
-<samp>IMIN = 1</samp> e <samp>IMIN = 0</samp> con y sin la definición del
-índice inicial en la subrutina, para ver la diferencia en las salidas.
+It is important to take into account that when array arguments are used as
+<em>assumed shape arguments</em> the first index of the variable in the
+subroutine by default takes a value <samp>1</samp>, unless it is explicitly
+indicated.  The example <a href="#s-sec_p_9_7"><samp>excode_9_7.f90</samp>,
+Section 9.3.7</a> is a simple case where this initial value is indicated.  This
+program cmputes the factorial of the integers in the range between
+<samp>IMIN</samp> and <samp>IMAX</samp>, storing them in a real vector.  The
+program can be compiled making <samp>IMIN = 1</samp> or <samp>IMIN = 0</samp>
+with and without the definition of the initial index in the subroutine to check
+the different outputs.
 </p>
 </li>
 </ol>

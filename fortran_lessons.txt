@@ -73,8 +73,8 @@ Contents
 
      10.       Subprograms (III): modules
      10.1.     Objectives
-     10.2.     Puntos destacables.
-     10.3.     Programas usados como ejemplo.
+     10.2.     Main items.
+     10.3.     Example codes.
 
      11.       Subprogramas (IV)
      11.1.     Objetivos
@@ -2771,7 +2771,7 @@ END PROGRAM ex_7_4
           that they can admit different argument types, with the exception
           of the functions `LGE', `LGT', `LLE', and `LLT'.
 
-        * The _elemental_ functions may have as an argument both scalars or
+        * _Elemental_ functions may have as an argument both scalars or
           vectors.  The example source codes Section 8.3.1,
           ``excode_8_1.f90'' and Section 8.3.2, ``excode_8_2.f90'' show the
           elemental and generic character of some intrinsic functions.
@@ -2784,7 +2784,7 @@ END PROGRAM ex_7_4
           Section 6.3.7, ``excode_6_7.f90'' and Section 9.3.3,
           ``excode_9_3.f90''.
 
-          The _transformational_ functions transform between different data
+          _Transformational_ functions transform between different data
           types, e.g.  `REAL' and `TRANSPOSE', or functions that work with
           time data variables as `SYSTEM_CLOCK' and `DATE_AND_TIME'.
 
@@ -3307,14 +3307,13 @@ END FUNCTION Potf
 
           1.   _explicit-shape approach_:
 
-               En este caso se incluyen como argumentos en la llamada a la
-               subrutina las dimensiones de las matrices implicadas,
-               declarando posteriormente las matrices haciendo uso de
-               dichas dimensiones.  Por ejemplo, si en una subrutina
-               llamada `test_pass' se incluye un vector de entrada llamado
-               `space_vec_in' y uno de salida`space_vec_out' con la misma
-               dimensión, si hacemos uso del _explicit-shape approach_ la
-               subrutina comenzaría como
+               In this case the dimensions of the matrices are included as
+               arguments in the subroutine call and the matrices are
+               declared making use of these arguments.  For example, if in
+               a subroutine called `test_pass' an input vector
+               (`space_vec_in') and an output vector (`space_vec_out') with
+               equal dimensions are used, if we make use of the
+               _explicit-shape approach_ the subroutine starts as follows
 
 SUBROUTINE test_pass(space_vec_in, space_vec_out, dim_vec)
          IMPLICIT NONE
@@ -3326,32 +3325,29 @@ SUBROUTINE test_pass(space_vec_in, space_vec_out, dim_vec)
 
           2.   _assumed-shape approach_:
 
-               En este caso es necesario incluir el correspondiente bloque
-               `INTERFACE' en el subprograma que invoca la subrutina.  Como
-               veremos en el Chapter 10, `Subprograms (III): modules' esto
-               se puede evitar incluyendo la subrutina en un módulo.
+               The main difference with the previous case is that either
+               the corresponding `INTERFACE' block is added or, as
+               explained in Chapter 10, `Subprograms (III): modules', the
+               subroutine is embedded in a module.
 
-               En el Section 9.3.3, ``excode_9_3.f90'' puede verse un
-               programa en el que se calcula la media, la mediana[1], la
-               varianza y la desviación estándar de un conjunto de números
-               generados aleatoriamente.  En el programa hemos marcado
-               algunos de los puntos de interés que queremos explicar con
-               detalle.
+               The example code Section 9.3.3, ``excode_9_3.f90''
+               calculates the mean, the median[1], the variance and the
+               standard deviation of a set of random numbers following a
+               continuous uniform distribution.  Several points of interest
+               has been marked in the program.
 
-                  * _(1-3)_ Hemos definido la matriz con dimensión
-                    variable, de forma que se dimensione mediante una orden
-                    `ALLOCATE'.  En la orden que dimensiona a la matriz se
-                    indica que es un vector (`DIMENSION(:)') y del mismo
-                    modo se hace en el _interface block_.  El uso del
-                    _interface block_ es recomendable, y en casos como
-                    este, con matrices definidas de este modo, resulta
-                    obligatorio.  La orden _(3)_, `ALLOCATE(X(1:N), STAT =
-                    IERR)' hace que `X' pase a ser un vector N-dimensional.
-                    Usamos también el campo opcional `STAT' que nos permita
-                    saber si se ha podido dimensionar el arreglo
-                    solicitado.  Solo si la salida (`IERR') es cero la
-                    matriz se ha creado sin problemas.  El uso de esta
-                    opción debe generalizarse.
+                  * _(1-3)_ Dynamic memory storage using the `ALLOCATABLE'
+                    attribute and the `ALLOCATE' statement.  Notice that
+                    the array is a vector (`DIMENSION(:)') and this piece
+                    of info needs to be also include in the _interface
+                    block_.  The use of the _interface block_ in cases like
+                    this one is mandatory.  The statement _(3)_,
+                    `ALLOCATE(X(1:N), STAT = IERR)' defines the length of
+                    the `X' vector.  We also use the optional field `STAT'
+                    to check whether the array has been correctly
+                    dimensioned or not.  Only if the output of this field,
+                    in the `IERR' variable, is zero the dynamic allocation
+                    has worked flawlessly.
 
   REAL , ALLOCATABLE , DIMENSION(:) :: X  !! (1)
 
@@ -3370,124 +3366,104 @@ SUBROUTINE test_pass(space_vec_in, space_vec_out, dim_vec)
      END SUBROUTINE STATS
   END INTERFACE
 
-                    Es importante tener en cuenta que se puede definir como
-                    `ALLOCATABLE' el argumento con el que se llama a una
-                    subrutina, así como a variables internas o locales de
-                    la subrutina, pero una variable _dummy_ no puede tener
-                    este atributo.
+                    It is important to take into account that an argument
+                    of a subroutine can have the `ALLOCATABLE' attribute,
+                    as well as local subroutine variables, but not _dummy_
+                    variables.
 
-                    A diferencia de en `FORTRAN77', la forma recomendada de
-                    transmitir arreglos de datos entre un programa y una
-                    subrutina es como en el ejemplo, usando _assumed shape
-                    arguments_ en los que no se da ninguna información
-                    acerca del tamaño del arreglo.  Sí deben coincidir
-                    ambas variables en tipo, rango y clase (`KIND').
+                    The _assumed shape arguments_ are nonexistent in
+                    `FORTRAN 77', and it is the recommended form of
+                    transmitting arguments between a main program and a
+                    subprogram.  In this form there is no transmitted
+                    information about the dimension of the array, and the
+                    argument and the main program variable need to have
+                    equal type, range, and class (`KIND').
 
-                  * _(4)_ y _(6)_: En estas órdenes se aprovecha la
-                    capacidad de `Fortran90' para trabajar con arreglos de
-                    variables, ya sean estos vectores o matrices.  Por
-                    ejemplo, el comando `X=X*1000' multiplica todas las
-                    componentes del vector `X' por un escalar y el comando
-                    `SUMXI=SUM(X)' aprovecha la función `SUM' para sumar
-                    las componentes del vector.  En estilo `Fortran 77'
-                    estas operaciones conllevarían un bucle `DO', por
-                    ejemplo
+                  * _(4)_ and _(6)_: these statements take advantage of the
+                    `Fortran 90' rules to work with vector and arrays.
 
-                         SUMXI = 0.0
-                         DO I = 1, N
-                            SUMXI = SUMXI + X(I)
-                         ENDDO
+                  * _(5)_ In this statement the allocated memory is revoked
+                    and freed using the `DEALLOCATE' statement.  This is
+                    not mandatory in programs like the present example,
+                    though it is necessary to do so when the allocatable
+                    array has been defined in a function of subroutine
+                    without the `SAVE' attribute.
 
-                  * _(5)_ En esta parte del programa se libera la memoria
-                    reservada para el vector `X' usando el comando
-                    `DEALLOCATE'.  Este paso no es obligatorio en este
-                    programa, pero sí cuando la matriz del tipo `ALLOCATE'
-                    se ha definido en una función o subrutina y no tiene el
-                    atributo `SAVE'.
+                  * _(7)_ The `CONTAINS' statement is used to make the
+                    sorting subroutine `SELECTION' have access to the
+                    variables of the `STATS' subroutine.  This is why in
+                    the `SELECTION' subroutine with the sorting algorithm
+                    only local variables need to be defined.
 
-                  * _(7)_ Aquí se aprovecha el comando `CONTAINS' para
-                    hacer que la subrutina de ordenamiento `SELECTION', que
-                    como puede verse no posee argumentos, _conozca_ las
-                    misma variables que la subrutina `STATS', en la que
-                    está contenida.  Por ello, en la subrutina `SELECTION'
-                    solo es preciso definir las variables locales.  Esta
-                    subrutina se encarga de ordenar la lista de números
-                    según un algoritmo que consiste en buscar el número más
-                    pequeño de la lista y hacerlo el primer miembro.  Se
-                    busca a continuación el más pequeño de los restantes
-                    que pasa a ser segundo, y así prosigue hasta tener
-                    ordenada la lista de números.
-
-               La definición de bloques `INTERFACE' se facilita con el uso
-               de módulos, que describimos en la siguiente unidad.
+               The definition of `INTERFACE' blocks is a task simplified
+               making use of modules, that are introduced in the next
+               chapter.
 
           3.   _assumed-size approach_
 
-               En este caso no se da información a la subrutina acerca de
-               las dimensiones de la matriz, es fácil caer en errores de
-               difícil diagnóstico y se desaconseja su uso.
+               This case is not advised due to the lack of info in the
+               subroutine about the matrix dimensiones.  This makes easy to
+               make errors of difficult diagnose.  Its use is not
+               encouraged.
 
-     10.  Arreglos multidimensionales.  El Section 9.3.5,
-          ``excode_9_5.f90'' es un ejemplo de como pasar como argumentos
-          arreglos multidimensionales como _assumed shape arrays_.  En él,
-          tras que el usuario defina dos matrices, `A' y `B', el programa
-          calcula la matriz `C' solución del producto `AB' y tras ello
-          calcula la matriz traspuesta de `A'.  Se hace uso de las
-          funciones de `Fortran 90' `MATMUL' y `TRANSPOSE'.
+     10.  Multidimensional arrays.  The source code Section 9.3.5,
+          ``excode_9_5.f90'' is an example of how to pass multidimensional
+          arrays as arguments of a subroutine as _assumed shape arrays_.
+          The user defines two arrays , `A' and `B', and the program
+          computes the `C' array as the matrix product `A' times `B'.
+          Then, the program computes the transpose matrix of `A'.  The
+          program makes use of the `Fortran 90' functions `MATMUL' and
+          `TRANSPOSE'.
 
-     11.  En las subrutinas pueden dimensionarse _automatic arrays_, que
-          pueden depender de los argumentos de la subrutina.  Estos
-          arreglos son locales a la subrutina, no pueden tener el argumento
-          `SAVE' y se crean cada vez que se invoca la subrutina, siendo
-          destruidos al salir de ella.  Esto hace que si no hay memoria
-          suficiente para dimensionar el arreglo el programa no funcione.
-          Para evitar esto deben definirse arreglos no automáticos, del
-          tipo `ALLOCATABLE'.
+     11.  Subroutines can contain _automatic arrays_, that may depend on
+          the subroutine argument values.  These are local array that may
+          not have the `SAVE' attribute.  They are created when the
+          subroutine is invoked and destroyed when the execution flow
+          leaves the subroutine.  It is preferable to use `ALLOCATABLE'
+          arrays.
 
-     12.  Al pasar como argumento una variable de tipo `CHARACTER' dicho
-          argumento se declar con una longitud `LEN = *' y cuando se llame
-          a la subrutina la longitud de la variable pasa a ser la longitud
-          de la variable en la llamada.
+     12.  An argument of `CHARACTER' type is also diffenrent in the sense
+          that if such argument is declared with a length `LEN = *', once
+          the subroutine is called the variable length is the legth of the
+          variable in the call.
 
-          El Section 9.3.4, ``excode_9_4.f90'' muestra un programa en el
-          que, al darle el nombre de un fichero y el número de datos
-          almacenados en dicho fichero; el programa abre el fichero y lee
-          dos columnas de valores que almacena en los vectores `X' e `Y'.
-          En estos casos, dado que el tamaño de la variable `CHARACTER' es
-          variable, es preciso usar un _interface block_.
+          The code Section 9.3.4, ``excode_9_4.f90'' is a program to which
+          a file name is given and the number of data pairs stored in the
+          file.  The program opens the file and reads the two-column
+          dataset.  Notice that, due to the variable size of the
+          `CHARACTER' variable, the _interface block_ is required.
 
-          El Section 9.3.6, ``excode_9_6.f90'' es un ejemplo donde se
-          construyen dos vectores de números aleatorios de dimensión
-          definida por el usuario usando el método _Box-Mueller_.  Para
-          ello se definen dos matrices de tipo `ALLOCATABLE', `X' e `Y', y
-          en la subrutina interna `BOX_MULLER' se definen dos vectores de
-          tipo automático: `RANDOM_u' y `RANDOM_v'.
+          The example Section 9.3.6, ``excode_9_6.f90'' caluculate two
+          pseudo random number vectors with a Gaussian or normal
+          distribution with a dimension defined by the user.  This is
+          achieved with the _Box-Mueller_ method.
 
-          Para calcular el valor medio, la desviación estándar y la mediana
-          de los vectores `X' e `Y' se hace uso de la subrutina `STATS' del
-          Section 9.3.3, ``excode_9_3.f90''.  Se incluye el necesario
-          `INTERFACE' en el programa principal y la subrutina se debe
-          compilar en un fichero por separado.  Section 9.3.6,
-          ``excode_9_6.f90''
+          Two `ALLOCATABLE' arrays, `X' and `Y' are difined and in the
+          internal subroutine `BOX_MULLER' two vectors of automatic type
+          are defined: `RANDOM_u' and `RANDOM_v'.
 
-     13.  Sí es importante tener en cuenta que en el caso que se transfiera
-          un _array_ usando _assumed shape arguments_ como en los ejemplos,
-          el primer índice de la variable en la subrutina _se supone que
-          comienza con el valor `1', a menos que explícitamente se indique
-          lo contrario_.  En el ejemplo Section 9.3.7, ``excode_9_7.f90''
-          se muestra un caso simple donde es necesario indicar el índice
-          inicial del vector cuando este no es cero.  En este programa se
-          calcula el factorial de los enteros entre `IMIN' e `IMAX' y se
-          almacenan en un vector real.  Se puede compilar y correr el
-          programa haciendo `IMIN = 1' e `IMIN = 0' con y sin la definición
-          del índice inicial en la subrutina, para ver la diferencia en las
-          salidas.
+          The mean value, the median and the standard deviation are
+          computed making use of the `STATS' subroutine in the source code
+          Section 9.3.3, ``excode_9_3.f90''.  The necessary `INTERFACE'
+          block is included in the main program and the subroutine should
+          be compiled in a separate file.
 
-[1]  Se define la _mediana_ de un conjunto de números como aquel valor de
-     la lista tal que la mitad de los valores sean inferiores a él y la
-     otra mitad sean superiores.  Coincide con el valor medio en
-     distribuciones simétricas.  Para su cálculo es preciso ordenar
-     previamente la lista de números.
+     13.  It is important to take into account that when array arguments
+          are used as _assumed shape arguments_ the first index of the
+          variable in the subroutine by default takes a value `1', unless
+          it is explicitly indicated.  The example Section 9.3.7,
+          ``excode_9_7.f90'' is a simple case where this initial value is
+          indicated.  This program cmputes the factorial of the integers in
+          the range between `IMIN' and `IMAX', storing them in a real
+          vector.  The program can be compiled making `IMIN = 1' or `IMIN =
+          0' with and without the definition of the initial index in the
+          subroutine to check the different outputs.
+
+[1]  The _median_ value of a set of data is defined as the value of the
+     list such that half the values of the set are less than it and the
+     other half are greater than it.  Median and mean are identical for
+     symmetrical data distributions.  The calculation of the median
+     requires the sorting of the set of values.
 
 
 9.3. Example Codes
@@ -4045,153 +4021,86 @@ END SUBROUTINE STATS
 10.1. Objectives
 ----------------
 
-     Los objetivos de esta clase son los siguientes:
+     The main aims of this session consist of:
 
-     1.   Presentar los módulos y las ventajas que aportan.
+     1.   Presenting modules and their main pros.
 
-     2.   Uso de módulos para la definición de variables.  Reemplazo de
-          bloques `COMMON'.
+     2.   Use of modules for variable definition, replacing the deprecated
+          `COMMON' block, a feature of `FORTRAN 77'.
 
-     3.   Uso de módulos para la definición de funciones y subrutinas.
+     3.   Use of modules to define and transmit functions and subroutines.
 
-     4.   Definición de variables públicas y privadas en módulos.
-          Visibilidad en el módulo.
+     4.   Private and publice variables in a module: variable visibility.
 
 
-10.2. Puntos destacables.
--------------------------
+10.2. Main items.
+-----------------
 
-     1.   La definición de módulos permite escribir código de forma más
-          clara y flexible.  En un módulo podemos encontrar
+     1.   Modules allow a clearer and more flexible code production.  A
+          module can encompass
 
-          1.   Declaración global de variables.
+          1.   Global variables declaration.
 
-               Reemplazan a las órdenes `COMMON' e `INCLUDE' de `FORTRAN
-               77'.
+               Modules in this regard replace the deprecated `COMMON' and
+               `INCLUDE' `FORTRAN 77' features.
 
-          2.   Declaración de bloques `INTERFACE'.
+          2.   `INTERFACE' blocks declaration.
 
-          3.   Declaración de funciones y subrutinas.  La declaración de
-               funciones y subrutinas en un módulo es conveniente para
-               evitar la inclusión de los correspondientes `INTERFACE', ya
-               que estos están ya implícitos en el módulo.
+          3.   Functions and subroutines declaration, avoiding the
+               necessity of including `INTERFACE' blocks.
 
-          4.   Control del acceso a los objetos, lo que permite que ciertos
-               objetos tengan carácter público y otros privado.
+          4.   Access control to the different variables, assigning public
+               or private character.
 
-          5.   Los módulos permiten empaquetar tipos derivados, funciones,
-               subrutinas para proveer de capacidades de programación
-               orientada a objetos.  Pueden también usarse para definir
-               extensiones semánticas al lenguaje `FORTRAN'.
+          5.   Modules allow to pack derived types, functions, subroutines
+               and allow the development of an object oriented programming
+               approach in `FORTRAN'.
 
-          La sintaxis para la declaración de un módulo es la siguiente:
+          The syntax of a module declaration is as follows
 
-               MODULE <module name>
+               MODULE <module_name>
                   IMPLICIT NONE
-                  SAVE
-                    <declaraciones y especificaciones>
+                  [SAVE]
+                    <Variable declarations>
                   [ CONTAINS
-                    <definición de subrutinas y funciones> ]
-               END MODULE  <module name>
+                    <Subprograms definition> ]
+               END MODULE  <module_name>
 
-          La carga del módulo se hace mediante la orden `USE MODULE <module
-          name>' que debe preceder al resto de órdenes de la unidad de
-          programa en el que se incluya.  Desde un módulo puede llamarse a
-          otro módulo.  A continuación desarrollamos brevemente estas
-          ideas.
+          The modules is loaded with the statement `USE MODULE
+          <module_name>' that has to preceed the rest of the program
+          statements.  From a module another module can be called.
 
-     2.   Una de las funciones de los módulos es permitir el intercambio de
-          variables entre diferentes programas y subrutinas sin recurrir a
-          los argumentos.  La otra función principal es, haciendo uso de
-          `CONTAINS', definir funciones, subrutines y bloques `INTERFACE'.
+     2.   Modules allow the transmission of variables between subprogram
+          units without arguments.  The other main role of modules is,
+          making use of the `CONTAINS' statement, to define functions,
+          subroutines and `INTERFACE' blocks.
 
-          La inclusión de estas unidades en un módulo hace que todos los
-          detalles acerca de las subrutinas y funciones implicadas sean
-          conocidas para el compilador lo que permite una más rápida
-          detección de errores.  Cuando una subrutina o una función se
-          compila en un módulo y se hace accesible mediante `USE MODULE' se
-          dice que tiene una interfaz explícita (_explicit interface_),
-          mientras que en caso contrario se dice que tiene una interfaz
-          implícita (_implicit interface_).
+          The subprograms inclusion in a module informs the compiler about
+          all the details of them, allowing a fast error detection.
+          Subroutines and functions in a module and accessed with `USE
+          MODULE' it is said to be an _explicit interface_, whereas in
+          other case it is said to have an _implicit interface_.
 
-     3.   La definición de módulos favorece la llamada _encapsulación_, que
-          consiste en definir secciones de código que resultan fácilmente
-          aplicables en diferentes situaciones.  En esto consiste la base
-          de la llamada programación orientada a objetos.  En el Section
-          10.3.1, `Programa ejemplo_10_1.f90' presentamos como se define un
-          módulo (usando la orden `MODULE' en vez de `PROGRAM' para la
-          definición de un _stack_ de enteros.  Es importante tener en
-          cuenta como se definen en el módulo las variables `STACK_POS' y
-          `STORE' con el atributo `SAVE', para que su valor se conserve
-          entre llamadas.  Esto es especialmente importante cuando el
-          módulo se llama desde una subrutina o función en vez de desde el
-          programa principal.
+     3.   The definition of modules favors the encapsulation of code,
+          defining easily reusable code, which is the basis of object
+          oriented programming.
 
-     4.   Este módulo puede ser accedido por otra unidad de programa que lo
-          cargue usando la orden `USE'.  Debe compilarse previamente a la
-          unidad de programa que lo cargue.
+     4.   Modules are loaded from other programs or subprograms via the
+          `USE' command.
 
-               PROGRAM Uso_Stack
-               !
-               USE Stack     ! CARGA EL MODULO
-               !
-               IMPLICIT NONE
-               ....
-               ....
-               CALL POP(23); CAL PUSH(20)
-               ....
-               ....
-               END PROGRAM Uso_Stack
+     5.   In order to define common variables for several program units the
+          deprecated `COMMON' feature should be avoided.  Instead the
+          following steps are necessary
 
-     5.   Como vemos en el Section 10.3.1, `Programa ejemplo_10_1.f90' las
-          variables dentro de un módulo pueden definirse como variables
-          privadas, con el atributo `PRIVATE'.  Esto permite que no se
-          pueda acceder a estas variables desde el código que usa el
-          módulo.  El programa que carga el módulo solo puede acceder a las
-          subrutinas `POP' y `PUSH'.  La visibilidad por defecto al definir
-          una variable o procedimiento en un módulo es `PUBLIC'.  Es
-          posible añadir el atributo a la definición de las variables
+          1.   Declare variables in a `MODULE'.
 
-                 INTEGER, PRIVATE, PARAMETER :: STACK_SIZE = 500
-                 INTEGER, PRIVATE, SAVE :: STORE(STACK_SIZE) = 0, STACK_POS = 0
+          2.   Give the variables the `SAVE' attribute.
 
-     6.   En ocasiones es posible que variables o procedimientos definidos
-          en un módulo entren en conflicto con variables del programa que
-          usa el módulo.  Para evitar esto existe la posibilidad de
-          renombrar las variables que carga el módulo, aunque esto solo
-          debe hacerse cuando sea estrictamente necesario.
+          3.   Load the modue with the statement `USE' <module_name>) from
+               those program units that should access the variables.
 
-          Si, por ejemplo, llamamos al módulo `Stack' desde un programa que
-          ya tiene una variable llamada `PUSH' podemos renombrar el objeto
-          `PUSH' del módulo a `STACK_PUSH' al invocar el módulo
-
-               USE Stack, STACK_PUSH => PUSH
-
-          Se pueden renombrar varios objetos, separándolos por comas.
-
-     7.   Es posible hacer que solo algunos elementos del módulo sean
-          accesibles desde el programa que lo invoca con la cláusula
-          `ONLY', donde también es posible renombrar los objetos si es
-          necesario.  Por ejemplo, con la llamada
-
-               USE Stack, ONLY: POP, STACK_PUSH => PUSH
-
-          Solamente se accede a `POP' y `PUSH', y este último se renombra a
-          `STACK_PUSH'.
-
-     8.   Para definir variables comunes a diferentes partes de un programa
-          se debe evitar el uso de variables en `COMMON' y, en vez de ello,
-          se siguen los pasos siguientes.
-
-          1.   Declarar las variables necesarias en un `MODULE'.
-
-          2.   Otorgar a estas variables el atributo `SAVE'.
-
-          3.   Cargar este módulo (`USE' <module_name>) desde aquellas
-               unidades que necesiten acceso a estos datos globales.
-
-          Por ejemplo, si existen una serie de constantes físicas que
-          utilizaremos en varios programas podemos definirlas en un módulo:
+          As an example, if there are several physical constants that are
+          used in severla programs we can define a module as follows
 
                MODULE PHYS_CONST
                  !
@@ -4203,15 +4112,14 @@ END SUBROUTINE STATS
                  REAL, PARAMETER :: Newton_Ctnt = 6.67428E-11    ! m3 kg-1 s-2
                  REAL, PARAMETER :: Planck_Ctnt = 4.13566733E-15 ! eV s
                  !
-                 REAL :: Otra_variable
+                 REAL :: Other_variable
                  !
                END MODULE PHYS_CONST
 
-          En este módulo se definen tres constantes físicas (con el
-          atributo `PARAMETER', ya que son constantes) y una cuarta
-          variable a la que se desea acceder que no permanece constante.
-          En cualquier programa, función o subrutina que quieran usarse
-          estas variables basta con cargar el módulo
+          In this module three physical constants are defined (with the
+          `PARAMETER' attribute) and a fourth variable that is not kept
+          constant.  Any program unit that needs access to these variables
+          only needs to load the module as follows
 
                PROGRAM CALCULUS
                  !
@@ -4227,11 +4135,90 @@ END SUBROUTINE STATS
                  !
                END PROGRAM CALCULUS
 
-     9.   El Section 10.3.2, `Programa ejemplo_10_2.f90' es un programa
-          simple donde se utiliza el módulo para el manejo de un stack
-          presentado para realizar operaciones (adición y substracción) con
-          enteros en notación polaca inversa (RPN, reverse Polish
-          notation).
+     6.   The use of modules allows a safe, portable, and flexible way of
+          controlling the precision of the integer and real numbers in the
+          program.  A possible way to define in a protable way the
+          precision of a given code is with a module like `NUMERIC_KINDS'
+          included in Section 10.3.2, ``excode_10_1_mod.f90'' and we can
+          define the precision using this module
+
+               PROGRAM TEST_MINUIT
+                 !
+                 USE NUMERIC_KINDS
+                 !
+                 IMPLICIT NONE
+                 !
+                 ! Variable Definition
+                 REAL(KIND=dp), PARAMETER :: PI = 4.0_dp*ATAN(1.0_dp)
+                 REAL(KIND=dp) :: ENERF
+                  ....
+                  ....
+
+          This solution enhances the portability of the code and is less
+          error prone than individually defining the precision for each
+          program unit.  The example code Section 10.3.1,
+          ``excode_10_1.f90'' is the same than Section 9.3.6,
+          ``excode_9_6.f90'' apart from this improvement.
+
+     7.   In the source code Section 10.3.4, ``excode_10_2_mod.f90'' we
+          present a module, defined with the `MODULE' heading instead of
+          `PROGRAM', for the definition of an integers _stack_.  In this
+          case it is worth to notice the way the variables `STACK_POS' and
+          `STORE' are defined, as `PRIVATE' variables and with the `SAVE'
+          attribute.
+
+               PROGRAM Use_Stack
+               !
+               USE Stack     ! Load the module
+               !
+               IMPLICIT NONE
+               ....
+               ....
+               CALL POP(23); CAL PUSH(20)
+               ....
+               ....
+               END PROGRAM Use_Stack
+
+     8.   Como vemos en el Section 10.3.4, ``excode_10_2_mod.f90'' las
+          variables dentro de un módulo pueden definirse como variables
+          privadas, con el atributo `PRIVATE'.  Esto permite que no se
+          pueda acceder a estas variables desde el código que usa el
+          módulo.  El programa que carga el módulo solo puede acceder a las
+          subrutinas `POP' y `PUSH'.  La visibilidad por defecto al definir
+          una variable o procedimiento en un módulo es `PUBLIC'.  Es
+          posible añadir el atributo a la definición de las variables
+
+                 INTEGER, PRIVATE, PARAMETER :: STACK_SIZE = 500
+                 INTEGER, PRIVATE, SAVE :: STORE(STACK_SIZE) = 0, STACK_POS = 0
+
+     9.   En ocasiones es posible que variables o procedimientos definidos
+          en un módulo entren en conflicto con variables del programa que
+          usa el módulo.  Para evitar esto existe la posibilidad de
+          renombrar las variables que carga el módulo, aunque esto solo
+          debe hacerse cuando sea estrictamente necesario.
+
+          Si, por ejemplo, llamamos al módulo `Stack' desde un programa que
+          ya tiene una variable llamada `PUSH' podemos renombrar el objeto
+          `PUSH' del módulo a `STACK_PUSH' al invocar el módulo
+
+               USE Stack, STACK_PUSH => PUSH
+
+          Se pueden renombrar varios objetos, separándolos por comas.
+
+     10.  Es posible hacer que solo algunos elementos del módulo sean
+          accesibles desde el programa que lo invoca con la cláusula
+          `ONLY', donde también es posible renombrar los objetos si es
+          necesario.  Por ejemplo, con la llamada
+
+               USE Stack, ONLY: POP, STACK_PUSH => PUSH
+
+          Solamente se accede a `POP' y `PUSH', y este último se renombra a
+          `STACK_PUSH'.
+
+     11.  El Section 10.3.3, ``excode_10_2.f90'' es un programa simple
+          donde se utiliza el módulo para el manejo de un stack presentado
+          para realizar operaciones (adición y substracción) con enteros en
+          notación polaca inversa (RPN, reverse Polish notation).
 
           Esta notación permite no usar paréntesis en las operaciones
           algebraicas y resulta más rápida que la notación usual.  Si, por
@@ -4277,194 +4264,37 @@ END SUBROUTINE STATS
                $ gfortran -c ejemplo_10_1_Stack.f90
                $ gfortran -o ejemplo_10_2 ejemplo_10_2.f90 ejemplo_10_1_Stack.o
 
-     10.  El uso de módulos también permite, de forma flexible, segura y
-          fácil de modificar, controlar la precisión de los números reales
-          (o enteros) en los cálculos que se lleven a cabo.  Una posible
-          forma de definir de forma portable la doble precisión es mediante
-          un sencillo módulo, llamado `dble_prec'.  Como vimos en el
-          programa Section 2.3.6, ``excode_2_6.f90'' los números reales de
-          doble precisión tienen un `KIND = 8'.  Para hacer el código
-          independiente de la plataforma donde compilemos podemos hacer
-
-               MODULE dble_prec
-                 IMPLICIT NONE
-                 INTEGER, PARAMETER :: dbl = KIND(1.0D0)
-               END MODULE dble_prec
-
-          Por tanto podemos definir esa precisión cargando este módulo,
-          p.e.
-
-               PROGRAM TEST_MINUIT
-                 !
-                 USE dble_prec
-                 !
-                 IMPLICIT NONE
-                 !
-                 ! Variable Definition
-                 REAL(KIND=dbl), PARAMETER :: PI = 4.0_dbl*ATAN(1.0_dbl)
-                 REAL(KIND=dbl) :: ENERF
-                  ....
-                  ....
-
-          Esto favorece la portabilidad y reduce el riesgo de errores ya
-          que para cambiar la precisión con la que se trabaja solamente es
-          necesario editar el módulo.  En el Section 10.3.3, `Programa
-          ejemplo_10_3.f90' introducimos esta mejora en el programa Section
-          9.3.6, ``excode_9_6.f90''.  Se almacena el módulo simple
-          anteriormente descrito en un fichero llamado, p.e.,
-          `dble_prec.f90' y se compila previamente:
-
-               $ gfortran -c dble_prec.f90
-               $ gfortran -o ejemplo_10_3 ejemplo_10_3.f90 dble_prec.o
-
-     Un módulo más completo, donde se definen diferentes tipos de enteros y
-     de reales es el dado en el programa Section 10.3.4, `Programa
-     ejemplo_10_4.f90'.
-
-     En un ejercicio se plantean al alumnos diferentes maneras de mejorar
-     el programa simple Section 10.3.2, `Programa ejemplo_10_2.f90'.
+          En un ejercicio se plantean al alumnos diferentes maneras de
+          mejorar el programa simple Section 10.3.3, ``excode_10_2.f90''.
 
 
-10.3. Programas usados como ejemplo.
-------------------------------------
+10.3. Example codes.
+--------------------
 
-10.3.1. Programa ejemplo_10_1.f90
----------------------------------
+10.3.1. `excode_10_1.f90'
+-------------------------
 
-          MODULE Stack
-            !
-            ! MODULE THAT DEFINES A BASIC STACK
-            !
-            IMPLICIT NONE
-            !
-            SAVE
-            !
-            INTEGER, PARAMETER :: STACK_SIZE = 500
-            INTEGER :: STORE(STACK_SIZE) = 0, STACK_POS = 0
-            !
-            PRIVATE :: STORE, STACK_POS, STACK_SIZE
-            PUBLIC :: POP, PUSH
-            !
-            CONTAINS
-              !
-              SUBROUTINE PUSH(I)
-                !
-                INTEGER, INTENT(IN) :: I
-                !
-                IF (STACK_POS < STACK_SIZE) THEN
-                   !
-                   STACK_POS = STACK_POS + 1; STORE(STACK_POS) = I
-                   !
-                ELSE
-                   !
-                   STOP "FULL STACK ERROR"
-                   !
-                ENDIF
-                !
-              END SUBROUTINE PUSH
-          !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-              SUBROUTINE POP(I)
-                !
-                INTEGER, INTENT(OUT) :: I
-                !
-                IF (STACK_POS > 0) THEN
-                   !
-                   I = STORE(STACK_POS); STACK_POS = STACK_POS - 1
-                   !
-                ELSE
-                   !
-                   STOP "EMPTY STACK ERROR"
-                   !
-                ENDIF
-                !
-              END SUBROUTINE POP
-              !
-          END MODULE Stack
-
-10.3.2. Programa ejemplo_10_2.f90
----------------------------------
-
-          PROGRAM RPN_CALC
-            !
-            ! SIMPLE INTEGER RPN CALCULATOR (ONLY SUM AND SUBSTRACT)
-            !
-            USE Stack                 !!        (1)
-            !
-            IMPLICIT NONE
-            !
-            INTEGER :: KEYB_DATA
-            CHARACTER(LEN=10) :: INPDAT
-            !
-            INTEGER :: I, J, K, DATL, NUM, RES
-            !
-            !
-            inloop: DO      !! MAIN LOOP        (2)
-               !
-               READ 100, INPDAT
-               !
-               SELECT CASE (INPDAT)   !!        (3)
-                  !
-               CASE ('Q','q')  !! EXIT          (4)
-                  PRINT*, "End of program"
-                  EXIT inloop
-               CASE ('plus','Plus','PLUS','+')   !! SUM              (5)
-                  CALL POP(J)
-                  CALL POP(K)
-                  RES = K + J
-                  PRINT 120, K, J, RES
-                  CALL PUSH(RES)
-               CASE ('minus','Minus','MINUS','-')   !! SUBSTRACT        (6)
-                  CALL POP(J)
-                  CALL POP(K)
-                  RES = K - J
-                  PRINT 130, K, J, RES
-                  CALL PUSH(RES)
-               CASE DEFAULT !! NUMBER TO STACK  (7)
-                  !
-                  DATL = LEN_TRIM(INPDAT)
-                  !
-                  RES = 0
-                  DO I = DATL, 1, -1
-                     NUM = IACHAR(INPDAT(I:I)) - 48
-                     RES = RES + NUM*10**(DATL-I)
-                  ENDDO
-                  !
-                  PRINT 110, RES
-                  CALL PUSH(RES)
-               END SELECT
-               !
-            ENDDO inloop
-            !
-          100 FORMAT(A10)
-          110 FORMAT(1X, I10)
-          120 FORMAT(1X, I10,' + ', I10,' = ', I20)
-          130 FORMAT(1X, I10,' - ', I10,' = ', I20)
-          END PROGRAM RPN_CALC
-
-10.3.3. Programa ejemplo_10_3.f90
----------------------------------
-
-PROGRAM ejemplo_10_3
+PROGRAM ex_10_1
   !
-  USE dble_prec
+  USE NUMERIC_KINDS
   !
   IMPLICIT NONE
   !
   INTEGER :: I, IERR
-  REAL(KIND=dbl), DIMENSION(:), ALLOCATABLE :: X, Y
-  REAL(KIND=dbl) :: M, SD, MEDIAN
+  REAL(KIND=dp), DIMENSION(:), ALLOCATABLE :: X, Y
+  REAL(KIND=dp) :: M, SD, MEDIAN
   ! interface block
   INTERFACE
      SUBROUTINE STATS(VECTOR,N,MEAN,STD_DEV,MEDIAN)
        !
-       USE dble_prec
+       USE NUMERIC_KINDS
        !
        IMPLICIT NONE
        INTEGER , INTENT(IN)                    ::  N
-       REAL(KIND=dbl)      , INTENT(IN) , DIMENSION(:)   :: VECTOR
-       REAL(KIND=dbl)      , INTENT(OUT)                 :: MEAN
-       REAL(KIND=dbl)      , INTENT(OUT)                 :: STD_DEV
-       REAL(KIND=dbl)      , INTENT(OUT)                 :: MEDIAN
+       REAL(KIND=dp)      , INTENT(IN) , DIMENSION(:)   :: VECTOR
+       REAL(KIND=dp)      , INTENT(OUT)                 :: MEAN
+       REAL(KIND=dp)      , INTENT(OUT)                 :: STD_DEV
+       REAL(KIND=dp)      , INTENT(OUT)                 :: MEDIAN
      END SUBROUTINE STATS
   END INTERFACE
   !
@@ -4517,31 +4347,31 @@ CONTAINS
     !
     INTEGER, INTENT(IN) :: dim
     !
-    REAL(KIND=dbl), PARAMETER :: PI = ACOS(-1.0_dbl)
-    REAL(KIND=dbl), DIMENSION(dim) :: RANDOM_u, RANDOM_v ! Automatic arrays
+    REAL(KIND=dp), PARAMETER :: PI = ACOS(-1.0_dp)
+    REAL(KIND=dp), DIMENSION(dim) :: RANDOM_u, RANDOM_v ! Automatic arrays
     !
     CALL RANDOM_NUMBER(RANDOM_u)
     CALL RANDOM_NUMBER(RANDOM_v)
     !
-    X = SQRT(-2.0_dbl*LOG(RANDOM_u))
-    Y = X*SIN(2.0_dbl*PI*RANDOM_v)
-    X = X*COS(2.0_dbl*PI*RANDOM_v)
+    X = SQRT(-2.0_dp*LOG(RANDOM_u))
+    Y = X*SIN(2.0_dp*PI*RANDOM_v)
+    X = X*COS(2.0_dp*PI*RANDOM_v)
     !
   END SUBROUTINE BOX_MULLER
   !
-END PROGRAM ejemplo_10_3
+END PROGRAM ex_10_1
 SUBROUTINE STATS(VECTOR,N,MEAN,STD_DEV,MEDIAN)
-  USE dble_prec
+  USE NUMERIC_KINDS
   IMPLICIT NONE
   ! Defincion de variables
   INTEGER , INTENT(IN)                    ::  N
-  REAL(KIND=dbl)      , INTENT(IN) , DIMENSION(:)    ::  VECTOR    !! (1)
-  REAL(KIND=dbl)      , INTENT(OUT)                  ::  MEAN
-  REAL(KIND=dbl)      , INTENT(OUT)                  ::  STD_DEV
-  REAL(KIND=dbl)      , INTENT(OUT)                  ::  MEDIAN
-  REAL(KIND=dbl)      , DIMENSION(1:N)              ::  Y
-  REAL(KIND=dbl)      :: VARIANCE = 0.0_dbl
-  REAL(KIND=dbl)      :: SUMXI = 0.0_dbl, SUMXI2 = 0.0_dbl
+  REAL(KIND=dp)      , INTENT(IN) , DIMENSION(:)    ::  VECTOR    !! (1)
+  REAL(KIND=dp)      , INTENT(OUT)                  ::  MEAN
+  REAL(KIND=dp)      , INTENT(OUT)                  ::  STD_DEV
+  REAL(KIND=dp)      , INTENT(OUT)                  ::  MEDIAN
+  REAL(KIND=dp)      , DIMENSION(1:N)              ::  Y
+  REAL(KIND=dp)      :: VARIANCE = 0.0_dp
+  REAL(KIND=dp)      :: SUMXI = 0.0_dp, SUMXI2 = 0.0_dp
   !
   SUMXI=SUM(VECTOR)       !! (6)
   SUMXI2=SUM(VECTOR*VECTOR)    !! (6)
@@ -4576,8 +4406,8 @@ CONTAINS     !! (7)
   END SUBROUTINE SELECTION
 END SUBROUTINE STATS
 
-10.3.4. Programa ejemplo_10_4.f90
----------------------------------
+10.3.2. `excode_10_1_mod.f90'
+-----------------------------
 
           MODULE NUMERIC_KINDS
             ! 4, 2, AND 1 BYTE INTEGERS
@@ -4588,9 +4418,123 @@ END SUBROUTINE STATS
             ! SINGLE, DOUBLE, AND QUADRUPLE PRECISION
             INTEGER, PARAMETER :: &
                  sp = KIND(1.0), &
-                 dp = SELECTED_REAL_KIND(2*PRECISION(1.0_sp)), &
+                 dp = KIND(1.0D0), &
                  qp = SELECTED_REAL_KIND(2*PRECISION(1.0_dp))
           END MODULE NUMERIC_KINDS
+
+10.3.3. `excode_10_2.f90'
+-------------------------
+
+          PROGRAM RPN_CALC
+            !
+            ! SIMPLE INTEGER RPN CALCULATOR (ONLY SUM AND SUBSTRACT)
+            !
+            USE Stack                 !!        (1)
+            !
+            IMPLICIT NONE
+            !
+            INTEGER :: KEYB_DATA
+            CHARACTER(LEN=10) :: INPDAT
+            !
+            INTEGER :: I, J, K, DATL, NUM, RES
+            !
+            !
+            inloop: DO      !! MAIN LOOP        (2)
+               !
+               READ 100, INPDAT
+               !
+               SELECT CASE (INPDAT)   !!        (3)
+                  !
+               CASE ('Q','q','quit')  !! EXIT          (4)
+                  PRINT*, "End of program"
+                  EXIT inloop
+               CASE ('plus','Plus','PLUS','+')   !! SUM              (5)
+                  CALL POP(J)
+                  CALL POP(K)
+                  RES = K + J
+                  PRINT 120, K, J, RES
+                  CALL PUSH(RES)
+               CASE ('minus','Minus','MINUS','-')   !! SUBSTRACT        (6)
+                  CALL POP(J)
+                  CALL POP(K)
+                  RES = K - J
+                  PRINT 130, K, J, RES
+                  CALL PUSH(RES)
+               CASE DEFAULT !! NUMBER TO STACK  (7)
+                  !
+                  DATL = LEN_TRIM(INPDAT)
+                  !
+                  RES = 0
+                  DO I = DATL, 1, -1
+                     NUM = IACHAR(INPDAT(I:I)) - 48
+                     RES = RES + NUM*10**(DATL-I)
+                  ENDDO
+                  !
+                  PRINT 110, RES
+                  CALL PUSH(RES)
+               END SELECT
+               !
+            ENDDO inloop
+            !
+          100 FORMAT(A10)
+          110 FORMAT(1X, I10)
+          120 FORMAT(1X, I10,' + ', I10,' = ', I20)
+          130 FORMAT(1X, I10,' - ', I10,' = ', I20)
+          END PROGRAM RPN_CALC
+
+10.3.4. `excode_10_2_mod.f90'
+-----------------------------
+
+          MODULE Stack
+            !
+            ! MODULE THAT DEFINES A BASIC STACK
+            !
+            IMPLICIT NONE
+            !
+            SAVE
+            !
+            INTEGER, PARAMETER :: STACK_SIZE = 500
+            INTEGER, DIMENSION(STACK_SIZE) :: STORE = 0
+            INTEGER :: STACK_POS = 0
+            !
+            PRIVATE :: STORE, STACK_POS, STACK_SIZE
+            PUBLIC :: POP, PUSH
+            !
+            CONTAINS
+              !
+              SUBROUTINE PUSH(I)
+                !
+                INTEGER, INTENT(IN) :: I
+                !
+                IF (STACK_POS < STACK_SIZE) THEN
+                   !
+                   STACK_POS = STACK_POS + 1; STORE(STACK_POS) = I
+                   !
+                ELSE
+                   !
+                   STOP "FULL STACK ERROR"
+                   !
+                ENDIF
+                !
+              END SUBROUTINE PUSH
+          !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+              SUBROUTINE POP(I)
+                !
+                INTEGER, INTENT(OUT) :: I
+                !
+                IF (STACK_POS > 0) THEN
+                   !
+                   I = STORE(STACK_POS); STACK_POS = STACK_POS - 1
+                   !
+                ELSE
+                   !
+                   STOP "EMPTY STACK ERROR"
+                   !
+                ENDIF
+                !
+              END SUBROUTINE POP
+              !
+          END MODULE Stack
 
 
 -------------------------------------------------------------------------------

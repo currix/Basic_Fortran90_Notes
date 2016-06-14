@@ -1,19 +1,24 @@
-PROGRAM ex_9_6
+PROGRAM ex_10_1
+  !
+  USE NUMERIC_KINDS
   !
   IMPLICIT NONE
   !
   INTEGER :: I, IERR
-  REAL, DIMENSION(:), ALLOCATABLE :: X, Y
-  REAL :: M, SD, MEDIAN
+  REAL(KIND=dp), DIMENSION(:), ALLOCATABLE :: X, Y
+  REAL(KIND=dp) :: M, SD, MEDIAN
   ! interface block   
   INTERFACE
      SUBROUTINE STATS(VECTOR,N,MEAN,STD_DEV,MEDIAN)
+       !
+       USE NUMERIC_KINDS
+       !
        IMPLICIT NONE
        INTEGER , INTENT(IN)                    ::  N
-       REAL      , INTENT(IN) , DIMENSION(:)   :: VECTOR  
-       REAL      , INTENT(OUT)                 :: MEAN
-       REAL      , INTENT(OUT)                 :: STD_DEV
-       REAL      , INTENT(OUT)                 :: MEDIAN
+       REAL(KIND=dp)      , INTENT(IN) , DIMENSION(:)   :: VECTOR  
+       REAL(KIND=dp)      , INTENT(OUT)                 :: MEAN
+       REAL(KIND=dp)      , INTENT(OUT)                 :: STD_DEV
+       REAL(KIND=dp)      , INTENT(OUT)                 :: MEDIAN
      END SUBROUTINE STATS
   END INTERFACE
   !
@@ -64,40 +69,33 @@ CONTAINS
     ! 
     ! Uses the Box-Muller method to create two normally distributed vectors
     !
-    ! The Box-Muller method is a pseudo-random number sampling method for
-    ! generating pairs of independent, standard, normally distributed
-    ! (zero expectation, unit variance) random numbers, given a source of
-    ! uniformly distributed random numbers.
-    !
     INTEGER, INTENT(IN) :: dim
     !
-    REAL, PARAMETER :: PI = ACOS(-1.0)
-    REAL, DIMENSION(dim) :: RANDOM_u, RANDOM_v ! Automatic arrays
+    REAL(KIND=dp), PARAMETER :: PI = ACOS(-1.0_dp)
+    REAL(KIND=dp), DIMENSION(dim) :: RANDOM_u, RANDOM_v ! Automatic arrays
     !
     CALL RANDOM_NUMBER(RANDOM_u)
     CALL RANDOM_NUMBER(RANDOM_v)
     !
-    X = SQRT(-2.0*LOG(RANDOM_u))
-    Y = X*SIN(2*PI*RANDOM_v)
-    X = X*COS(2*PI*RANDOM_v)
+    X = SQRT(-2.0_dp*LOG(RANDOM_u))
+    Y = X*SIN(2.0_dp*PI*RANDOM_v)
+    X = X*COS(2.0_dp*PI*RANDOM_v)
     !
   END SUBROUTINE BOX_MULLER
   !
-END PROGRAM ex_9_6
-!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!
+END PROGRAM ex_10_1
 SUBROUTINE STATS(VECTOR,N,MEAN,STD_DEV,MEDIAN)
+  USE NUMERIC_KINDS
   IMPLICIT NONE
-  ! Arguments
+  ! Defincion de variables
   INTEGER , INTENT(IN)                    ::  N
-  REAL      , INTENT(IN) , DIMENSION(:)    ::  VECTOR    !! (1)
-  REAL      , INTENT(OUT)                  ::  MEAN
-  REAL      , INTENT(OUT)                  ::  STD_DEV
-  REAL      , INTENT(OUT)                  ::  MEDIAN
-  ! Local Variables
-  REAL      , DIMENSION(1:N)              ::  Y
-  REAL      :: VARIANCE = 0.0
-  REAL      :: SUMXI = 0.0, SUMXI2 = 0.0
+  REAL(KIND=dp)      , INTENT(IN) , DIMENSION(:)    ::  VECTOR    !! (1)
+  REAL(KIND=dp)      , INTENT(OUT)                  ::  MEAN
+  REAL(KIND=dp)      , INTENT(OUT)                  ::  STD_DEV
+  REAL(KIND=dp)      , INTENT(OUT)                  ::  MEDIAN
+  REAL(KIND=dp)      , DIMENSION(1:N)              ::  Y
+  REAL(KIND=dp)      :: VARIANCE = 0.0_dp
+  REAL(KIND=dp)      :: SUMXI = 0.0_dp, SUMXI2 = 0.0_dp
   !
   SUMXI=SUM(VECTOR)       !! (6)
   SUMXI2=SUM(VECTOR*VECTOR)    !! (6)
@@ -105,7 +103,7 @@ SUBROUTINE STATS(VECTOR,N,MEAN,STD_DEV,MEDIAN)
   VARIANCE=(SUMXI2-SUMXI*SUMXI/N)/(N-1)
   STD_DEV = SQRT(VARIANCE)
   Y=VECTOR
-  ! Sort values
+  ! Ordena valores por proceso de seleccion
   CALL SELECTION
   IF (MOD(N,2) == 0) THEN
      MEDIAN=(Y(N/2)+Y((N/2)+1))/2

@@ -2712,7 +2712,7 @@ name="URL"> you can find a complet list of the intrinsic functions at
     means that they can admit different argument types, with the
     exception of the functions <tt>LGE</tt>, <tt>LGT</tt>, <tt>LLE</tt>, and <tt>LLT</tt>.
 
-<item> The <em>elemental</em> functions may have as an argument both
+<item> <em>Elemental</em> functions may have as an argument both
   scalars or vectors. The example source codes <ref id="sec_p_8_1">
   and <ref id="sec_p_8_2"> show the elemental and generic character of
   some intrinsic functions. When an elemental function is applied to
@@ -2724,7 +2724,7 @@ name="URL"> you can find a complet list of the intrinsic functions at
   the latter are found in <ref id="sec_p_5_7"> and <ref id="sec_p_9_3">. 
 
 <p>
-  The <em>transformational</em> functions transform between different
+  <em>Transformational</em> functions transform between different
   data types, e.g.  <tt>REAL</tt> and <tt>TRANSPOSE</tt>, or functions
   that work with time data variables as <tt>SYSTEM_CLOCK</tt>
   and <tt>DATE_AND_TIME</tt>.
@@ -3243,13 +3243,13 @@ The variable <tt>It</tt> value is kept among different calls to the subroutine.
 <item> <em>explicit-shape approach</em>:
 
 <p>
-En este caso se incluyen como argumentos en la llamada a la subrutina
-las dimensiones de las matrices implicadas, declarando posteriormente
-las matrices haciendo uso de dichas dimensiones. Por ejemplo, si en
-una subrutina llamada <tt>test_pass</tt> se incluye un vector de
-entrada llamado <tt>space_vec_in</tt> y uno de
-salida<tt>space_vec_out</tt> con la misma dimensión, si hacemos uso
-del <em>explicit-shape approach</em> la subrutina comenzaría como
+In this case the dimensions of the matrices are included as arguments
+in the subroutine call and the matrices are declared making use of
+these arguments. For example, if in a subroutine
+called  <tt>test_pass</tt> an input vector (<tt>space_vec_in</tt>) and
+an output vector (<tt>space_vec_out</tt>) with equal dimensions are
+used, if we make use of the <em>explicit-shape approach</em> the
+subroutine starts as follows
 
 <p>
 <example>
@@ -3264,33 +3264,36 @@ SUBROUTINE test_pass(space_vec_in, space_vec_out, dim_vec)
 
 <item> <em>assumed-shape approach</em>:
 
-<p> En este caso es necesario incluir el correspondiente bloque <tt>INTERFACE</tt> en el subprograma que invoca la subrutina. Como veremos en el  <ref id="clase_10"> esto se puede evitar incluyendo la subrutina en un módulo.
+<p> The main difference with the previous case is that either the
+  corresponding <tt>INTERFACE</tt> block is added or, as explained
+  in <ref id="clase_10">, the subroutine is embedded in a module.
 
 
 
 <p>
-En el <ref id="sec_p_9_3">
-puede verse un programa en el que se calcula la media, la
-mediana<footnote>Se define la <em>mediana</em> de un conjunto de
-números como aquel valor de la lista tal que la mitad de los valores
-sean inferiores a él y la otra mitad sean superiores. Coincide con el
-valor medio en distribuciones simétricas. Para su cálculo es preciso
-ordenar previamente la lista de números.</footnote>, la varianza y la
-desviación estándar de un conjunto de números generados aleatoriamente.
-En el programa hemos marcado algunos de los puntos de interés que queremos explicar con detalle.
+The example code <ref id="sec_p_9_3"> calculates the mean, the
+    median<footnote>The <em>median</em> value of a set of data is
+    defined as the value of the list such that half the values of the
+    set are less than it and the other half are greater than
+    it. Median and mean are identical for symmetrical data
+    distributions. The calculation of the median requires the sorting
+    of the set of values.</footnote>, the variance and the standard
+    deviation of a set of random numbers following a continuous
+    uniform distribution. Several points of interest
+    has been marked in the program.
+    
 <list>
-<item> <em>(1-3)</em> Hemos definido la matriz con dimensión variable,
-de forma que se dimensione mediante una orden <tt>ALLOCATE</tt>. En la
-orden que dimensiona a la matriz se indica que es un vector
-(<tt>DIMENSION(:)</tt>) y del mismo modo se hace en el <em>interface
-block</em>. El uso del <em>interface block</em> es recomendable, y en
-casos como este, con matrices definidas de este modo, resulta
-obligatorio. La orden <em>(3)</em>, <tt>ALLOCATE(X(1:N), STAT =
-IERR)</tt> hace que <tt>X</tt> pase a ser un vector
-N-dimensional. Usamos también el campo opcional <tt>STAT</tt> que nos
-permita saber si se ha podido dimensionar el arreglo solicitado. Solo
-si la salida (<tt>IERR</tt>) es cero la matriz se ha creado sin
-problemas. El uso de esta opción debe generalizarse.
+<item> <em>(1-3)</em> Dynamic memory storage using
+  the <tt>ALLOCATABLE</tt> attribute and the <tt>ALLOCATE</tt>
+  statement. Notice that the array is a vector (<tt>DIMENSION(:)</tt>)
+  and this piece of info needs to be also include in the <em>interface
+    block</em>. The use of the <em>interface block</em> in cases like
+  this one is mandatory. The statement  <em>(3)</em>, <tt>ALLOCATE(X(1:N), STAT =
+IERR)</tt> defines the length of the <tt>X</tt> vector. We also use
+  the optional field  <tt>STAT</tt> to check whether the array has
+  been correctly dimensioned or not. Only if the output of this field,
+  in the <tt>IERR</tt> variable, is zero the dynamic allocation has
+  worked flawlessly.
 <p>
 <example>
   REAL , ALLOCATABLE , DIMENSION(:) :: X  !! (1)
@@ -3311,112 +3314,98 @@ problemas. El uso de esta opción debe generalizarse.
   END INTERFACE
 </example>
 <p>
-Es importante tener en cuenta que se puede definir
-como <tt>ALLOCATABLE</tt> el argumento con el que se llama a una
-subrutina, así como a variables internas o locales de la subrutina,
-pero una variable <em>dummy</em> no puede tener este atributo.
+It is important to take into account that an argument of a subroutine
+can have the <tt>ALLOCATABLE</tt> attribute, as well as local
+subroutine variables, but not <em>dummy</em> variables.
 
-<p> A diferencia de en <prgn>FORTRAN77</prgn>, la forma recomendada de
-transmitir arreglos de datos entre un programa y una subrutina es como
-en el ejemplo, usando <em>assumed shape arguments</em>  en los que no
-se da ninguna información acerca del tamaño del arreglo. Sí deben
-  coincidir ambas variables en tipo, rango y clase (<tt>KIND</tt>).
+<p> The  <em>assumed shape arguments</em> are nonexistent
+  in  <prgn>FORTRAN 77</prgn>, and it is the recommended form of
+  transmitting arguments between a main program and a subprogram. In
+  this form there is no transmitted information about the dimension of
+  the array, and the argument and the main program variable need to
+  have equal type, range, and class (<tt>KIND</tt>).
 
-<item> <em>(4)</em> y <em>(6)</em>: En estas órdenes se aprovecha la capacidad
-de <prgn>Fortran90</prgn> para trabajar con arreglos de variables, ya
-sean estos vectores o matrices. Por ejemplo, el
-comando <tt>X=X*1000</tt> multiplica todas las componentes del
-vector <tt>X</tt> por un escalar y el comando <tt>SUMXI=SUM(X)</tt>
-aprovecha la función <tt>SUM</tt> para sumar las componentes del
-vector. En estilo <prgn>Fortran 77</prgn> estas operaciones
-conllevarían un bucle <tt>DO</tt>, por ejemplo
-<p>
-<example>
-SUMXI = 0.0
-DO I = 1, N
-   SUMXI = SUMXI + X(I)
-ENDDO
-</example>
+  <item> <em>(4)</em> and <em>(6)</em>: these statements take
+    advantage of the <prgn>Fortran 90</prgn> rules to work with vector
+    and arrays.
+    
+<item> <em>(5)</em> In this statement the allocated memory is revoked
+  and freed using the <tt>DEALLOCATE</tt> statement. This is not
+  mandatory in programs like the present example, though it is
+  necessary to do so when the allocatable array has been defined in a
+  function of subroutine without the <tt>SAVE</tt> attribute.  
 
-<item> <em>(5)</em> En esta parte del programa se libera la memoria
-reservada para el vector <tt>X</tt> usando el
-comando <tt>DEALLOCATE</tt>. Este paso no es obligatorio en este
-programa, pero sí cuando la matriz del tipo <tt>ALLOCATE</tt> se ha
-definido en una función o subrutina y no tiene el
-atributo <tt>SAVE</tt>.
-
-<item> <em>(7)</em> Aquí se aprovecha el comando <tt>CONTAINS</tt>
-para hacer que la subrutina de ordenamiento <tt>SELECTION</tt>, que
-como puede verse no posee argumentos, <em>conozca</em> las misma
-variables que la subrutina <tt>STATS</tt>, en la que está
-contenida. Por ello, en la subrutina <tt>SELECTION</tt> solo es
-preciso definir las variables locales. Esta subrutina se encarga de
-ordenar la lista de números según un algoritmo que consiste en buscar
-el número más pequeño de la lista y hacerlo el primer miembro. Se
-busca a continuación el más pequeño de los restantes que pasa a ser
-segundo, y así prosigue hasta tener ordenada la lista de números.
-</list>
+<item> <em>(7)</em> The  <tt>CONTAINS</tt> statement is used to make
+  the sorting subroutine <tt>SELECTION</tt> have access to the
+  variables of the <tt>STATS</tt> subroutine. This is why in
+  the <tt>SELECTION</tt> subroutine with the sorting algorithm  only local variables need to be
+  defined. </list>
 
 <p>
-La definición de bloques <tt>INTERFACE</tt> se facilita con el uso de módulos, que describimos en la siguiente unidad.
+The definition of <tt>INTERFACE</tt> blocks is a task simplified
+making use of modules, that are introduced in the next chapter. 
 
 <item> <em>assumed-size approach</em>
-<p>En este caso no se da información a la subrutina acerca de las dimensiones de la matriz, es fácil caer en errores de difícil diagnóstico y se desaconseja su uso.
+<p>This case is not advised due to the lack of info in the subroutine
+  about the matrix dimensiones. This makes easy to make errors of
+  difficult diagnose. Its use is not encouraged.
 
 </enumlist>
 
 
-<item> Arreglos multidimensionales. El <ref id="sec_p_9_5"> es un
-ejemplo de como pasar como argumentos arreglos multidimensionales
-como <em>assumed shape arrays</em>. En él, tras que el usuario defina
-dos matrices, <tt>A</tt> y <tt>B</tt>, el programa calcula la
-matriz <tt>C</tt> solución del producto <tt>AB</tt> y tras ello
-calcula la matriz traspuesta de <tt>A</tt>. Se hace uso de las
-funciones de <prgn>Fortran 90</prgn> <tt>MATMUL</tt>
-y <tt>TRANSPOSE</tt>.
+<item> Multidimensional arrays. The source code <ref id="sec_p_9_5">
+    is an example of how to pass multidimensional arrays as arguments
+    of a subroutine as <em>assumed shape arrays</em>. The user defines
+    two arrays , <tt>A</tt> and <tt>B</tt>, and the program computes
+    the <tt>C</tt> array as the matrix product <tt>A</tt>
+    times <tt>B</tt>. Then, the program computes the transpose matrix
+    of  <tt>A</tt>. The program makes use of the <prgn>Fortran
+    90</prgn> functions <tt>MATMUL</tt> and  <tt>TRANSPOSE</tt>.
 
-<item> En las subrutinas pueden dimensionarse <em>automatic
-arrays</em>, que pueden depender de los argumentos de la
-subrutina. Estos arreglos son locales a la subrutina, no pueden tener
-el argumento <tt>SAVE</tt> y se crean cada vez que se invoca la
-subrutina, siendo destruidos al salir de ella. Esto hace que si no hay
-memoria suficiente para dimensionar el arreglo el programa no
-funcione. Para evitar esto deben definirse arreglos no automáticos,
-del tipo <tt>ALLOCATABLE</tt>. 
+<item> Subroutines can contain  <em>automatic
+arrays</em>, that may depend on the subroutine argument values. These
+  are local array that may not have the  <tt>SAVE</tt> attribute. They
+  are created when the subroutine is invoked and destroyed when the
+  execution flow leaves the subroutine. It is preferable to
+  use  <tt>ALLOCATABLE</tt> arrays.
 
-
-<item> Al pasar como argumento una variable de tipo <tt>CHARACTER</tt> dicho argumento se declar con una longitud <tt>LEN = *</tt> y cuando se llame a la subrutina la longitud de la variable pasa a ser la longitud de la variable en la llamada.
+<item> An argument of <tt>CHARACTER</tt> type is also diffenrent in
+  the sense that if such argument is declared with a length  <tt>LEN =
+  *</tt>, once the subroutine is called the variable length is the
+  legth of the variable in the call.
 <p>
-El <ref id="sec_p_9_4">
-muestra un programa en el que, al darle el nombre de un fichero y el
-número de datos almacenados en dicho fichero; el programa abre el
-fichero y lee dos columnas de valores que almacena en los
-vectores <tt>X</tt> e <tt>Y</tt>. En estos casos, dado que el tamaño
-de la variable <tt>CHARACTER</tt> es variable, es preciso usar
-un <em>interface block</em>.
+The code <ref id="sec_p_9_4">
+is a program to which a file name is given and the number of data
+pairs stored in the file. The program opens the file and reads the
+two-column dataset.  Notice that, due to the variable size of the <tt>CHARACTER</tt>  variable, the
+ <em>interface block</em> is required.
 
 
-<p> El <ref id="sec_p_9_6"> es un ejemplo donde se construyen dos
-vectores de números aleatorios de dimensión definida por el usuario
-usando el método <em>Box-Mueller</em>. Para ello se definen dos
-matrices de tipo <tt>ALLOCATABLE</tt>, <tt>X</tt> e <tt>Y</tt>, y en la
-subrutina interna <tt>BOX_MULLER</tt> se definen dos vectores de tipo
-automático: <tt>RANDOM_u</tt> y <tt>RANDOM_v</tt>.
+<p> The example <ref id="sec_p_9_6"> caluculate two pseudo random
+    number vectors with a Gaussian or normal distribution with a
+    dimension defined by the user. This is achieved with
+    the  <em>Box-Mueller</em> method.
 
-<p> Para calcular el valor medio, la desviación estándar y la mediana de los vectores <tt>X</tt> e <tt>Y</tt> se hace uso de la subrutina <tt>STATS</tt> del  <ref id="sec_p_9_3">. Se incluye el necesario <tt>INTERFACE</tt> en el programa principal y la subrutina se debe compilar en un fichero por separado.
- <ref id="sec_p_9_6">
-<item> Sí es importante tener en cuenta que en el caso que se transfiera
-  un <em>array</em> usando  <em>assumed shape arguments</em> como en los
-  ejemplos, el primer índice de la variable en la subrutina <em>se supone
-  que comienza con el valor <tt>1</tt>, a menos que explícitamente se
-  indique lo contrario</em>. En el ejemplo   <ref id="sec_p_9_7"> se
-  muestra un caso simple donde es necesario indicar el índice inicial
-  del vector cuando este no es cero. En este programa se calcula el
-  factorial de los enteros entre <tt>IMIN</tt> e <tt>IMAX</tt> y se
-  almacenan en un vector real. Se puede compilar y correr el
-  programa haciendo <tt>IMIN = 1</tt> e <tt>IMIN = 0</tt> con y sin la
-  definición del índice inicial en la subrutina, para ver la
-  diferencia en las salidas.
+    <p>Two  <tt>ALLOCATABLE</tt> arrays, <tt>X</tt> and <tt>Y</tt> are
+      difined and in the internal subroutine <tt>BOX_MULLER</tt> two
+      vectors of automatic type are defined: <tt>RANDOM_u</tt> and <tt>RANDOM_v</tt>.
+
+<p> The mean value, the median and the standard deviation are computed
+  making use of the <tt>STATS</tt> subroutine in the  source
+  code <ref id="sec_p_9_3">. The necessary  <tt>INTERFACE</tt> block
+  is included in the main program and the subroutine should be
+  compiled in a separate file.
+
+<item> It is important to take into account that when array arguments
+  are used as  <em>assumed shape arguments</em> the first index of the
+  variable in the subroutine by default takes a value <tt>1</tt>,
+  unless it is explicitly indicated. The example  <ref id="sec_p_9_7">
+  is a simple case where this initial value is indicated. This program
+  cmputes the factorial of the integers in the range
+  between <tt>IMIN</tt> and <tt>IMAX</tt>, storing them in a real
+  vector.  The program can be compiled making <tt>IMIN = 1</tt>
+  or <tt>IMIN = 0</tt> with and without the definition of the initial
+  index in the subroutine to check the different outputs. 
 </enumlist>
 </sect>
 
@@ -3979,92 +3968,183 @@ END SUBROUTINE SUBEXAMPLE
 <sect id="sec_101"> Objectives
 
 <p>
-Los objetivos de esta clase son los siguientes:
+The main aims of this session consist of:
 
 <enumlist> 
-<item> Presentar los módulos y las ventajas que aportan.
-<item> Uso de módulos para la definición de variables. Reemplazo de bloques <tt>COMMON</tt>.
-<item> Uso de módulos para la definición de funciones y subrutinas.
-<item> Definición de variables públicas y privadas en módulos. Visibilidad en el módulo. 
+<item> Presenting modules and their main pros.
+<item> Use of modules for variable definition, replacing the
+  deprecated <tt>COMMON</tt> block, a feature of <prgn>FORTRAN 77</prgn>.
+<item> Use of modules to define and transmit functions and subroutines.
+<item> Private and publice variables in a module: variable
+  visibility. 
 </enumlist>
 </sect>
 
-<sect id="sec_102"> Puntos destacables.
+<sect id="sec_102"> Main items.
 <p>
 <enumlist> 
-<item> La definición de módulos permite escribir código de forma más clara y flexible. En un módulo podemos encontrar
+<item> Modules allow a clearer and more flexible code production. A
+  module can encompass
 
 <enumlist>
-<item> Declaración global de variables.
+<item> Global variables declaration.
 
 <p>
-Reemplazan a las órdenes <tt>COMMON</tt> e <tt>INCLUDE</tt> de <prgn>FORTRAN 77</prgn>.
+Modules in this regard replace the deprecated  <tt>COMMON</tt>
+and <tt>INCLUDE</tt> <prgn>FORTRAN 77</prgn> features.
 
-<item>  Declaración de bloques <tt>INTERFACE</tt>.
+<item>  <tt>INTERFACE</tt> blocks declaration.
 
-<item> Declaración de funciones y subrutinas. La declaración de funciones y subrutinas en un módulo es conveniente para evitar la inclusión de los correspondientes <tt>INTERFACE</tt>, ya que estos están ya implícitos en el
-módulo.
+<item> Functions and subroutines declaration, avoiding the necessity
+  of including <tt>INTERFACE</tt> blocks.
 
-<item> Control del acceso a los objetos, lo que permite que ciertos
-objetos tengan carácter público y otros privado.
+<item> Access control to the different variables, assigning public or
+  private character.
 
-<item> Los módulos permiten empaquetar tipos derivados, funciones, subrutinas para proveer de capacidades de programación orientada a objetos. Pueden también usarse para definir extensiones semánticas al lenguaje <prgn>FORTRAN</prgn>.
+<item> Modules allow to pack derived types, functions, subroutines and
+  allow the development of an object oriented programming approach in <prgn>FORTRAN</prgn>.
 </enumlist>
 
 <p>
-La sintaxis para la declaración de un módulo es la siguiente:
+The syntax of a module declaration is as follows
 <p>
 <example>
-MODULE <var>module name</var>
+MODULE <var>module_name</var>
    IMPLICIT NONE
-   SAVE
-     <var>declaraciones y especificaciones</var>
+   [SAVE]
+     <var>Variable declarations</var>
    [ CONTAINS
-     <var>definición de subrutinas y funciones</var> ]
-END MODULE  <var>module name</var>
+     <var>Subprograms definition</var> ]
+END MODULE  <var>module_name</var>
 </example>
-<p> La carga del módulo se hace mediante la orden <tt>USE
-MODULE <var>module name</var></tt> que debe preceder al resto de
-órdenes de la unidad de programa en el que se incluya.  Desde un
-módulo puede llamarse a otro módulo.  A continuación desarrollamos
-brevemente estas ideas.
+<p> The modules is loaded with the statement <tt>USE
+    MODULE <var>module_name</var></tt> that has to preceed the rest of
+    the program statements. From a module another module can be
+    called. 
 
-<item> Una de las funciones de los módulos es permitir el intercambio
-de variables entre diferentes programas y subrutinas sin recurrir a
-los argumentos. La otra función principal es, haciendo uso
-de <tt>CONTAINS</tt>, definir funciones, subrutines y
-bloques <tt>INTERFACE</tt>.
+<item> Modules allow the transmission of variables between subprogram
+  units without arguments. The other main role of modules is, making
+  use of the  <tt>CONTAINS</tt> statement, to define functions,
+  subroutines and <tt>INTERFACE</tt> blocks.
 
 <p>
-La inclusión de estas unidades en un módulo hace que todos los
-detalles acerca de las subrutinas y funciones implicadas sean
-conocidas para el compilador lo que permite una más rápida detección
-de errores. Cuando una subrutina o una función se compila en un módulo
-y se hace accesible mediante <tt>USE MODULE</tt> se dice que tiene una
-interfaz explícita (<em>explicit interface</em>), mientras que en caso contrario se dice que tiene una interfaz implícita  (<em>implicit interface</em>).
+The subprograms inclusion in a module informs the compiler about all
+the details of them, allowing a fast error detection. Subroutines and
+functions in a module and accessed with <tt>USE MODULE</tt> it is said
+to be an <em>explicit interface</em>, whereas in other case it is said
+to have an <em>implicit interface</em>.
 
-<item> La definición de módulos favorece la
-llamada <em>encapsulación</em>, que consiste en definir secciones de
-código que resultan fácilmente aplicables en diferentes
-situaciones. En esto consiste la base de la llamada programación
-orientada a objetos. En el <ref id="sec_p_10_1"> presentamos como se
-define un módulo (usando la orden <tt>MODULE</tt> en vez
-de <tt>PROGRAM</tt> para la definición de un <em>stack</em> de
-enteros. Es importante tener en cuenta como se definen en el módulo
-las variables <tt>STACK_POS</tt> y <tt>STORE</tt> con el
-atributo <tt>SAVE</tt>, para que su valor se conserve entre
-llamadas. Esto es especialmente importante cuando el módulo se llama
-desde una subrutina o función en vez de desde el programa principal.
+<item> The definition of modules favors the encapsulation of code,
+  defining easily reusable code, which is the basis of object oriented
+  programming.
 
-<item> Este módulo puede ser accedido por otra unidad de programa que
-lo cargue usando la orden <tt>USE</tt>. Debe compilarse previamente a
-la unidad de programa que lo cargue.
+  <item> Modules are loaded from other programs or subprograms via the
+    <tt>USE</tt> command.
+
+
+<item> In order to define common variables for several program units
+  the deprecated  <tt>COMMON</tt> feature should be avoided. Instead
+  the following steps are necessary
+
+<enumlist>
+<item> Declare variables in a  <tt>MODULE</tt>.
+<item> Give the  variables the  <tt>SAVE</tt> attribute.
+<item> Load the modue with the
+  statement <tt>USE</tt> <var>module_name</var>) from those program
+  units that should access the variables. 
+</enumlist>
+
+<p>
+As an example, if there are several physical constants that are used
+in severla programs we can define a module as follows
+<p>
+<example>
+MODULE PHYS_CONST
+  !
+  IMPLICIT NONE
+  !
+  SAVE
+  !
+  REAL, PARAMETER :: Light_Speed = 2.99792458E08  ! m/s
+  REAL, PARAMETER :: Newton_Ctnt = 6.67428E-11    ! m3 kg-1 s-2
+  REAL, PARAMETER :: Planck_Ctnt = 4.13566733E-15 ! eV s
+  !
+  REAL :: Other_variable
+  !
+END MODULE PHYS_CONST
+</example>
+
+
+<p>
+In this module three physical constants are defined (with
+the <tt>PARAMETER</tt> attribute) and a fourth variable that is not
+kept constant. Any program unit that needs access to these variables
+only needs to load the module as follows
+
+<p>
+<example>
+PROGRAM CALCULUS
+  !
+  USE PHYS_CONST 
+  !
+  IMPLICIT NONE
+  !
+  REAL DISTANCE, TIME
+  !
+  ...
+  DISTANCE = Light_Speed*TIME
+  ...
+  !
+END PROGRAM CALCULUS
+</example>
+
+
+
+
+<item> The use of modules allows a safe, portable, and flexible way of
+  controlling the precision of the integer and real numbers in the
+  program. A possible way to define in a protable way the precision of
+  a given code is with a module like  <tt>NUMERIC_KINDS</tt> included
+  in  <ref id="sec_p_10_1_mod"> and we can define the precision using
+  this module
+<p>
+<example>
+PROGRAM TEST_MINUIT
+  !
+  USE NUMERIC_KINDS
+  !
+  IMPLICIT NONE
+  !
+  ! Variable Definition     
+  REAL(KIND=dp), PARAMETER :: PI = 4.0_dp*ATAN(1.0_dp)
+  REAL(KIND=dp) :: ENERF
+   ....
+   .... 
+</example>
+
+<p>
+This solution enhances the portability of the code and is less error
+prone than individually defining the precision for each program
+unit. The example code <ref id="sec_p_10_1"> is the same
+    than <ref id="sec_p_9_6"> apart from this improvement.
+
+
+
+    
+  <item> In the source code  <ref id="sec_p_10_2_mod"> we present a
+      module, defined with the <tt>MODULE</tt> heading instead
+      of <tt>PROGRAM</tt>, for the definition of an
+      integers <em>stack</em>. In this case it is worth to notice the
+      way the variables <tt>STACK_POS</tt> and <tt>STORE</tt> are
+      defined, as <tt>PRIVATE</tt> variables and with
+      the <tt>SAVE</tt> attribute.
+      
 
 <p> 
 <example>
-PROGRAM Uso_Stack
+PROGRAM Use_Stack
 !
-USE Stack     ! CARGA EL MODULO 
+USE Stack     ! Load the module 
 !
 IMPLICIT NONE
 ....
@@ -4072,10 +4152,10 @@ IMPLICIT NONE
 CALL POP(23); CAL PUSH(20)
 ....
 ....
-END PROGRAM Uso_Stack
+END PROGRAM Use_Stack
 </example>
 
-<item> Como vemos en el <ref id="sec_p_10_1"> las variables dentro de
+<item> Como vemos en el <ref id="sec_p_10_2_mod"> las variables dentro de
 un módulo pueden definirse como variables privadas, con el
 atributo <tt>PRIVATE</tt>. Esto permite que no se pueda acceder a
 estas variables desde el código que usa el módulo. El programa que carga el módulo solo puede acceder a las subrutinas <tt>POP</tt> y <tt>PUSH</tt>. La visibilidad por defecto al definir una variable o procedimiento en un módulo es <tt>PUBLIC</tt>. Es posible añadir el atributo a la definición de las variables
@@ -4107,59 +4187,6 @@ USE Stack, ONLY: POP, STACK_PUSH => PUSH
 </example>
 
 Solamente se accede a <tt>POP</tt> y <tt>PUSH</tt>, y este último se renombra a <tt>STACK_PUSH</tt>.
-
-<item> Para definir variables comunes a diferentes partes de un
-programa se debe evitar el uso de variables en <tt>COMMON</tt> y, en
-vez de ello, se siguen los pasos siguientes.
-
-<enumlist>
-<item> Declarar las variables necesarias en un <tt>MODULE</tt>.
-<item> Otorgar a estas variables el atributo <tt>SAVE</tt>.
-<item> Cargar este módulo (<tt>USE</tt> <var>module_name</var>) desde
-aquellas unidades que necesiten acceso a estos datos globales.
-</enumlist>
-
-<p>
-Por ejemplo, si existen una serie de constantes físicas que utilizaremos en varios programas podemos definirlas en un módulo:
-<p>
-<example>
-MODULE PHYS_CONST
-  !
-  IMPLICIT NONE
-  !
-  SAVE
-  !
-  REAL, PARAMETER :: Light_Speed = 2.99792458E08  ! m/s
-  REAL, PARAMETER :: Newton_Ctnt = 6.67428E-11    ! m3 kg-1 s-2
-  REAL, PARAMETER :: Planck_Ctnt = 4.13566733E-15 ! eV s
-  !
-  REAL :: Otra_variable
-  !
-END MODULE PHYS_CONST
-</example>
-
-
-<p>
-En este módulo se definen tres constantes físicas (con el
-atributo <tt>PARAMETER</tt>, ya que son constantes) y una cuarta
-variable a la que se desea acceder que no permanece constante. En cualquier programa, función o subrutina que quieran usarse estas variables basta con cargar el módulo
-
-<p>
-<example>
-PROGRAM CALCULUS
-  !
-  USE PHYS_CONST 
-  !
-  IMPLICIT NONE
-  !
-  REAL DISTANCE, TIME
-  !
-  ...
-  DISTANCE = Light_Speed*TIME
-  ...
-  !
-END PROGRAM CALCULUS
-</example>
 
 
 
@@ -4217,195 +4244,40 @@ $ gfortran -c ejemplo_10_1_Stack.f90
 $ gfortran -o ejemplo_10_2 ejemplo_10_2.f90 ejemplo_10_1_Stack.o
 </example>
 
-
-<item> El uso de módulos también permite, de forma flexible, segura y
-fácil de modificar, controlar la precisión de los números reales (o
-enteros) en los cálculos que se lleven a cabo. Una posible forma de
-definir de forma portable la doble precisión es mediante un sencillo módulo, llamado <tt>dble_prec</tt>. Como vimos en el programa  <ref id="sec_p_2_6"> los números reales de doble precisión tienen un <tt>KIND = 8</tt>. Para hacer el código independiente de la plataforma donde compilemos podemos hacer 
-<p>
-<example>
-MODULE dble_prec
-  IMPLICIT NONE
-  INTEGER, PARAMETER :: dbl = KIND(1.0D0)
-END MODULE dble_prec
-</example>
-<p>
-Por tanto podemos definir esa precisión cargando este módulo, p.e.
-<example>
-PROGRAM TEST_MINUIT
-  !
-  USE dble_prec
-  !
-  IMPLICIT NONE
-  !
-  ! Variable Definition     
-  REAL(KIND=dbl), PARAMETER :: PI = 4.0_dbl*ATAN(1.0_dbl)
-  REAL(KIND=dbl) :: ENERF
-   ....
-   .... 
-</example>
-
-<p>
-Esto favorece la portabilidad y reduce el riesgo de errores ya que
-para cambiar la precisión con la que se trabaja solamente es necesario
-editar el módulo. En el <ref id="sec_p_10_3"> introducimos esta mejora
-en el programa <ref id="sec_p_9_6">. Se almacena el módulo simple
-anteriormente descrito en un fichero llamado,
-p.e., <file>dble_prec.f90</file> y se compila previamente:
-<p>
-<example>
-$ gfortran -c dble_prec.f90
-$ gfortran -o ejemplo_10_3 ejemplo_10_3.f90 dble_prec.o
-</example>
-</enumlist>
-<p>
-Un módulo más completo, donde se definen diferentes tipos de enteros y de reales es el dado en el programa <ref id="sec_p_10_4">.
 <p>
 En un ejercicio se plantean al alumnos diferentes maneras de mejorar
 el programa simple  <ref id="sec_p_10_2">.
 
+</enumlist>
+
+
 </sect>
 
-<sect id="sec_103">  Programas usados como ejemplo.
-<sect1 id="sec_p_10_1">  Programa ejemplo_10_1.f90
+<sect id="sec_103">  Example codes.
+  <sect1 id="sec_p_10_1">  <tt>excode_10_1.f90</tt>
 <p>
 <example>
-MODULE Stack
-  ! 
-  ! MODULE THAT DEFINES A BASIC STACK
+PROGRAM ex_10_1
   !
-  IMPLICIT NONE
-  !
-  SAVE
-  !
-  INTEGER, PARAMETER :: STACK_SIZE = 500
-  INTEGER :: STORE(STACK_SIZE) = 0, STACK_POS = 0
-  !
-  PRIVATE :: STORE, STACK_POS, STACK_SIZE
-  PUBLIC :: POP, PUSH
-  !
-  CONTAINS
-    !
-    SUBROUTINE PUSH(I)
-      !
-      INTEGER, INTENT(IN) :: I
-      !
-      IF (STACK_POS < STACK_SIZE) THEN
-         !
-         STACK_POS = STACK_POS + 1; STORE(STACK_POS) = I
-         !
-      ELSE
-         !
-         STOP "FULL STACK ERROR"
-         !
-      ENDIF
-      !
-    END SUBROUTINE PUSH
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    SUBROUTINE POP(I)
-      !
-      INTEGER, INTENT(OUT) :: I
-      !
-      IF (STACK_POS > 0) THEN
-         !
-         I = STORE(STACK_POS); STACK_POS = STACK_POS - 1
-         !
-      ELSE
-         !
-         STOP "EMPTY STACK ERROR"
-         !
-      ENDIF
-      !
-    END SUBROUTINE POP
-    !
-END MODULE Stack
-</example>
-</sect1>
-<sect1 id="sec_p_10_2">  Programa ejemplo_10_2.f90
-<p>
-<example>
-PROGRAM RPN_CALC
-  !
-  ! SIMPLE INTEGER RPN CALCULATOR (ONLY SUM AND SUBSTRACT)
-  !
-  USE Stack                 !!        (1)
-  !
-  IMPLICIT NONE
-  !
-  INTEGER :: KEYB_DATA
-  CHARACTER(LEN=10) :: INPDAT
-  !
-  INTEGER :: I, J, K, DATL, NUM, RES
-  !
-  !
-  inloop: DO      !! MAIN LOOP        (2)
-     !
-     READ 100, INPDAT
-     !
-     SELECT CASE (INPDAT)   !!        (3)
-        !
-     CASE ('Q','q')  !! EXIT          (4)
-        PRINT*, "End of program"
-        EXIT inloop
-     CASE ('plus','Plus','PLUS','+')   !! SUM              (5)        
-        CALL POP(J)
-        CALL POP(K)
-        RES = K + J
-        PRINT 120, K, J, RES
-        CALL PUSH(RES)
-     CASE ('minus','Minus','MINUS','-')   !! SUBSTRACT        (6)
-        CALL POP(J)
-        CALL POP(K)
-        RES = K - J
-        PRINT 130, K, J, RES
-        CALL PUSH(RES)
-     CASE DEFAULT !! NUMBER TO STACK  (7)
-        !
-        DATL = LEN_TRIM(INPDAT)
-        !
-        RES = 0
-        DO I = DATL, 1, -1
-           NUM = IACHAR(INPDAT(I:I)) - 48
-           RES = RES + NUM*10**(DATL-I)
-        ENDDO
-        !
-        PRINT 110, RES
-        CALL PUSH(RES)
-     END SELECT
-     !
-  ENDDO inloop
-  !
-100 FORMAT(A10)
-110 FORMAT(1X, I10)
-120 FORMAT(1X, I10,' + ', I10,' = ', I20)
-130 FORMAT(1X, I10,' - ', I10,' = ', I20)
-END PROGRAM RPN_CALC
-</example>
-</sect1>
-<sect1 id="sec_p_10_3">  Programa ejemplo_10_3.f90
-<p>
-<example>
-PROGRAM ejemplo_10_3
-  !
-  USE dble_prec
+  USE NUMERIC_KINDS
   !
   IMPLICIT NONE
   !
   INTEGER :: I, IERR
-  REAL(KIND=dbl), DIMENSION(:), ALLOCATABLE :: X, Y
-  REAL(KIND=dbl) :: M, SD, MEDIAN
+  REAL(KIND=dp), DIMENSION(:), ALLOCATABLE :: X, Y
+  REAL(KIND=dp) :: M, SD, MEDIAN
   ! interface block   
   INTERFACE
      SUBROUTINE STATS(VECTOR,N,MEAN,STD_DEV,MEDIAN)
        !
-       USE dble_prec
+       USE NUMERIC_KINDS
        !
        IMPLICIT NONE
        INTEGER , INTENT(IN)                    ::  N
-       REAL(KIND=dbl)      , INTENT(IN) , DIMENSION(:)   :: VECTOR  
-       REAL(KIND=dbl)      , INTENT(OUT)                 :: MEAN
-       REAL(KIND=dbl)      , INTENT(OUT)                 :: STD_DEV
-       REAL(KIND=dbl)      , INTENT(OUT)                 :: MEDIAN
+       REAL(KIND=dp)      , INTENT(IN) , DIMENSION(:)   :: VECTOR  
+       REAL(KIND=dp)      , INTENT(OUT)                 :: MEAN
+       REAL(KIND=dp)      , INTENT(OUT)                 :: STD_DEV
+       REAL(KIND=dp)      , INTENT(OUT)                 :: MEDIAN
      END SUBROUTINE STATS
   END INTERFACE
   !
@@ -4458,31 +4330,31 @@ CONTAINS
     !
     INTEGER, INTENT(IN) :: dim
     !
-    REAL(KIND=dbl), PARAMETER :: PI = ACOS(-1.0_dbl)
-    REAL(KIND=dbl), DIMENSION(dim) :: RANDOM_u, RANDOM_v ! Automatic arrays
+    REAL(KIND=dp), PARAMETER :: PI = ACOS(-1.0_dp)
+    REAL(KIND=dp), DIMENSION(dim) :: RANDOM_u, RANDOM_v ! Automatic arrays
     !
     CALL RANDOM_NUMBER(RANDOM_u)
     CALL RANDOM_NUMBER(RANDOM_v)
     !
-    X = SQRT(-2.0_dbl*LOG(RANDOM_u))
-    Y = X*SIN(2.0_dbl*PI*RANDOM_v)
-    X = X*COS(2.0_dbl*PI*RANDOM_v)
+    X = SQRT(-2.0_dp*LOG(RANDOM_u))
+    Y = X*SIN(2.0_dp*PI*RANDOM_v)
+    X = X*COS(2.0_dp*PI*RANDOM_v)
     !
   END SUBROUTINE BOX_MULLER
   !
-END PROGRAM ejemplo_10_3
+END PROGRAM ex_10_1
 SUBROUTINE STATS(VECTOR,N,MEAN,STD_DEV,MEDIAN)
-  USE dble_prec
+  USE NUMERIC_KINDS
   IMPLICIT NONE
   ! Defincion de variables
   INTEGER , INTENT(IN)                    ::  N
-  REAL(KIND=dbl)      , INTENT(IN) , DIMENSION(:)    ::  VECTOR    !! (1)
-  REAL(KIND=dbl)      , INTENT(OUT)                  ::  MEAN
-  REAL(KIND=dbl)      , INTENT(OUT)                  ::  STD_DEV
-  REAL(KIND=dbl)      , INTENT(OUT)                  ::  MEDIAN
-  REAL(KIND=dbl)      , DIMENSION(1:N)              ::  Y
-  REAL(KIND=dbl)      :: VARIANCE = 0.0_dbl
-  REAL(KIND=dbl)      :: SUMXI = 0.0_dbl, SUMXI2 = 0.0_dbl
+  REAL(KIND=dp)      , INTENT(IN) , DIMENSION(:)    ::  VECTOR    !! (1)
+  REAL(KIND=dp)      , INTENT(OUT)                  ::  MEAN
+  REAL(KIND=dp)      , INTENT(OUT)                  ::  STD_DEV
+  REAL(KIND=dp)      , INTENT(OUT)                  ::  MEDIAN
+  REAL(KIND=dp)      , DIMENSION(1:N)              ::  Y
+  REAL(KIND=dp)      :: VARIANCE = 0.0_dp
+  REAL(KIND=dp)      :: SUMXI = 0.0_dp, SUMXI2 = 0.0_dp
   !
   SUMXI=SUM(VECTOR)       !! (6)
   SUMXI2=SUM(VECTOR*VECTOR)    !! (6)
@@ -4518,7 +4390,7 @@ CONTAINS     !! (7)
 END SUBROUTINE STATS
 </example>
 </sect1>
-<sect1 id="sec_p_10_4">  Programa ejemplo_10_4.f90
+  <sect1 id="sec_p_10_1_mod">  <tt>excode_10_1_mod.f90</tt>
 <p>
 <example>
 MODULE NUMERIC_KINDS
@@ -4530,9 +4402,125 @@ MODULE NUMERIC_KINDS
   ! SINGLE, DOUBLE, AND QUADRUPLE PRECISION
   INTEGER, PARAMETER :: &
        sp = KIND(1.0), &
-       dp = SELECTED_REAL_KIND(2*PRECISION(1.0_sp)), &
+       dp = KIND(1.0D0), &
        qp = SELECTED_REAL_KIND(2*PRECISION(1.0_dp))
 END MODULE NUMERIC_KINDS
+</example>
+</sect1>
+  <sect1 id="sec_p_10_2">  <tt>excode_10_2.f90</tt>
+<p>
+<example>
+PROGRAM RPN_CALC
+  !
+  ! SIMPLE INTEGER RPN CALCULATOR (ONLY SUM AND SUBSTRACT)
+  !
+  USE Stack                 !!        (1)
+  !
+  IMPLICIT NONE
+  !
+  INTEGER :: KEYB_DATA
+  CHARACTER(LEN=10) :: INPDAT
+  !
+  INTEGER :: I, J, K, DATL, NUM, RES
+  !
+  !
+  inloop: DO      !! MAIN LOOP        (2)
+     !
+     READ 100, INPDAT
+     !
+     SELECT CASE (INPDAT)   !!        (3)
+        !
+     CASE ('Q','q','quit')  !! EXIT          (4)
+        PRINT*, "End of program"
+        EXIT inloop
+     CASE ('plus','Plus','PLUS','+')   !! SUM              (5)        
+        CALL POP(J)
+        CALL POP(K)
+        RES = K + J
+        PRINT 120, K, J, RES
+        CALL PUSH(RES)
+     CASE ('minus','Minus','MINUS','-')   !! SUBSTRACT        (6)
+        CALL POP(J)
+        CALL POP(K)
+        RES = K - J
+        PRINT 130, K, J, RES
+        CALL PUSH(RES)
+     CASE DEFAULT !! NUMBER TO STACK  (7)
+        !
+        DATL = LEN_TRIM(INPDAT)
+        !
+        RES = 0
+        DO I = DATL, 1, -1
+           NUM = IACHAR(INPDAT(I:I)) - 48
+           RES = RES + NUM*10**(DATL-I)
+        ENDDO
+        !
+        PRINT 110, RES
+        CALL PUSH(RES)
+     END SELECT
+     !
+  ENDDO inloop
+  !
+100 FORMAT(A10)
+110 FORMAT(1X, I10)
+120 FORMAT(1X, I10,' + ', I10,' = ', I20)
+130 FORMAT(1X, I10,' - ', I10,' = ', I20)
+END PROGRAM RPN_CALC
+</example>
+</sect1>
+  <sect1 id="sec_p_10_2_mod">  <tt>excode_10_2_mod.f90</tt>
+<p>
+<example>
+MODULE Stack
+  ! 
+  ! MODULE THAT DEFINES A BASIC STACK
+  !
+  IMPLICIT NONE
+  !
+  SAVE
+  !
+  INTEGER, PARAMETER :: STACK_SIZE = 500
+  INTEGER, DIMENSION(STACK_SIZE) :: STORE = 0
+  INTEGER :: STACK_POS = 0
+  !
+  PRIVATE :: STORE, STACK_POS, STACK_SIZE
+  PUBLIC :: POP, PUSH
+  !
+  CONTAINS
+    !
+    SUBROUTINE PUSH(I)
+      !
+      INTEGER, INTENT(IN) :: I
+      !
+      IF (STACK_POS < STACK_SIZE) THEN
+         !
+         STACK_POS = STACK_POS + 1; STORE(STACK_POS) = I
+         !
+      ELSE
+         !
+         STOP "FULL STACK ERROR"
+         !
+      ENDIF
+      !
+    END SUBROUTINE PUSH
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    SUBROUTINE POP(I)
+      !
+      INTEGER, INTENT(OUT) :: I
+      !
+      IF (STACK_POS > 0) THEN
+         !
+         I = STORE(STACK_POS); STACK_POS = STACK_POS - 1
+         !
+      ELSE
+         !
+         STOP "EMPTY STACK ERROR"
+         !
+      ENDIF
+      !
+    END SUBROUTINE POP
+    !
+END MODULE Stack
 </example>
 </sect1>
 </sect>
