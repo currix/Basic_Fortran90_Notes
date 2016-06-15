@@ -1617,7 +1617,7 @@ PROGRAM ex_5_1
   IF (IN==0) THEN
      PRINT *, "The input : ", Grade," has a wrong value. Only [0,10]"
   ELSE
-     PRINT *,  "The student grade is ", LISTNT(IN)
+     PRINT *,  "The student grade is ", List_Grades(IN)
   ENDIF
 !
 END PROGRAM EX_5_1
@@ -1657,10 +1657,10 @@ PROGRAM ex_5_2
   IF (Index==0) THEN
      PRINT *, "The input grade : ", Grade," is out of bounds. Only  [0,10]."
   ELSE
-     PRINT*, "The student grade is ", List_Grades(Index)
+     PRINT 100, Grade, List_Grades(Index)
   ENDIF
   !
-100 FORMAT(1X,'LA Grade DEL ALUMNO ES ',F4.1,' (',A3,')')
+100 FORMAT(1X,'Student grade is ',F4.1,' (',A3,')')
   !
 END PROGRAM EX_5_2
 </example>
@@ -4203,14 +4203,14 @@ Solamente se accede a <tt>POP</tt> y <tt>PUSH</tt>, y este último se renombra a 
 
 
 
-<item> El <ref id="sec_p_10_2"> es un programa simple donde se utiliza
-el módulo para el manejo de un stack presentado para realizar
-operaciones (adición y substracción) con enteros en notación polaca
-inversa (RPN, reverse Polish notation). 
+<item> Source code <ref id="sec_p_10_2"> is a simple program where
+    module <ref id="sec_p_10_2_mod"> is used to handle a stack to
+    perform integer sums and substraction in reversed Polish notation (RPN).
 
-<p> Esta notación permite no usar paréntesis en las operaciones
-algebraicas y resulta más rápida que la notación usual. Si, por
-ejemplo, en el stack existen los números <tt>(23, 10, 33)</tt> y
+<p> The RPN does not require the use of parentheses and is faster than
+  the usual algebraic notation. If the stack contains, from first to
+  last, the numbers <tt>(23, 10, 33)</tt> and we take into account the
+  principle 
 tenemos en cuenta que un stack se rige por el principio <em>last in,
 first out</em>, tendremos que si introducimos un número más
 (p.e. <tt>5</tt>) y realizamos las operaciones de suma (<tt>plus</tt>)

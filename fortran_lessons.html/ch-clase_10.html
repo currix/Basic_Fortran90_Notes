@@ -503,19 +503,21 @@ renombra a <samp>STACK_PUSH</samp>.
 <ol type="1" start="11" >
 <li>
 <p>
-El <a href="#s-sec_p_10_2"><samp>excode_10_2.f90</samp>, Section 10.3.3</a> es
-un programa simple donde se utiliza el módulo para el manejo de un stack
-presentado para realizar operaciones (adición y substracción) con enteros en
-notación polaca inversa (RPN, reverse Polish notation).
+Source code <a href="#s-sec_p_10_2"><samp>excode_10_2.f90</samp>, Section
+10.3.3</a> is a simple program where module <a
+href="#s-sec_p_10_2_mod"><samp>excode_10_2_mod.f90</samp>, Section 10.3.4</a>
+is used to handle a stack to perform integer sums and substraction in reversed
+Polish notation (RPN).
 </p>
 
 <p>
-Esta notación permite no usar paréntesis en las operaciones algebraicas y
-resulta más rápida que la notación usual.  Si, por ejemplo, en el stack existen
-los números <samp>(23, 10, 33)</samp> y tenemos en cuenta que un stack se rige
-por el principio <em>last in, first out</em>, tendremos que si introducimos un
-número más (p.e.  <samp>5</samp>) y realizamos las operaciones de suma
-(<samp>plus</samp>) y substracción (<samp>minus</samp>) tendremos lo siguiente
+The RPN does not require the use of parentheses and is faster than the usual
+algebraic notation.  If the stack contains, from first to last, the numbers
+<samp>(23, 10, 33)</samp> and we take into account the principle tenemos en
+cuenta que un stack se rige por el principio <em>last in, first out</em>,
+tendremos que si introducimos un número más (p.e.  <samp>5</samp>) y realizamos
+las operaciones de suma (<samp>plus</samp>) y substracción (<samp>minus</samp>)
+tendremos lo siguiente
 </p>
 
 <pre>

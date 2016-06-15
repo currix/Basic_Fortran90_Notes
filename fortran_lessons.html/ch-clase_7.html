@@ -747,7 +747,7 @@ though its use is highly discouraged in the moder programming standards.
        IF (IN==0) THEN
           PRINT *, &quot;The input : &quot;, Grade,&quot; has a wrong value. Only [0,10]&quot;
        ELSE
-          PRINT *,  &quot;The student grade is &quot;, LISTNT(IN)
+          PRINT *,  &quot;The student grade is &quot;, List_Grades(IN)
        ENDIF
      !
      END PROGRAM EX_5_1
@@ -789,10 +789,10 @@ though its use is highly discouraged in the moder programming standards.
        IF (Index==0) THEN
           PRINT *, &quot;The input grade : &quot;, Grade,&quot; is out of bounds. Only  [0,10].&quot;
        ELSE
-          PRINT*, &quot;The student grade is &quot;, List_Grades(Index)
+          PRINT 100, Grade, List_Grades(Index)
        ENDIF
        !
-     100 FORMAT(1X,'LA Grade DEL ALUMNO ES ',F4.1,' (',A3,')')
+     100 FORMAT(1X,'Student grade is ',F4.1,' (',A3,')')
        !
      END PROGRAM EX_5_2
 </pre>

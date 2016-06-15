@@ -6,7 +6,7 @@ PROGRAM ex_5_2
   INTEGER :: Index, Integer_Grade
   CHARACTER(LEN=2), DIMENSION(1:5) ::  List_Grades=(/'D ','C ','B ','A ','A+'/)
   ! READ Grade
-  PRINT *, "Nota del estudiante?"
+  PRINT *, "Student Grade (0-10)?"
   READ *, Grade
   !
   Integer_Grade = NINT(Grade)
@@ -29,9 +29,9 @@ PROGRAM ex_5_2
   IF (Index==0) THEN
      PRINT *, "The input grade : ", Grade," is out of bounds. Only  [0,10]."
   ELSE
-     PRINT*, "The student grade is ", List_Grades(Index)
+     PRINT 100, Grade, List_Grades(Index)
   ENDIF
   !
-100 FORMAT(1X,'LA Grade DEL ALUMNO ES ',F4.1,' (',A3,')')
+100 FORMAT(1X,'The student grade is ',F4.1,' (',A3,')')
   !
 END PROGRAM EX_5_2
