@@ -61,7 +61,7 @@ Contents
      7.2.      Main items.
      7.3.      Example Codes
 
-     8.        Subprograms (I): FUNCTIONS
+     8.        Subprograms (I): Functions
      8.1.      Objectives
      8.2.      Main items.
      8.3.      Example Codes
@@ -2694,7 +2694,7 @@ END PROGRAM ex_7_4
 -------------------------------------------------------------------------------
 
 
-8. Subprograms (I): FUNCTIONS
+8. Subprograms (I): Functions
 -----------------------------
 
 
@@ -2835,6 +2835,19 @@ END PROGRAM ex_7_4
                  RETURN ! Optional
                END FUNCTION <fun_name>
 
+          The function type can be also specified in the first line of the
+          function definition as follows
+
+               type FUNCTION <fun_name>(<argument_list>)
+                 IMPLICIT NONE
+                 Declaration section (including only arguments)
+                 ....
+                 Local variables declaration
+                 ....
+                 <fun_name> = expr
+                 RETURN ! Optional
+               END FUNCTION <fun_name>
+
           The example Section 8.3.3, `Programa ejemplo_8_3.f90' shows how
           to define and invoke a function computing the greatest common
           divisor of two integers.  The following considerations should be
@@ -2869,6 +2882,10 @@ END PROGRAM ex_7_4
           program unit but the one that defines them.  This is achieved
           with the `CONTAINS' statement (e.g.  Section 8.3.4, `Programa
           ejemplo_8_4.f90' and Section 8.3.5, ``excode_8_5.f90'').
+
+     Optional arguments with a default value can be defined making use of
+     the `OPTIONAL' variable definition attribute and the intrinsic
+     `PRESENT'.
 
 [1]  You should take into account that in `Fortran' angles are expressed in
      radian units.

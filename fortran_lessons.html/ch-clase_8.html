@@ -6,7 +6,7 @@
 
 <meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
 
-<title>Fortran 90 Lessons for Computational Chemistry - Subprograms (I): FUNCTIONS</title>
+<title>Fortran 90 Lessons for Computational Chemistry - Subprograms (I): Functions</title>
 
 <link href="index.html" rel="start">
 <link href="ch-clase_6.html" rel="prev">
@@ -20,7 +20,7 @@
 <link href="ch-clase_7.html" rel="chapter" title="5 Control Structures">
 <link href="ch-clase_5.html" rel="chapter" title="6 INPUT/OUTPUT (I)">
 <link href="ch-clase_6.html" rel="chapter" title="7 Input/Output (II)">
-<link href="ch-clase_8.html" rel="chapter" title="8 Subprograms (I): FUNCTIONS">
+<link href="ch-clase_8.html" rel="chapter" title="8 Subprograms (I): Functions">
 <link href="ch-clase_9.html" rel="chapter" title="9 Subprograms (II): subroutines">
 <link href="ch-clase_10.html" rel="chapter" title="10 Subprograms (III): modules">
 <link href="ch-clase_11.html" rel="chapter" title="11 Subprogramas (IV)">
@@ -154,7 +154,7 @@
 
 <h1>
 <code>Fortran 90</code> Lessons for Computational Chemistry
-<br>Chapter 8 - Subprograms (I): FUNCTIONS
+<br>Chapter 8 - Subprograms (I): Functions
 </h1>
 
 <hr>
@@ -454,6 +454,23 @@ A user defined function is created according to the following scheme.
 </pre>
 
 <p>
+The function type can be also specified in the first line of the function
+definition as follows
+</p>
+
+<pre>
+     type FUNCTION <var>fun_name</var>(<var>argument_list</var>)
+       IMPLICIT NONE
+       Declaration section (including only arguments)
+       ....
+       Local variables declaration
+       ....
+       <var>fun_name</var> = expr
+       RETURN ! Optional
+     END FUNCTION <var>fun_name</var>
+</pre>
+
+<p>
 The example <a href="#s-sec_p_8_3">Programa ejemplo_8_3.f90, Section 8.3.3</a>
 shows how to define and invoke a function computing the greatest common divisor
 of two integers.  The following considerations should be taken into account:
@@ -521,6 +538,12 @@ statement (e.g.  <a href="#s-sec_p_8_4">Programa ejemplo_8_4.f90, Section
 </p>
 </li>
 </ul>
+
+<p>
+Optional arguments with a default value can be defined making use of the
+<samp>OPTIONAL</samp> variable definition attribute and the intrinsic
+<samp>PRESENT</samp>.
+</p>
 
 <hr>
 

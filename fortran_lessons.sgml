@@ -2645,7 +2645,7 @@ END PROGRAM ex_7_4
 <!--                         Clase 8                         -->
 <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 
-<chapt id="clase_8"><heading>Subprograms (I): FUNCTIONS</heading> 
+<chapt id="clase_8"><heading>Subprograms (I): Functions</heading> 
 <sect id="sec_81"> Objectives
 
 <p>
@@ -2775,6 +2775,20 @@ FUNCTION <var>fun_name</var>(<var>argument_list</var>)
 END FUNCTION <var>fun_name</var>
 </example>
 
+<p> The function type can be also specified in the first line of the function definition as follows
+<p>
+<example>
+type FUNCTION <var>fun_name</var>(<var>argument_list</var>)
+  IMPLICIT NONE
+  Declaration section (including only arguments)
+  ....
+  Local variables declaration
+  ....
+  <var>fun_name</var> = expr
+  RETURN ! Optional
+END FUNCTION <var>fun_name</var>
+</example>
+  
 <p>
 The example <ref id="sec_p_8_3"> shows how to define and invoke a
   function computing the greatest common divisor of two integers. The
@@ -2808,6 +2822,7 @@ the body of the function.
   from any program unit but the one that defines them. This is
   achieved with the <tt>CONTAINS</tt> statement (e.g. <ref id="sec_p_8_4"> and <ref id="sec_p_8_5">). 
 </list>
+Optional arguments with a default value can be defined making use of the <tt>OPTIONAL</tt> variable definition attribute and the intrinsic <tt>PRESENT</tt>.
 </sect>
 <sect id="sec_83">   Example Codes
   <sect1 id="sec_p_8_1">  <tt>excode_8_1.f90</tt>
